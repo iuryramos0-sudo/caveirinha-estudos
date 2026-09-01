@@ -90,7 +90,6 @@ function updateTimer(){let m=String(Math.floor(focusSeconds/60)).padStart(2,'0')
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
 <script>
-  // ⚠️ ATENÇÃO: COLE AQUI AS CHAVES DO SEU PROJETO FIREBASE ⚠️
   const firebaseConfig = {
     apiKey: "AIzaSyALiM5Lq172Ua4zRhU-lxdhskYvTCkBjQA",
     authDomain: "caveirinha-parabellum.firebaseapp.com",
@@ -99,14 +98,13 @@ function updateTimer(){let m=String(Math.floor(focusSeconds/60)).padStart(2,'0')
     messagingSenderId: "1034633505947",
     appId: "1:1034633505947:web:a268fd23049ec979adea3e"
   };
-  // Inicializa o Firebase
+
   if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
   }
   const auth = firebase.auth();
   const db = firebase.firestore();
 
-  // Controle das Telas do Modal
   function trocarTela(tela) {
     if(tela === 'cadastro') {
       document.getElementById('tela-login').style.display = 'none';
@@ -117,14 +115,11 @@ function updateTimer(){let m=String(Math.floor(focusSeconds/60)).padStart(2,'0')
     }
   }
 
-  // Monitora se o usuário entrou ou saiu da conta
   auth.onAuthStateChanged((user) => {
     if (user) {
-      // Libera acesso
       document.getElementById('modal-acesso').style.display = 'none';
       document.getElementById('status-conexao').innerHTML = '<i class="dot"></i> ALUNO SINCRONIZADO';
       
-      // Busca o nome do usuário no banco
       db.collection("usuarios").doc(user.uid).get().then((doc) => {
         if (doc.exists) {
           document.getElementById('nome-aluno-logado').innerHTML = `<i class="dot" style="background:var(--green);box-shadow:0 0 10px var(--green)"></i> Operador: ${doc.data().nome}`;
@@ -133,14 +128,12 @@ function updateTimer(){let m=String(Math.floor(focusSeconds/60)).padStart(2,'0')
         }
       });
     } else {
-      // Bloqueia acesso
       document.getElementById('modal-acesso').style.display = 'flex';
       document.getElementById('status-conexao').innerHTML = '<i class="dot" style="background:var(--red2)"></i> ACESSO NEGADO';
       document.getElementById('nome-aluno-logado').innerHTML = '<i class="dot" style="background:#ffb732;box-shadow:none;"></i> não identificado';
     }
   });
 
-  // Fazer Login
   function acionarLogin() {
     const email = document.getElementById('login-email').value;
     const senha = document.getElementById('login-senha').value;
@@ -153,7 +146,6 @@ function updateTimer(){let m=String(Math.floor(focusSeconds/60)).padStart(2,'0')
       });
   }
 
-  // Criar Conta
   function acionarCadastro() {
     const nome = document.getElementById('cad-nome').value;
     const email = document.getElementById('cad-email').value;
@@ -163,7 +155,6 @@ function updateTimer(){let m=String(Math.floor(focusSeconds/60)).padStart(2,'0')
 
     auth.createUserWithEmailAndPassword(email, senha)
       .then((userCredential) => {
-        // Salva perfil no banco
         return db.collection("usuarios").doc(userCredential.user.uid).set({
           nome: nome,
           email: email,
