@@ -4,432 +4,499 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Operação Aprovação — Controle de Estudos</title>
-<!-- ApexCharts para gráficos avançados -->
-<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-<!-- Supabase SDK -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <style>
-:root{--bg:#07090f;--panel:#10131d;--panel2:#161a28;--line:#1f2638;--text:#f0f4f8;--muted:#8b95a5;--cyan:#00f0ff;--purple:#9b51e0;--pink:#ff2a85;--green:#00ff88;--amber:#ffb800;--shadow:0 20px 50px rgba(0,0,0,0.8)}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 80% -10%,#1b1035 0,#07090f 40%);color:var(--text);font:14px Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}.app{display:grid;grid-template-columns:260px 1fr;min-height:100vh}.side{background:#0a0d17;border-right:1px solid var(--line);padding:25px 17px;display:flex;flex-direction:column}.brand{display:flex;gap:11px;align-items:center;margin:0 9px 27px}.brandmark{width:40px;font-size:24px;height:40px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,var(--cyan),var(--purple));box-shadow:0 0 20px rgba(0,240,255,0.3);font-size:21px}.brand b{display:block;letter-spacing:.12em;font-size:13px}.brand span{display:block;color:var(--cyan);font-size:9px;letter-spacing:.18em;margin-top:3px}.online{border:1px solid var(--line);border-radius:10px;color:var(--muted);padding:12px 13px;font-size:10px;letter-spacing:.12em;margin-bottom:24px;background:#0d111c}.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);margin-right:8px}.nav{display:grid;gap:6px}.nav button{display:flex;align-items:center;gap:12px;border:1px solid transparent;background:transparent;color:var(--muted);text-align:left;padding:13px 12px;border-radius:10px;transition:.2s}.nav button:hover,.nav button.active{background:rgba(0,240,255,0.08);color:var(--cyan);border-color:rgba(0,240,255,0.3);box-shadow:inset 3px 0 var(--cyan), 0 0 15px rgba(0,240,255,0.1)}.sidefoot{margin-top:auto;color:var(--muted);font-size:11px;line-height:1.5}.main{padding:33px clamp(20px,4vw,60px);max-width:1450px;width:100%;margin:auto}.top{display:flex;justify-content:space-between;gap:15px;align-items:center;margin-bottom:27px}.eyebrow{color:var(--cyan);font-size:10px;letter-spacing:.16em;font-weight:800;margin:0 0 8px;text-transform:uppercase}.top h1{font-size:clamp(28px,4vw,42px);margin:0;letter-spacing:-.04em;background:linear-gradient(90deg,#fff,var(--muted));-webkit-background-clip:text;-webkit-text-fill-color:transparent}.top-actions{display:flex;align-items:center;gap:12px}.sync{font-size:11px;color:var(--muted)}.btn{border:1px solid var(--line);background:#131826;color:#fff;border-radius:10px;padding:11px 16px;transition:.2s;font-weight:600}.btn:hover{transform:translateY(-1px);border-color:var(--cyan);box-shadow:0 0 15px rgba(0,240,255,0.2)}.primary{background:linear-gradient(135deg,var(--purple),var(--pink));border-color:transparent;box-shadow:0 8px 22px rgba(155,81,224,0.3)}.primary:hover{opacity:.9;box-shadow:0 0 20px rgba(255,42,133,0.4)}.hero{display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center;border:1px solid rgba(0,240,255,0.25);background:linear-gradient(135deg,rgba(16,19,29,0.9),rgba(27,16,53,0.7));border-radius:16px;padding:23px;margin-bottom:17px;box-shadow:var(--shadow);backdrop-filter:blur(10px)}.emblem{height:54px;width:54px;border:1px solid rgba(0,240,255,0.4);border-radius:15px;display:grid;place-items:center;color:var(--cyan);font-size:25px;background:rgba(0,240,255,0.08);box-shadow:0 0 15px rgba(0,240,255,0.15)}.hero h2{font-size:22px;margin:0 0 5px}.hero p{color:var(--muted);margin:0;line-height:1.5}.status{border:1px solid rgba(255,42,133,0.4);border-radius:20px;color:var(--pink);background:rgba(255,42,133,0.1);padding:4px 10px;font-size:9px;letter-spacing:.1em;margin-left:5px}.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:13px;margin-bottom:17px}.card,.panel{background:linear-gradient(145deg,#121622,#0d101a);border:1px solid var(--line);border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,0.5);backdrop-filter:blur(10px)}.card{padding:17px;border-top:2px solid var(--cyan)}.card label{color:var(--muted);text-transform:uppercase;letter-spacing:.12em;font-weight:800;font-size:10px}.card strong{display:block;font-size:26px;margin:12px 0 4px;color:var(--cyan)}.card small{color:var(--muted)}.grid{display:grid;grid-template-columns:1.4fr 1fr;gap:17px}.panel{padding:22px;margin-bottom:17px}.panel h3{margin:0;font-size:18px}.panelhead{display:flex;justify-content:space-between;align-items:start;margin-bottom:17px}.tag{font-size:10px;color:var(--cyan);border:1px solid rgba(0,240,255,0.3);background:rgba(0,240,255,0.06);border-radius:20px;padding:6px 12px;letter-spacing:.08em}.progress{height:7px;background:#1a2030;border-radius:20px;overflow:hidden}.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--cyan),var(--purple));border-radius:20px;box-shadow:0 0 10px rgba(0,240,255,0.4)}.errorrow,.missionrow{display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--line);padding:12px 0}.errorrow:last-child,.missionrow:last-child{border:0}.errordot{width:9px;height:9px;border-radius:50%;background:var(--amber);box-shadow:0 0 8px var(--amber)}.rowfill{flex:1}.rowfill strong{display:block}.rowfill small{display:block;color:var(--muted);margin-top:4px}.page{display:none}.page.active{display:block}.sectiontitle{display:flex;justify-content:space-between;align-items:end;margin:12px 0 17px}.sectiontitle h2{font-size:27px;margin:0}.muted{color:var(--muted);line-height:1.5}.formgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.field{display:grid;gap:6px}.field.full{grid-column:1/-1}.field label,.field span{font-size:11px;color:var(--muted);font-weight:700}.field input,.field select,.field textarea{width:100%;background:#090c15;color:var(--text);border:1px solid var(--line);border-radius:8px;padding:11px;outline:none;transition:.2s}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--cyan);box-shadow:0 0 10px rgba(0,240,255,0.2)}.field textarea{min-height:75px;resize:vertical}.actions{display:flex;gap:9px;justify-content:end;grid-column:1/-1}.week{margin-bottom:16px}.week h3{margin:0}.day{display:grid;grid-template-columns:42px 1fr auto;gap:12px;align-items:center;border:1px solid var(--line);background:#121622;color:#fff;text-align:left;width:100%;padding:11px;border-radius:10px;margin-top:7px;transition:.2s}.day:hover{border-color:var(--cyan);box-shadow:0 0 12px rgba(0,240,255,0.15)}.day.done{background:rgba(0,255,136,0.05);border-color:rgba(0,255,136,0.3)}.daynum{font-weight:900;color:var(--cyan);font-size:12px}.day.done .daynum{color:var(--green)}.day b{display:block;font-size:12px}.day small{display:block;color:var(--muted);margin-top:4px;line-height:1.4}.badge{font-size:9px;color:var(--muted);letter-spacing:.08em}.badge.simulado{color:var(--amber)}.focusbox{text-align:center;padding:35px}.timer{font-size:76px;font-variant-numeric:tabular-nums;font-weight:900;letter-spacing:-.06em;color:var(--cyan);text-shadow:0 0 25px rgba(0,240,255,0.4)}.focusbuttons{display:flex;justify-content:center;gap:10px;margin-top:20px}.history{width:100%;border-collapse:collapse}.history th,.history td{text-align:left;padding:12px 8px;border-bottom:1px solid var(--line);color:#c5c9d0;vertical-align:top}.history th{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}.history-subject{display:flex;flex-direction:column;gap:4px}.history-subject b{color:#fff}.history-subject small{color:var(--muted);line-height:1.35}.history-actions{white-space:nowrap;text-align:right!important}.delete-btn{border:1px solid rgba(255,42,133,0.3);background:rgba(255,42,133,0.08);color:var(--pink);border-radius:7px;padding:7px 9px;font-size:11px;transition:.2s}.delete-btn:hover{background:var(--pink);color:#fff;box-shadow:0 0 10px var(--pink)}.topic-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;max-height:230px;overflow:auto;padding:2px}.topic-option{display:flex;align-items:flex-start;gap:8px;border:1px solid var(--line);background:#090c15;color:var(--muted);border-radius:8px;padding:10px;cursor:pointer;font-size:12px;line-height:1.35;transition:.2s}.topic-option:hover{border-color:var(--cyan);color:#fff}.topic-option input{accent-color:var(--cyan);margin-top:2px}.topic-option:has(input:checked){border-color:var(--cyan);background:rgba(0,240,255,0.08);color:#fff;box-shadow:inset 3px 0 var(--cyan)}.topic-empty{grid-column:1/-1;color:var(--muted);padding:12px;border:1px dashed var(--line);border-radius:8px}.topic-count{font-size:10px;color:var(--cyan);margin-top:5px}.backup{display:flex;gap:10px;flex-wrap:wrap}.notice{padding:12px;background:rgba(0,240,255,0.05);border:1px solid rgba(0,240,255,0.2);border-radius:10px;color:#b8e6ef;margin-bottom:15px;font-size:12px;line-height:1.5}.performance-card{padding:20px;margin-bottom:14px}.performance-card summary{cursor:pointer;list-style:none}.performance-card summary::-webkit-details-marker{display:none}.performance-card summary{display:grid;grid-template-columns:1fr auto;gap:15px;align-items:center}.performance-card summary b{font-size:16px}.performance-card summary b:before{content:'DISCIPLINA · ';color:var(--cyan);font-size:9px;letter-spacing:.12em;vertical-align:middle;margin-right:5px}.performance-card summary small{display:block;color:var(--muted);margin-top:5px}.performance-card summary strong{font-size:24px;color:var(--cyan)}.performance-card .meterline{display:flex;align-items:center;gap:12px;margin:15px 0 5px}.performance-card .meterline .progress{flex:1}.subject-detail{display:grid;grid-template-columns:1.2fr .55fr .55fr .7fr;gap:10px;border-top:1px solid var(--line);padding:11px 0;color:#c5c9d0;font-size:12px}.subject-detail:first-child{margin-top:13px}.subject-detail span:first-child{font-weight:700;color:#fff}.subject-detail small{color:var(--muted)}.daygrid{display:grid;grid-template-columns:repeat(10,1fr);gap:6px;margin-top:17px}.daytile{border:1px solid var(--line);background:#121622;color:var(--muted);border-radius:6px;padding:7px 3px;text-align:center;font-size:10px}.daytile.done{background:rgba(0,255,136,0.1);border-color:var(--green);color:var(--green)}.daytile.next{border-color:var(--cyan);color:var(--cyan);box-shadow:0 0 10px rgba(0,240,255,0.3)}.home-performance-grid{display:grid;grid-template-columns:1.05fr 1.45fr;gap:17px;margin-bottom:17px}.discipline-row{padding:14px 0;border-bottom:1px solid var(--line)}.discipline-row:last-child{border-bottom:0}.discipline-meta{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:8px}.discipline-meta b{font-size:13px}.discipline-meta strong{color:var(--cyan);font-size:15px}.discipline-sub{display:flex;justify-content:space-between;color:var(--muted);font-size:11px;margin-top:7px}
-/* RANKING GRID */
-.ranking-grid{display:grid;gap:10px}.rank-card{display:grid;grid-template-columns:40px 1fr auto;gap:15px;align-items:center;background:#121622;border:1px solid var(--line);border-radius:10px;padding:15px}.rank-pos{font-size:20px;font-weight:900;color:var(--cyan);text-align:center}.rank-info strong{display:block;font-size:16px;margin-bottom:5px}.rank-stats{display:flex;gap:15px;font-size:11px;color:var(--muted)}.rank-stats span b{color:#fff}.rank-score{text-align:right}.rank-score strong{display:block;font-size:22px;color:var(--green)}.rank-score small{color:var(--muted);font-size:10px;text-transform:uppercase}
-.apexcharts-tooltip{background:#121622!important;border:1px solid var(--line)!important;box-shadow:0 10px 20px rgba(0,0,0,0.5)!important;color:#fff!important}.apexcharts-tooltip-title{background:#0a0d17!important;border-bottom:1px solid var(--line)!important}
-@media(max-width:1050px){.grid,.home-performance-grid{grid-template-columns:1fr}}
-@media(max-width:720px){.app{display:block}.side{position:static;padding:16px}.sidefoot{display:none}.nav{display:flex;overflow:auto}.nav button{white-space:nowrap;padding:10px}.main{padding:22px 14px}.top{align-items:start;display:block}.top-actions{margin-top:15px;justify-content:space-between}.hero{grid-template-columns:auto 1fr}.hero .btn{grid-column:1/-1}.formgrid{grid-template-columns:1fr}.field.full{grid-column:auto}.actions{grid-column:auto}.sectiontitle{display:block}.day{grid-template-columns:34px 1fr}.rank-card{grid-template-columns:1fr;text-align:center}.rank-stats{justify-content:center}.rank-score{text-align:center}}
+:root{--bg:#090a0d;--panel:#13151a;--panel2:#191b21;--line:#2b2e36;--text:#f4f4f5;--muted:#969ca8;--red:#e52d47;--red2:#ff5267;--green:#39d98a;--amber:#f6b73c;--purple:#9b7bff;--shadow:0 18px 50px #0008}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 80% -10%,#4b111d 0,#090a0d 36%);color:var(--text);font:14px Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}.app{display:grid;grid-template-columns:260px 1fr;min-height:100vh}.side{background:#0d0f12;border-right:1px solid #24262c;padding:25px 17px;display:flex;flex-direction:column}.brand{display:flex;gap:11px;align-items:center;margin:0 9px 27px}.brandmark{width:40px;font-size:24px;height:40px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(145deg,var(--red2),#9b172c);box-shadow:0 10px 25px #d7284238;font-size:21px}.brand b{display:block;letter-spacing:.12em;font-size:13px}.brand span{display:block;color:#c4c7cc;font-size:10px;letter-spacing:.18em;margin-top:3px}.online{border:1px solid #34373d;border-radius:9px;color:#adb2ba;padding:12px 13px;font-size:10px;letter-spacing:.12em;margin-bottom:24px}.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);margin-right:8px}.nav{display:grid;gap:6px}.nav button{display:flex;align-items:center;gap:12px;border:1px solid transparent;background:transparent;color:#9ea3ad;text-align:left;padding:13px 12px;border-radius:10px}.nav button:hover,.nav button.active{background:#21151a;color:#fff;border-color:#682737;box-shadow:inset 3px 0 var(--red)}.sidefoot{margin-top:auto;color:#777d88;font-size:11px;line-height:1.5}.main{padding:33px clamp(20px,4vw,60px);max-width:1450px;width:100%;margin:auto}.top{display:flex;justify-content:space-between;gap:15px;align-items:center;margin-bottom:27px}.eyebrow{color:#9da3ae;font-size:10px;letter-spacing:.16em;font-weight:800;margin:0 0 8px;text-transform:uppercase}.top h1{font-size:clamp(28px,4vw,42px);margin:0;letter-spacing:-.04em}.top-actions{display:flex;align-items:center;gap:12px}.sync{font-size:11px;color:#aeb4be}.btn{border:1px solid var(--line);background:#17191e;color:#fff;border-radius:9px;padding:11px 14px;transition:.18s}.btn:hover{transform:translateY(-1px);border-color:#8b3243}.primary{background:var(--red);border-color:var(--red);box-shadow:0 8px 22px #df294333}.primary:hover{background:var(--red2)}.hero{display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center;border:1px solid #6b2939;background:linear-gradient(105deg,#2c1018,#17151a 65%);border-radius:16px;padding:23px;margin-bottom:17px;box-shadow:var(--shadow)}.emblem{height:54px;width:54px;border:1px solid #a7374b;border-radius:15px;display:grid;place-items:center;color:var(--red2);font-size:25px;background:#32121a}.hero h2{font-size:22px;margin:0 0 5px}.hero p{color:#a9adb5;margin:0;line-height:1.5}.status{border:1px solid #8d3347;border-radius:20px;color:#ff6d7c;padding:4px 8px;font-size:9px;letter-spacing:.1em;margin-left:5px}.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:13px;margin-bottom:17px}.card,.panel{background:linear-gradient(145deg,#17191e,#121419);border:1px solid #292c34;border-radius:14px;box-shadow:0 9px 30px #0003}.card{padding:17px}.card label{color:#969ca7;text-transform:uppercase;letter-spacing:.12em;font-weight:800;font-size:10px}.card strong{display:block;font-size:26px;margin:12px 0 4px}.card small{color:#8f96a2}.grid{display:grid;grid-template-columns:1.4fr 1fr;gap:17px}.panel{padding:22px;margin-bottom:17px}.panel h3{margin:0;font-size:18px}.panelhead{display:flex;justify-content:space-between;align-items:start;margin-bottom:17px}.tag{font-size:10px;color:#b0b5bf;border:1px solid #343741;border-radius:20px;padding:6px 9px}.bars{height:190px;display:flex;align-items:end;gap:10px;padding:15px 3px 0}.barcol{height:100%;flex:1;display:flex;flex-direction:column;justify-content:end;align-items:center;gap:7px}.bar{width:100%;max-width:38px;border-radius:7px 7px 2px 2px;background:linear-gradient(#ff596c,#a51e35);min-height:3px;box-shadow:0 0 18px #e52d4733}.barcol small{color:#777e89;font-size:10px}.radar{display:grid;place-items:center;height:190px;position:relative;background:radial-gradient(circle,#39202a 1px,transparent 1px);background-size:25px 25px;border-radius:50%}.radar:before,.radar:after{content:"";position:absolute;border:1px solid #633341;border-radius:50%;width:130px;height:130px}.radar:after{width:75px;height:75px}.radar span{z-index:1;text-align:center;color:#ff8090;font-weight:800}.progress{height:7px;background:#2b2e35;border-radius:20px;overflow:hidden}.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--red),#ff8794);border-radius:20px}.errorrow,.missionrow{display:flex;align-items:center;gap:12px;border-bottom:1px solid #282b32;padding:12px 0}.errorrow:last-child,.missionrow:last-child{border:0}.errordot{width:9px;height:9px;border-radius:50%;background:var(--amber)}.rowfill{flex:1}.rowfill strong{display:block}.rowfill small{display:block;color:#8f96a2;margin-top:4px}.page{display:none}.page.active{display:block}.sectiontitle{display:flex;justify-content:space-between;align-items:end;margin:12px 0 17px}.sectiontitle h2{font-size:27px;margin:0}.muted{color:var(--muted);line-height:1.5}.formgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.field{display:grid;gap:6px}.field.full{grid-column:1/-1}.field label,.field span{font-size:11px;color:#aeb4be;font-weight:700}.field input,.field select,.field textarea{width:100%;background:#0f1115;color:#f5f5f5;border:1px solid #343740;border-radius:8px;padding:11px}.field textarea{min-height:75px;resize:vertical}.actions{display:flex;gap:9px;justify-content:end;grid-column:1/-1}.week{margin-bottom:16px}.week h3{margin:0}.day{display:grid;grid-template-columns:42px 1fr auto;gap:12px;align-items:center;border:1px solid #282b32;background:#111318;color:#fff;text-align:left;width:100%;padding:11px;border-radius:10px;margin-top:7px}.day:hover{border-color:#8d3347}.day.done{background:#102018;border-color:#2c704c}.daynum{font-weight:900;color:#ff6b7d;font-size:12px}.day.done .daynum{color:var(--green)}.day b{display:block;font-size:12px}.day small{display:block;color:#9097a3;margin-top:4px;line-height:1.4}.badge{font-size:9px;color:#bfc4cb;letter-spacing:.08em}.badge.simulado{color:var(--amber)}.focusbox{text-align:center;padding:35px}.timer{font-size:76px;font-variant-numeric:tabular-nums;font-weight:900;letter-spacing:-.06em;color:#ff6273;text-shadow:0 0 35px #e52d4755}.focusbuttons{display:flex;justify-content:center;gap:10px;margin-top:20px}.history{width:100%;border-collapse:collapse}.history th,.history td{text-align:left;padding:12px 8px;border-bottom:1px solid #2a2d34;color:#c5c9d0;vertical-align:top}.history th{font-size:10px;color:#8f96a2;text-transform:uppercase;letter-spacing:.1em}.history-subject{display:flex;flex-direction:column;gap:4px}.history-subject b{color:#fff}.history-subject small{color:var(--muted);line-height:1.35}.history-actions{white-space:nowrap;text-align:right!important}.delete-btn{border:1px solid #63313d;background:#201318;color:#ff8794;border-radius:7px;padding:7px 9px;font-size:11px}.delete-btn:hover{background:#5a1e2c;color:#fff}.topic-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;max-height:230px;overflow:auto;padding:2px}.topic-option{display:flex;align-items:flex-start;gap:8px;border:1px solid #343740;background:#0f1115;color:#c9cdd4;border-radius:8px;padding:10px;cursor:pointer;font-size:12px;line-height:1.35}.topic-option:hover{border-color:#8d3347;background:#191116}.topic-option input{accent-color:var(--red);margin-top:2px}.topic-option:has(input:checked){border-color:var(--red);background:#2a1018;color:#fff;box-shadow:inset 3px 0 var(--red)}.topic-empty{grid-column:1/-1;color:var(--muted);padding:12px;border:1px dashed #343740;border-radius:8px}.topic-count{font-size:10px;color:var(--red2);margin-top:5px}.home-topic-list{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px}.home-topic-list span{font-size:10px;color:#c5c9d0;background:#24202a;border:1px solid #40313c;border-radius:999px;padding:4px 7px}.backup{display:flex;gap:10px;flex-wrap:wrap}.notice{padding:12px;background:#20161a;border:1px solid #67313d;border-radius:10px;color:#c9b8bc;margin-bottom:15px;font-size:12px;line-height:1.5}.performance-card{padding:20px;margin-bottom:14px}.performance-card summary{cursor:pointer;list-style:none}.performance-card summary::-webkit-details-marker{display:none}.performance-card summary{display:grid;grid-template-columns:1fr auto;gap:15px;align-items:center}.performance-card summary b{font-size:16px}.performance-card summary b:before{content:'DISCIPLINA · ';color:var(--red2);font-size:9px;letter-spacing:.12em;vertical-align:middle;margin-right:5px}.performance-card summary small{display:block;color:var(--muted);margin-top:5px}.performance-card summary strong{font-size:24px;color:var(--red2)}.performance-card .meterline{display:flex;align-items:center;gap:12px;margin:15px 0 5px}.performance-card .meterline .progress{flex:1}.subject-detail{display:grid;grid-template-columns:1.2fr .55fr .55fr .7fr;gap:10px;border-top:1px solid #2b2e36;padding:11px 0;color:#c5c9d0;font-size:12px}.subject-detail:first-child{margin-top:13px}.subject-detail span:first-child{font-weight:700;color:#fff}.subject-detail small{color:var(--muted)}.daygrid{display:grid;grid-template-columns:repeat(10,1fr);gap:6px;margin-top:17px}.daytile{border:1px solid #2b2e36;background:#111318;color:#969ca8;border-radius:6px;padding:7px 3px;text-align:center;font-size:10px}.daytile.done{background:#183323;border-color:#328353;color:#65e69e}.daytile.next{border-color:var(--red);color:#ff7482;box-shadow:0 0 12px #e52d4733}.performance-empty{padding:20px;text-align:center;color:var(--muted)}.home-performance-grid{display:grid;grid-template-columns:1.05fr 1.45fr;gap:17px;margin-bottom:17px}.discipline-row{padding:14px 0;border-bottom:1px solid #292c34}.discipline-row:last-child{border-bottom:0}.discipline-meta{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:8px}.discipline-meta b{font-size:13px}.discipline-meta strong{color:var(--red2);font-size:15px}.discipline-sub{display:flex;justify-content:space-between;color:var(--muted);font-size:11px;margin-top:7px}.stock-chart{height:230px;position:relative;border:1px solid #292c34;border-radius:12px;overflow:hidden;background:linear-gradient(180deg,#17131a,#101116)}.stock-chart:before{content:"";position:absolute;inset:0;background:linear-gradient(#ffffff09 1px,transparent 1px),linear-gradient(90deg,#ffffff06 1px,transparent 1px);background-size:100% 25%,10% 100%;pointer-events:none}.stock-chart svg{position:absolute;inset:0;width:100%;height:100%}.stock-chart .stock-label{position:absolute;top:12px;left:14px;z-index:1;font-size:10px;color:#aeb4be;letter-spacing:.13em;text-transform:uppercase}.stock-chart .stock-change{position:absolute;top:10px;right:14px;z-index:1;color:var(--green);font-weight:800}.stock-empty{height:100%;display:grid;place-items:center;text-align:center;color:var(--muted);font-size:12px;padding:30px}.stock-grid-labels{display:flex;justify-content:space-between;color:#707783;font-size:10px;margin-top:7px}
+/* CAVEIRINHA */
+.intel-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:17px;margin-bottom:17px}.priority-list{display:grid;gap:10px}.priority-item{border:1px solid #30333b;border-radius:10px;padding:13px;background:#101217}.priority-item.high{border-left:4px solid var(--red)}.priority-item.med{border-left:4px solid var(--amber)}.priority-item.good{border-left:4px solid var(--green)}.priority-top{display:flex;justify-content:space-between;gap:10px}.priority-top b{font-size:13px}.priority-item small{display:block;color:var(--muted);margin-top:5px}.intel-actions{margin-top:12px}.mission-progress{display:grid;gap:10px}.mission-progress .progress{margin-top:6px}.error-grid{display:grid;gap:9px}.error-line{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center}.error-line small{color:var(--muted)}.trend-box{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:12px}.trend-metric{border:1px solid #30333b;border-radius:10px;padding:11px;background:#101217}.trend-metric span{display:block;color:var(--muted);font-size:9px;text-transform:uppercase;letter-spacing:.08em}.trend-metric b{display:block;margin-top:7px;font-size:18px}.streak-detail{color:var(--muted);font-size:10px;margin-top:4px}.sim-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.sim-box{padding:12px;border:1px solid #30333b;border-radius:10px;background:#101217}.sim-box span{font-size:9px;color:var(--muted);text-transform:uppercase}.sim-box b{display:block;font-size:20px;margin-top:6px}@media(max-width:850px){.intel-grid{grid-template-columns:1fr}.trend-box,.sim-summary{grid-template-columns:1fr 1fr}}
+
+/* GRÁFICOS DIVERSIFICADOS */
+.bars{height:210px;display:flex;align-items:flex-end;gap:10px;padding:18px 4px 4px;border-bottom:1px solid #2b2e36}.barcol{position:relative;height:100%;flex:1;display:flex;flex-direction:column;justify-content:end;align-items:center;gap:9px}.bar{width:14px;max-width:14px;border-radius:999px;background:linear-gradient(#ff596c,#a51e35);min-height:4px;box-shadow:0 0 18px #e52d4733;position:relative;transition:height .5s cubic-bezier(.2,.8,.2,1)}.bar:before{content:"";position:absolute;width:22px;height:22px;border-radius:50%;left:50%;top:-8px;transform:translateX(-50%);background:#ff6677;border:3px solid #2a1118;box-shadow:0 0 14px #e52d4755}.barcol small{color:#777e89;font-size:10px}.barvalue{font-size:10px;color:#d7dbe1;font-weight:800;margin-bottom:2px}.donut-wrap{height:210px;display:grid;place-items:center}.donut{--p:0;--accent:var(--red2);width:165px;height:165px;border-radius:50%;background:conic-gradient(var(--accent) calc(var(--p)*1%),#292c34 0);position:relative;display:grid;place-items:center;box-shadow:0 0 30px #0004;transition:background 1s ease}.donut:after{content:"";position:absolute;width:118px;height:118px;border-radius:50%;background:#15171c;border:1px solid #30333b}.donut-center{position:relative;z-index:1;text-align:center}.donut-center b{display:block;font-size:30px;color:#fff}.donut-center small{display:block;color:#9ea4ae;font-size:10px;text-transform:uppercase;letter-spacing:.09em;margin-top:4px}.stock-chart{height:230px;position:relative;border:1px solid #292c34;border-radius:12px;overflow:hidden;background:linear-gradient(180deg,#17131a,#101116)}.stock-chart:before{content:"";position:absolute;inset:0;background:linear-gradient(#ffffff09 1px,transparent 1px),linear-gradient(90deg,#ffffff06 1px,transparent 1px);background-size:100% 25%,10% 100%;pointer-events:none}.stock-chart svg{position:absolute;inset:0;width:100%;height:100%}.stock-chart .stock-label{position:absolute;top:12px;left:14px;z-index:1;font-size:10px;color:#aeb4be;letter-spacing:.13em;text-transform:uppercase}.stock-chart .stock-change{position:absolute;top:10px;right:14px;z-index:1;font-weight:800}.stock-empty{height:100%;display:grid;place-items:center;text-align:center;color:var(--muted);font-size:12px;padding:30px}.stock-grid-labels{display:flex;justify-content:space-between;color:#707783;font-size:10px;margin-top:7px}
+@media(max-width:1050px){.stats{grid-template-columns:repeat(3,1fr)}.grid{grid-template-columns:1fr}}@media(max-width:720px){.app{display:block}.side{position:static;padding:16px}.sidefoot{display:none}.nav{display:flex;overflow:auto}.nav button{white-space:nowrap;padding:10px}.main{padding:22px 14px}.top{align-items:start;display:block}.top-actions{margin-top:15px;justify-content:space-between}.hero{grid-template-columns:auto 1fr}.hero .btn{grid-column:1/-1}.stats{grid-template-columns:repeat(2,1fr)}.card:last-child{grid-column:1/-1}.formgrid{grid-template-columns:1fr}.field.full{grid-column:auto}.actions{grid-column:auto}.sectiontitle{display:block}.sectiontitle .btn{margin-top:12px}.day{grid-template-columns:34px 1fr}.day .badge{display:none}.timer{font-size:57px}.home-performance-grid{grid-template-columns:1fr}.subject-detail{grid-template-columns:1fr 1fr}.stock-chart{height:210px}}
 </style>
 </head>
 <body>
 
-<!-- MODAL DE LOGIN (SEPARADO ENTRAR / CRIAR) -->
-<div id="modal-acesso" style="display: flex; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(7, 9, 15, 0.95); backdrop-filter: blur(12px); z-index: 9999; justify-content: center; align-items: center;">
-  <div style="background: #10131d; padding: 40px; border-radius: 16px; border: 1px solid rgba(0,240,255,0.3); width: 90%; max-width: 420px; color: #f4f4f5; box-shadow: 0 20px 50px rgba(0,0,0,0.9), inset 0 3px 0 var(--cyan);">
+<div id="modal-acesso" style="display: flex; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(9, 10, 13, 0.95); backdrop-filter: blur(8px); z-index: 9999; justify-content: center; align-items: center; font-family: 'Inter', system-ui, sans-serif;">
+  <div style="background: #13151a; padding: 40px; border-radius: 14px; border: 1px solid #2b2e36; width: 90%; max-width: 420px; color: #f4f4f5; box-shadow: 0 18px 50px rgba(0,0,0,0.8), inset 0 3px 0 #e52d47;">
+    
     <div style="text-align: center; margin-bottom: 30px;">
-       <div style="font-size: 40px; margin-bottom: 10px; text-shadow: 0 0 15px var(--cyan);">⚡</div>
+       <div style="font-size: 40px; margin-bottom: 10px;">💀</div>
        <h2 style="color: #fff; margin: 0; text-transform: uppercase; letter-spacing: 2px; font-weight: 800; font-size: 22px;">Projeto Parabellum</h2>
-       <p style="color: var(--cyan); font-size: 11px; margin-top: 5px; text-transform: uppercase; letter-spacing: 1.5px;">Acesso à Base de Dados</p>
+       <p style="color: #969ca8; font-size: 13px; margin-top: 5px; text-transform: uppercase; letter-spacing: 1px;">Operação PMMA - Identificação do Recruta</p>
     </div>
+
     <div id="tela-login">
       <div style="display: grid; gap: 15px; margin-bottom: 25px;">
-        <input type="text" id="auth-nome" placeholder="Nome de Guerra (Ex: Sgt Iury)" style="width: 100%; padding: 14px; background: #090c15; border: 1px solid var(--line); color: #fff; border-radius: 8px; outline: none; font-size: 14px;">
-        <input type="password" id="auth-pin" placeholder="PIN de 4 dígitos" maxlength="4" inputmode="numeric" pattern="[0-9]{4}" style="width: 100%; padding: 14px; background: #090c15; border: 1px solid var(--line); color: #fff; border-radius: 8px; outline: none; font-size: 14px; letter-spacing: 6px;">
+        <input type="text" id="login-nome" placeholder="Digite seu Nome de Guerra (Ex: Sgt Iury)" style="width: 100%; padding: 14px; background: #0f1115; border: 1px solid #343740; color: #fff; border-radius: 8px; outline: none; font-size: 14px;">
+        <input type="password" id="login-pin" placeholder="PIN de 4 dígitos" maxlength="4" inputmode="numeric" pattern="[0-9]{4}" style="width: 100%; padding: 14px; background: #0f1115; border: 1px solid #343740; color: #fff; border-radius: 8px; outline: none; font-size: 14px; letter-spacing: 6px;">
       </div>
-      <div style="display:flex; gap:10px;">
-          <button onclick="loginOperador()" style="flex:1; padding: 15px; background: linear-gradient(135deg, var(--cyan), var(--purple)); color: #07090f; border: none; font-weight: 800; cursor: pointer; border-radius: 8px; text-transform: uppercase; font-size: 12px; box-shadow: 0 0 15px rgba(0,240,255,0.3);">Entrar</button>
-          <button onclick="registrarOperador()" style="flex:1; padding: 15px; background: #131826; color: #fff; border: 1px solid var(--line); font-weight: 800; cursor: pointer; border-radius: 8px; text-transform: uppercase; font-size: 12px;">Criar Conta</button>
-      </div>
-      <p style="text-align: center; margin-top: 25px; font-size: 12px; color: var(--muted);" id="auth-msg"></p>
+      <button onclick="entrarComPin()" style="width: 100%; padding: 15px; background: #e52d47; color: #fff; border: none; font-weight: 700; cursor: pointer; border-radius: 8px; text-transform: uppercase; font-size: 14px; letter-spacing: 1px; transition: 0.2s; box-shadow: 0 8px 22px #df294333;">Entrar na Missão</button>
+      <p style="text-align: center; margin-top: 25px; font-size: 12px; color: #969ca8;">Primeira vez? Esse nome + PIN vira seu acesso. Guarde o PIN — ele não pode ser recuperado.</p>
     </div>
+    
   </div>
 </div>
 
 <div class="app">
-<aside class="side"><div class="brand"><div class="brandmark">⚡</div><div><b>PARABELLUM</b><span>PERFORMANCE TECH</span></div></div><div class="online" id="status-conexao"><i class="dot"></i> SINCRONIZADO</div><nav class="nav"><button class="active" data-page="dashboard">▦ Central de comando</button><button data-page="registro">＋ Registrar estudo</button><button data-page="questoes">◉ Questões</button><button data-page="desempenho">◒ Desempenho</button><button data-page="conteudos">▤ Cronograma PMMA</button><button data-page="novocronograma">🗓️ Novo Cronograma</button><button data-page="edital">📋 Edital Verticalizado</button><button data-page="ranking">🏆 Ranking Global</button><button data-page="conta">👤 Minha Conta</button></nav><div class="sidefoot">Sincronização Nuvem Ativa.<br>Projeto Parabellum.</div></aside>
+<aside class="side"><div class="brand"><div class="brandmark" aria-label="Logo Caveirinha">💀</div><div><b>CAVEIRINHA</b><span>CONTROLE DE ESTUDOS</span></div></div><div class="online" id="status-conexao"><i class="dot"></i> CONECTADO AO RANKING</div><nav class="nav"><button class="active" data-page="dashboard">▦ Central de comando</button><button data-page="registro">＋ Registrar estudo</button><button data-page="questoes">◉ Questões</button><button data-page="desempenho">◒ Desempenho</button><button data-page="conteudos">▤ Cronograma PMMA</button><button data-page="novocronograma">🗓️ Novo Cronograma</button><button data-page="edital">📋 Edital Verticalizado</button><button data-page="ranking">🏆 Rankings</button><button data-page="foco">◷ Modo foco</button><button data-page="backup">↥ Backup pessoal</button><button data-page="conta">👤 Minha Conta</button></nav><div class="sidefoot">Sincronização em nuvem.<br>Projeto Parabellum.</div></aside>
 <main class="main">
 <header class="top"><div><p class="eyebrow" id="today"></p><h1 id="pageTitle">Central de comando</h1></div><div class="top-actions"><span class="sync" id="nome-aluno-logado"><i class="dot" style="background:var(--green)"></i> não identificado</span><button class="btn primary" onclick="openPage('registro')">＋ Registrar agora</button></div></header>
+<section class="page active" id="dashboard"><div class="hero"><div class="emblem">◎</div><div><p class="eyebrow">OPERAÇÃO DO DIA <span class="status">EM ANDAMENTO</span></p><h2 id="todayStudyTitle">Carregando missão...</h2><p id="todayStudyText">Identificando o conteúdo programado para hoje.</p><small id="examCountdown" style="display:block;margin-top:8px;color:#ff8794;font-weight:800;letter-spacing:.04em"></small></div><button class="btn" onclick="openPage('conteudos')">Abrir cronograma →</button></div><div class="stats"><div class="card"><label>Cronograma PMMA</label><strong id="sProgress">0%</strong><small id="sNext">Próximo alvo: Dia 1</small></div><div class="card"><label>Questões</label><strong id="sQuestions">0</strong><small id="sCorrect">0 certas</small></div><div class="card"><label>Precisão média</label><strong id="sAccuracy">0%</strong><small>registros locais</small></div><div class="card"><label>Tempo estudado</label><strong id="sMinutes">0m</strong><small>sessões registradas</small></div><div class="card"><label>Sequência</label><strong id="sStreak">0 dias</strong><small>dias com registro</small></div></div><div class="intel-grid"><div class="panel"><div class="panelhead"><div><p class="eyebrow">CENTRAL DE INTELIGÊNCIA</p><h3>Assuntos que precisam melhorar</h3></div><span class="tag">prioridade automática</span></div><div id="priorityList" class="priority-list"></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">DIAGNÓSTICO DOS ERROS</p><h3>Onde você está perdendo pontos</h3></div><span class="tag">por motivo</span></div><div id="errorAnalysis" class="error-grid"></div><div class="trend-box" id="trendMetrics"></div></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">MAPA DE FRAQUEZAS</p><h3>Disciplinas que precisam melhorar</h3></div><span class="tag">por desempenho</span></div><div id="disciplineWeakness" class="priority-list"></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">MISSÃO DE HOJE</p><h3>Execução diária</h3></div><span class="tag" id="dailyLabel">sem meta definida</span></div><div id="dailyMission" class="mission-progress"></div></div><div class="home-performance-grid"><div class="panel"><div class="panelhead"><div><p class="eyebrow">DESEMPENHO OPERACIONAL</p><h3>Por disciplina</h3></div><button class="btn" onclick="openPage('desempenho')">Detalhar</button></div><div id="homeDisciplineProgress"><div class="performance-empty">Registre questões para liberar o desempenho por disciplina.</div></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">ÍNDICE DE EVOLUÇÃO</p><h3>Curva de desempenho</h3></div><span class="tag">estilo mercado</span></div><div class="stock-chart" id="stockChart"><div class="stock-empty">Aguardando registros para desenhar a tendência.</div></div><div class="stock-grid-labels"><span>início</span><span>último registro</span></div></div></div><div class="grid"><div class="panel"><div class="panelhead"><div><p class="eyebrow">RITMO DE EVOLUÇÃO</p><h3>Questões por dia</h3></div><span class="tag">últimos 7 dias</span></div><div class="bars" id="chart"></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">RADAR TÁTICO</p><h3>Forças e alertas</h3></div><span style="color:var(--red2);font-size:20px">◉</span></div><div class="donut-wrap"><div class="donut" id="radarDonut"><div class="donut-center"><b id="radarText">0%</b><small id="radarSub">Precisão</small></div></div></div></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">PRÓXIMAS MISSÕES</p><h3>Seu cronograma em campo</h3></div><button class="btn" onclick="openPage('conteudos')">Ver todos</button></div><div id="nextMissions"></div></div></section>
+<section class="page" id="registro"><div class="sectiontitle"><div><p class="eyebrow">REGISTRO SEGURO LOCAL</p><h2>Adicionar estudo</h2><p class="muted">O registro é salvo imediatamente neste navegador.</p></div></div><div class="panel"><form class="formgrid" id="studyForm"><div class="field"><span>Data</span><input required type="date" name="date" id="studyDate"></div><div class="field"><span>Tipo</span><select name="type"><option value="questoes">Questões</option><option value="sessao">Sessão de estudo</option></select></div><div class="field"><span>Disciplina</span><select required name="subject" id="subjectSelect"><option value="">Selecione a disciplina</option></select></div><div class="field"><span>Assuntos <small style="color:var(--red2)">(marque um ou vários)</small></span><div id="topicOptions" class="topic-options" aria-live="polite"><div class="topic-empty">Selecione primeiro a disciplina</div></div><div id="topicCount" class="topic-count">0 assuntos selecionados</div></div><div class="field"><span>Questões respondidas</span><input type="number" min="0" value="0" name="total"></div><div class="field"><span>Questões certas</span><input type="number" min="0" value="0" name="correct"></div><div class="field"><span>Tempo estudado (minutos)</span><input required type="number" min="0" value="30" name="minutes"></div><div class="field"><span>Banca</span><input name="board" placeholder="Ex.: Cebraspe"></div><div class="field"><span>Motivo do erro</span><select name="reason"><option value="none">Sem erro / não se aplica</option><option>Falta de conhecimento</option><option>Distração</option><option>Interpretação</option><option>Cálculo</option><option>Dúvida</option></select></div><div class="field full"><span>Observações</span><textarea name="notes" placeholder="O que precisa ser revisto?"></textarea></div><div class="actions"><button class="btn" type="reset">Limpar</button><button class="btn primary" type="submit">Salvar registro</button></div></form></div><div class="panel"><p class="eyebrow">HISTÓRICO RECENTE</p><div id="historyPreview"></div></div></section>
+<section class="page" id="questoes"><div class="sectiontitle"><div><p class="eyebrow">HISTÓRICO CONSULTÁVEL</p><h2>Questões registradas</h2><p class="muted">Tudo permanece salvo localmente neste dispositivo.</p></div><button class="btn primary" onclick="openPage('registro')">＋ Novo registro</button></div><div class="panel"><table class="history"><thead><tr><th>Data</th><th>Disciplina</th><th>Assunto</th><th>Total</th><th>Certas</th><th>Precisão</th><th></th></tr></thead><tbody id="historyTable"></tbody></table></div></section>
+<section class="page" id="desempenho"><div class="sectiontitle"><div><p class="eyebrow">ANÁLISE TÁTICA DOS REGISTROS</p><h2>Desempenho por disciplina</h2><p class="muted">Abra cada disciplina para ver a precisão, volume e tempo por assunto.</p><div class="notice" style="margin-top:12px;margin-bottom:0">Quando um registro tiver vários assuntos, o total de questões, acertos e minutos será dividido igualmente entre eles. Para uma precisão individual exata, registre cada assunto separadamente.</div></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">PROGRESSO DO PLANO</p><h3>30 dias de operação</h3></div><span class="tag" id="performancePlanLabel">0/30 concluídos · 30 pendentes</span></div><div class="progress"><i id="performancePlanBar" style="width:0%"></i></div><div class="daygrid" id="dayProgress"></div></div><div id="performanceBySubject"></div></section><section class="page" id="conteudos"><div class="sectiontitle"><div><p class="eyebrow">PLANO PMMA · 30 DIAS</p><h2>Cronograma de conteúdos</h2><p class="muted">Clique em uma missão para marcar como concluída. O status fica salvo no navegador.</p></div></div><div id="curriculum"></div></section>
 
-<section class="page active" id="dashboard">
-    <div class="hero"><div class="emblem">◎</div><div><p class="eyebrow">OPERAÇÃO DO DIA <span class="status">EM ANDAMENTO</span></p><h2 id="todayStudyTitle">Carregando...</h2><p id="todayStudyText">Identificando o conteúdo.</p></div><button class="btn" onclick="openPage('conteudos')">Ver cronograma →</button></div>
-    
-    <div class="grid">
-        <div class="panel">
-            <div class="panelhead"><div><p class="eyebrow">EVOLUÇÃO TÁTICA</p><h3>Precisão Acumulada</h3></div><span class="tag">estilo mercado</span></div>
-            <!-- APEXCHART: LINHA / MERCADO -->
-            <div id="chartLinhaMercado" style="min-height: 250px;"></div>
-        </div>
-        <div class="panel">
-            <div class="panelhead"><div><p class="eyebrow">DIAGNÓSTICO</p><h3>Aproveitamento Geral</h3></div><span class="tag">pizza</span></div>
-            <!-- APEXCHART: PIZZA / DONUT -->
-            <div id="chartPizzaGeral" style="min-height: 250px; display: flex; justify-content: center;"></div>
-        </div>
-    </div>
+<section class="page" id="novocronograma"><div class="sectiontitle"><div><p class="eyebrow">MONTAGEM DE CICLO</p><h2>Novo Cronograma</h2><p class="muted">Gere um cronograma com a quantidade de dias que quiser, distribuindo automaticamente os tópicos do edital atual. <span id="cronAtualInfo"></span></p></div></div>
 
-    <div class="panel">
-        <div class="panelhead"><div><p class="eyebrow">RITMO DE ESTUDOS</p><h3>Questões por Dia</h3></div><span class="tag">cascata / colunas</span></div>
-        <!-- APEXCHART: BARRAS / CASCATA -->
-        <div id="chartColunasDias" style="min-height: 250px;"></div>
-    </div>
+<div class="panel"><div class="panelhead"><div><h3>Gerar novo cronograma</h3><p class="muted" style="margin:4px 0 0">Distribui os tópicos do edital carregado (aba Edital Verticalizado) em quantos dias você escolher, com simulados a cada 6 dias de estudo.</p></div></div>
+<form class="formgrid" id="formNovoCron" onsubmit="criarCronogramaForm(event)">
+<div class="field"><label>Quantidade de dias</label><input type="number" id="novoCronDias" min="5" max="120" value="30" required></div>
+<div class="field"><label>Data de início</label><input type="date" id="novoCronInicio"></div>
+<div class="actions"><button class="btn primary" type="submit">Gerar cronograma</button></div>
+</form></div>
+
+<div class="panel"><div class="panelhead"><div><h3>Modelo padrão</h3><p class="muted" style="margin:4px 0 0">Volte pro cronograma oficial de 30 dias da PMMA a qualquer momento.</p></div></div>
+<button class="btn" onclick="restaurarCronogramaPadrao()">Restaurar cronograma padrão (30 dias)</button></div>
+
+<div class="panel"><div class="panelhead"><div><h3>Exportar / Importar modelo</h3><p class="muted" style="margin:4px 0 0">Baixe o cronograma atual como arquivo (pra reaproveitar ou editar) ou importe um cronograma pronto no mesmo formato.</p></div></div>
+<div class="backup"><button class="btn" onclick="exportarCronograma()">↓ Exportar cronograma atual</button><label class="btn">↑ Importar cronograma<input hidden type="file" accept="application/json" onchange="importarCronograma(event)"></label></div></div>
+
 </section>
 
-<section class="page" id="registro"><div class="sectiontitle"><div><p class="eyebrow">REGISTRO EM NUVEM</p><h2>Adicionar estudo</h2><p class="muted">Os dados são gravados diretamente no banco de dados do seu perfil.</p></div></div><div class="panel"><form class="formgrid" id="studyForm"><div class="field"><span>Data</span><input required type="date" name="date" id="studyDate"></div><div class="field"><span>Tipo</span><select name="type"><option value="questoes">Questões</option><option value="sessao">Sessão de estudo</option></select></div><div class="field"><span>Disciplina</span><select required name="subject" id="subjectSelect"><option value="">Selecione a disciplina</option></select></div><div class="field"><span>Assuntos <small style="color:var(--cyan)">(marque um ou vários)</small></span><div id="topicOptions" class="topic-options" aria-live="polite"><div class="topic-empty">Selecione primeiro a disciplina</div></div><div id="topicCount" class="topic-count">0 assuntos selecionados</div></div><div class="field"><span>Questões respondidas</span><input type="number" min="0" value="0" name="total"></div><div class="field"><span>Questões certas</span><input type="number" min="0" value="0" name="correct"></div><div class="field"><span>Tempo estudado (minutos)</span><input required type="number" min="0" value="30" name="minutes"></div><div class="field"><span>Banca</span><input name="board" placeholder="Ex.: Cebraspe"></div><div class="actions"><button class="btn" type="reset">Limpar</button><button class="btn primary" type="submit">Salvar na Nuvem</button></div></form></div></section>
+<section class="page" id="edital"><div class="sectiontitle"><div><p class="eyebrow">CONTEÚDO PROGRAMÁTICO</p><h2>Edital Verticalizado</h2><p class="muted">Veja todas as disciplinas e tópicos do edital carregado, ou importe seu próprio edital em formato de arquivo.</p></div></div>
 
-<section class="page" id="questoes"><div class="sectiontitle"><div><p class="eyebrow">HISTÓRICO CONSULTÁVEL</p><h2>Questões registradas (Nuvem)</h2></div><button class="btn primary" onclick="openPage('registro')">＋ Novo registro</button></div><div class="panel"><table class="history"><thead><tr><th>Data</th><th>Disciplina</th><th>Assunto</th><th>Total</th><th>Certas</th><th>Precisão</th></tr></thead><tbody id="historyTable"></tbody></table></div></section>
+<div class="panel"><div class="panelhead"><div><h3>Importar / Exportar edital</h3><p class="muted" style="margin:4px 0 0">Exporte o edital atual como modelo, edite o arquivo se quiser, e importe de volta — ele passa a valer no registro de estudos e nos próximos cronogramas gerados.</p></div></div>
+<div class="backup"><button class="btn" onclick="exportarEdital()">↓ Exportar edital atual</button><label class="btn">↑ Importar edital<input hidden type="file" accept="application/json" onchange="importarEdital(event)"></label><button class="btn" onclick="restaurarEditalPadrao()">Restaurar edital padrão</button></div></div>
 
-<section class="page" id="desempenho"><div class="sectiontitle"><div><p class="eyebrow">ANÁLISE TÁTICA</p><h2>Desempenho por disciplina</h2></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">PROGRESSO DO PLANO</p><h3>Cronograma</h3></div><span class="tag" id="performancePlanLabel">Carregando...</span></div><div class="progress"><i id="performancePlanBar" style="width:0%"></i></div><div class="daygrid" id="dayProgress"></div></div><div id="performanceBySubject"></div></section>
+<div id="editalBox"></div>
 
-<section class="page" id="conteudos"><div class="sectiontitle"><div><p class="eyebrow">PLANO PMMA</p><h2>Cronograma de conteúdos</h2><p class="muted">Clique para concluir. Salvo na nuvem.</p></div></div><div id="curriculum"></div></section>
-
-<section class="page" id="novocronograma">
-    <div class="sectiontitle"><div><p class="eyebrow">MONTAGEM DE CICLO</p><h2>Novo Cronograma</h2></div></div>
-    <div class="panel"><form class="formgrid" id="formNovoCron" onsubmit="criarCronogramaForm(event)"><div class="field"><label>Dias</label><input type="number" id="novoCronDias" min="5" max="120" value="30" required></div><div class="field"><label>Início</label><input type="date" id="novoCronInicio"></div><div class="actions"><button class="btn primary" type="submit">Gerar cronograma</button></div></form></div>
 </section>
+<section class="page" id="ranking"><div class="sectiontitle"><div><p class="eyebrow">COMPETIÇÃO DA COMUNIDADE</p><h2>🏆 Rankings</h2><p class="muted">Duas formas de subir: resolver questões e cumprir o cronograma.</p></div></div><div class="grid"><div class="panel"><div class="panelhead"><div><p class="eyebrow">VOLUME DE EXECUÇÃO</p><h3>Ranking por questões</h3></div><span class="tag">total registrado</span></div><div id="rankingQuestions"></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">CONSISTÊNCIA</p><h3>Ranking por cronograma</h3></div><span class="tag">% concluído</span></div><div id="rankingProgress"></div></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">SUA POSIÇÃO</p><h3>Resumo competitivo</h3></div></div><div id="rankingSummary"></div></div></section><section class="page" id="foco"><div class="sectiontitle"><div><p class="eyebrow">PROTOCOLO DE CONCENTRAÇÃO</p><h2>Modo foco</h2><p class="muted">Um ciclo de 25 minutos para executar uma única missão.</p></div></div><div class="panel focusbox"><div class="timer" id="timer">25:00</div><p class="muted">Afaste o ruído. Execute. Registre a vitória.</p><div class="focusbuttons"><button class="btn primary" id="focusToggle" onclick="toggleFocus()">Iniciar ciclo</button><button class="btn" onclick="resetFocus()">Reiniciar</button><button class="btn" onclick="saveFocus()">Salvar ciclo</button></div></div></section>
+<section class="page" id="backup"><div class="sectiontitle"><div><p class="eyebrow">PROTEÇÃO DO HISTÓRICO</p><h2>Backup pessoal</h2><p class="muted">Exporte seus dados antes de trocar de computador ou limpar o navegador.</p></div></div><div class="panel"><div class="notice">Este arquivo usa armazenamento local. O histórico fica salvo após fechar o navegador, mas pode ser apagado se os dados do site forem limpos. Faça backups periódicos.</div><div class="backup"><button class="btn primary" onclick="exportData()">↓ Baixar backup JSON</button><label class="btn">↑ Importar backup JSON<input hidden type="file" accept="application/json" onchange="importData(event)"></label><button class="btn" onclick="clearData()">Apagar meus dados</button><button class="btn" onclick="openPage('conta')">👤 Gerenciar minha conta →</button></div><p class="muted" style="margin-top:17px">O backup inclui registros, conclusão do cronograma e ciclos de foco deste navegador.</p></div></section>
 
-<section class="page" id="edital">
-    <div class="sectiontitle"><div><p class="eyebrow">CONTEÚDO PROGRAMÁTICO</p><h2>Edital Verticalizado (Nuvem)</h2><p class="muted">Gerencie o edital atrelado ao seu usuário.</p></div></div>
-    <div class="panel">
-        <div class="backup">
-            <label class="btn primary">↑ Importar Edital JSON<input hidden type="file" accept="application/json" onchange="importarEdital(event)"></label>
-            <button class="btn" style="border-color:var(--pink); color:var(--pink)" onclick="apagarEdital()">Apagar Edital do Perfil</button>
-        </div>
-    </div>
-    <div id="editalBox"></div>
+<section class="page" id="conta"><div class="sectiontitle"><div><p class="eyebrow">IDENTIFICAÇÃO DO RECRUTA</p><h2>Minha Conta</h2><p class="muted">Operador logado: <b id="contaNomeAtual">—</b></p></div></div>
+
+<div class="panel"><div class="panelhead"><div><h3>Renomear</h3><p class="muted" style="margin:4px 0 0">Muda seu nome de guerra direto na nuvem — o progresso e o ranking continuam os mesmos, sem duplicar.</p></div></div>
+<form class="formgrid" id="formRenomear" onsubmit="renomearOperador(event)">
+<div class="field full"><label>Novo nome de guerra</label><input type="text" id="conta-nome-novo" placeholder="Ex: Sgt Iury" required></div>
+<div class="actions"><button class="btn primary" type="submit">Salvar novo nome</button></div>
+</form></div>
+
+<div class="panel"><div class="panelhead"><div><h3>Trocar PIN</h3><p class="muted" style="margin:4px 0 0">Por segurança o site nunca guarda seu PIN em texto puro, só um hash — por isso não dá pra "mostrar" o PIN atual. Pra trocar, confirme o atual e defina um novo.</p></div></div>
+<form class="formgrid" id="formTrocarPin" onsubmit="trocarPinOperador(event)">
+<div class="field"><label>PIN atual</label><input type="password" id="conta-pin-atual" maxlength="4" inputmode="numeric" pattern="[0-9]{4}" placeholder="••••" required></div>
+<div class="field"><label>PIN novo</label><input type="password" id="conta-pin-novo" maxlength="4" inputmode="numeric" pattern="[0-9]{4}" placeholder="••••" required></div>
+<div class="field full"><label>Confirmar PIN novo</label><input type="password" id="conta-pin-novo-confirma" maxlength="4" inputmode="numeric" pattern="[0-9]{4}" placeholder="••••" required></div>
+<div class="actions"><button class="btn primary" type="submit">Trocar PIN</button></div>
+</form></div>
+
+<div class="panel"><div class="panelhead"><div><h3>Sair da conta</h3><p class="muted" style="margin:4px 0 0">Desconecta este aparelho e volta pra tela de login. Seus dados na nuvem continuam intactos.</p></div></div>
+<button class="btn" onclick="sairOperador()">Sair</button></div>
+
+<div class="panel" style="border-color:#67313d"><div class="panelhead"><div><h3 style="color:var(--red2)">Apagar conta</h3><p class="muted" style="margin:4px 0 0">Remove seu operador por completo do Supabase: nome, PIN e posição no ranking. Essa ação não pode ser desfeita. Seus registros locais neste navegador não são apagados por esta ação — use "Apagar meus dados" no Backup pessoal pra isso.</p></div></div>
+<button class="btn" style="border-color:var(--red2); color:var(--red2)" onclick="apagarConta()">Apagar minha conta da nuvem</button></div>
+
 </section>
-
-<section class="page" id="ranking">
-    <div class="sectiontitle"><div><p class="eyebrow">COMPETIÇÃO DA COMUNIDADE</p><h2>🏆 Ranking Global Expandido</h2><p class="muted">Métricas de resolução por dia, semana e mês.</p></div></div>
-    <div class="panel">
-        <div class="ranking-grid" id="rankingGridCompleto">
-            <!-- Preenchido via JS -->
-            <p class="muted">Carregando ranking do banco de dados...</p>
-        </div>
-    </div>
-</section>
-
-<section class="page" id="conta">
-    <div class="sectiontitle"><div><p class="eyebrow">IDENTIFICAÇÃO DO RECRUTA</p><h2>Minha Conta</h2><p class="muted">Operador logado: <b id="contaNomeAtual">—</b></p></div></div>
-    <div class="panel"><button class="btn" onclick="sairOperador()">Sair do Sistema</button></div>
-</section>
-
 </main></div>
 
 <script>
-// CONFIGURAÇÃO SUPABASE - INSIRA SUAS CHAVES AQUI
-const SUPABASE_URL = "https://SEU_PROJETO.supabase.co"; // Substitua
-const SUPABASE_ANON_KEY = "SUA_CHAVE_ANONIMA"; // Substitua
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+let subjectCatalog={"LÍNGUA PORTUGUESA":["1 Compreensão e interpretação de textos de gêneros variados. · 2 Reconhecimento de tipos e géneros textuais. · 3 Domínio da ortografia oficial.","4 Domínio dos mecanismos de coesão textual. · 4.1 Emprego de elementos de referenciação, substituição e repetição, de conectores e de outros elementos de sequenciação textual. · 4.2 Emprego de tempos e modos verbais.","5 Domínio da estrutura morfossintática do período. · 5.1 Emprego das classes de palavras.","5.2 Relações de coordenação entre orações e entre termos da oração. · 5.3 Relações de subordinação entre orações e entre termos da oração. · 5.4 Emprego dos sinais de pontuação.","5.5 Concordância verbal e nominal. · 5.6 Regência verbal e nominal. · 5.7 Emprego do sinal indicativo de crase. · 5.8 Colocação dos pronomes átonos.","> 1 Compreensão e interpretação de textos de gêneros variados.","> 2 Reconhecimento de tipos e géneros textuais.","> 3 Domínio da ortografia oficial.","> 4 Domínio dos mecanismos de coesão textual (- 4.1 e - 4.2).","> 5 Domínio da estrutura morfossintática do período.","1 Compreensão e interpretação de textos de gêneros variados.","2 Reconhecimento de tipos e géneros textuais.","3 Domínio da ortografia oficial.","4 Domínio dos mecanismos de coesão textual.","4.1 Emprego de elementos de referenciação, substituição e repetição, de conectores e de outros elementos de sequenciação textual.","4.2 Emprego de tempos e modos verbais.","5 Domínio da estrutura morfossintática do período.","5.1 Emprego das classes de palavras.","5.2 Relações de coordenação entre orações e entre termos da oração.","5.3 Relações de subordinação entre orações e entre termos da oração.","5.4 Emprego dos sinais de pontuação.","5.5 Concordância verbal e nominal.","5.6 Regência verbal e nominal.","5.7 Emprego do sinal indicativo de crase.","5.8 Colocação dos pronomes átonos.","6 Reescrita de frases e parágrafos do texto.","6.1 Significação das palavras.","6.2 Substituição de palavras ou de trechos de texto.","6.3 Reorganização da estrutura de orações e de períodos do texto.","6.4 Reescrita de textos de diferentes gêneros e níveis de formalidade."],"RACIOCÍNIO LÓGICO":["1 Compreensão de estruturas lógicas. · 2 Lógica de argumentação: analogias, inferências, deduções e conclusões. · 3 Lógica sentencial (ou proposicional). · 3.1 Proposições simples e compostas.","3.2 Tabelas verdade. · 3.3 Equivalências. · 3.4 Leis de Morgan. · 3.5 Diagramas lógicos.","> 1 Compreensão de estruturas lógicas.","> 2 Lógica de argumentação: analogias, inferências, deduções e conclusões.","> 3 Lógica sentencial (ou proposicional) e tabelas-verdade.","1 Compreensão de estruturas lógicas.","2 Lógica de argumentação: analogias, inferências, deduções e conclusões.","3 Lógica sentencial (ou proposicional).","3.1 Proposições simples e compostas.","3.2 Tabelas verdade.","3.3 Equivalências.","3.4 Leis de Morgan.","3.5 Diagramas lógicos."],"HISTÓRIA DO BRASIL":["1 A contribuição dos índios e negros para a formação do Brasil; A formação do Brasil Contemporâneo; A República Velha e as estruturas oligárquicas; Economia e Sociedade: o café e estratificação social.","A Revolução de 1930; A Era Vargas: política, economia e sociedade; O período democrático (1945 a 1964). · 2 A redemocratização do Estado e a constituição de 1946. · 3 A política de industrialização do governo JK. · 5 A crise do regime democrático.","6 O golpe de 1964. · 7 A crise do regime militar e a redemocratização. · 8 O Brasil politico: nação e território. · 9 Organização do Estado Brasileiro.","> 1 A contribuição dos índios e negros para a formação do Brasil....","> 2 A redemocratização do Estado e a constituição de 1946.","1 A contribuição dos índios e negros para a formação do Brasil; A formação do Brasil Contemporâneo; A República Velha e as estruturas oligárquicas; Economia e Sociedade: o café e estratificação social; A Revolução de 1930; A Era Vargas: política, economia e sociedade; O período democrático (1945 a 1964).","2 A redemocratização do Estado e a constituição de 1946.","3 A política de industrialização do governo JK.","5 A crise do regime democrático.","6 O golpe de 1964.","7 A crise do regime militar e a redemocratização.","8 O Brasil politico: nação e território.","9 Organização do Estado Brasileiro.","10 As Constituições."],"HISTÓRIA DO MARANHÃO":["1 França equinocial: expedição de Daniel de La Touche. · 2 Fundação de São Luís. · 3 Batalha de Guaxenduba. · 4 Capitães mores do Maranhão.","5 Invasão holandesa. · 6 Expulsão dos holandeses. · 7 Estado do Maranhão e Grão Pará: Revolta de Bequimão (causas e objetivos da revolta); Companhia de Comércio do Maranhão e Grão Pará. · 8 Período do Império: adesão do Maranhão.","9 Independência do Brasil. · 10 Causas da não adesão: Batalha do Jenipapo. · 11 Balaiada: caracterização e causas do movimento. · 12 Período Republicano: adesão do Maranhão à República.","> 1 França equinocial: expedição de Daniel de La Touche.","> 2 Fundação de São Luís e > 3 Batalha de Guaxenduba.","1 França equinocial: expedição de Daniel de La Touche.","2 Fundação de São Luís.","3 Batalha de Guaxenduba.","4 Capitães mores do Maranhão.","5 Invasão holandesa.","6 Expulsão dos holandeses.","7 Estado do Maranhão e Grão Pará: Revolta de Bequimão (causas e objetivos da revolta); Companhia de Comércio do Maranhão e Grão Pará.","8 Período do Império: adesão do Maranhão.","9 Independência do Brasil.","10 Causas da não adesão: Batalha do Jenipapo.","11 Balaiada: caracterização e causas do movimento.","12 Período Republicano: adesão do Maranhão à República.","13 Revolução de 1930 no Maranhão.","14 Principais fatos políticos, econômicos e sociais ocorridos no Maranhão, na segunda metade do século XX."],"GEOGRAFIA DO BRASIL":["1 A integração ao processo de internacionalização da economia. · 2 O processo de industrialização e suas repercussões na organização do espaço. · 3 A rede brasileira de transportes e sua evolução. · 4 A estrutura urbana brasileira e das grandes metrópoles.","5 A dinâmica das fronteiras agrícolas e sua expansão para o Centro Oeste e a Amazônia. · 6 A evolução da estrutura fundiária e problemas demográficos. · 7 Os movimentos migratórios internos. · 8 A população brasileira: distribuição dos efetivos demográficos no território nacional; evolução do crescimento ao longo do século XX; estrutura etária.","8 Integração entre indústria, estrutura urbana, rede de transportes e setor agrícola no Brasil. · 9 Recursos naturais: aproveitamento, desperdício e política de conservação de recursos naturais.","> 1 A integração ao processo de internacionalização da economia.","> 2 O processo de industrialização e suas repercussões na organização do espaço.","1 A integração ao processo de internacionalização da economia.","2 O processo de industrialização e suas repercussões na organização do espaço.","3 A rede brasileira de transportes e sua evolução.","4 A estrutura urbana brasileira e as grandes metrópoles.","5 A dinâmica das fronteiras agrícolas e sua expansão para o Centro Oeste e a Amazônia.","6 A evolução da estrutura fundiária e problemas demográficos.","7 Os movimentos migratórios internos.","8 A população brasileira: distribuição dos efetivos demográficos no território nacional; evolução do crescimento ao longo do século XX; estrutura etária.","8 Integração entre indústria, estrutura urbana, rede de transportes e setor agrícola no Brasil.","9 Recursos naturais: aproveitamento, desperdício e política de conservação de recursos naturais."],"SIMULADO E REVISÃO":["Realização de simulado com os conteúdos da semana e revisão ativa dos pontos com maior dificuldade.","Realização de simulado prático e revisão acumulada da semana.","Realização de simulado com os conteúdos da semana e revisão ativa.","Realização de simulado geral e revisão estratégica.","Simulado semanal e revisão dos conteúdos da semana.","Simulado geral e revisão dos blocos anteriores.","Simulado focado nas matérias estudadas na semana.","Simulado geral simulando o padrão de cobrança do edital."],"GEOGRAFIA DO MARANHÃO":["1 Localização do Estado do Maranhão: superfície; limites; linhas de fronteira; pontos extremos; áreas de proteção ambiental (APA). · 2 Parques nacionais. · 3 Climas do Maranhão: pluviosidade e temperatura. · 4 Geomorfologia (- 4.1 Classificação do relevo maranhense: planaltos, planícies e baixadas).","5 Características dos rios maranhenses: bacias dos rios limítrofes (Parnaiba, Gurupi e Tocantins Araguaia). · 6 Bacias dos ríos genuinamente maranhenses. · 7 Principais formações vegetais: floresta, cerrado e cocais. · 8 Geografia da população: população absoluta; densidade demográfica; povoamento; movimentos populacionais.","> 1 Localização do Estado do Maranhão: superfície; limites; linhas de fronteira.","> 4 Geomorfologia e classificação do relevo maranhense.","1 Localização do Estado do Maranhão: superfície; limites; linhas de fronteira; pontos extremos; áreas de proteção ambiental (APA).","2 Parques nacionais.","3 Climas do Maranhão: pluviosidade e temperatura.","4 Geomorfologia.","4.1 Classificação do relevo maranhense: planaltos, planícies e baixadas.","5 Características dos rios maranhenses: bacias dos rios limítrofes (Parnaiba, Gurupi e Tocantins Araguaia).","6 Bacias dos ríos genuinamente maranhenses.","7 Principais formações vegetais: floresta, cerrado e cocais.","8 Geografia da população: população absoluta; densidade demográfica; povoamento; movimentos populacionais.","9 Agricultura maranhense: caracterização e principais produtos agrícolas; caracterização da pecuária.","10 Extrativismo: vegetal, animal e mineral.","11 Parque industrial: indústrias de base e indústrias de transformação.","12 Setor terciário: comércio, telecomunicações, transportes.","13 Malha viária.","14 Portos e aeroportos.","15 Cultura maranhense."],"LEGISLAÇÃO INSTITUCIONAL":["1 Lei estadual nº 6.513/1995 e suas alterações (Estatuto dos Policiais Militares do Estado do Maranhão).","2 Lei Federal nº 14.751/2023 e suas alterações (Lei Orgânica Nacional/PM/CBM).","3 Lei nº 12.896/2026 (Lei de Organização Básica da PMMA).","> 1 Lei estadual nº 6.513/1995 e suas alterações (Estatuto dos Policiais Militares do Estado do Maranhão).","> 2 Lei Federal nº 14.751/2023 e suas alterações (Lei Orgânica Nacional/PM/CBM).","> 3 Lei nº 12.896/2026 (Lei de Organização Básica da PMMA).","Revisão geral das leis estaduais e federais da corporação."],"NOÇÕES DE INFORMÁTICA":["1 Noções de sistema operacional (ambientes Linux e Windows). · 2 Edição de textos, planilhas e apresentações (ambientes Microsoft Office e BrOffice). · 3.1 Conceitos básicos, ferramentas, aplicativos e procedimentos de Internet e intranet. · 3.2 Programas de navegação (Microsoft Internet Explorer, Mozilla Firefox e Google Chrome).","3.3 Programas de correio eletrônico (Outlook Express e Mozilla Thunderbird). · 3.4 Sítios de busca e pesquisa na Internet. · 3.5 Grupos de discussão. · 3.6 Redes sociais.","3.7 Computação na nuven (cloud computing). · 4 Conceitos de organização e de gerenciamento de informações, arquivos, pastas e programas. · 5.1 Procedimentos de segurança. · 5.2 Noções de vírus, worms e pragas virtuais. · 5.3 Aplicativos para segurança (antivirus).","> 1 Noções de sistema operacional (ambientes Linux e Windows).","> 2 Edição de textos, planilhas e apresentações (ambientes Microsoft Office e BrOffice).","> 3 Redes de computadores (- 3.1 a - 3.7).","> 5 Segurança da informação (- 5.1 a - 5.5).","> 4 Conceitos de organização e gerenciamento de arquivos, pastas e programas.","1 Noções de sistema operacional (ambientes Linux e Windows).","2 Edição de textos, planilhas e apresentações (ambientes Microsoft Office e BrOffice).","3 Redes de computadores. (3.1 a 3.7)","4 Conceitos de organização e de gerenciamento de informações, arquivos, pastas e programas.","5 Segurança da informação.","5.1 a 5.5: Procedimentos de segurança, vírus, worms, pragas, aplicativos de segurança, backup e cloud storage."],"HISTÓRIA DO MARANHÃO & INFORMÁTICA FINAL":["5.4 Procedimentos de backup. · 5.5 Armazenamento de dados na nuvem (cloud storage). · 13 Revolução de 1930 no Maranhão. · 14 Principais fatos políticos, econômicos e sociais ocorridos no Maranhão, na segunda metade do século XX."],"LÍNGUA PORTUGUESA (FECHAMENTO) & HISTÓRIA DO BRASIL":["6 Reescrita de frases e parágrafos do texto (6.1 Significação das palavras; 6.2 Substituição de palavras ou de trechos de texto; 6.3 Reorganização da estrutura de orações e de períodos do texto; 6.4 Reescrita de textos de diferentes gêneros e níveis de formalidade). · 10 As Constituições."],"REVISÃO FINAL GERAL":["Fechamento de tópicos pendentes do edital verticalizado e flashcards."],"SIMULADO E REVISÃO SEMANAL":["Realização de simulado com os tópicos estudados na semana e revisão ativa dos erros.","Realização de simulado abordando Português e Raciocínio Lógico + revisão geral.","Simulado focado em História do Brasil e História do Maranhão com revisão ativa.","Simulado contemplando Geografia do Brasil e Geografia do Maranhão."]};const curriculumPadrao=[["LÍNGUA PORTUGUESA","1 Compreensão e interpretação de textos de gêneros variados. · 2 Reconhecimento de tipos e géneros textuais. · 3 Domínio da ortografia oficial.","01/09","study"],["RACIOCÍNIO LÓGICO","1 Compreensão de estruturas lógicas. · 2 Lógica de argumentação: analogias, inferências, deduções e conclusões. · 3 Lógica sentencial (ou proposicional). · 3.1 Proposições simples e compostas.","02/09","study"],["HISTÓRIA DO BRASIL","1 A contribuição dos índios e negros para a formação do Brasil; A formação do Brasil Contemporâneo; A República Velha e as estruturas oligárquicas; Economia e Sociedade: o café e estratificação social.","03/09","study"],["HISTÓRIA DO MARANHÃO","1 França equinocial: expedição de Daniel de La Touche. · 2 Fundação de São Luís. · 3 Batalha de Guaxenduba. · 4 Capitães mores do Maranhão.","04/09","study"],["GEOGRAFIA DO BRASIL","1 A integração ao processo de internacionalização da economia. · 2 O processo de industrialização e suas repercussões na organização do espaço. · 3 A rede brasileira de transportes e sua evolução. · 4 A estrutura urbana brasileira e das grandes metrópoles.","05/09","study"],["SIMULADO E REVISÃO","Realização de simulado com os conteúdos da semana e revisão ativa dos pontos com maior dificuldade.","06/09","simulado"],["GEOGRAFIA DO MARANHÃO","1 Localização do Estado do Maranhão: superfície; limites; linhas de fronteira; pontos extremos; áreas de proteção ambiental (APA). · 2 Parques nacionais. · 3 Climas do Maranhão: pluviosidade e temperatura. · 4 Geomorfologia (- 4.1 Classificação do relevo maranhense: planaltos, planícies e baixadas).","07/09","study"],["LEGISLAÇÃO INSTITUCIONAL","1 Lei estadual nº 6.513/1995 e suas alterações (Estatuto dos Policiais Militares do Estado do Maranhão).","08/09","study"],["NOÇÕES DE INFORMÁTICA","1 Noções de sistema operacional (ambientes Linux e Windows). · 2 Edição de textos, planilhas e apresentações (ambientes Microsoft Office e BrOffice). · 3.1 Conceitos básicos, ferramentas, aplicativos e procedimentos de Internet e intranet. · 3.2 Programas de navegação (Microsoft Internet Explorer, Mozilla Firefox e Google Chrome).","09/09","study"],["LÍNGUA PORTUGUESA","4 Domínio dos mecanismos de coesão textual. · 4.1 Emprego de elementos de referenciação, substituição e repetição, de conectores e de outros elementos de sequenciação textual. · 4.2 Emprego de tempos e modos verbais.","10/09","study"],["RACIOCÍNIO LÓGICO","3.2 Tabelas verdade. · 3.3 Equivalências. · 3.4 Leis de Morgan. · 3.5 Diagramas lógicos.","11/09","study"],["HISTÓRIA DO BRASIL","A Revolução de 1930; A Era Vargas: política, economia e sociedade; O período democrático (1945 a 1964). · 2 A redemocratização do Estado e a constituição de 1946. · 3 A política de industrialização do governo JK. · 5 A crise do regime democrático.","12/09","study"],["SIMULADO E REVISÃO","Realização de simulado prático e revisão acumulada da semana.","13/09","simulado"],["HISTÓRIA DO MARANHÃO","5 Invasão holandesa. · 6 Expulsão dos holandeses. · 7 Estado do Maranhão e Grão Pará: Revolta de Bequimão (causas e objetivos da revolta); Companhia de Comércio do Maranhão e Grão Pará. · 8 Período do Império: adesão do Maranhão.","14/09","study"],["LÍNGUA PORTUGUESA","5 Domínio da estrutura morfossintática do período. · 5.1 Emprego das classes de palavras.","15/09","study"],["GEOGRAFIA DO BRASIL","5 A dinâmica das fronteiras agrícolas e sua expansão para o Centro Oeste e a Amazônia. · 6 A evolução da estrutura fundiária e problemas demográficos. · 7 Os movimentos migratórios internos. · 8 A população brasileira: distribuição dos efetivos demográficos no território nacional; evolução do crescimento ao longo do século XX; estrutura etária.","16/09","study"],["GEOGRAFIA DO MARANHÃO","5 Características dos rios maranhenses: bacias dos rios limítrofes (Parnaiba, Gurupi e Tocantins Araguaia). · 6 Bacias dos ríos genuinamente maranhenses. · 7 Principais formações vegetais: floresta, cerrado e cocais. · 8 Geografia da população: população absoluta; densidade demográfica; povoamento; movimentos populacionais.","17/09","study"],["LEGISLAÇÃO INSTITUCIONAL","2 Lei Federal nº 14.751/2023 e suas alterações (Lei Orgânica Nacional/PM/CBM).","18/09","study"],["NOÇÕES DE INFORMÁTICA","3.3 Programas de correio eletrônico (Outlook Express e Mozilla Thunderbird). · 3.4 Sítios de busca e pesquisa na Internet. · 3.5 Grupos de discussão. · 3.6 Redes sociais.","19/09","study"],["SIMULADO E REVISÃO","Realização de simulado com os conteúdos da semana e revisão ativa.","20/09","simulado"],["HISTÓRIA DO MARANHÃO","9 Independência do Brasil. · 10 Causas da não adesão: Batalha do Jenipapo. · 11 Balaiada: caracterização e causas do movimento. · 12 Período Republicano: adesão do Maranhão à República.","21/09","study"],["LÍNGUA PORTUGUESA","5.2 Relações de coordenação entre orações e entre termos da oração. · 5.3 Relações de subordinação entre orações e entre termos da oração. · 5.4 Emprego dos sinais de pontuação.","22/09","study"],["LEGISLAÇÃO INSTITUCIONAL","3 Lei nº 12.896/2026 (Lei de Organização Básica da PMMA).","23/09","study"],["HISTÓRIA DO BRASIL","6 O golpe de 1964. · 7 A crise do regime militar e a redemocratização. · 8 O Brasil politico: nação e território. · 9 Organização do Estado Brasileiro.","24/09","study"],["GEOGRAFIA DO BRASIL","8 Integração entre indústria, estrutura urbana, rede de transportes e setor agrícola no Brasil. · 9 Recursos naturais: aproveitamento, desperdício e política de conservação de recursos naturais.","25/09","study"],["NOÇÕES DE INFORMÁTICA","3.7 Computação na nuven (cloud computing). · 4 Conceitos de organização e de gerenciamento de informações, arquivos, pastas e programas. · 5.1 Procedimentos de segurança. · 5.2 Noções de vírus, worms e pragas virtuais. · 5.3 Aplicativos para segurança (antivirus).","26/09","study"],["SIMULADO E REVISÃO","Realização de simulado geral e revisão estratégica.","27/09","simulado"],["HISTÓRIA DO MARANHÃO & INFORMÁTICA FINAL","5.4 Procedimentos de backup. · 5.5 Armazenamento de dados na nuvem (cloud storage). · 13 Revolução de 1930 no Maranhão. · 14 Principais fatos políticos, econômicos e sociais ocorridos no Maranhão, na segunda metade do século XX.","28/09","study"],["LÍNGUA PORTUGUESA","5.5 Concordância verbal e nominal. · 5.6 Regência verbal e nominal. · 5.7 Emprego do sinal indicativo de crase. · 5.8 Colocação dos pronomes átonos.","29/09","study"],["LÍNGUA PORTUGUESA (FECHAMENTO) & HISTÓRIA DO BRASIL","6 Reescrita de frases e parágrafos do texto (6.1 Significação das palavras; 6.2 Substituição de palavras ou de trechos de texto; 6.3 Reorganização da estrutura de orações e de períodos do texto; 6.4 Reescrita de textos de diferentes gêneros e níveis de formalidade). · 10 As Constituições.","30/09","final"]];
 
-// VARIÁVEIS GLOBAIS
-let usuarioLogado = null;
-let subjectCatalog = {};
-let curriculum = [];
-let state = { records: [], done: [] }; // done array para o cronograma
-const $ = id => document.getElementById(id);
+let subjectCatalogPadrao = JSON.parse(JSON.stringify(subjectCatalog));
+const editalSalvo = JSON.parse(localStorage.getItem('operacao-aprovacao-edital')||'null');
+if (editalSalvo) { subjectCatalog = editalSalvo; }
 
-$('today').textContent = new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long'});
-$('studyDate').value = new Date().toISOString().slice(0,10);
-const subjectSelect = $('subjectSelect');
+let curriculum = JSON.parse(localStorage.getItem('operacao-aprovacao-cronograma')||'null') || curriculumPadrao;
 
-// --- AUTENTICAÇÃO SEPARADA (ENTRAR / CRIAR) ---
+let state=JSON.parse(localStorage.getItem('operacao-aprovacao-local')||'null')||{records:[],done:[],focus:[],goals:{dailyQuestions:200,dailyMinutes:300}};state.goals=state.goals||{dailyQuestions:200,dailyMinutes:300};let focusSeconds=1500,focusTimer=null;
+const $=id=>document.getElementById(id);const save=()=>localStorage.setItem('operacao-aprovacao-local',JSON.stringify(state));const topicOptions=$('topicOptions');const topicCount=$('topicCount');
+$('today').textContent=new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long'});$('studyDate').value=new Date().toISOString().slice(0,10);const subjectSelect=$('subjectSelect');Object.keys(subjectCatalog).forEach(subject=>subjectSelect.insertAdjacentHTML('beforeend',`<option value="${subject}">${subject}</option>`));function updateTopicCount(){const selected=[...document.querySelectorAll('input[name="topic"]:checked')];topicCount.textContent=`${selected.length} assunto${selected.length===1?'':'s'} selecionado${selected.length===1?'':'s'}`}function updateTopicOptions(){const subject=subjectSelect.value;topicOptions.innerHTML=subject?subjectCatalog[subject].map(topic=>`<label class="topic-option"><input type="checkbox" name="topic" value="${topic}"><span>${topic}</span></label>`).join(''):'<div class="topic-empty">Selecione primeiro a disciplina</div>';topicOptions.querySelectorAll('input[name="topic"]').forEach(input=>input.addEventListener('change',updateTopicCount));updateTopicCount()}subjectSelect.addEventListener('change',updateTopicOptions);$('studyForm').addEventListener('reset',()=>setTimeout(updateTopicOptions,0));
+function openPage(page){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));$(page).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===page));const names={dashboard:'Central de comando',registro:'Registrar estudo',questoes:'Questões registradas',desempenho:'Desempenho',conteudos:'Cronograma PMMA',foco:'Modo foco',backup:'Backup pessoal',ranking:'Rankings',conta:'Minha Conta',novocronograma:'Novo Cronograma',edital:'Edital Verticalizado'};$('pageTitle').textContent=names[page];render();renderHomePerformance();renderPerformance();if(page==='conta')renderConta();if(page==='novocronograma')renderNovoCronograma();if(page==='edital')renderEdital();scrollTo({top:0,behavior:'smooth'})}document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>openPage(b.dataset.page));
+$('studyForm').onsubmit=e=>{e.preventDefault();const f=new FormData(e.target),subject=String(f.get('subject')||''),topics=[...document.querySelectorAll('input[name="topic"]:checked')].map(input=>input.value).filter(Boolean),total=+f.get('total')||0,correct=+f.get('correct')||0;if(!Object.prototype.hasOwnProperty.call(subjectCatalog,subject)){alert('Selecione uma disciplina válida do edital.');return}if(!topics.length||topics.some(topic=>!subjectCatalog[subject].includes(topic))){alert('Selecione um ou mais assuntos válidos para a disciplina escolhida.');return}if(correct>total){alert('As questões certas não podem ser maiores que o total.');return}state.records.unshift({id:Date.now(),date:f.get('date'),type:f.get('type'),subject,topics,topic:topics.join(' · '),total,correct,minutes:+f.get('minutes')||0,board:f.get('board'),reason:f.get('reason'),notes:f.get('notes')});save();e.target.reset();$('studyDate').value=new Date().toISOString().slice(0,10);alert('Registro salvo neste dispositivo.');render();renderHomePerformance();renderPerformance();atualizarProgressoNuvem();};
+function deleteRecord(id){const record=state.records.find(item=>item.id===id);if(!record)return;if(confirm(`Apagar o registro de ${record.date} em ${record.subject}? Esta ação não pode ser desfeita.`)){state.records=state.records.filter(item=>item.id!==id);save();render();renderHomePerformance();renderPerformance();atualizarProgressoNuvem();}}function toggleDay(i){state.done[i]=!state.done[i];save();render();renderHomePerformance();renderPerformance();atualizarProgressoNuvem();}
+function renderCurriculum(){const ranges=[];const tamanho=7;for(let start=0;start<curriculum.length;start+=tamanho){const end=Math.min(start+tamanho,curriculum.length);const numSemana=Math.floor(start/tamanho)+1;const ultimo=(end===curriculum.length)&&((end-start)<tamanho);const label=ultimo?'FECHAMENTO DO CICLO':('SEMANA '+numSemana);const title=ultimo?'Fechamento do Ciclo':('Semana '+numSemana);ranges.push([start,end,label,title]);}let out='';for(const [start,end,label,title] of ranges){out+=`<div class="panel week"><div class="panelhead"><div><p class="eyebrow">${label}</p><h3>${title}</h3></div><span class="tag">${state.done.slice(start,end).filter(Boolean).length}/${end-start} concluídos</span></div>`;for(let i=start;i<end;i++){let c=curriculum[i],done=!!state.done[i];out+=`<button class="day ${done?'done':''}" onclick="toggleDay(${i})"><span class="daynum">${String(i+1).padStart(2,'0')}</span><span><b>${c[0]}${c[2]?' · '+c[2]:''}</b><small>${['Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado','Domingo','Segunda-feira'][i%7]} · ${c[1]}</small></span><span class="badge ${c[3]==='simulado'?'simulado':''}">${done?'✓ CONCLUÍDO':c[3]==='simulado'?'SIMULADO':c[3]==='final'?'RETA FINAL':'ESTUDAR'}</span></button>`}out+='</div>'}return out}
+	function renderHomePerformance(){const grouped={};state.records.forEach(r=>{const subject=r.subject||'Sem disciplina';if(!grouped[subject])grouped[subject]={total:0,correct:0,minutes:0};grouped[subject].total+=Number(r.total)||0;grouped[subject].correct+=Number(r.correct)||0;grouped[subject].minutes+=Number(r.minutes)||0});const entries=Object.entries(grouped).sort((a,b)=>b[1].total-a[1].total);$('homeDisciplineProgress').innerHTML=entries.length?entries.map(([subject,g])=>{const accuracy=g.total?Math.round(g.correct/g.total*100):0;return `<div class="discipline-row"><div class="discipline-meta"><b>${subject}</b><strong>${accuracy}%</strong></div><div class="progress"><i style="width:${accuracy}%"></i></div><div class="discipline-sub"><span>${g.correct} de ${g.total} questões certas</span><span>${g.minutes} min</span></div></div>`}).join(''):'<div class="performance-empty">Registre questões para liberar o desempenho por disciplina.</div>';const ordered=[...state.records].filter(r=>Number(r.total)>0).sort((a,b)=>(a.date||'').localeCompare(b.date||'')||Number(a.id)-Number(b.id));if(!ordered.length){$('stockChart').innerHTML='<div class="stock-empty">Aguardando registros para desenhar a tendência.</div>';return}let cumulativeTotal=0,cumulativeCorrect=0;const values=ordered.map(r=>{cumulativeTotal+=Number(r.total)||0;cumulativeCorrect+=Number(r.correct)||0;return cumulativeTotal?Math.round(cumulativeCorrect/cumulativeTotal*100):0});const W=1000,H=220,padX=28,padY=32,min=0,max=100;const pts=values.map((value,i)=>({x:values.length===1?W/2:padX+i*(W-padX*2)/(values.length-1),y:H-padY-(value-min)/(max-min)*(H-padY*2)}));const linePath=smoothPath(pts);const areaPath=`${linePath} L ${pts[pts.length-1].x.toFixed(1)},${H-padY} L ${pts[0].x.toFixed(1)},${H-padY} Z`;const first=values[0],last=values[values.length-1],change=last-first;const changeLabel=`${change>=0?'+':''}${change} pts`;const yTicks=[0,25,50,75,100];const yTickLines=yTicks.map(t=>{const y=H-padY-(t-min)/(max-min)*(H-padY*2);return `<line x1="${padX}" y1="${y}" x2="${W-padX}" y2="${y}" stroke="#ffffff0d"/><text x="${padX-6}" y="${y+3}" text-anchor="end" font-size="14" fill="#6b7280">${t}</text>`}).join('');$('stockChart').innerHTML=`<span class="stock-label">PRECISÃO ACUMULADA</span><span class="stock-change" style="color:${change>=0?'var(--green)':'var(--red2)'}">${changeLabel}</span><svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="Gráfico de evolução da precisão acumulada">${yTickLines}<path d="${areaPath}" fill="${change>=0?'#39d98a1c':'#ff52671c'}" stroke="none"/><path d="${linePath}" fill="none" stroke="${change>=0?'#39d98a':'#ff5267'}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>${pts.map((p,i)=>`<circle cx="${p.x}" cy="${p.y}" r="6" fill="${change>=0?'#39d98a':'#ff5267'}" stroke="#17131a" stroke-width="3"><title>${values[i]}% no registro ${i+1}</title></circle>`).join('')}</svg>`}
+function smoothPath(pts){if(!pts.length)return'';if(pts.length===1)return`M ${pts[0].x},${pts[0].y}`;let d=`M ${pts[0].x.toFixed(1)},${pts[0].y.toFixed(1)}`;for(let i=0;i<pts.length-1;i++){const p0=pts[i-1]||pts[i],p1=pts[i],p2=pts[i+1],p3=pts[i+2]||p2;const cp1x=p1.x+(p2.x-p0.x)/6,cp1y=p1.y+(p2.y-p0.y)/6;const cp2x=p2.x-(p3.x-p1.x)/6,cp2y=p2.y-(p3.y-p1.y)/6;d+=` C ${cp1x.toFixed(1)},${cp1y.toFixed(1)} ${cp2x.toFixed(1)},${cp2y.toFixed(1)} ${p2.x.toFixed(1)},${p2.y.toFixed(1)}`}return d}
+function renderPerformance(){const grouped={};state.records.forEach(r=>{const subject=r.subject||'Sem disciplina';if(!grouped[subject])grouped[subject]={total:0,correct:0,minutes:0,topics:{}};const g=grouped[subject];g.total+=Number(r.total)||0;g.correct+=Number(r.correct)||0;g.minutes+=Number(r.minutes)||0;const topics=Array.isArray(r.topics)&&r.topics.length?r.topics:[r.topic||'Assunto não informado'];const share=1/topics.length;topics.forEach(topic=>{if(!g.topics[topic])g.topics[topic]={total:0,correct:0,minutes:0};g.topics[topic].total+=(Number(r.total)||0)*share;g.topics[topic].correct+=(Number(r.correct)||0)*share;g.topics[topic].minutes+=(Number(r.minutes)||0)*share})});const done=state.done.filter(Boolean).length;$('performancePlanLabel').textContent=`${done}/${curriculum.length} concluídos · ${curriculum.length-done} pendentes`;$('performancePlanBar').style.width=Math.round(done/curriculum.length*100)+'%';const next=curriculum.findIndex((_,i)=>!state.done[i]);$('dayProgress').innerHTML=curriculum.map((_,i)=>`<div class="daytile ${state.done[i]?'done':''} ${i===next?'next':''}" title="Dia ${i+1}">${String(i+1).padStart(2,'0')}</div>`).join('');const entries=Object.entries(grouped);$('performanceBySubject').innerHTML=entries.length?entries.map(([subject,g])=>{const accuracy=g.total?Math.round(g.correct/g.total*100):0;const topicRows=Object.entries(g.topics).map(([topic,t])=>`<div class="subject-detail"><span>${topic}</span><span>${Math.round(t.total)} questões</span><span>${Math.round(t.correct)} certas</span><span>${t.total?Math.round(t.correct/t.total*100):0}%</span></div>`).join('');const topicHeader='<div class="subject-detail" style="color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.08em"><span>Assunto</span><span>Questões</span><span>Certas</span><span>Precisão</span></div>';return `<details class="panel performance-card" open><summary><div><b>${subject}</b><small>${g.total} questões · ${g.minutes} minutos · ${Object.keys(g.topics).length} assunto(s)</small></div><strong>${accuracy}%</strong></summary><div class="meterline"><div class="progress"><i style="width:${accuracy}%"></i></div><small>${g.correct} de ${g.total} certas</small></div>${topicHeader}${topicRows}</details>`}).join(''):'<div class="panel performance-empty">Registre suas primeiras questões para liberar o desempenho por disciplina e assunto.</div>'}
+function getTopicStats(){const m={};state.records.forEach(r=>{const ts=Array.isArray(r.topics)&&r.topics.length?r.topics:[r.topic||'Assunto não informado'];const share=1/ts.length;ts.forEach(t=>{if(!m[t])m[t]={subject:r.subject,total:0,correct:0,last:r.date};m[t].total+=(Number(r.total)||0)*share;m[t].correct+=(Number(r.correct)||0)*share;if((r.date||'')>(m[t].last||''))m[t].last=r.date})});return Object.entries(m).map(([topic,v])=>({...v,topic,accuracy:v.total?Math.round(v.correct/v.total*100):0}))}function renderIntelligence(){const topics=getTopicStats().filter(x=>x.total>0);const scored=topics.map(x=>{const days=Math.max(0,(Date.now()-new Date(x.last+'T12:00:00'))/86400000);return {...x,score:(100-x.accuracy)+Math.min(30,days*2)+Math.max(0,20-Math.min(20,x.total/5))}}).sort((a,b)=>b.score-a.score).slice(0,3);$('priorityList').innerHTML=scored.length?scored.map((x,i)=>`<div class="priority-item ${x.accuracy<60?'high':x.accuracy<75?'med':'good'}"><div class="priority-top"><b>${i+1}. ${x.subject} — ${x.topic}</b><strong>${x.accuracy}%</strong></div><small>${Math.round(x.total)} questões · última atividade: ${new Date(x.last+'T12:00:00').toLocaleDateString('pt-BR')} · ${x.accuracy<60?'REVISAR URGENTEMENTE':x.accuracy<75?'PRECISA DE REFORÇO':'MANTER DOMÍNIO'}</small></div>`).join(''):'<div class="performance-empty">Registre questões para o sistema identificar suas prioridades.</div>';const disciplines={};state.records.forEach(r=>{const sub=r.subject||'Sem disciplina';if(!disciplines[sub])disciplines[sub]={total:0,correct:0,last:r.date};disciplines[sub].total+=Number(r.total)||0;disciplines[sub].correct+=Number(r.correct)||0;if((r.date||'')>(disciplines[sub].last||''))disciplines[sub].last=r.date});const weak=Object.entries(disciplines).map(([subject,v])=>({...v,subject,accuracy:v.total?Math.round(v.correct/v.total*100):0})).filter(x=>x.total>0).sort((a,b)=>a.accuracy-b.accuracy).slice(0,5);$('disciplineWeakness').innerHTML=weak.length?weak.map((x,i)=>`<div class="priority-item ${x.accuracy<60?'high':x.accuracy<75?'med':'good'}"><div class="priority-top"><b>${i+1}. ${x.subject}</b><strong>${x.accuracy}%</strong></div><div class="progress" style="margin-top:9px"><i style="width:${x.accuracy}%"></i></div><small>${Math.round(x.correct)} de ${Math.round(x.total)} certas · ${x.accuracy<60?'DISCIPLINA CRÍTICA — PRIORIDADE MÁXIMA':x.accuracy<75?'PRECISA DE REFORÇO':'MANTER E EVOLUIR'}</small></div>`).join(''):'<div class="performance-empty">Registre questões para identificar as disciplinas que precisam de reforço.</div>';const reasons={};state.records.forEach(r=>{if(r.reason&&r.reason!=='none')reasons[r.reason]=(reasons[r.reason]||0)+Math.max(0,(Number(r.total)||0)-(Number(r.correct)||0))});const re=Object.entries(reasons).sort((a,b)=>b[1]-a[1]);const max=Math.max(1,...re.map(x=>x[1]));$('errorAnalysis').innerHTML=re.length?re.map(([k,v])=>`<div class="error-line"><div><b>${k}</b><div class="progress" style="margin-top:6px"><i style="width:${v/max*100}%"></i></div></div><strong>${v}</strong></div>`).join(''):'<div class="performance-empty">Ainda não há erros classificados.</div>';const ordered=[...state.records].filter(r=>Number(r.total)>0).sort((a,b)=>String(a.date).localeCompare(String(b.date)));const recent=ordered.slice(-Math.min(100,ordered.length));const lastAcc=recent.reduce((a,r)=>a+(Number(r.correct)||0),0)/(recent.reduce((a,r)=>a+(Number(r.total)||0),0)||1)*100;const allT=ordered.reduce((a,r)=>a+(Number(r.total)||0),0),allC=ordered.reduce((a,r)=>a+(Number(r.correct)||0),0);const overall=allT?allC/allT*100:0;const half=Math.ceil(recent.length/2);const a1=recent.slice(0,half),a2=recent.slice(half);const calc=a=>a.reduce((x,r)=>x+(Number(r.correct)||0),0)/(a.reduce((x,r)=>x+(Number(r.total)||0),0)||1)*100;const trend=recent.length>1?Math.round(calc(a2)-calc(a1)):0;$('trendMetrics').innerHTML=`<div class="trend-metric"><span>Média geral</span><b>${Math.round(overall)}%</b></div><div class="trend-metric"><span>Últimas 100</span><b>${Math.round(lastAcc)}%</b></div><div class="trend-metric"><span>Tendência</span><b>${trend>=0?'+':''}${trend} pts</b></div>`;const today=new Date().toISOString().slice(0,10);const todays=state.records.filter(r=>r.date===today);const q=todays.reduce((a,r)=>a+(Number(r.total)||0),0),mins=todays.reduce((a,r)=>a+(Number(r.minutes)||0),0),g=state.goals;$('dailyLabel').textContent=`${q}/${g.dailyQuestions} questões · ${mins}/${g.dailyMinutes} min`;$('dailyMission').innerHTML=`<div><b>Questões</b><small>${q} de ${g.dailyQuestions}</small><div class="progress"><i style="width:${Math.min(100,q/g.dailyQuestions*100)}%"></i></div></div><div><b>Tempo estudado</b><small>${mins} de ${g.dailyMinutes} minutos</small><div class="progress"><i style="width:${Math.min(100,mins/g.dailyMinutes*100)}%"></i></div></div>`}
+
+let rankingGlobal = [];
+async function carregarRankingNuvem() {
+  if (!window.supabaseClient) return;
+  const { data, error } = await window.supabaseClient.from('ranking').select('nome, questoes_resolvidas, cronograma_concluido');
+  if (!error && data) {
+    rankingGlobal = data;
+    renderRanking();
+  }
+}
+
+async function atualizarProgressoNuvem() {
+  if (!window.supabaseClient) return;
+  const nomeAtual = localStorage.getItem('parabellum_operador');
+  const pinHash = localStorage.getItem('parabellum_pin_hash');
+  if (!nomeAtual || !pinHash) return;
+  const meQ = state.records.reduce((a,r)=>a+(Number(r.total)||0),0);
+  const meDone = state.done.filter(Boolean).length;
+
+  await window.supabaseClient.rpc('atualizar_progresso', {
+    p_nome: nomeAtual,
+    p_pin_hash: pinHash,
+    p_questoes: meQ,
+    p_cronograma: meDone
+  });
+
+  carregarRankingNuvem();
+}
+
+function renderRanking(){
+  const meQ = state.records.reduce((a,r)=>a+(Number(r.total)||0),0), meDone = state.done.filter(Boolean).length, meP = Math.round(meDone/curriculum.length*100);
+  const nomeAtual = localStorage.getItem('parabellum_operador') || 'Você';
+  const lista = rankingGlobal.length ? [...rankingGlobal] : [{nome: nomeAtual, questoes_resolvidas: meQ, cronograma_concluido: meDone}];
+  
+  const q = [...lista].sort((a,b)=>b.questoes_resolvidas - a.questoes_resolvidas);
+  const pr = [...lista].sort((a,b)=> (b.cronograma_concluido - a.cronograma_concluido));
+  
+  const medals=['🥇','🥈','🥉'];
+  const rows=(arr,key)=>arr.map((x,i)=>{
+    const isMe = x.nome === nomeAtual;
+    const valQ = x.questoes_resolvidas || 0;
+    const valDone = x.cronograma_concluido || 0;
+    const valP = Math.round(valDone/curriculum.length*100);
+    return `<div class="missionrow"><span class="daynum">${medals[i]||((i+1)+'º')}</span><div class="rowfill"><strong>${x.nome}${isMe?' · VOCÊ':''}</strong><div class="progress" style="margin-top:7px"><i style="width:${key==='q'?Math.min(100,valQ/Math.max(1,arr[0].questoes_resolvidas||1)*100):valP}%"></i></div></div><b>${key==='q'?valQ+' questões':valP+'% · '+valDone+'/'+curriculum.length}</b></div>`;
+  }).join('');
+  
+  $('rankingQuestions').innerHTML=rows(q,'q');
+  $('rankingProgress').innerHTML=rows(pr,'p');
+  
+  const meuIndexQ = q.findIndex(x=>x.nome === nomeAtual) + 1;
+  const meuIndexP = pr.findIndex(x=>x.nome === nomeAtual) + 1;
+  
+  $('rankingSummary').innerHTML=`<div class="sim-summary"><div class="sim-box"><span>Questões</span><b>${meQ}</b><small>${meuIndexQ > 0 ? meuIndexQ : '-'}º lugar</small></div><div class="sim-box"><span>Cronograma</span><b>${meP}%</b><small>${meuIndexP > 0 ? meuIndexP : '-'}º lugar</small></div><div class="sim-box"><span>Missões</span><b>${meDone}/${curriculum.length}</b><small>progresso atual</small></div></div><p class="notice" style="margin-top:14px">Ranking sincronizado em tempo real na nuvem do Supabase com todos os recrutas cadastrados.</p>`;
+}
+
+function renderTodayMission(){const today=new Date();const day=String(today.getDate()).padStart(2,'0');const month=String(today.getMonth()+1).padStart(2,'0');const key=day+'/'+month;const index=curriculum.findIndex(c=>c[2]===key);const title=$('todayStudyTitle'),text=$('todayStudyText');if(index>=0){const c=curriculum[index];title.textContent=`DIA ${String(index+1).padStart(2,'0')} · ${c[0]}`;text.textContent=c[1]}else{title.textContent='Missão do dia fora do ciclo atual';text.textContent='Consulte o cronograma para continuar pela próxima missão pendente.'}const exam=new Date('2026-10-11T00:00:00');const start=new Date(today.getFullYear(),today.getMonth(),today.getDate());const diff=Math.ceil((exam-start)/86400000);$('examCountdown').textContent=diff>0?`⚔ FALTAM ${diff} DIAS PARA A PROVA DA PMMA · 11/10/2026`:diff===0?'⚔ HOJE É DIA DE PROVA · PMMA':'⚔ DATA DA PROVA JÁ PASSOU'}
+function render(){renderTodayMission();renderRanking();const total=state.records.reduce((a,r)=>a+r.total,0),correct=state.records.reduce((a,r)=>a+r.correct,0),minutes=state.records.reduce((a,r)=>a+r.minutes,0),pct=total?Math.round(correct/total*100):0,done=state.done.filter(Boolean).length;let next=curriculum.findIndex((_,i)=>!state.done[i]);$('sProgress').textContent=Math.round(done/curriculum.length*100)+'%';$('sNext').textContent=next<0?curriculum.length+' dias concluídos':'Próximo alvo: Dia '+(next+1);$('sQuestions').textContent=total;$('sCorrect').textContent=correct+' certas';$('sAccuracy').textContent=pct+'%';$('sMinutes').textContent=minutes<60?minutes+'m':Math.floor(minutes/60)+'h '+minutes%60+'m';const dates=new Set(state.records.map(r=>r.date));let streak=0,best=0,run=0;const sorted=[...dates].sort();for(const d of sorted){const cur=new Date(d+'T12:00:00');const prev=sorted[sorted.indexOf(d)-1]?new Date(sorted[sorted.indexOf(d)-1]+'T12:00:00'):null;run=prev&&Math.round((cur-prev)/86400000)===1?run+1:1;best=Math.max(best,run)}let check=new Date();while(dates.has(check.toISOString().slice(0,10))){streak++;check.setDate(check.getDate()-1)}$('sStreak').textContent=streak+' dias';$('sStreak').title='Melhor sequência: '+best+' dias';let days=[];for(let i=6;i>=0;i--){let d=new Date();d.setDate(d.getDate()-i);let key=d.toISOString().slice(0,10),q=state.records.filter(r=>r.date===key).reduce((a,r)=>a+r.total,0);days.push({key,q,label:d.toLocaleDateString('pt-BR',{weekday:'short'}).replace('.','')})}let max=Math.max(1,...days.map(x=>x.q));$('chart').innerHTML=days.map(x=>`<div class="barcol"><span class="barvalue">${x.q||0}</span><div class="bar" style="height:${Math.max(4,x.q/max*150)}px"></div><small>${x.label}</small></div>`).join('');$('radarText').textContent=total?pct+'%':'0%';$('radarSub').textContent=!total?'Sem dados':pct>=85?'Excelente':pct>=70?'Boa':pct>=55?'Regular':'Crítica';$('radarDonut').style.setProperty('--p',total?pct:0);$('radarDonut').style.setProperty('--accent',pct>=75?'var(--green)':pct>=60?'var(--amber)':'var(--red2)');renderHomePerformance();renderIntelligence();$('nextMissions').innerHTML=[...Array(3)].map((_,j)=>{let ultimo=curriculum.length-1,i=next<0?ultimo:Math.min(next+j,ultimo),c=curriculum[i];return `<div class="missionrow"><span class="daynum">DIA ${i+1}</span><div class="rowfill"><strong>${c[0]}</strong><small>${c[1]}</small></div><span class="badge ${c[3]==='simulado'?'SIMULADO':'PENDENTE'}</span></div>`}).join('');$('curriculum').innerHTML=renderCurriculum();let rows=state.records.slice(0,8).map(r=>`<tr><td>${new Date(r.date+'T12:00:00').toLocaleDateString('pt-BR')}</td><td><div class="history-subject"><b>${r.subject}</b><small>${r.type==='questoes'?'Questões':'Sessão de estudo'}</small></div></td><td>${r.topic||'—'}</td><td>${r.total}</td><td>${r.correct}</td><td>${r.total?Math.round(r.correct/r.total*100):0}%</td><td class="history-actions"><button class="delete-btn" onclick="deleteRecord(${r.id})" title="Apagar este registro">Apagar</button></td></tr>`).join('')||'<tr><td colspan="7" class="muted">Nenhum registro ainda.</td></tr>';$('historyTable').innerHTML=rows;$('historyPreview').innerHTML=state.records.slice(0,3).map(r=>`<div class="errorrow"><span class="errordot"></span><div class="rowfill"><strong>${r.subject}</strong><small>${r.topic||'Assunto não informado'}<br>${r.date} · ${r.total} questões · ${r.minutes} min</small></div><b>${r.total?Math.round(r.correct/r.total*100):0}%</b><button class="delete-btn" onclick="deleteRecord(${r.id})">Apagar</button></div>`).join('')||'<p class="muted">Seu histórico aparecerá aqui depois do primeiro registro.</p>'}
+function updateTimer(){let m=String(Math.floor(focusSeconds/60)).padStart(2,'0'),s=String(focusSeconds%60).padStart(2,'0');$('timer').textContent=m+':'+s;if(focusSeconds===0){clearInterval(focusTimer);focusTimer=null;alert('Ciclo concluído. Registre sua vitória!')}}function toggleFocus(){if(focusTimer){clearInterval(focusTimer);focusTimer=null;$('focusToggle').textContent='Retomar ciclo'}else{focusTimer=setInterval(()=>{if(focusSeconds>0){focusSeconds--;updateTimer()}},1000);$('focusToggle').textContent='Pausar ciclo'}}function resetFocus(){clearInterval(focusTimer);focusTimer=null;focusSeconds=1500;updateTimer();$('focusToggle').textContent='Iniciar ciclo'}function saveFocus(){state.focus.push({date:new Date().toISOString(),minutes:25});save();alert('Ciclo de foco salvo neste dispositivo.')}function exportData(){const blob=new Blob([JSON.stringify({version:1,exportedAt:new Date().toISOString(),...state},null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='operacao-aprovacao-backup.json';a.click();URL.revokeObjectURL(a.href)}function importData(e){const file=e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const incoming=JSON.parse(reader.result);if(!Array.isArray(incoming.records)||!Array.isArray(incoming.done))throw Error();state={records:incoming.records,done:incoming.done,focus:Array.isArray(incoming.focus)?incoming.focus:[],goals:incoming.goals||state.goals};save();render();renderHomePerformance();renderPerformance();alert('Backup importado com sucesso.')}catch{alert('Arquivo de backup inválido.')}};reader.readAsText(file)}function clearData(){if(confirm('Tem certeza? Esta ação apagará os dados deste navegador. Faça um backup antes.')){state={records:[],done:[],focus:[],goals:state.goals||{dailyQuestions:200,dailyMinutes:300}};save();render();renderHomePerformance();renderPerformance()}}
+
+/* ===== CRONOGRAMA PERSONALIZADO ===== */
+function gerarCronograma(dias, dataInicioStr){
+  dias = Math.max(5, Math.min(120, Number(dias)||30));
+  const disciplinas = Object.keys(subjectCatalog).filter(d=>!/SIMULADO|REVIS/i.test(d));
+  if(!disciplinas.length){ alert('O edital atual não tem disciplinas suficientes para gerar um cronograma.'); return; }
+  const filas = {};
+  disciplinas.forEach(d=>{ filas[d] = subjectCatalog[d].filter(t=>!t.trim().startsWith('>')); });
+  const ordem = [];
+  let contadorSemana = 0, diaAtual = 0;
+  const dataInicio = dataInicioStr ? new Date(dataInicioStr+'T12:00:00') : new Date();
+  let di = 0;
+  while(ordem.length < dias){
+    if(contadorSemana>0 && contadorSemana%6===0 && ordem.length < dias-1){
+      ordem.push(['SIMULADO E REVISÃO','Simulado com os conteúdos estudados na semana e revisão ativa dos pontos com maior dificuldade.','simulado']);
+      contadorSemana=0;
+      continue;
+    }
+    const disciplina = disciplinas[di % disciplinas.length];
+    if(!filas[disciplina].length){ filas[disciplina] = subjectCatalog[disciplina].filter(t=>!t.trim().startsWith('>')); }
+    const topico = filas[disciplina].shift() || 'Revisão geral da disciplina.';
+    ordem.push([disciplina, topico, 'study']);
+    di++; contadorSemana++;
+  }
+  if(ordem.length) ordem[ordem.length-1][2] = 'final';
+  const novoCurriculum = ordem.map((item,i)=>{
+    const d = new Date(dataInicio); d.setDate(d.getDate()+i);
+    const dataFmt = String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0');
+    return [item[0], item[1], dataFmt, item[2]];
+  });
+  curriculum = novoCurriculum;
+  localStorage.setItem('operacao-aprovacao-cronograma', JSON.stringify(curriculum));
+  state.done = new Array(curriculum.length).fill(false);
+  save();
+  render();renderHomePerformance();renderPerformance();
+  alert('Novo cronograma de '+dias+' dias gerado! O progresso do cronograma foi zerado (seus registros de questões continuam salvos).');
+}
+
+function criarCronogramaForm(e){
+  e.preventDefault();
+  const dias = document.getElementById('novoCronDias').value;
+  const inicio = document.getElementById('novoCronInicio').value;
+  if(!confirm('Isso substitui o cronograma atual por um novo de '+dias+' dias e zera o progresso das missões. Seus registros de questões continuam. Deseja continuar?')) return;
+  gerarCronograma(dias, inicio);
+}
+
+function restaurarCronogramaPadrao(){
+  if(!confirm('Restaurar o cronograma padrão de 30 dias da PMMA? Isso zera o progresso do cronograma atual.')) return;
+  curriculum = curriculumPadrao;
+  localStorage.removeItem('operacao-aprovacao-cronograma');
+  state.done = new Array(curriculum.length).fill(false);
+  save();
+  render();renderHomePerformance();renderPerformance();
+  alert('Cronograma padrão restaurado.');
+}
+
+function exportarCronograma(){
+  const blob = new Blob([JSON.stringify({version:1,tipo:'cronograma-operacao-aprovacao',dias:curriculum.length,curriculum},null,2)],{type:'application/json'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='cronograma-modelo.json'; a.click(); URL.revokeObjectURL(a.href);
+}
+
+function importarCronograma(e){
+  const file=e.target.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=()=>{
+    try{
+      const incoming=JSON.parse(reader.result);
+      const lista = Array.isArray(incoming) ? incoming : incoming.curriculum;
+      if(!Array.isArray(lista) || !lista.length) throw Error();
+      lista.forEach(item=>{ if(!Array.isArray(item)||item.length<4) throw Error(); });
+      if(!confirm('Importar este cronograma de '+lista.length+' dias? Isso substitui o cronograma atual e zera o progresso das missões.')) return;
+      curriculum = lista;
+      localStorage.setItem('operacao-aprovacao-cronograma', JSON.stringify(curriculum));
+      state.done = new Array(curriculum.length).fill(false);
+      save();
+      render();renderHomePerformance();renderPerformance();
+      alert('Cronograma importado com sucesso!');
+    }catch{ alert('Arquivo de cronograma inválido.'); }
+  };
+  reader.readAsText(file);
+  e.target.value='';
+}
+
+function renderNovoCronograma(){
+  const el = document.getElementById('cronAtualInfo');
+  if(el) el.textContent = curriculum.length+' dias no cronograma atual · '+state.done.filter(Boolean).length+' concluídos';
+  const inicioEl = document.getElementById('novoCronInicio');
+  if(inicioEl && !inicioEl.value) inicioEl.value = new Date().toISOString().slice(0,10);
+}
+
+/* ===== EDITAL VERTICALIZADO ===== */
+function renderEdital(){
+  const box = document.getElementById('editalBox');
+  if(!box) return;
+  const disciplinas = Object.keys(subjectCatalog);
+  box.innerHTML = disciplinas.length ? disciplinas.map(d=>{
+    const topicos = subjectCatalog[d].filter(t=>!t.trim().startsWith('>'));
+    const linhas = topicos.map((t,i)=>`<div class="subject-detail" style="grid-template-columns:32px 1fr"><span>${String(i+1).padStart(2,'0')}</span><span style="font-weight:400;color:#c5c9d0">${t}</span></div>`).join('');
+    return `<details class="panel performance-card"><summary><div><b>${d}</b><small>${topicos.length} tópico(s)</small></div></summary>${linhas}</details>`;
+  }).join('') : '<div class="performance-empty">Nenhum edital carregado.</div>';
+}
+
+function exportarEdital(){
+  const blob = new Blob([JSON.stringify({version:1,tipo:'edital-operacao-aprovacao',subjectCatalog},null,2)],{type:'application/json'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='edital-modelo.json'; a.click(); URL.revokeObjectURL(a.href);
+}
+
+function restaurarEditalPadrao(){
+  if(!confirm('Restaurar o edital padrão da PMMA? Isso não apaga seus registros nem o cronograma atual, só a lista de disciplinas/tópicos.')) return;
+  subjectCatalog = JSON.parse(JSON.stringify(subjectCatalogPadrao));
+  localStorage.removeItem('operacao-aprovacao-edital');
+  atualizarSelectDisciplinas();
+  renderEdital();
+  alert('Edital padrão restaurado.');
+}
+
+function importarEdital(e){
+  const file=e.target.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=()=>{
+    try{
+      const incoming=JSON.parse(reader.result);
+      const catalogo = incoming.subjectCatalog || incoming;
+      const chaves = Object.keys(catalogo);
+      if(!chaves.length) throw Error();
+      chaves.forEach(k=>{ if(!Array.isArray(catalogo[k])) throw Error(); });
+      if(!confirm('Importar este edital com '+chaves.length+' disciplina(s)? Isso substitui a lista de disciplinas/tópicos usada no site (registro de estudos, cronograma novo, etc.).')) return;
+      subjectCatalog = catalogo;
+      localStorage.setItem('operacao-aprovacao-edital', JSON.stringify(subjectCatalog));
+      atualizarSelectDisciplinas();
+      renderEdital();
+      alert('Edital importado com sucesso! Você já pode gerar um novo cronograma baseado nele em "Novo Cronograma".');
+    }catch{ alert('Arquivo de edital inválido. Use o formato exportado por "Exportar edital atual".'); }
+  };
+  reader.readAsText(file);
+  e.target.value='';
+}
+
+function atualizarSelectDisciplinas(){
+  subjectSelect.innerHTML = '<option value="">Selecione</option>';
+  Object.keys(subjectCatalog).forEach(subject=>subjectSelect.insertAdjacentHTML('beforeend',`<option value="${subject}">${subject}</option>`));
+  updateTopicOptions();
+}
+
+render();renderHomePerformance();renderPerformance();
+</script>
+
+<!-- SUPABASE SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const SUPABASE_URL = "https://nvmmzwaezgfifqwtxdyo.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_se9TL5vs1Xki9syaBaBQUA_jIlqKE6b";
+
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+window.supabaseClient = supabaseClient;
+
 async function sha256Hex(texto) {
   const enc = new TextEncoder().encode(texto);
   const buf = await crypto.subtle.digest('SHA-256', enc);
   return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
-async function loginOperador() {
-    const nome = $('auth-nome').value.trim();
-    const pin = $('auth-pin').value.trim();
-    if(!nome || !/^\d{4}$/.test(pin)) return alert("Preencha o nome e um PIN de 4 dígitos.");
-    
-    $('auth-msg').textContent = "Verificando no banco de dados...";
-    const pinHash = await sha256Hex(pin);
-    
-    // ASSUME QUE EXISTE UMA TABELA 'usuarios' (ajuste se for outro nome)
-    const { data, error } = await supabase.from('usuarios').select('*').eq('nome', nome).eq('pin_hash', pinHash).single();
-    
-    if(error || !data) {
-        $('auth-msg').textContent = "Usuário não encontrado ou PIN incorreto. Se for novo, clique em 'Criar Conta'.";
-        return;
-    }
-    
-    efetivarLogin(data);
+function verificarOperador() {
+  const nomeSalvo = localStorage.getItem('parabellum_operador');
+  const pinSalvo = localStorage.getItem('parabellum_pin_hash');
+  if (nomeSalvo && pinSalvo) {
+    document.getElementById('modal-acesso').style.display = 'none';
+    document.getElementById('nome-aluno-logado').innerHTML = `<i class="dot" style="background:var(--green)"></i> Operador: ${nomeSalvo}`;
+    carregarRankingNuvem();
+    atualizarProgressoNuvem();
+  } else {
+    document.getElementById('modal-acesso').style.display = 'flex';
+  }
 }
 
-async function registrarOperador() {
-    const nome = $('auth-nome').value.trim();
-    const pin = $('auth-pin').value.trim();
-    if(!nome || !/^\d{4}$/.test(pin)) return alert("Preencha o nome e um PIN de 4 dígitos.");
-    
-    $('auth-msg').textContent = "Criando operador...";
-    const pinHash = await sha256Hex(pin);
-    
-    // Verifica se já existe
-    const { data: existe } = await supabase.from('usuarios').select('id').eq('nome', nome).single();
-    if(existe) return alert("Esse nome de guerra já existe. Tente outro.");
+async function entrarComPin() {
+  const nomeInput = document.getElementById('login-nome').value.trim();
+  const pinInput = document.getElementById('login-pin').value.trim();
 
-    const { data, error } = await supabase.from('usuarios').insert([{ nome, pin_hash: pinHash }]).select().single();
-    if(error) return alert("Erro ao criar conta: " + error.message);
-    
-    efetivarLogin(data);
-}
+  if (!nomeInput) return alert("Digite o seu Nome de Guerra para entrar.");
+  if (!/^\d{4}$/.test(pinInput)) return alert("O PIN precisa ter exatamente 4 números.");
 
-function efetivarLogin(userData) {
-    usuarioLogado = userData.nome;
-    localStorage.setItem('parabellum_operador', usuarioLogado);
-    $('modal-acesso').style.display = 'none';
-    $('nome-aluno-logado').innerHTML = `<i class="dot" style="background:var(--green)"></i> Operador: ${usuarioLogado}`;
-    
-    carregarDadosNuvem();
+  const pinHash = await sha256Hex(pinInput);
+
+  const { data, error } = await window.supabaseClient.rpc('autenticar_operador', {
+    p_nome: nomeInput,
+    p_pin_hash: pinHash
+  });
+
+  if (error) {
+    alert('ERRO TÉCNICO (manda esse texto pro suporte):\n\n' + (error.message || JSON.stringify(error)));
+    return;
+  }
+
+  if (!data || !data.ok) {
+    alert(data && data.erro ? data.erro : 'PIN incorreto para este nome. Tente novamente.');
+    return;
+  }
+
+  localStorage.setItem('parabellum_operador', nomeInput);
+  localStorage.setItem('parabellum_pin_hash', pinHash);
+  document.getElementById('modal-acesso').style.display = 'none';
+  document.getElementById('nome-aluno-logado').innerHTML = `<i class="dot" style="background:var(--green)"></i> Operador: ${nomeInput}`;
+
+  atualizarProgressoNuvem();
+  carregarRankingNuvem();
 }
 
 function sairOperador() {
-    localStorage.removeItem('parabellum_operador');
-    location.reload();
+  localStorage.removeItem('parabellum_operador');
+  localStorage.removeItem('parabellum_pin_hash');
+  location.reload();
 }
 
-// --- CARREGAMENTO DE DADOS DA NUVEM ---
-async function carregarDadosNuvem() {
-    // 1. Carregar Edital do Usuário
-    const { data: editalData } = await supabase.from('editais_salvos').select('catalogo').eq('operador', usuarioLogado).single();
-    if(editalData && editalData.catalogo) {
-        subjectCatalog = editalData.catalogo;
-    } else {
-        subjectCatalog = {}; // Vazio até importar
-    }
-    atualizarSelectDisciplinas();
-
-    // 2. Carregar Registros (Questões)
-    const { data: registrosData } = await supabase.from('registros_questoes').select('*').eq('operador', usuarioLogado).order('data_registro', { ascending: false });
-    if(registrosData) {
-        state.records = registrosData.map(r => ({
-            id: r.id, date: r.data_registro, type: r.tipo, subject: r.disciplina,
-            topic: r.assunto, total: r.total, correct: r.certas, minutes: r.minutos
-        }));
-    }
-
-    // 3. Carregar Cronograma (assumindo tabela separada ou coluna em usuarios)
-    const { data: userConfig } = await supabase.from('usuarios').select('cronograma, done_array').eq('nome', usuarioLogado).single();
-    if(userConfig && userConfig.cronograma) {
-        curriculum = userConfig.cronograma;
-        state.done = userConfig.done_array || new Array(curriculum.length).fill(false);
-    } else {
-        curriculum = [];
-        state.done = [];
-    }
-
-    render();
-    renderCharts();
-    carregarRankingGlobal();
+function renderConta() {
+  const nome = localStorage.getItem('parabellum_operador') || '—';
+  const el = document.getElementById('contaNomeAtual');
+  if (el) el.textContent = nome;
 }
 
-// --- INTEGRAÇÃO DO EDITAL ---
-function atualizarSelectDisciplinas(){
-  subjectSelect.innerHTML = '<option value="">Selecione</option>';
-  Object.keys(subjectCatalog).forEach(subject=>subjectSelect.insertAdjacentHTML('beforeend',`<option value="${subject}">${subject}</option>`));
-  updateTopicOptions();
-  renderEditalUI();
+async function renomearOperador(e) {
+  e.preventDefault();
+  const nomeAtual = localStorage.getItem('parabellum_operador');
+  const pinHash = localStorage.getItem('parabellum_pin_hash');
+  const nomeNovo = document.getElementById('conta-nome-novo').value.trim();
+
+  if (!nomeNovo) return alert('Digite o novo nome de guerra.');
+
+  const { data, error } = await window.supabaseClient.rpc('renomear_operador', {
+    p_nome_atual: nomeAtual,
+    p_pin_hash: pinHash,
+    p_nome_novo: nomeNovo
+  });
+
+  if (error) {
+    alert('ERRO TÉCNICO (manda esse texto pro suporte):\n\n' + (error.message || JSON.stringify(error)));
+    return;
+  }
+  if (!data || !data.ok) {
+    alert(data && data.erro ? data.erro : 'Não foi possível renomear.');
+    return;
+  }
+
+  localStorage.setItem('parabellum_operador', data.nome);
+  document.getElementById('nome-aluno-logado').innerHTML = `<i class="dot" style="background:var(--green)"></i> Operador: ${data.nome}`;
+  document.getElementById('formRenomear').reset();
+  alert('Nome atualizado com sucesso!');
+  renderConta();
+  carregarRankingNuvem();
 }
 
-function updateTopicOptions(){
-  const subject=subjectSelect.value;
-  $('topicOptions').innerHTML=subject && subjectCatalog[subject] ? subjectCatalog[subject].map(topic=>`<label class="topic-option"><input type="checkbox" name="topic" value="${topic}"><span>${topic}</span></label>`).join('') : '<div class="topic-empty">Selecione primeiro a disciplina</div>';
-}
-subjectSelect.addEventListener('change',updateTopicOptions);
+async function trocarPinOperador(e) {
+  e.preventDefault();
+  const nome = localStorage.getItem('parabellum_operador');
+  const pinAtual = document.getElementById('conta-pin-atual').value.trim();
+  const pinNovo = document.getElementById('conta-pin-novo').value.trim();
+  const pinNovoConfirma = document.getElementById('conta-pin-novo-confirma').value.trim();
 
-async function importarEdital(e){
-  const file=e.target.files[0]; if(!file) return;
-  const reader=new FileReader();
-  reader.onload=async ()=>{
-    try{
-      const incoming=JSON.parse(reader.result);
-      const catalogo = incoming.subjectCatalog || incoming;
-      subjectCatalog = catalogo;
-      
-      // Salva no Supabase
-      const { error } = await supabase.from('editais_salvos').upsert({ operador: usuarioLogado, catalogo: subjectCatalog }, { onConflict: 'operador' });
-      if(error) throw error;
+  if (!/^\d{4}$/.test(pinAtual) || !/^\d{4}$/.test(pinNovo)) {
+    return alert('O PIN precisa ter exatamente 4 números.');
+  }
+  if (pinNovo !== pinNovoConfirma) {
+    return alert('Os PINs novos não conferem.');
+  }
 
-      atualizarSelectDisciplinas();
-      alert('Edital salvo na sua conta da nuvem!');
-    }catch(err){ alert('Erro ao processar arquivo: ' + err.message); }
-  };
-  reader.readAsText(file);
-  e.target.value='';
-}
+  const hashAtual = await sha256Hex(pinAtual);
+  const hashNovo = await sha256Hex(pinNovo);
 
-async function apagarEdital() {
-    if(!confirm("Tem certeza que deseja apagar seu edital da nuvem? Isso esvaziará a lista de disciplinas.")) return;
-    await supabase.from('editais_salvos').delete().eq('operador', usuarioLogado);
-    subjectCatalog = {};
-    atualizarSelectDisciplinas();
-    alert("Edital apagado.");
-}
+  const { data, error } = await window.supabaseClient.rpc('trocar_pin_operador', {
+    p_nome: nome,
+    p_pin_hash_atual: hashAtual,
+    p_pin_hash_novo: hashNovo
+  });
 
-function renderEditalUI(){
-  const box = $('editalBox');
-  const disciplinas = Object.keys(subjectCatalog);
-  box.innerHTML = disciplinas.length ? disciplinas.map(d=>{
-    const topicos = subjectCatalog[d].filter(t=>!t.trim().startsWith('>'));
-    const linhas = topicos.map((t,i)=>`<div class="subject-detail" style="grid-template-columns:32px 1fr"><span>${String(i+1).padStart(2,'0')}</span><span style="font-weight:400;color:#c5c9d0">${t}</span></div>`).join('');
-    return `<details class="panel performance-card"><summary><div><b>${d}</b><small>${topicos.length} tópico(s)</small></div></summary>${linhas}</details>`;
-  }).join('') : '<div class="performance-empty">Nenhum edital cadastrado no seu perfil.</div>';
+  if (error) {
+    alert('ERRO TÉCNICO (manda esse texto pro suporte):\n\n' + (error.message || JSON.stringify(error)));
+    return;
+  }
+  if (!data || !data.ok) {
+    alert(data && data.erro ? data.erro : 'Não foi possível trocar o PIN.');
+    return;
+  }
+
+  localStorage.setItem('parabellum_pin_hash', hashNovo);
+  document.getElementById('formTrocarPin').reset();
+  alert('PIN atualizado com sucesso!');
 }
 
-// --- GRAVAÇÃO DE ESTUDO (SUBSTITUINDO LOCALSTORAGE) ---
-$('studyForm').onsubmit=async e=>{
-    e.preventDefault();
-    const f=new FormData(e.target);
-    const subject = f.get('subject'), topics = [...document.querySelectorAll('input[name="topic"]:checked')].map(i=>i.value);
-    
-    if(!subject || !topics.length) return alert("Selecione disciplina e assuntos.");
-    
-    const record = {
-        operador: usuarioLogado,
-        data_registro: f.get('date'),
-        tipo: f.get('type'),
-        disciplina: subject,
-        assunto: topics.join(' · '),
-        total: Number(f.get('total')),
-        certas: Number(f.get('correct')),
-        minutos: Number(f.get('minutes'))
-    };
+async function apagarConta() {
+  const nome = localStorage.getItem('parabellum_operador');
+  if (!confirm(`Tem certeza que quer apagar o operador "${nome}" da nuvem? Isso apaga seu ranking e progresso salvo no Supabase. Essa ação não pode ser desfeita.`)) {
+    return;
+  }
+  const pin = prompt('Pra confirmar, digite seu PIN de 4 dígitos:');
+  if (!pin || !/^\d{4}$/.test(pin)) {
+    return alert('PIN inválido. Operação cancelada.');
+  }
 
-    // Insere no Supabase
-    const { data, error } = await supabase.from('registros_questoes').insert([record]).select().single();
-    if(error) return alert("Erro ao salvar: " + error.message);
+  const pinHash = await sha256Hex(pin);
+  const { data, error } = await window.supabaseClient.rpc('apagar_operador', {
+    p_nome: nome,
+    p_pin_hash: pinHash
+  });
 
-    // Atualiza estado local para UI rápida
-    state.records.unshift({
-        id: data.id, date: record.data_registro, type: record.tipo, subject: record.disciplina,
-        topic: record.assunto, total: record.total, correct: record.certas, minutes: record.minutos
-    });
+  if (error) {
+    alert('ERRO TÉCNICO (manda esse texto pro suporte):\n\n' + (error.message || JSON.stringify(error)));
+    return;
+  }
+  if (!data || !data.ok) {
+    alert(data && data.erro ? data.erro : 'Não foi possível apagar a conta.');
+    return;
+  }
 
-    e.target.reset();
-    $('studyDate').value = new Date().toISOString().slice(0,10);
-    alert('Gravado no banco de dados com sucesso!');
-    render(); renderCharts(); carregarRankingGlobal();
-};
-
-// --- GRÁFICOS AVANÇADOS COM APEXCHARTS ---
-let chartLinha, chartPizza, chartCascata;
-
-function renderCharts() {
-    if(!state.records.length) return;
-
-    // Preparar dados - LINHA (Precisão Acumulada no tempo)
-    const ordered = [...state.records].sort((a,b)=> a.date.localeCompare(b.date));
-    let cumT = 0, cumC = 0;
-    const linhaData = ordered.map(r => {
-        cumT += r.total; cumC += r.correct;
-        return { x: r.date, y: cumT ? Math.round((cumC/cumT)*100) : 0 };
-    });
-
-    const linhaOptions = {
-        series: [{ name: 'Precisão', data: linhaData }],
-        chart: { type: 'area', height: 250, foreColor: '#8b95a5', toolbar: { show: false }, background: 'transparent' },
-        colors: ['#00f0ff'], fill: { type: 'gradient', gradient: { shadeIntensity: 1, opacityFrom: 0.4, opacityTo: 0.05, stops: [0, 100] } },
-        dataLabels: { enabled: false }, stroke: { curve: 'smooth', width: 3 },
-        xaxis: { type: 'category' }, yaxis: { min: 0, max: 100 },
-        theme: { mode: 'dark' }
-    };
-    if(chartLinha) chartLinha.destroy();
-    chartLinha = new ApexCharts(document.querySelector("#chartLinhaMercado"), linhaOptions);
-    chartLinha.render();
-
-    // Preparar dados - PIZZA (Acertos vs Erros global)
-    const tGeral = state.records.reduce((a,r)=>a+r.total,0);
-    const cGeral = state.records.reduce((a,r)=>a+r.correct,0);
-    const eGeral = tGeral - cGeral;
-
-    const pizzaOptions = {
-        series: [cGeral, eGeral],
-        labels: ['Acertos', 'Erros'],
-        chart: { type: 'donut', height: 250, background: 'transparent' },
-        colors: ['#00ff88', '#ff2a85'],
-        plotOptions: { pie: { donut: { size: '75%', labels: { show: true, name: { color: '#fff' }, value: { color: '#fff', fontSize: '24px' }, total: { show: true, label: 'Questões', color: '#8b95a5' } } } } },
-        stroke: { show: false }, theme: { mode: 'dark' }, legend: { position: 'bottom' }
-    };
-    if(chartPizza) chartPizza.destroy();
-    chartPizza = new ApexCharts(document.querySelector("#chartPizzaGeral"), pizzaOptions);
-    chartPizza.render();
-
-    // Preparar dados - CASCATA/COLUNAS (Últimos 7 dias de questões)
-    const last7 = [];
-    for(let i=6; i>=0; i--) {
-        let d = new Date(); d.setDate(d.getDate()-i);
-        let key = d.toISOString().slice(0,10);
-        let val = state.records.filter(r=>r.date===key).reduce((a,r)=>a+r.total,0);
-        last7.push({ x: d.toLocaleDateString('pt-BR',{weekday:'short'}), y: val });
-    }
-
-    const colunasOptions = {
-        series: [{ name: 'Questões', data: last7 }],
-        chart: { type: 'bar', height: 250, foreColor: '#8b95a5', toolbar: { show: false }, background: 'transparent' },
-        plotOptions: { bar: { borderRadius: 4, columnWidth: '50%' } },
-        colors: ['#9b51e0'], dataLabels: { enabled: false },
-        xaxis: { type: 'category' }, theme: { mode: 'dark' }
-    };
-    if(chartCascata) chartCascata.destroy();
-    chartCascata = new ApexCharts(document.querySelector("#chartColunasDias"), colunasOptions);
-    chartCascata.render();
+  alert('Conta apagada da nuvem. Você será desconectado.');
+  sairOperador();
 }
 
-// --- RANKING GLOBAL EXPANDIDO (NUVEM) ---
-async function carregarRankingGlobal() {
-    // ASSUME UMA VIEW OU TABELA 'ranking_completo' NO SEU SQL
-    // Colunas esperadas: nome, questoes_dia, questoes_semana, questoes_mes, precisao, cronograma_perc
-    const { data, error } = await supabase.from('ranking_completo').select('*').order('questoes_mes', { ascending: false });
-    
-    if(error || !data) {
-        $('rankingGridCompleto').innerHTML = "<p>Erro ao carregar ranking ou tabela vazia.</p>";
-        return;
-    }
-
-    $('rankingGridCompleto').innerHTML = data.map((x, i) => {
-        const isMe = x.nome === usuarioLogado;
-        const colorP = x.precisao >= 75 ? 'var(--green)' : x.precisao >= 50 ? 'var(--amber)' : 'var(--pink)';
-        
-        return `
-        <div class="rank-card" style="${isMe ? 'border-color:var(--cyan); box-shadow: 0 0 15px rgba(0,240,255,0.1)' : ''}">
-            <div class="rank-pos">${i+1}º</div>
-            <div class="rank-info">
-                <strong>${x.nome} ${isMe ? ' (VOCÊ)' : ''}</strong>
-                <div class="rank-stats">
-                    <span>Hoje: <b>${x.questoes_dia}</b></span>
-                    <span>Semana: <b>${x.questoes_semana}</b></span>
-                    <span>Mês: <b>${x.questoes_mes}</b></span>
-                </div>
-            </div>
-            <div class="rank-score">
-                <strong style="color: ${colorP}">${x.precisao}%</strong>
-                <small>Acertos Globais</small>
-            </div>
-        </div>`;
-    }).join('');
-}
-
-// Função utilitária para navegação e renderização de tabelas
-function render() {
-    // Renderiza a tabela de histórico simples
-    $('historyTable').innerHTML=state.records.slice(0,20).map(r=>`<tr><td>${r.date.split('-').reverse().join('/')}</td><td><div class="history-subject"><b>${r.subject}</b></div></td><td>${r.topic}</td><td>${r.total}</td><td>${r.correct}</td><td>${r.total?Math.round(r.correct/r.total*100):0}%</td></tr>`).join('')||'<tr><td colspan="6" class="muted">Nenhum registro.</td></tr>';
-}
-
-function openPage(page){
-    document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
-    $(page).classList.add('active');
-    document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===page));
-    scrollTo({top:0,behavior:'smooth'});
-}
-document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>openPage(b.dataset.page));
-
-// Inicia checando sessão no localStorage
-const userSalvo = localStorage.getItem('parabellum_operador');
-if(userSalvo) {
-    usuarioLogado = userSalvo;
-    $('modal-acesso').style.display = 'none';
-    $('nome-aluno-logado').innerHTML = `<i class="dot" style="background:var(--green)"></i> Operador: ${usuarioLogado}`;
-    carregarDadosNuvem();
-}
+verificarOperador();
 </script>
+
 </body>
 </html>
