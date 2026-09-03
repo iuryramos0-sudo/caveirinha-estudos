@@ -165,7 +165,7 @@ async function entrarComPin() {
   });
 
   if (error) {
-    alert('Não foi possível conectar ao servidor. Verifique sua internet e tente novamente.');
+    alert('ERRO TÉCNICO (manda esse texto pro suporte):\n\n' + (error.message || JSON.stringify(error)));
     return;
   }
 
