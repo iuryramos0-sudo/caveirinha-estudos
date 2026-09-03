@@ -1,3 +1,1129 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Operação Aprovação — Controle de Estudos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#030101;--panel:rgba(20,8,10,.72);--panel2:rgba(28,12,14,.55);--line:rgba(229,45,71,.18);
+  --text:#fef2f2;--muted:#8b93a7;
+  --acc:#e52d47;--acc2:#ff5267;--ok:#ff7080;--warn:#c2410c;--bad:#fb7185;
+  --grad:linear-gradient(135deg,#e52d47 0%,#ff5267 100%);
+  --grad-soft:linear-gradient(135deg,#e52d4733,#ff526722);
+  --shadow:0 24px 60px rgba(2,4,12,.55);
+  --r:18px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--bg);color:var(--text);min-height:100vh;
+  font:14px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:-2;
+  background:
+    radial-gradient(900px 520px at 85% -10%,rgba(229,45,71,.30),transparent 60%),
+    radial-gradient(800px 500px at -10% 15%,rgba(255,82,103,.18),transparent 55%),
+    radial-gradient(700px 500px at 50% 110%,rgba(255,82,103,.10),transparent 60%),
+    var(--bg);
+}
+body::after{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:44px 44px;
+  mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 75%);
+}
+h1,h2,h3,h4{font-family:Space Grotesk,Inter,sans-serif;margin:0;letter-spacing:-.01em}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:none;background:none}
+a{color:var(--acc2)}
+::selection{background:#e52d4755}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-thumb{background:#232c44;border-radius:99px;border:2px solid #0a0e18}
+::-webkit-scrollbar-track{background:transparent}
+
+/* ====== LAYOUT ====== */
+.app{display:grid;grid-template-columns:268px 1fr;min-height:100vh}
+.side{
+  background:rgba(8,2,3,.86);backdrop-filter:blur(22px);border-right:1px solid var(--line);
+  padding:26px 16px 18px;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow:auto;z-index:5;
+}
+.brand{display:flex;gap:12px;align-items:center;margin:2px 8px 26px}
+.brandmark{
+  width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-size:22px;
+  background:linear-gradient(145deg,#e52d47,#ff5267);box-shadow:0 12px 30px rgba(229,45,71,.45),inset 0 1px 0 rgba(255,255,255,.25);
+}
+.brand b{display:block;font-family:Space Grotesk;font-size:15px;letter-spacing:.14em}
+.brand span{display:block;color:var(--muted);font-size:9.5px;letter-spacing:.22em;margin-top:3px}
+.cloudchip{
+  display:flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:12px;
+  background:var(--panel2);padding:11px 13px;font-size:10px;letter-spacing:.12em;color:#bd98a0;margin-bottom:22px;
+}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 12px var(--ok);flex:none;animation:pulse 2s infinite}
+.dot.off{background:var(--bad);box-shadow:0 0 12px var(--bad)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.45}}
+.nav{display:grid;gap:4px}
+.nav button{
+  display:flex;align-items:center;gap:12px;text-align:left;color:#98a1b6;padding:12px 13px;border-radius:12px;
+  border:1px solid transparent;font-weight:500;font-size:13.5px;transition:.18s;position:relative;
+}
+.nav button .ic{width:20px;text-align:center;font-size:15px;filter:saturate(.4);transition:.18s}
+.nav button:hover{color:#fff;background:rgba(229,45,71,.14)}
+.nav button.active{
+  color:#fff;background:linear-gradient(90deg,rgba(229,45,71,.22),rgba(255,82,103,.10));
+  border-color:rgba(229,45,71,.45);box-shadow:0 8px 24px rgba(229,45,71,.18);
+}
+.nav button.active .ic{filter:none}
+.nav button.active::before{content:"";position:absolute;left:0;top:22%;bottom:22%;width:3px;border-radius:99px;background:var(--grad)}
+.sidefoot{margin-top:auto;padding:14px 8px 0;color:#5b6478;font-size:10.5px;line-height:1.6;letter-spacing:.04em}
+.main{padding:30px clamp(18px,3.4vw,52px) 70px;max-width:1480px;width:100%;margin:0 auto}
+.top{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:26px;flex-wrap:wrap}
+.eyebrow{color:#9aa3ba;font-size:10px;letter-spacing:.2em;font-weight:800;margin:0 0 7px;text-transform:uppercase}
+.eyebrow .status{color:var(--ok)}
+.top h1{font-size:clamp(22px,2.6vw,30px);font-weight:700}
+.top .date{color:var(--muted);font-size:12px;margin-top:4px}
+.userchip{
+  display:flex;align-items:center;gap:10px;background:var(--panel);border:1px solid var(--line);
+  padding:9px 15px;border-radius:99px;font-size:12.5px;font-weight:600;backdrop-filter:blur(10px);
+}
+.userchip .av{width:26px;height:26px;border-radius:50%;background:var(--grad);display:grid;place-items:center;font-size:12px}
+
+/* ====== COMPONENTES ====== */
+.page{display:none;animation:fadeUp .35s ease}
+.page.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.panel{
+  background:var(--panel);backdrop-filter:blur(18px);border:1px solid var(--line);
+  border-radius:var(--r);padding:22px;box-shadow:var(--shadow);margin-bottom:18px;position:relative;overflow:hidden;
+}
+.panel.glow::before{content:"";position:absolute;inset:0 0 auto;height:1px;background:linear-gradient(90deg,transparent,#e52d47aa,#ff5267aa,transparent)}
+.panelhead{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:16px;flex-wrap:wrap}
+.panelhead h3{font-size:16.5px}
+.panelhead p{margin:5px 0 0;color:var(--muted);font-size:12.5px}
+.tag{
+  font-size:9.5px;letter-spacing:.14em;font-weight:800;text-transform:uppercase;color:#ffd2d8;
+  background:var(--grad-soft);border:1px solid rgba(139,92,246,.3);padding:5px 11px;border-radius:99px;white-space:nowrap;
+}
+.tag.ok{color:#a7f3d0;background:#ff708018;border-color:#ff708038}
+.tag.warn{color:#fde68a;background:#c2410c15;border-color:#c2410c38}
+.tag.bad{color:#fecdd3;background:#fb718515;border-color:#fb718538}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:12px;padding:11px 18px;
+  font-weight:700;font-size:13px;letter-spacing:.02em;border:1px solid var(--line);color:#dfe4f5;
+  background:var(--panel2);transition:.18s;white-space:nowrap;
+}
+.btn:hover{border-color:rgba(229,45,71,.5);transform:translateY(-1px)}
+.btn.primary{
+  background:var(--grad);color:#fff;border:none;box-shadow:0 10px 26px rgba(229,45,71,.45);
+}
+.btn.primary:hover{box-shadow:0 14px 34px rgba(229,45,71,.5)}
+.btn.danger{color:var(--bad);border-color:#fb71854a}
+.btn.danger:hover{background:#fb718514}
+.btn.ghost{background:transparent}
+.btn.sm{padding:7px 12px;font-size:11.5px;border-radius:10px}
+.grid2{display:grid;grid-template-columns:1.2fr .8fr;gap:18px}
+.grid2eq{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:18px}
+.stat{
+  background:var(--panel);backdrop-filter:blur(18px);border:1px solid var(--line);border-radius:16px;padding:17px 18px;
+  position:relative;overflow:hidden;
+}
+.stat::after{content:"";position:absolute;right:-24px;top:-24px;width:70px;height:70px;border-radius:50%;background:var(--grad-soft);filter:blur(6px)}
+.stat label{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700;display:block}
+.stat strong{font-family:Space Grotesk;font-size:26px;display:block;margin-top:8px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat small{color:var(--muted);font-size:11.5px;display:block;margin-top:3px}
+.notice{
+  border:1px solid rgba(251,191,36,.3);background:#c2410c10;color:#fde68a;border-radius:12px;
+  padding:12px 15px;font-size:12.5px;line-height:1.55;
+}
+.notice.info{border-color:rgba(34,211,238,.3);background:#ff52670d;color:#a5e8f5}
+
+/* hero */
+.hero{
+  display:flex;gap:20px;align-items:center;background:linear-gradient(120deg,rgba(229,45,71,.18),rgba(255,82,103,.09)),var(--panel);
+  border:1px solid rgba(229,45,71,.32);border-radius:20px;padding:24px 26px;margin-bottom:18px;backdrop-filter:blur(18px);
+}
+.hero .emblem{
+  width:64px;height:64px;border-radius:18px;background:var(--grad);display:grid;place-items:center;font-size:30px;flex:none;
+  box-shadow:0 14px 34px rgba(139,92,246,.4);
+}
+.hero h2{font-size:20px}
+.hero p{color:#cf9ca5;margin:6px 0 0;font-size:13px;max-width:640px}
+.countdown{display:block;margin-top:10px;font-weight:800;letter-spacing:.06em;font-size:12px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* formulários */
+.formgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.field{display:grid;gap:7px}
+.field.full{grid-column:1/-1}
+.field label,.field>span{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+input,select,textarea{
+  width:100%;background:rgba(20,8,10,.75);border:1px solid var(--line);border-radius:12px;padding:12px 14px;
+  outline:none;transition:.18s;font-size:13.5px;
+}
+input:focus,select:focus,textarea:focus{border-color:rgba(229,45,71,.65);box-shadow:0 0 0 3px rgba(229,45,71,.18)}
+textarea{min-height:88px;resize:vertical}
+input[type="date"]{color-scheme:dark}
+.actions{display:flex;gap:11px;align-items:center;grid-column:1/-1;flex-wrap:wrap}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{
+  display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:99px;
+  padding:7px 13px;font-size:12px;background:rgba(20,8,10,.6);cursor:pointer;transition:.15s;user-select:none;
+}
+.chip input{width:auto;accent-color:#e52d47;margin:0}
+.chip:has(input:checked){border-color:rgba(139,92,246,.7);background:rgba(229,45,71,.18);color:#fff}
+.chips-empty{color:var(--muted);font-size:12px;padding:10px 2px}
+
+/* tabelas */
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+td{padding:12px;border-bottom:1px solid rgba(229,45,71,.10)}
+tr:hover td{background:rgba(139,92,246,.05)}
+.tablewrap{overflow:auto}
+.num{font-variant-numeric:tabular-nums;text-align:right}
+th.num{text-align:right}
+
+/* progressos */
+.progress{height:9px;border-radius:99px;background:rgba(229,45,71,.18);overflow:hidden;flex:1}
+.progress i{display:block;height:100%;border-radius:99px;background:var(--grad);transition:width .6s cubic-bezier(.2,.8,.2,1)}
+.progress.ok i{background:linear-gradient(90deg,#ff7080,#ff5267)}
+.missionrow{display:flex;gap:13px;align-items:center;padding:12px 4px;border-bottom:1px solid rgba(229,45,71,.10)}
+.missionrow:last-child{border-bottom:none}
+.missionrow .daynum{
+  width:36px;height:36px;border-radius:11px;background:var(--panel2);border:1px solid var(--line);
+  display:grid;place-items:center;font-weight:800;font-size:12.5px;flex:none;
+}
+.missionrow.me{background:linear-gradient(90deg,rgba(255,82,103,.18),transparent);border-radius:12px}
+.rowfill{flex:1;min-width:0}
+.rowfill strong{font-size:13px}
+.rowfill small{display:block;color:var(--muted);font-size:11px;margin-top:1px}
+
+/* cronograma */
+.daybtn{
+  display:flex;gap:13px;align-items:center;width:100%;text-align:left;padding:13px 14px;border-radius:14px;
+  border:1px solid var(--line);background:rgba(20,8,10,.55);margin-bottom:9px;transition:.15s;
+}
+.daybtn:hover{border-color:rgba(229,45,71,.5)}
+.daybtn.done{border-color:rgba(52,211,153,.4);background:rgba(255,82,103,.07)}
+.daybtn .daynum{
+  width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-weight:800;font-size:13px;flex:none;
+  background:var(--panel2);border:1px solid var(--line);
+}
+.daybtn.done .daynum{background:rgba(52,211,153,.2);border-color:rgba(52,211,153,.5);color:#a7f3d0}
+.daybtn b{display:block;font-size:13.5px}
+.daybtn small{display:block;color:var(--muted);font-size:11.5px;margin-top:3px}
+.badge{font-size:9px;font-weight:800;letter-spacing:.12em;padding:5px 10px;border-radius:99px;background:var(--panel2);border:1px solid var(--line);color:var(--muted);flex:none}
+.badge.sim{color:#ffd2d8;background:rgba(229,45,71,.18);border-color:rgba(139,92,246,.4)}
+.badge.fin{color:#a7f3d0;background:rgba(52,211,153,.14);border-color:rgba(52,211,153,.4)}
+.badge.done{color:#0b1a12;background:var(--ok);border-color:var(--ok)}
+.weekhead{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:20px 0 12px;flex-wrap:wrap}
+.weekhead:first-child{margin-top:0}
+.weekhead .wk{font-family:Space Grotesk;font-size:15px;font-weight:700;display:flex;align-items:center;gap:10px}
+.weekhead .wk::before{content:"";width:22px;height:3px;border-radius:99px;background:var(--grad)}
+.daygrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(52px,1fr));gap:8px}
+.daytile{
+  aspect-ratio:1;border-radius:12px;border:1px solid var(--line);background:rgba(20,8,10,.55);
+  display:grid;place-items:center;font-size:12px;font-weight:700;color:var(--muted);
+}
+.daytile.done{background:rgba(52,211,153,.16);border-color:rgba(52,211,153,.45);color:#a7f3d0}
+.daytile.next{background:rgba(139,92,246,.2);border-color:rgba(139,92,246,.6);color:#fff;box-shadow:0 0 18px rgba(139,92,246,.3)}
+
+/* editais / acordeão */
+details.acc{border:1px solid var(--line);border-radius:14px;background:rgba(20,8,10,.5);margin-bottom:10px;overflow:hidden}
+details.acc summary{
+  list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:15px 17px;
+  font-family:Space Grotesk;font-weight:600;font-size:14px;
+}
+details.acc summary::-webkit-details-marker{display:none}
+details.acc summary .chev{transition:.2s;color:var(--muted)}
+details.acc[open] summary .chev{transform:rotate(90deg)}
+details.acc summary small{color:var(--muted);font-family:Inter;font-weight:500}
+.topicline{padding:11px 17px;border-top:1px solid rgba(229,45,71,.10)}
+.topicline b{font-size:12.5px;font-weight:600;color:#dbe1f2}
+.sublines{display:flex;flex-direction:column;gap:5px;margin-top:7px}
+.sublines span{font-size:11.5px;color:var(--muted);padding-left:14px;border-left:2px solid rgba(139,92,246,.4)}
+.itemrow{display:flex;gap:9px;align-items:center;margin-bottom:9px}
+.itemrow input{flex:1}
+.iconbtn{width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);display:grid;place-items:center;color:var(--muted);transition:.15s;flex:none}
+.iconbtn:hover{color:var(--bad);border-color:#fb71855a}
+.iconbtn.add:hover{color:var(--ok);border-color:#ff70805a}
+
+/* listas prioridade */
+.plist{display:grid;gap:10px}
+.pitem{border:1px solid var(--line);border-radius:13px;padding:13px 15px;background:rgba(20,8,10,.5);border-left:4px solid var(--acc)}
+.pitem.high{border-left-color:var(--bad)}
+.pitem.med{border-left-color:var(--warn)}
+.pitem.good{border-left-color:var(--ok)}
+.pitem .pt{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.pitem b{font-size:13px}
+.pitem small{display:block;color:var(--muted);margin-top:5px;font-size:11.5px}
+.empty{color:var(--muted);font-size:12.5px;padding:18px 6px;text-align:center;border:1px dashed var(--line);border-radius:12px}
+
+/* gráficos */
+.chartbox{min-height:250px}
+.chartbox.tall{min-height:300px}
+.legend-hint{color:var(--muted);font-size:11px;margin-top:6px}
+
+/* foco */
+.timer{font-family:Space Grotesk;font-size:clamp(56px,8vw,84px);font-weight:700;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;text-align:center;letter-spacing:.02em}
+.focuswrap{text-align:center;padding:36px 22px}
+
+/* login */
+.auth{
+  position:fixed;inset:0;z-index:60;display:grid;place-items:center;padding:20px;
+  background:rgba(0,0,0,.86);backdrop-filter:blur(14px);
+}
+.authcard{
+  width:100%;max-width:430px;background:rgba(20,8,10,.95);border:1px solid var(--line);border-radius:22px;
+  padding:34px 30px;box-shadow:0 40px 90px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.06);
+  animation:fadeUp .4s ease;
+}
+.authlogo{width:66px;height:66px;border-radius:20px;background:var(--grad);display:grid;place-items:center;font-size:32px;margin:0 auto 16px;box-shadow:0 16px 40px rgba(139,92,246,.4)}
+.authcard h2{font-family:Space Grotesk;text-align:center;font-size:21px;letter-spacing:.06em}
+.authcard .sub{text-align:center;color:var(--muted);font-size:11.5px;letter-spacing:.14em;margin:7px 0 22px;text-transform:uppercase}
+.authtabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:rgba(20,8,10,.75);border:1px solid var(--line);border-radius:13px;padding:5px;margin-bottom:20px}
+.authtabs button{padding:10px;border-radius:9px;font-weight:700;font-size:12.5px;color:var(--muted);letter-spacing:.04em}
+.authtabs button.on{background:var(--grad);color:#fff;box-shadow:0 6px 18px rgba(229,45,71,.45)}
+.authform{display:grid;gap:13px}
+.autherr{display:none;background:#fb718514;border:1px solid #fb71854a;color:#fecdd3;border-radius:11px;padding:11px 14px;font-size:12.5px}
+.authnote{text-align:center;color:#6b7488;font-size:11px;margin-top:18px;line-height:1.6}
+.pinwrap{position:relative}
+.pinwrap input{letter-spacing:8px;text-align:center;font-size:18px;font-weight:700}
+
+/* toasts */
+.toasts{position:fixed;bottom:22px;right:22px;z-index:99;display:grid;gap:10px;max-width:360px}
+.toast{
+  background:rgba(14,19,32,.95);border:1px solid var(--line);border-left:4px solid var(--acc);border-radius:13px;
+  padding:13px 17px;font-size:13px;box-shadow:0 18px 44px rgba(0,0,0,.5);animation:fadeUp .3s ease;
+}
+.toast.ok{border-left-color:var(--ok)}
+.toast.bad{border-left-color:var(--bad)}
+.toast.warn{border-left-color:var(--warn)}
+
+/* pills período */
+.pills{display:inline-flex;gap:5px;background:rgba(20,8,10,.75);border:1px solid var(--line);border-radius:12px;padding:5px}
+.pills button{padding:8px 15px;border-radius:9px;font-size:12px;font-weight:700;color:var(--muted)}
+.pills button.on{background:var(--grad);color:#fff}
+.medal{font-size:16px}
+
+/* responsivo */
+@media(max-width:1150px){.stats{grid-template-columns:repeat(3,1fr)}.grid2,.grid2eq,.grid3{grid-template-columns:1fr}.formgrid{grid-template-columns:1fr 1fr}}
+@media(max-width:760px){
+  .app{display:block}.side{position:static;height:auto}
+  .nav{display:flex;overflow:auto;padding-bottom:6px}.nav button{white-space:nowrap}
+  .sidefoot{display:none}.main{padding:22px 14px 60px}
+  .stats{grid-template-columns:1fr 1fr}.formgrid{grid-template-columns:1fr}
+  .hero{flex-direction:column;align-items:flex-start}.hero .btn{align-self:flex-start}
+}
+</style>
+</head>
+<body>
+<!-- ================= AUTENTICAÇÃO ================= -->
+<div class="auth" id="authModal">
+  <div class="authcard">
+    <div class="authlogo">🎯</div>
+    <h2>OPERAÇÃO APROVAÇÃO</h2>
+    <p class="sub">Controle de estudos · Acesso do operador</p>
+
+    <div class="authtabs">
+      <button id="tabEntrar" class="on" type="button" onclick="authTab('entrar')">Entrar</button>
+      <button id="tabCriar" type="button" onclick="authTab('criar')">Criar acesso</button>
+    </div>
+
+    <!-- ENTRAR -->
+    <form class="authform" id="formEntrar" onsubmit="entrarComPin(event)">
+      <div class="field"><label>Nome de guerra</label><input id="login-nome" type="text" placeholder="Ex: Sgt Iury" autocomplete="off" required></div>
+      <div class="field"><label>PIN de 4 dígitos</label>
+        <div class="pinwrap"><input id="login-pin" type="password" maxlength="4" inputmode="numeric" pattern="[0-9]{4}" placeholder="••••" required></div>
+      </div>
+      <div class="autherr" id="loginErr"></div>
+      <button class="btn primary" type="submit" id="btnEntrar">Entrar na missão</button>
+      <p class="authnote">Já tem acesso criado? Use apenas o nome + PIN.<br>O PIN vira um código seguro (hash) — ninguém vê o número.</p>
+    </form>
+
+    <!-- CRIAR (separado, não atrapalha o login) -->
+    <form class="authform" id="formCriar" style="display:none" onsubmit="criarOperador(event)">
+      <div class="field"><label>Escolha seu nome de guerra</label><input id="criar-nome" type="text" placeholder="Ex: Sgt Iury" autocomplete="off" required></div>
+      <div class="field"><label>Crie um PIN de 4 dígitos</label>
+        <div class="pinwrap"><input id="criar-pin" type="password" maxlength="4" inputmode="numeric" pattern="[0-9]{4}" placeholder="••••" required></div>
+      </div>
+      <div class="field"><label>Repita o PIN</label>
+        <div class="pinwrap"><input id="criar-pin2" type="password" maxlength="4" inputmode="numeric" pattern="[0-9]{4}" placeholder="••••" required></div>
+      </div>
+      <div class="autherr" id="criarErr"></div>
+      <button class="btn primary" type="submit" id="btnCriar">Criar meu acesso</button>
+      <p class="authnote">Crie o acesso <b>uma única vez</b>. Depois disso, entre sempre pela aba <b>Entrar</b> — o acesso fica salvo neste dispositivo.</p>
+    </form>
+  </div>
+</div>
+
+<!-- ================= APP ================= -->
+<div class="app">
+<aside class="side">
+  <div class="brand"><div class="brandmark">🎯</div><div><b>OPERAÇÃO APROVAÇÃO</b><span>CONTROLE DE ESTUDOS</span></div></div>
+  <div class="cloudchip" id="status-conexao"><i class="dot"></i><span>NUVEM SUPABASE · SINCRONIZADO</span></div>
+  <nav class="nav">
+    <button class="active" data-page="dashboard"><span class="ic">▦</span> Central de comando</button>
+    <button data-page="registro"><span class="ic">＋</span> Registrar estudo</button>
+    <button data-page="questoes"><span class="ic">◉</span> Questões</button>
+    <button data-page="desempenho"><span class="ic">📈</span> Desempenho</button>
+    <button data-page="edital"><span class="ic">📋</span> Editais</button>
+    <button data-page="cronogramas"><span class="ic">🗓️</span> Cronogramas</button>
+    <button data-page="ranking"><span class="ic">🏆</span> Rankings</button>
+    <button data-page="foco"><span class="ic">◷</span> Modo foco</button>
+    <button data-page="conta"><span class="ic">👤</span> Minha conta</button>
+  </nav>
+  <div class="sidefoot">Registros, editais e cronogramas salvos<br>na nuvem (Supabase).<br><b>v2.0 · Parabellum</b></div>
+</aside>
+
+<main class="main">
+<header class="top">
+  <div>
+    <p class="eyebrow" id="today"></p>
+    <h1 id="pageTitle">Central de comando</h1>
+  </div>
+  <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+    <span class="userchip" id="nome-aluno-logado"><span class="av">?</span> não identificado</span>
+    <button class="btn primary" onclick="openPage('registro')">＋ Registrar agora</button>
+  </div>
+</header>
+
+<!-- ============ DASHBOARD ============ -->
+<section class="page active" id="dashboard">
+  <div class="hero">
+    <div class="emblem">◎</div>
+    <div>
+      <p class="eyebrow">OPERAÇÃO DO DIA <span class="status">EM ANDAMENTO</span></p>
+      <h2 id="todayStudyTitle">Carregando missão...</h2>
+      <p id="todayStudyText">Identificando o conteúdo programado para hoje.</p>
+      <small class="countdown" id="examCountdown"></small>
+    </div>
+    <button class="btn" onclick="openPage('cronogramas')">Abrir cronogramas →</button>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><label>Progresso do plano</label><strong id="sProgress">0%</strong><small id="sNext">Próximo alvo: Dia 1</small></div>
+    <div class="stat"><label>Questões</label><strong id="sQuestions">0</strong><small id="sCorrect">0 certas</small></div>
+    <div class="stat"><label>Precisão média</label><strong id="sAccuracy">0%</strong><small>todos os registros</small></div>
+    <div class="stat"><label>Tempo estudado</label><strong id="sMinutes">0m</strong><small>sessões registradas</small></div>
+    <div class="stat"><label>Sequência</label><strong id="sStreak">0 dias</strong><small>dias com registro</small></div>
+  </div>
+
+  <div class="grid2eq">
+    <div class="panel glow">
+      <div class="panelhead"><div><p class="eyebrow">EVOLUÇÃO DA PRECISÃO</p><h3>Tendência acumulada</h3></div><span class="tag">linha · área</span></div>
+      <div id="stockChart" class="chartbox"></div>
+      <p class="legend-hint">Sua precisão acumulada a cada registro — como um ativo na bolsa.</p>
+    </div>
+    <div class="panel glow">
+      <div class="panelhead"><div><p class="eyebrow">COMPOSIÇÃO DO ESTUDO</p><h3>Distribuição por disciplina</h3></div><span class="tag">donut</span></div>
+      <div id="donutChart" class="chartbox"></div>
+      <p class="legend-hint">Fatia de questões de cada disciplina no total estudado.</p>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panelhead"><div><p class="eyebrow">QUESTÕES POR DIA · ÚLTIMOS 14 DIAS</p><h3>Volume diário</h3></div><span class="tag">barras</span></div>
+    <div id="chart" class="chartbox"></div>
+  </div>
+
+  <div class="grid2eq">
+    <div class="panel">
+      <div class="panelhead"><div><p class="eyebrow">CENTRAL DE INTELIGÊNCIA</p><h3>Assuntos que precisam melhorar</h3></div><span class="tag warn">prioridade automática</span></div>
+      <div id="priorityList" class="plist"></div>
+    </div>
+    <div class="panel">
+      <div class="panelhead"><div><p class="eyebrow">DIAGNÓSTICO DOS ERROS</p><h3>Por que você perde pontos</h3></div><span class="tag bad">por motivo</span></div>
+      <div id="errorChart" class="chartbox" style="min-height:240px"></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panelhead"><div><p class="eyebrow">MAPA DE FRAQUEZAS</p><h3>Disciplinas que precisam melhorar</h3></div><span class="tag bad">por desempenho</span></div>
+    <div id="disciplineWeakness" class="plist"></div>
+  </div>
+</section>
+
+<!-- ============ REGISTRO ============ -->
+<section class="page" id="registro">
+  <div class="sectiontitle" style="margin-bottom:16px">
+    <p class="eyebrow">REGISTRO SINCRONIZADO NA NUVEM</p>
+    <h2 style="font-family:Space Grotesk;font-size:22px">Adicionar estudo</h2>
+    <p class="eyebrow" style="text-transform:none;letter-spacing:0;font-weight:400;margin-top:6px">Salvo direto no banco de dados — disponível em qualquer dispositivo.</p>
+  </div>
+  <div class="panel glow">
+    <form class="formgrid" id="studyForm">
+      <div class="field"><span>Data</span><input required type="date" name="date" id="studyDate"></div>
+      <div class="field"><span>Tipo</span><select name="type"><option value="questoes">Questões</option><option value="sessao">Sessão de estudo</option></select></div>
+      <div class="field"><span>Disciplina (do edital)</span><select required name="subject" id="subjectSelect"><option value="">Carregando edital...</option></select></div>
+      <div class="field full"><span>Assuntos / tópicos <small style="color:var(--acc2)">(do edital — marque um ou vários)</small></span>
+        <div id="topicOptions" class="chips" aria-live="polite"><div class="chips-empty">Selecione primeiro a disciplina</div></div>
+        <div id="topicCount" style="color:var(--muted);font-size:11.5px;margin-top:7px">0 assuntos selecionados</div>
+      </div>
+      <div class="field"><span>Questões respondidas</span><input type="number" min="0" value="0" name="total"></div>
+      <div class="field"><span>Questões certas</span><input type="number" min="0" value="0" name="correct"></div>
+      <div class="field"><span>Tempo estudado (minutos)</span><input required type="number" min="0" value="30" name="minutes"></div>
+      <div class="field"><span>Banca</span><input name="board" placeholder="Ex.: Cebraspe"></div>
+      <div class="field"><span>Motivo do erro</span><select name="reason"><option value="none">Sem erro / não se aplica</option><option>Falta de conhecimento</option><option>Distração</option><option>Interpretação</option><option>Cálculo</option><option>Dúvida</option></select></div>
+      <div class="field full"><span>Observações</span><textarea name="notes" placeholder="O que precisa ser revisto?"></textarea></div>
+      <div class="actions"><button class="btn" type="reset">Limpar</button><button class="btn primary" type="submit">Salvar na nuvem</button></div>
+    </form>
+  </div>
+</section>
+
+<!-- ============ QUESTÕES ============ -->
+<section class="page" id="questoes">
+  <div class="sectiontitle" style="margin-bottom:16px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:end">
+    <div><p class="eyebrow">HISTÓRICO CONSULTÁVEL · NUVEM</p><h2 style="font-family:Space Grotesk;font-size:22px">Questões registradas</h2></div>
+    <button class="btn primary" onclick="openPage('registro')">＋ Novo registro</button>
+  </div>
+  <div class="panel">
+    <div class="tablewrap"><table>
+      <thead><tr><th>Data</th><th>Disciplina</th><th>Assunto</th><th class="num">Total</th><th class="num">Certas</th><th class="num">Precisão</th><th></th></tr></thead>
+      <tbody id="historyTable"></tbody>
+    </table></div>
+  </div>
+</section>
+
+<!-- ============ DESEMPENHO ============ -->
+<section class="page" id="desempenho">
+  <div class="sectiontitle" style="margin-bottom:16px">
+    <p class="eyebrow">ANÁLISE TÁTICA DOS REGISTROS</p>
+    <h2 style="font-family:Space Grotesk;font-size:22px">Desempenho</h2>
+    <p class="eyebrow" style="text-transform:none;letter-spacing:0;font-weight:400;margin-top:6px">Cada gráfico usa um formato diferente: cascata, radar, candlestick, linha e barras empilhadas.</p>
+  </div>
+
+  <div class="panel glow">
+    <div class="panelhead"><div><p class="eyebrow">PONTO DE PARTIDA → HOJE</p><h3>Cascata de acertos por disciplina</h3></div><span class="tag">gráfico cascata</span></div>
+    <div id="waterfallChart" class="chartbox"></div>
+    <p class="legend-hint">Mostra quantas questões certas cada disciplina adicionou (+) e o saldo de erros (−) até o acumulado final.</p>
+  </div>
+
+  <div class="grid2eq">
+    <div class="panel">
+      <div class="panelhead"><div><p class="eyebrow">RETORNO POR DISCIPLINA</p><h3>Candlestick de precisão</h3></div><span class="tag">candlestick</span></div>
+      <div id="candleChart" class="chartbox"></div>
+      <p class="legend-hint">Cada "vela" mostra a menor e a maior precisão de um dia (pavios) e a abertura/fechamento do acumulado — leitura estilo mercado financeiro.</p>
+    </div>
+    <div class="panel">
+      <div class="panelhead"><div><p class="eyebrow">DOMÍNIO POR ÁREA</p><h3>Radar de habilidades</h3></div><span class="tag">radar</span></div>
+      <div id="radarChart" class="chartbox"></div>
+      <p class="legend-hint">Precisão % por disciplina — quanto maior a área, mais dominada está a matéria.</p>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panelhead"><div><p class="eyebrow">ACERTOS × ERROS POR DIA</p><h3>Barras empilhadas</h3></div><span class="tag ok">empilhado 100%</span></div>
+    <div id="stackedChart" class="chartbox"></div>
+  </div>
+
+  <div class="panel">
+    <div class="panelhead"><div><p class="eyebrow">PROGRESSO DO PLANO</p><h3 id="planProgressTitle">Missões do cronograma ativo</h3></div><span class="tag" id="performancePlanLabel">0/0 concluídos</span></div>
+    <div class="progress" style="margin-bottom:16px"><i id="performancePlanBar" style="width:0%"></i></div>
+    <div class="daygrid" id="dayProgress"></div>
+  </div>
+
+  <div id="performanceBySubject"></div>
+</section>
+
+<!-- ============ EDITAIS ============ -->
+<section class="page" id="edital">
+  <div class="sectiontitle" style="margin-bottom:16px">
+    <p class="eyebrow">CONTEÚDO PROGRAMÁTICO · SALVO NA NUVEM</p>
+    <h2 style="font-family:Space Grotesk;font-size:22px">Editais verticalizados</h2>
+    <p class="eyebrow" style="text-transform:none;letter-spacing:0;font-weight:400;margin-top:6px">As disciplinas, tópicos e subtopicos daqui alimentam automaticamente o registro de questões e a geração de cronogramas.</p>
+  </div>
+
+  <div class="panel">
+    <div class="panelhead"><div><h3>Adicionar disciplina ao edital ativo</h3><p>Organize por disciplina → tópico → subtopicos.</p></div></div>
+    <div class="formgrid">
+      <div class="field"><span>Nome da disciplina</span><input id="novaDisciplina" placeholder="Ex.: DIREITO CONSTITUCIONAL"></div>
+      <div class="actions" style="align-self:end"><button class="btn primary" onclick="addDisciplina()">＋ Adicionar disciplina</button>
+      <button class="btn" onclick="restaurarEditalPadrao()">↺ Restaurar edital PMMA padrão</button><button class="btn ghost" onclick="novoEditalVazio()">Começar edital em branco</button></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panelhead"><div><p class="eyebrow">EXPORTAR / IMPORTAR</p><h3>Backup do edital</h3></div></div>
+    <div class="actions">
+      <button class="btn" onclick="exportarEdital()">↓ Exportar edital (JSON)</button>
+      <label class="btn">↑ Importar edital<input hidden type="file" accept="application/json" onchange="importarEdital(event)"></label>
+    </div>
+  </div>
+
+  <div id="editalBox"></div>
+</section>
+
+<!-- ============ CRONOGRAMAS ============ -->
+<section class="page" id="cronogramas">
+  <div class="sectiontitle" style="margin-bottom:16px">
+    <p class="eyebrow">PLANOS DE ESTUDO · SALVOS NA NUVEM</p>
+    <h2 style="font-family:Space Grotesk;font-size:22px">Cronogramas</h2>
+    <p class="eyebrow" style="text-transform:none;letter-spacing:0;font-weight:400;margin-top:6px">Ative um cronograma por vez. O progresso de cada um fica salvo no banco de dados.</p>
+  </div>
+
+  <div class="panel glow">
+    <div class="panelhead"><div><p class="eyebrow">GERADOR AUTOMÁTICO</p><h3>Criar novo cronograma</h3><p>Distribui os tópicos do edital ativo em quantos dias você escolher, com simulado a cada 6 dias.</p></div></div>
+    <form class="formgrid" id="formNovoCron" onsubmit="criarCronogramaForm(event)">
+      <div class="field"><label>Nome do cronograma</label><input type="text" id="novoCronNome" placeholder="Ex.: Ciclo intensivo setembro" value="Ciclo de estudos"></div>
+      <div class="field"><label>Quantidade de dias</label><input type="number" id="novoCronDias" min="5" max="120" value="30" required></div>
+      <div class="field"><label>Data de início</label><input type="date" id="novoCronInicio"></div>
+      <div class="actions"><button class="btn primary" type="submit">Gerar e salvar cronograma</button></div>
+    </form>
+  </div>
+
+  <div class="panel">
+    <div class="panelhead"><div><p class="eyebrow">EXPORTAR / IMPORTAR</p><h3>Modelos de cronograma</h3></div></div>
+    <div class="actions">
+      <button class="btn" onclick="exportarCronograma()">↓ Exportar cronograma ativo</button>
+      <label class="btn">↑ Importar cronograma<input hidden type="file" accept="application/json" onchange="importarCronograma(event)"></label>
+      <button class="btn" onclick="restaurarCronogramaPadrao()">↺ Restaurar padrão PMMA (30 dias)</button>
+    </div>
+  </div>
+
+  <div id="listaCronogramas"></div>
+</section>
+
+<!-- ============ RANKING ============ -->
+<section class="page" id="ranking">
+  <div class="sectiontitle" style="margin-bottom:16px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:end">
+    <div><p class="eyebrow">COMPETIÇÃO DA COMUNIDADE · NUVEM</p><h2 style="font-family:Space Grotesk;font-size:22px">🏆 Rankings</h2></div>
+    <div class="pills" id="pillsPeriodo">
+      <button class="on" data-p="dia" onclick="setPeriodoRanking('dia')">Dia</button>
+      <button data-p="semana" onclick="setPeriodoRanking('semana')">Semana</button>
+      <button data-p="mes" onclick="setPeriodoRanking('mes')">Mês</button>
+      <button data-p="total" onclick="setPeriodoRanking('total')">Geral</button>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="panelhead"><div><p class="eyebrow">DESEMPENHO DE TODOS OS OPERADORES</p><h3 id="rankingPeriodoTitulo">Questões · hoje</h3></div><span class="tag">% de acerto + volume</span></div>
+    <div class="tablewrap"><table>
+      <thead><tr><th>#</th><th>Operador</th><th class="num">Questões</th><th class="num">Certas</th><th class="num">Acerto</th><th>Precisão</th></tr></thead>
+      <tbody id="rankingBody"></tbody>
+    </table></div>
+    <p class="legend-hint">Filtro por período calculado pela data de cada registro salvo na nuvem (dia = hoje, semana = últimos 7 dias, mês = últimos 30 dias, geral = tudo).</p>
+  </div>
+  <div class="grid2eq">
+    <div class="panel">
+      <div class="panelhead"><div><p class="eyebrow">CONSISTÊNCIA</p><h3>Ranking por cronograma</h3></div><span class="tag">% concluído</span></div>
+      <div id="rankingProgress"></div>
+    </div>
+    <div class="panel">
+      <div class="panelhead"><div><p class="eyebrow">SUA POSIÇÃO</p><h3>Resumo competitivo</h3></div></div>
+      <div id="rankingSummary"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOCO ============ -->
+<section class="page" id="foco">
+  <div class="sectiontitle" style="margin-bottom:16px"><p class="eyebrow">PROTOCOLO DE CONCENTRAÇÃO</p><h2 style="font-family:Space Grotesk;font-size:22px">Modo foco</h2></div>
+  <div class="panel focuswrap">
+    <div class="timer" id="timer">25:00</div>
+    <p style="color:var(--muted)">Afaste o ruído. Execute. Registre a vitória.</p>
+    <div class="actions" style="justify-content:center;display:flex">
+      <button class="btn primary" id="focusToggle" onclick="toggleFocus()">Iniciar ciclo</button>
+      <button class="btn" onclick="resetFocus()">Reiniciar</button>
+      <button class="btn" onclick="saveFocus()">Salvar ciclo</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTA ============ -->
+<section class="page" id="conta">
+  <div class="sectiontitle" style="margin-bottom:16px"><p class="eyebrow">IDENTIFICAÇÃO DO OPERADOR</p><h2 style="font-family:Space Grotesk;font-size:22px">Minha conta</h2>
+  <p class="eyebrow" style="text-transform:none;letter-spacing:0;font-weight:400;margin-top:6px">Operador logado: <b id="contaNomeAtual">—</b></p></div>
+
+  <div class="panel">
+    <div class="panelhead"><div><h3>Renomear</h3><p>Muda o nome de guerra na nuvem — progresso e ranking continuam os mesmos.</p></div></div>
+    <form class="formgrid" id="formRenomear" onsubmit="renomearOperador(event)">
+      <div class="field full"><label>Novo nome de guerra</label><input type="text" id="conta-nome-novo" placeholder="Ex: Sgt Iury" required></div>
+      <div class="actions"><button class="btn primary" type="submit">Salvar novo nome</button></div>
+    </form>
+  </div>
+
+  <div class="panel">
+    <div class="panelhead"><div><h3>Trocar PIN</h3><p>O site guarda só o hash do PIN. Para trocar, confirme o atual e defina um novo.</p></div></div>
+    <form class="formgrid" id="formTrocarPin" onsubmit="trocarPinOperador(event)">
+      <div class="field"><label>PIN atual</label><input type="password" id="conta-pin-atual" maxlength="4" inputmode="numeric" pattern="[0-9]{4}" placeholder="••••" required></div>
+      <div class="field"><label>PIN novo</label><input type="password" id="conta-pin-novo" maxlength="4" inputmode="numeric" pattern="[0-9]{4}" placeholder="••••" required></div>
+      <div class="field"><label>Confirmar PIN novo</label><input type="password" id="conta-pin-novo-confirma" maxlength="4" inputmode="numeric" pattern="[0-9]{4}" placeholder="••••" required></div>
+      <div class="actions"><button class="btn primary" type="submit">Trocar PIN</button></div>
+    </form>
+  </div>
+
+  <div class="panel">
+    <div class="panelhead"><div><h3>Sair da conta</h3><p>Desconecta este aparelho e volta para a tela de entrada.</p></div></div>
+    <button class="btn" onclick="sairOperador()">Sair</button>
+  </div>
+
+  <div class="panel" style="border-color:rgba(251,113,133,.4)">
+    <div class="panelhead"><div><h3 style="color:var(--bad)">Apagar conta</h3><p>Remove o operador do Supabase: nome, PIN e posição no ranking. Não pode ser desfeito. Registros, editais e cronogramas salvos na nuvem permanecem no banco.</p></div></div>
+    <button class="btn danger" onclick="apagarConta()">Apagar minha conta da nuvem</button>
+  </div>
+</section>
+</main>
+</div>
+
+<div class="toasts" id="toasts"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* =========================================================
+   OPERAÇÃO APROVAÇÃO v2.0 — 100% nuvem (Supabase)
+   Tudo é salvo no banco de dados — nada fica no dispositivo.
+========================================================= */
+const SUPABASE_URL = "https://nvmmzwaezgfifqwtxdyo.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_se9TL5vs1Xki9syaBaBQUA_jIlqKE6b";
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+window.supabaseClient = supabaseClient;
+
+/* ============ ESTADO (espelho do banco) ============ */
+const state = { records:[], cronogramas:[], cronAtivoId:null, rankingGlobal:[], editalAtivoId:null, periodRanking:'dia' };
+let EDITAL = null;                 // edital ativo {id,nome,disciplinas:[{nome,topicos:[{nome,subtopicos:[]}]}]}
+let CRON_ATIVO = null;             // cronograma ativo {id,nome,dias:[[d,t,dt,tp],...],done:[]}
+let focusSeconds=1500, focusTimer=null;
+let charts = {};                   // instâncias ApexCharts
+
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+
+/* ============ TOASTS ============ */
+function toast(msg,cls=''){const t=document.createElement('div');t.className='toast '+cls;t.textContent=msg;$('toasts').appendChild(t);setTimeout(()=>{t.style.opacity='0';t.style.transition='.4s';setTimeout(()=>t.remove(),400)},4200)}
+
+/* ============ CREDENCIAIS (sessão local de login, não são dados) ============ */
+let OPERADOR=null, OPERADOR_HASH=null;
+try{ OPERADOR=sessionStorage.getItem('op_aprov_operador'); OPERADOR_HASH=sessionStorage.getItem('op_aprov_hash'); }catch(e){}
+function guardarSessao(n,h){ OPERADOR=n;OPERADOR_HASH=h;try{sessionStorage.setItem('op_aprov_operador',n);sessionStorage.setItem('op_aprov_hash',h)}catch(e){} }
+function limparSessao(){ OPERADOR=null;OPERADOR_HASH=null;try{sessionStorage.removeItem('op_aprov_operador');sessionStorage.removeItem('op_aprov_hash')}catch(e){} }
+
+async function sha256Hex(texto){
+  const enc=new TextEncoder().encode(texto);
+  const buf=await crypto.subtle.digest('SHA-256',enc);
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+
+/* =========================================================
+   AUTENTICAÇÃO — Entrar (usuário + PIN já criados) OU criar acesso
+========================================================= */
+function authTab(which){
+  const entrar = which==='entrar';
+  $('tabEntrar').classList.toggle('on',entrar);
+  $('tabCriar').classList.toggle('on',!entrar);
+  $('formEntrar').style.display = entrar?'grid':'none';
+  $('formCriar').style.display  = entrar?'none':'grid';
+  $('loginErr').style.display='none'; $('criarErr').style.display='none';
+}
+function authErr(id,msg){const el=$(id);el.textContent=msg;el.style.display='block'}
+
+async function entrarComPin(e){
+  e.preventDefault();
+  const nome=$('login-nome').value.trim(), pin=$('login-pin').value.trim();
+  if(!nome) return authErr('loginErr','Digite seu nome de guerra.');
+  if(!/^\d{4}$/.test(pin)) return authErr('loginErr','O PIN precisa ter exatamente 4 números.');
+  $('btnEntrar').disabled=true;
+  const pinHash=await sha256Hex(pin);
+  const {data,error}=await supabaseClient.rpc('autenticar_operador',{p_nome:nome,p_pin_hash:pinHash});
+  $('btnEntrar').disabled=false;
+  if(error){ return authErr('loginErr','Erro técnico: '+(error.message||JSON.stringify(error))); }
+  if(!data||!data.ok){ return authErr('loginErr',(data&&data.erro)?data.erro:'PIN incorreto para este nome. Tente novamente.'); }
+  guardarSessao(data.nome||nome,pinHash);
+  $('authModal').style.display='none';
+  setUserChip();
+  await bootData();
+  toast('Bem-vindo de volta, '+ (data.nome||nome) +'! 🎯','ok');
+}
+
+async function criarOperador(e){
+  e.preventDefault();
+  const nome=$('criar-nome').value.trim(), pin=$('criar-pin').value.trim(), pin2=$('criar-pin2').value.trim();
+  if(!nome) return authErr('criarErr','Escolha um nome de guerra.');
+  if(!/^\d{4}$/.test(pin)) return authErr('criarErr','O PIN precisa ter exatamente 4 números.');
+  if(pin!==pin2) return authErr('criarErr','Os PINs não conferem.');
+  $('btnCriar').disabled=true;
+  const pinHash=await sha256Hex(pin);
+  const {data,error}=await supabaseClient.rpc('criar_operador',{p_nome:nome,p_pin_hash:pinHash});
+  $('btnCriar').disabled=false;
+  if(error){ return authErr('criarErr','Erro técnico: '+(error.message||JSON.stringify(error))+' — se disser que a função não existe, rode o SQL de criação de operador no Supabase.'); }
+  if(!data||!data.ok){ return authErr('criarErr',(data&&data.erro)?data.erro:'Não foi possível criar o acesso.'); }
+  guardarSessao(data.nome||nome,pinHash);
+  $('authModal').style.display='none';
+  setUserChip();
+  await bootData();
+  toast('Acesso criado! Bem-vindo à operação, '+(data.nome||nome)+' 🎯','ok');
+}
+
+function sairOperador(){ limparSessao(); location.reload(); }
+
+function setUserChip(){
+  $('nome-aluno-logado').innerHTML=`<span class="av">${esc((OPERADOR||'?').trim().charAt(0).toUpperCase())}</span> ${esc(OPERADOR||'não identificado')}`;
+}
+
+/* =========================================================
+   BOOT — carrega tudo do banco
+========================================================= */
+async function verificarOperador(){
+  $('today').textContent=new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long'});
+  $('studyDate').value=new Date().toISOString().slice(0,10);
+  const ini=$('novoCronInicio'); if(ini&&!ini.value) ini.value=new Date().toISOString().slice(0,10);
+  if(OPERADOR&&OPERADOR_HASH){
+    $('authModal').style.display='none'; setUserChip();
+    await bootData();
+  } else {
+    $('authModal').style.display='grid';
+  }
+}
+
+async function bootData(){
+  try{
+    await carregarEditais();
+    await carregarCronogramas();
+    await carregarRegistros();
+    await carregarRankingNuvem();
+    renderAll();
+  }catch(err){
+    toast('Erro ao carregar dados da nuvem: '+(err.message||err),'bad');
+    renderAll();
+  }
+}
+
+/* =========================================================
+   REGISTROS DE ESTUDO — tabela `registros` (nuvem)
+========================================================= */
+async function carregarRegistros(){
+  const {data,error}=await supabaseClient.from('registros').select('*').order('id',{ascending:false}).limit(3000);
+  if(error){ toast('Falha ao carregar registros: '+error.message,'bad'); state.records=[]; return; }
+  state.records=(data||[]).map(r=>({
+    id:r.id, date:r.data, type:r.tipo||'questoes', subject:r.disciplina||'Sem disciplina',
+    topics:r.assuntos||[], topic:(r.assuntos||[]).join(' · '),
+    total:Number(r.total)||0, correct:Number(r.certas)||0, minutes:Number(r.minutos)||0,
+    board:r.banca||'', reason:r.motivo_erro||'none', notes:r.observacoes||''
+  }));
+}
+
+$('studyForm').addEventListener('reset',()=>setTimeout(()=>{updateTopicOptions()},0));
+$('studyForm').onsubmit=async e=>{
+  e.preventDefault();
+  const f=new FormData(e.target);
+  const subject=String(f.get('subject')||'');
+  const topics=[...document.querySelectorAll('input[name="topic"]:checked')].map(i=>i.value).filter(Boolean);
+  const total=+f.get('total')||0, correct=+f.get('correct')||0;
+  if(!EDITAL){ return toast('Carregue/ative um edital antes de registrar.','warn'); }
+  if(!EDITAL.disciplinas.some(d=>d.nome===subject)) return toast('Selecione uma disciplina válida do edital.','bad');
+  const topicosValidos=EDITAL.disciplinas.find(d=>d.nome===subject).topicos.map(t=>t.nome);
+  if(!topics.length||topics.some(t=>!topicosValidos.includes(t))) return toast('Selecione um ou mais assuntos válidos do edital.','bad');
+  if(correct>total) return toast('As questões certas não podem ser maiores que o total.','bad');
+  const btn=e.target.querySelector('button[type="submit"]'); btn.disabled=true;
+  const {error}=await supabaseClient.from('registros').insert({
+    operador:OPERADOR, data:f.get('date'), tipo:f.get('type'), disciplina:subject, assuntos:topics,
+    total, certas:correct, minutos:+f.get('minutes')||0, banca:f.get('board')||null,
+    motivo_erro:f.get('reason'), observacoes:f.get('notes')||null
+  });
+  btn.disabled=false;
+  if(error) return toast('Erro ao salvar na nuvem: '+error.message,'bad');
+  e.target.reset(); $('studyDate').value=new Date().toISOString().slice(0,10); updateTopicOptions();
+  await carregarRegistros(); renderAll(); sincronizarProgressoRanking();
+  toast('Registro salvo na nuvem ✅','ok');
+};
+
+async function deleteRecord(id){
+  if(!confirm('Apagar este registro no banco de dados? Não pode ser desfeito.'))return;
+  const {error}=await supabaseClient.from('registros').delete().eq('id',id);
+  if(error) return toast('Erro ao apagar: '+error.message,'bad');
+  await carregarRegistros(); renderAll(); sincronizarProgressoRanking();
+  toast('Registro apagado.','ok');
+}
+
+/* =========================================================
+   EDITAIS — tabela `editais` (nuvem) + cascata p/ registro
+========================================================= */
+async function carregarEditais(){
+  const {data,error}=await supabaseClient.from('editais').select('*').eq('operador',OPERADOR).order('ativo',{ascending:false}).order('id',{ascending:false});
+  if(error){ toast('Falha ao carregar editais: '+error.message,'bad'); return; }
+  const lista=data||[];
+  state.editalAtivoId=null; EDITAL=null;
+  const ativo=lista.find(x=>x.ativo);
+  if(ativo){ state.editalAtivoId=ativo.id; EDITAL=normalizarEdital(ativo.conteudo); }
+  else if(lista.length){ state.editalAtivoId=lista[0].id; EDITAL=normalizarEdital(lista[0].conteudo); }
+  else{
+    // primeiro acesso: cria o edital PMMA padrão na nuvem
+    const padrao=editalPadraoObj();
+    const {data:novo,error:err2}=await supabaseClient.from('editais').insert({operador:OPERADOR,nome:'Edital PMMA (padrão)',conteudo:padrao,ativo:true}).select().single();
+    if(!err2&&novo){ state.editalAtivoId=novo.id; EDITAL=normalizarEdital(novo.conteudo); }
+    else if(err2){ toast('Não consegui criar o edital padrão: '+err2.message,'bad'); }
+  }
+  atualizarSelectDisciplinas();
+}
+
+function normalizarEdital(c){
+  const j=(typeof c==='string')?JSON.parse(c):c;
+  j.disciplinas=(j.disciplinas||[]).map(d=>({nome:d.nome,topicos:(d.topicos||[]).map(t=>({nome:t.nome,subtopicos:t.subtopicos||[]}))}));
+  return j;
+}
+function editalPadraoObj(){
+  return {disciplinas:EDITAL_PADRAO.disciplinas.map(d=>({nome:d.nome,topicos:d.topicos.map(t=>({nome:t.nome,subtopicos:[...t.subtopicos]}))}))};
+}
+
+function atualizarSelectDisciplinas(){
+  const sel=$('subjectSelect');
+  if(!EDITAL||!EDITAL.disciplinas.length){ sel.innerHTML='<option value="">Nenhuma disciplina — cadastre no Editais</option>'; updateTopicOptions(); return; }
+  sel.innerHTML='<option value="">Selecione</option>'+EDITAL.disciplinas.map(d=>`<option value="${esc(d.nome)}">${esc(d.nome)}</option>`).join('');
+  updateTopicOptions();
+}
+function updateTopicCount(){
+  const sel=[...document.querySelectorAll('input[name="topic"]:checked')];
+  $('topicCount').textContent=`${sel.length} assunto${sel.length===1?'':'s'} selecionado${sel.length===1?'':'s'}`;
+}
+function updateTopicOptions(){
+  const subject=$('subjectSelect').value;
+  const box=$('topicOptions');
+  const disc=EDITAL&&EDITAL.disciplinas.find(d=>d.nome===subject);
+  if(!disc){ box.innerHTML='<div class="chips-empty">Selecione primeiro a disciplina (ou cadastre no Editais)</div>'; updateTopicCount(); return; }
+  box.innerHTML=disc.topicos.map(t=>`<label class="chip"><input type="checkbox" name="topic" value="${esc(t.nome)}"><span>${esc(t.nome)}</span></label>`).join('');
+  box.querySelectorAll('input[name="topic"]').forEach(i=>i.addEventListener('change',updateTopicCount));
+  updateTopicCount();
+}
+$('subjectSelect').addEventListener('change',updateTopicOptions);
+
+function renderEdital(){
+  const box=$('editalBox');
+  if(!EDITAL||!EDITAL.disciplinas.length){ box.innerHTML='<div class="empty">Nenhuma disciplina cadastrada ainda. Adicione a primeira acima.</div>'; return; }
+  box.innerHTML=EDITAL.disciplinas.map((d,di)=>{
+    const linhas=d.topicos.map((t,ti)=>
+      `<div class="topicline">
+         <b>${esc(t.nome)}</b>
+         <div class="sublines">${t.subtopicos.map(s=>`<span>${esc(s)}</span>`).join('')}</div>
+         <div class="itemrow" style="margin-top:9px">
+           <input id="sub-${di}-${ti}" placeholder="Novo subtopico deste tópico...">
+           <button class="iconbtn add" title="Adicionar subtopico" onclick="addSubtopico(${di},${ti})">＋</button>
+         </div>
+       </div>`).join('');
+    const addTopico=`<div class="topicline"><div class="itemrow">
+        <input id="topico-${di}" placeholder="Novo tópico de ${esc(d.nome)}...">
+        <button class="iconbtn add" title="Adicionar tópico" onclick="addTopico(${di})">＋</button>
+      </div></div>`;
+    return `<details class="acc" ${di===0?'open':''}>
+      <summary>
+        <span>${esc(d.nome)} <small>· ${d.topicos.length} tópico(s)</small></span>
+        <span style="display:flex;gap:8px;align-items:center">
+          <span class="tag">disciplina</span>
+          <button class="iconbtn" title="Apagar disciplina" onclick="event.stopPropagation();apagarDisciplina(${di})">🗑</button>
+        </span>
+      </summary>
+      ${linhas}${addTopico}
+    </details>`;
+  }).join('');
+}
+
+async function salvarEdital(mensagem){
+  if(!state.editalAtivoId) return toast('Nenhum edital ativo para salvar.','bad');
+  const {error}=await supabaseClient.from('editais').update({conteudo:EDITAL}).eq('id',state.editalAtivoId);
+  if(error) return toast('Erro ao salvar edital: '+error.message,'bad');
+  atualizarSelectDisciplinas(); renderEdital();
+  if(mensagem) toast(mensagem,'ok');
+}
+async function addDisciplina(){
+  const nome=$('novaDisciplina').value.trim().toUpperCase();
+  if(!nome) return toast('Digite o nome da disciplina.','warn');
+  if(!EDITAL) return toast('Nenhum edital ativo.','bad');
+  if(EDITAL.disciplinas.some(d=>d.nome===nome)) return toast('Essa disciplina já existe.','warn');
+  EDITAL.disciplinas.push({nome,topicos:[]});
+  $('novaDisciplina').value='';
+  await salvarEdital('Disciplina "'+nome+'" adicionada ao edital ✅');
+}
+async function addTopico(di){
+  const input=$('topico-'+di); const nome=input.value.trim();
+  if(!nome) return toast('Digite o tópico.','warn');
+  EDITAL.disciplinas[di].topicos.push({nome,subtopicos:[]});
+  await salvarEdital('Tópico adicionado ✅');
+}
+async function addSubtopico(di,ti){
+  const input=$('sub-'+di+'-'+ti); const nome=input.value.trim();
+  if(!nome) return toast('Digite o subtopico.','warn');
+  EDITAL.disciplinas[di].topicos[ti].subtopicos.push(nome);
+  await salvarEdital('Subtopico adicionado ✅');
+}
+async function apagarDisciplina(di){
+  const d=EDITAL.disciplinas[di];
+  if(!confirm('Apagar a disciplina "'+d.nome+'" e todos os seus tópicos do edital? Não afeta registros já feitos.'))return;
+  EDITAL.disciplinas.splice(di,1);
+  await salvarEdital('Disciplina removida do edital.');
+}
+function exportarEdital(){
+  if(!EDITAL) return toast('Nada para exportar.','warn');
+  const blob=new Blob([JSON.stringify({version:2,tipo:'edital-operacao-aprovacao',edital:EDITAL},null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='edital-modelo.json';a.click();URL.revokeObjectURL(a.href);
+}
+function importarEdital(e){
+  const file=e.target.files[0]; if(!file)return;
+  const reader=new FileReader();
+  reader.onload=async()=>{
+    try{
+      const inc=JSON.parse(reader.result);
+      const ed=inc.edital||inc;
+      const norm=normalizarEdital(ed);
+      if(!norm.disciplinas.length) throw Error();
+      if(!confirm('Importar edital com '+norm.disciplinas.length+' disciplina(s)? Ele substitui o conteúdo do edital ativo na nuvem.'))return;
+      EDITAL=norm;
+      await salvarEdital('Edital importado e salvo na nuvem ✅');
+    }catch{ toast('Arquivo de edital inválido.','bad'); }
+  };
+  reader.readAsText(file); e.target.value='';
+}
+async function restaurarEditalPadrao(){
+  if(!confirm('Restaurar o edital padrão da PMMA? Isso substitui o conteúdo do edital ativo.'))return;
+  EDITAL=editalPadraoObj();
+  await salvarEdital('Edital padrão PMMA restaurado ✅');
+}
+
+/* =========================================================
+   CRONOGRAMAS — tabela `cronogramas` (nuvem), um ativo por operador
+========================================================= */
+async function carregarCronogramas(){
+  const {data,error}=await supabaseClient.from('cronogramas').select('*').eq('operador',OPERADOR).order('ativo',{ascending:false}).order('id',{ascending:true});
+  if(error){ toast('Falha ao carregar cronogramas: '+error.message,'bad'); return; }
+  state.cronogramas=(data||[]).map(c=>({id:c.id,nome:c.nome||('Cronograma '+c.id),dias:c.dias||[],done:c.done||[],ativo:!!c.ativo}));
+  const ativo=state.cronogramas.find(c=>c.ativo);
+  if(ativo){ CRON_ATIVO=ativo; state.cronAtivoId=ativo.id; }
+  else if(state.cronogramas.length){ CRON_ATIVO=state.cronogramas[0]; state.cronAtivoId=CRON_ATIVO.id; }
+  else{
+    const {data:novo,error:e2}=await supabaseClient.from('cronogramas').insert({operador:OPERADOR,nome:'Ciclo PMMA 30 dias (padrão)',dias:CRONOGRAMA_PADRAO,ativo:true}).select().single();
+    if(!e2&&novo){ const c={id:novo.id,nome:novo.nome,dias:novo.dias||CRONOGRAMA_PADRAO,done:novo.done||[],ativo:true}; state.cronogramas=[c]; CRON_ATIVO=c; state.cronAtivoId=c.id; }
+    else if(e2){ toast('Não consegui criar o cronograma padrão: '+e2.message,'bad'); }
+  }
+}
+
+async function ativarCronograma(id){
+  const alvo=state.cronogramas.find(c=>c.id===id); if(!alvo)return;
+  for(const c of state.cronogramas){
+    const precisa=(c.id===id)!==!!c.ativo;
+    c.ativo=(c.id===id);
+    if(precisa){ await supabaseClient.from('cronogramas').update({ativo:c.ativo}).eq('id',c.id); }
+  }
+  CRON_ATIVO=alvo; state.cronAtivoId=id;
+  renderCronogramas(); renderAll();
+  toast('Cronograma "'+alvo.nome+'" ativado ✅','ok');
+}
+async function apagarCronograma(id){
+  const c=state.cronogramas.find(x=>x.id===id); if(!c)return;
+  if(!confirm('Apagar o cronograma "'+c.nome+'" no banco de dados? Não pode ser desfeito.'))return;
+  const {error}=await supabaseClient.from('cronogramas').delete().eq('id',id);
+  if(error) return toast('Erro ao apagar: '+error.message,'bad');
+  if(state.cronAtivoId===id){
+    CRON_ATIVO=null; state.cronAtivoId=null;
+    const restante=state.cronogramas.filter(x=>x.id!==id);
+    if(restante.length){ await ativarCronograma(restante[0].id); }
+  }
+  await carregarCronogramas(); renderCronogramas(); renderAll();
+  toast('Cronograma apagado.','ok');
+}
+async function toggleDay(i){
+  if(!CRON_ATIVO)return;
+  CRON_ATIVO.done[i]=!CRON_ATIVO.done[i];
+  const {error}=await supabaseClient.from('cronogramas').update({done:CRON_ATIVO.done}).eq('id',CRON_ATIVO.id);
+  if(error) return toast('Erro ao salvar progresso: '+error.message,'bad');
+  renderCronogramas(); renderAll(); sincronizarProgressoRanking();
+}
+function exportarCronograma(){
+  if(!CRON_ATIVO) return toast('Nenhum cronograma ativo.','warn');
+  const blob=new Blob([JSON.stringify({version:2,tipo:'cronograma-operacao-aprovacao',nome:CRON_ATIVO.nome,dias:CRON_ATIVO.dias.length,curriculum:CRON_ATIVO.dias},null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='cronograma-modelo.json';a.click();URL.revokeObjectURL(a.href);
+}
+function importarCronograma(e){
+  const file=e.target.files[0]; if(!file)return;
+  const reader=new FileReader();
+  reader.onload=async()=>{
+    try{
+      const inc=JSON.parse(reader.result);
+      const lista=Array.isArray(inc)?inc:inc.curriculum;
+      if(!Array.isArray(lista)||!lista.length) throw Error();
+      lista.forEach(it=>{ if(!Array.isArray(it)||it.length<4) throw Error(); });
+      const nome=inc.nome||('Importado '+new Date().toLocaleDateString('pt-BR'));
+      if(!confirm('Importar este cronograma de '+lista.length+' dias e salvá-lo na nuvem?'))return;
+      const {data,error}=await supabaseClient.from('cronogramas').insert({operador:OPERADOR,nome,dias:lista,done:new Array(lista.length).fill(false),ativo:false}).select().single();
+      if(error) throw error;
+      state.cronogramas.unshift({id:data.id,nome,dias:lista,done:data.done||[],ativo:false});
+      renderCronogramas();
+      toast('Cronograma importado e salvo na nuvem ✅ (clique em Ativar para usá-lo)','ok');
+    }catch(err){ toast(err&&err.message?('Erro: '+err.message):'Arquivo de cronograma inválido.','bad'); }
+  };
+  reader.readAsText(file); e.target.value='';
+}
+async function restaurarCronogramaPadrao(){
+  if(!confirm('Criar um novo cronograma com o modelo padrão PMMA de 30 dias? Ele será salvo na nuvem (o atual continua na lista).'))return;
+  const {data,error}=await supabaseClient.from('cronogramas').insert({operador:OPERADOR,nome:'Ciclo PMMA 30 dias (padrão)',dias:CRONOGRAMA_PADRAO,done:new Array(CRONOGRAMA_PADRAO.length).fill(false),ativo:false}).select().single();
+  if(error) return toast('Erro: '+error.message,'bad');
+  state.cronogramas.unshift({id:data.id,nome:data.nome,dias:CRONOGRAMA_PADRAO,done:data.done||[],ativo:false});
+  renderCronogramas();
+  toast('Cronograma padrão salvo ✅ (clique em Ativar para usá-lo)','ok');
+}
+
+function gerarCronograma(dias,dataInicioStr,nome){
+  dias=Math.max(5,Math.min(120,Number(dias)||30));
+  const disciplinas=EDITAL?EDITAL.disciplinas.map(d=>d.nome).filter(d=>!/SIMULADO|REVIS/i.test(d)):[];
+  if(!disciplinas.length){ toast('O edital ativo não tem disciplinas suficientes.','bad'); return null; }
+  const filas={}; disciplinas.forEach(d=>{ filas[d]=EDITAL.disciplinas.find(x=>x.nome===d).topicos.map(t=>t.nome); });
+  const ordem=[]; let contSem=0,di=0;
+  const dataInicio=dataInicioStr?new Date(dataInicioStr+'T12:00:00'):new Date();
+  while(ordem.length<dias){
+    if(contSem>0&&contSem%6===0&&ordem.length<dias-1){ ordem.push(['SIMULADO E REVISÃO','Simulado com os conteúdos estudados na semana e revisão ativa dos pontos com maior dificuldade.']); contSem=0; continue; }
+    const disc=disciplinas[di%disciplinas.length];
+    if(!filas[disc].length) filas[disc]=EDITAL.disciplinas.find(x=>x.nome===disc).topicos.map(t=>t.nome);
+    ordem.push([disc,filas[disc].shift()||'Revisão geral da disciplina.']); di++; contSem++;
+  }
+  const novo=ordem.map((it,i)=>{ const d=new Date(dataInicio); d.setDate(d.getDate()+i);
+    return [it[0],it[1],String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0'),(i===ordem.length-1)?'final':'study']; });
+  return novo;
+}
+async function criarCronogramaForm(e){
+  e.preventDefault();
+  const dias=$('novoCronDias').value, inicio=$('novoCronInicio').value, nome=($('novoCronNome').value.trim())||'Ciclo de estudos';
+  if(!confirm('Gerar um cronograma de '+dias+' dias com base no edital ativo e salvar na nuvem?'))return;
+  const gerado=gerarCronograma(dias,inicio,nome);
+  if(!gerado)return;
+  const {data,error}=await supabaseClient.from('cronogramas').insert({operador:OPERADOR,nome,dias:gerado,done:new Array(gerado.length).fill(false),ativo:false}).select().single();
+  if(error) return toast('Erro ao salvar cronograma: '+error.message,'bad');
+  state.cronogramas.unshift({id:data.id,nome,dias:gerado,done:data.done||[],ativo:false});
+  renderCronogramas();
+  toast('Cronograma de '+dias+' dias salvo ✅ (clique em Ativar para usá-lo)','ok');
+}
+
+function renderCronogramas(){
+  const box=$('listaCronogramas');
+  if(!state.cronogramas.length){ box.innerHTML='<div class="empty">Nenhum cronograma salvo na nuvem ainda.</div>'; return; }
+  box.innerHTML=state.cronogramas.map(c=>{
+    const done=c.done.filter(Boolean).length;
+    const pct=c.dias.length?Math.round(done/c.dias.length*100):0;
+    const dias=c.dias.slice(0,3).map(d=>`<div class="daybtn" style="margin-bottom:6px"><span class="daynum">•</span><span><b>${esc(d[0])}</b><small>${esc((d[1]||'').slice(0,110))}...</small></span></div>`).join('');
+    return `<div class="panel" style="border-color:${c.ativo?'rgba(139,92,246,.45)':'var(--line)'}">
+      <div class="panelhead">
+        <div><p class="eyebrow">${c.ativo?'● ATIVO AGORA':'Cronograma salvo'}</p><h3>${esc(c.nome)}</h3>
+        <p>${c.dias.length} dias · ${done} concluídos · ${pct}%</p></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          ${c.ativo?'<span class="tag ok">em uso</span>':`<button class="btn sm" onclick="ativarCronograma(${c.id})">▶ Ativar</button>`}
+          <button class="btn sm danger" onclick="apagarCronograma(${c.id})">🗑 Apagar</button>
+        </div>
+      </div>
+      <div class="progress" style="margin-bottom:14px"><i style="width:${pct}%"></i></div>
+      ${dias}
+      <details class="acc"><summary onclick="event.preventDefault()"><span>Ver todos os ${c.dias.length} dias</span><span class="chev">›</span></summary>
+      ${c.dias.map((d,i)=>`<button class="daybtn ${c.done[i]?'done':''}" onclick="toggleDayCron(${c.id},${i})"><span class="daynum">${String(i+1).padStart(2,'0')}</span><span><b>${esc(d[0])}${d[2]?' · '+esc(d[2]):''}</b><small>${esc(d[1])}</small></span><span class="badge ${c.done[i]?'done':(d[3]==='simulado'?'sim':(d[3]==='final'?'fin':''))}">${c.done[i]?'✓ FEITO':(d[3]==='simulado'?'SIMULADO':(d[3]==='final'?'RETA FINAL':'ESTUDAR'))}</span></button>`).join('')}
+      </details>
+    </div>`;
+  }).join('');
+}
+async function toggleDayCron(id,i){
+  const c=state.cronogramas.find(x=>x.id===id); if(!c)return;
+  if(!c.ativo){ toast('Ative este cronograma antes de marcar os dias.','warn'); return; }
+  toggleDay(i);
+}
+</script>
 <script>
 /* =========================================================
    RANKING — desempenho de todos, com % acerto e contagem
@@ -473,10 +1599,12 @@ verificarOperador();
 
 <script>
 /* ============ DADOS PADRÃO (PMMA) — usados ao criar o primeiro edital/cronograma na nuvem ============ */
-const EDITAL_PADRAO = {"disciplinas": [{"nome": "LÍNGUA PORTUGUESA", "topicos": [{"nome": "1 Compreensão e interpretação de textos de gêneros variados.", "subtopicos": ["2 Reconhecimento de tipos e géneros textuais.", "3 Domínio da ortografia oficial."]}, {"nome": "4 Domínio dos mecanismos de coesão textual.", "subtopicos": ["4.1 Emprego de elementos de referenciação, substituição e repetição, de conectores e de outros elementos de sequenciação textual.", "4.2 Emprego de tempos e modos verbais."]}, {"nome": "5 Domínio da estrutura morfossintática do período.", "subtopicos": ["5.1 Emprego das classes de palavras."]}, {"nome": "5.2 Relações de coordenação entre orações e entre termos da oração.", "subtopicos": ["5.3 Relações de subordinação entre orações e entre termos da oração.", "5.4 Emprego dos sinais de pontuação."]}, {"nome": "5.5 Concordância verbal e nominal.", "subtopicos": ["5.6 Regência verbal e nominal.", "5.7 Emprego do sinal indicativo de crase.", "5.8 Colocação dos pronomes átonos."]}, {"nome": "> 1 Compreensão e interpretação de textos de gêneros variados.", "subtopicos": []}, {"nome": "> 2 Reconhecimento de tipos e géneros textuais.", "subtopicos": []}, {"nome": "> 3 Domínio da ortografia oficial.", "subtopicos": []}, {"nome": "> 4 Domínio dos mecanismos de coesão textual (- 4.1 e - 4.2).", "subtopicos": []}, {"nome": "> 5 Domínio da estrutura morfossintática do período.", "subtopicos": []}, {"nome": "1 Compreensão e interpretação de textos de gêneros variados.", "subtopicos": []}, {"nome": "2 Reconhecimento de tipos e géneros textuais.", "subtopicos": []}, {"nome": "3 Domínio da ortografia oficial.", "subtopicos": []}, {"nome": "4 Domínio dos mecanismos de coesão textual.", "subtopicos": []}, {"nome": "4.1 Emprego de elementos de referenciação, substituição e repetição, de conectores e de outros elementos de sequenciação textual.", "subtopicos": []}, {"nome": "4.2 Emprego de tempos e modos verbais.", "subtopicos": []}, {"nome": "5 Domínio da estrutura morfossintática do período.", "subtopicos": ["5.1 Emprego das classes de palavras.", "5.2 Relações de coordenação entre orações e entre termos da oração.", "5.3 Relações de subordinação entre orações e entre termos da oração.", "5.4 Emprego dos sinais de pontuação.", "5.5 Concordância verbal e nominal.", "5.6 Regência verbal e nominal.", "5.7 Emprego do sinal indicativo de crase.", "5.8 Colocação dos pronomes átonos."]}, {"nome": "6 Reescrita de frases e parágrafos do texto.", "subtopicos": ["6.1 Significação das palavras.", "6.2 Substituição de palavras ou de trechos de texto.", "6.3 Reorganização da estrutura de orações e de períodos do texto.", "6.4 Reescrita de textos de diferentes gêneros e níveis de formalidade."]}], "topicos_resumo_count": 19}, {"nome": "RACIOCÍNIO LÓGICO", "topicos": [{"nome": "1 Compreensão de estruturas lógicas.", "subtopicos": ["2 Lógica de argumentação: analogias, inferências, deduções e conclusões.", "3 Lógica sentencial (ou proposicional).", "3.1 Proposições simples e compostas."]}, {"nome": "3.2 Tabelas verdade.", "subtopicos": ["3.3 Equivalências.", "3.4 Leis de Morgan.", "3.5 Diagramas lógicos."]}, {"nome": "> 1 Compreensão de estruturas lógicas.", "subtopicos": []}, {"nome": "> 2 Lógica de argumentação: analogias, inferências, deduções e conclusões.", "subtopicos": []}, {"nome": "> 3 Lógica sentencial (ou proposicional) e tabelas-verdade.", "subtopicos": []}, {"nome": "1 Compreensão de estruturas lógicas.", "subtopicos": []}, {"nome": "2 Lógica de argumentação: analogias, inferências, deduções e conclusões.", "subtopicos": []}, {"nome": "3 Lógica sentencial (ou proposicional).", "subtopicos": ["3.1 Proposições simples e compostas.", "3.2 Tabelas verdade.", "3.3 Equivalências.", "3.4 Leis de Morgan.", "3.5 Diagramas lógicos."]}], "topicos_resumo_count": 8}, {"nome": "HISTÓRIA DO BRASIL", "topicos": [{"nome": "1 A contribuição dos índios e negros para a formação do Brasil; A formação do Brasil Contemporâneo; A República Velha e as estruturas oligárquicas; Economia e Sociedade: o café e estratificação social.", "subtopicos": ["A Revolução de 1930; A Era Vargas: política, economia e sociedade; O período democrático (1945 a 1964).", "2 A redemocratização do Estado e a constituição de 1946.", "3 A política de industrialização do governo JK.", "5 A crise do regime democrático."]}, {"nome": "6 O golpe de 1964.", "subtopicos": ["7 A crise do regime militar e a redemocratização.", "8 O Brasil politico: nação e território.", "9 Organização do Estado Brasileiro."]}, {"nome": "> 1 A contribuição dos índios e negros para a formação do Brasil; A República Velha; O café.", "subtopicos": []}, {"nome": "> 2 A redemocratização do Estado e a constituição de 1946.", "subtopicos": []}, {"nome": "> 3 A política de industrialização do governo JK.", "subtopicos": []}, {"nome": "> 6 O golpe de 1964.", "subtopicos": []}, {"nome": "> 7 A crise do regime militar e a redemocratização.", "subtopicos": []}, {"nome": "> 10 As Constituições.", "subtopicos": []}, {"nome": "1 A contribuição dos índios e negros para a formação do Brasil Contemporâneo.", "subtopicos": ["A República Velha.", "A formação do Brasil Contemporâneo.", "Economia e Sociedade: o café e estratificação social."]}, {"nome": "2 A formação do Brasil Contemporâneo.", "subtopicos": ["A Revolução de 1930.", "A Era Vargas: política, economia e sociedade.", "O período democrático (1945 a 1964).", "3 A política de industrialização do governo JK."]}, {"nome": "5 A crise do regime democrático.", "subtopicos": []}, {"nome": "10 As Constituições.", "subtopicos": []}], "topicos_resumo_count": 11}, {"nome": "HISTÓRIA DO MARANHÃO", "topicos": [{"nome": "1 França equinocial: expedição de Daniel de La Touche.", "subtopicos": ["2 Fundação de São Luís.", "3 Batalha de Guaxenduba.", "4 Capitães mores do Maranhão."]}, {"nome": "> 1 França equinocial: expedição de Daniel de La Touche.", "subtopicos": []}, {"nome": "> 2 Fundação de São Luís.", "subtopicos": []}, {"nome": "> 3 Batalha de Guaxenduba.", "subtopicos": []}, {"nome": "> 4 Capitães mores do Maranhão.", "subtopicos": []}, {"nome": "1 França equinocial: expedição de Daniel de La Touche.", "subtopicos": ["2 Fundação de São Luís.", "3 Batalha de Guaxenduba."]}, {"nome": "4 Capitães mores do Maranhão.", "subtopicos": []}, {"nome": "5 Economia maranhense nos séculos XVII, XVIII e XIX.", "subtopicos": []}, {"nome": "13 Revolução de 1930 no Maranhão.", "subtopicos": ["14 Principais fatos políticos, econômicos e sociais ocorridos no Maranhão, na segunda metade do século XX."]}], "topicos_resumo_count": 9}, {"nome": "GEOGRAFIA DO BRASIL", "topicos": [{"nome": "1 A integração ao processo de internacionalização da economia.", "subtopicos": ["2 O processo de industrialização e suas repercussões na organização do espaço.", "3 A rede brasileira de transportes e sua evolução.", "4 A estrutura urbana brasileira e das grandes metrópoles."]}, {"nome": "> 1 A integração ao processo de internacionalização da economia.", "subtopicos": []}, {"nome": "> 3 A rede brasileira de transportes e sua evolução.", "subtopicos": []}, {"nome": "> 4 A estrutura urbana brasileira.", "subtopicos": []}, {"nome": "1 A integração ao processo de internacionalização da economia.", "subtopicos": ["2 O processo de industrialização e suas repercussões na organização do espaço.", "3 A rede brasileira de transportes e sua evolução."]}, {"nome": "4 A estrutura urbana brasileira e das grandes metrópoles.", "subtopicos": []}], "topicos_resumo_count": 6}, {"nome": "GEOGRAFIA DO MARANHÃO", "topicos": [{"nome": "1 Localização do Estado do Maranhão: superfície; limites; linhas de fronteira; pontos extremos; áreas de proteção ambiental (APA).", "subtopicos": ["2 Parques nacionais.", "3 Climas do Maranhão: pluviosidade e temperatura.", "4 Geomorfologia.", "4.1 Classificação do relevo maranhense: planaltos, planícies e baixadas."]}, {"nome": "> 1 Localização do Estado do Maranhão.", "subtopicos": []}, {"nome": "> 3 Climas do Maranhão.", "subtopicos": []}, {"nome": "> 4 Geomorfologia (- 4.1).", "subtopicos": []}, {"nome": "> 5 Características dos rios maranhenses.", "subtopicos": []}, {"nome": "2 Parques nacionais.", "subtopicos": []}, {"nome": "4 Geomorfologia.", "subtopicos": ["4.1 Classificação do relevo maranhense: planaltos, planícies e baixadas."]}, {"nome": "5 Características dos rios maranhenses.", "subtopicos": []}], "topicos_resumo_count": 8}, {"nome": "LEGISLAÇÃO INSTITUCIONAL", "topicos": [{"nome": "1 Lei estadual n° 6.513/1995 e suas alterações (Estatuto dos Policiais Militares do Estado do Maranhão).", "subtopicos": ["2 Lei n° 9.467/1996.", "3 Decreto n° 22.585/2006.", "4 Lei n° 10.408/2015."]}, {"nome": "> 1 Lei estadual n° 6.513/1995 e suas alterações (Estatuto dos Policiais Militares do Estado do Maranhão).", "subtopicos": []}, {"nome": "1 Lei estadual n° 6.513/1995 e suas alterações (Estatuto dos Policiais Militares do Estado do Maranhão).", "subtopicos": []}], "topicos_resumo_count": 3}, {"nome": "INFORMÁTICA - NOÇÕES", "topicos": [{"nome": "1 Noções de sistema operacional (ambientes Linux e Windows).", "subtopicos": ["2 Edição de textos, planilhas e apresentações (ambientes Microsoft Office e LibreOffice).", "3 Redes de computadores: conceitos básicos.", "4 Internet e Intranet: conceitos e aplicações."]}, {"nome": "> 1 Noções de sistema operacional (ambientes Linux e Windows).", "subtopicos": []}, {"nome": "> 2 Edição de textos, planilhas e apresentações.", "subtopicos": []}, {"nome": "> 3 Redes de computadores.", "subtopicos": []}, {"nome": "> 4 Internet e Intranet.", "subtopicos": []}, {"nome": "> 5 Segurança da informação.", "subtopicos": []}, {"nome": "5 Segurança da informação.", "subtopicos": ["5.1 Procedimentos de segurança.", "5.2 Noções de vírus, worms e pragas virtuais.", "5.3 Aplicativos para segurança (antivírus).", "5.4 Procedimentos de backup.", "5.5 Armazenamento de dados na nuvem (cloud storage).", "6 Redes de computadores."]}], "topicos_resumo_count": 7}, {"nome": "ATUALIDADES", "topicos": [], "topicos_resumo_count": 0}, {"nome": "DIREITO ADMINISTRATIVO", "topicos": [], "topicos_resumo_count": 0}, {"nome": "DIREITO CONSTITUCIONAL", "topicos": [], "topicos_resumo_count": 0}, {"nome": "DIREITO PENAL", "topicos": [], "topicos_resumo_count": 0}, {"nome": "DIREITO PROCESSUAL PENAL", "topicos": [], "topicos_resumo_count": 0}, {"nome": "LEGISLAÇÃO PENAL ESPECIAL", "topicos": [], "topicos_resumo_count": 0}]};
-const CRONOGRAMA_PADRAO = [["LÍNGUA PORTUGUESA", "1 Compreensão e interpretação de textos de gêneros variados. · 2 Reconhecimento de tipos e géneros textuais. · 3 Domínio da ortografia oficial.", "01/09", "study"], ["RACIOCÍNIO LÓGICO", "1 Compreensão de estruturas lógicas. · 2 Lógica de argumentação: analogias, inferências, deduções e conclusões. · 3 Lógica sentencial (ou proposicional). · 3.1 Proposições simples e compostas.", "02/09", "study"], ["HISTÓRIA DO BRASIL", "1 A contribuição dos índios e negros para a formação do Brasil; A formação do Brasil Contemporâneo; A República Velha e as estruturas oligárquicas; Economia e Sociedade: o café e estratificação social.", "03/09", "study"], ["HISTÓRIA DO MARANHÃO", "1 França equinocial: expedição de Daniel de La Touche. · 2 Fundação de São Luís. · 3 Batalha de Guaxenduba. · 4 Capitães mores do Maranhão.", "04/09", "study"], ["GEOGRAFIA DO BRASIL", "1 A integração ao processo de internacionalização da economia. · 2 O processo de industrialização e suas repercussões na organização do espaço. · 3 A rede brasileira de transportes e sua evolução. · 4 A estrutura urbana brasileira e das grandes metrópoles.", "05/09", "study"], ["SIMULADO E REVISÃO", "Realização de simulado com os conteúdos da semana e revisão ativa dos pontos com maior dificuldade.", "06/09", "simulado"], ["GEOGRAFIA DO MARANHÃO", "1 Localização do Estado do Maranhão: superfície; limites; linhas de fronteira; pontos extremos; áreas de proteção ambiental (APA). · 2 Parques nacionais. · 3 Climas do Maranhão: pluviosidade e temperatura. · 4 Geomorfologia (- 4.1 Classificação do relevo maranhense: planaltos, planícies e baixadas).", "07/09", "study"], ["LEGISLAÇÃO INSTITUCIONAL", "1 Lei estadual nº 6.513/1995 e suas alterações (Estatuto dos Policiais Militares do Estado do Maranhão).", "08/09", "study"], ["INFORMÁTICA - NOÇÕES", "1 Noções de sistema operacional (ambientes Linux e Windows). · 2 Edição de textos, planilhas e apresentações. · 3 Redes de computadores. · 4 Internet e Intranet: conceitos e aplicações.", "09/09", "study"], ["LÍNGUA PORTUGUESA", "4 Domínio dos mecanismos de coesão textual. · 4.1 Emprego de elementos de referenciação, substituição e repetição, de conectores e de outros elementos de sequenciação textual. · 4.2 Emprego de tempos e modos verbais.", "10/09", "study"], ["LÍNGUA PORTUGUESA", "5 Domínio da estrutura morfossintática do período. · 5.1 Emprego das classes de palavras. · 5.2 Relações de coordenação entre orações e entre termos da oração. · 5.3 Relações de subordinação entre orações e entre termos da oração.", "11/09", "study"], ["LÍNGUA PORTUGUESA (FECHAMENTO)", "5.4 Emprego dos sinais de pontuação. · 5.5 Concordância verbal e nominal. · 5.6 Regência verbal e nominal. · 5.7 Emprego do sinal indicativo de crase. · 5.8 Colocação dos pronomes átonos.", "12/09", "study"], ["SIMULADO E REVISÃO", "Realização de simulado geral e revisão estratégica.", "13/09", "simulado"], ["LÍNGUA PORTUGUESA + RACIOCÍNIO LÓGICO", "6 Reescrita de frases e parágrafos do texto (6.1 Significação das palavras, 6.2 Substituição de palavras ou de trechos de texto, 6.3 Reorganização da estrutura de orações e de períodos do texto, 6.4 Reescrita de textos de diferentes gêneros e níveis de formalidade). · 3.2 Tabelas verdade. · 3.3 Equivalências. · 3.4 Leis de Morgan. · 3.5 Diagramas lógicos.", "14/09", "study"], ["HISTÓRIA DO BRASIL", "2 A formação do Brasil Contemporâneo; A Revolução de 1930; A Era Vargas: política, economia e sociedade; O período democrático (1945 a 1964). · 3 A política de industrialização do governo JK. · 5 A crise do regime democrático. · 10 As Constituições.", "15/09", "study"], ["HISTÓRIA DO BRASIL", "6 O golpe de 1964. · 7 A crise do regime militar e a redemocratização. · 8 O Brasil político: nação e território. · 9 Organização do Estado Brasileiro.", "16/09", "study"], ["HISTÓRIA DO MARANHÃO", "5 Economia maranhense nos séculos XVII, XVIII e XIX. · 13 Revolução de 1930 no Maranhão. · 14 Principais fatos políticos, econômicos e sociais ocorridos no Maranhão, na segunda metade do século XX.", "17/09", "study"], ["GEOGRAFIA DO BRASIL", "1 A integração ao processo de internacionalização da economia. · 2 O processo de industrialização e suas repercussões na organização do espaço. · 3 A rede brasileira de transportes e sua evolução. · 4 A estrutura urbana brasileira e das grandes metrópoles.", "18/09", "study"], ["GEOGRAFIA DO MARANHÃO", "5 Características dos rios maranhenses. · 6 Vegetação: tipos e características. · 7 Solos: tipos e aptidões agrícolas. · 8 Hidrografia: principais rios e bacias.", "19/09", "study"], ["SIMULADO E REVISÃO", "Simulado com todos os conteúdos da segunda semana e revisão ativa.", "20/09", "simulado"], ["LEGISLAÇÃO INSTITUCIONAL", "1 Lei estadual nº 6.513/1995 e suas alterações (Estatuto dos Policiais Militares do Estado do Maranhão). · 2 Lei nº 9.467/1996. · 3 Decreto nº 22.585/2006. · 4 Lei nº 10.408/2015.", "21/09", "study"], ["INFORMÁTICA - NOÇÕES", "1 Noções de sistema operacional (ambientes Linux e Windows). · 2 Edição de textos, planilhas e apresentações (ambientes Microsoft Office e LibreOffice). · 3 Redes de computadores: conceitos básicos. · 4 Internet e Intranet: conceitos e aplicações.", "22/09", "study"], ["INFORMÁTICA - NOÇÕES", "5 Segurança da informação. · 5.1 Procedimentos de segurança. · 5.2 Noções de vírus, worms e pragas virtuais. · 5.3 Aplicativos para segurança (antivírus). · 5.4 Procedimentos de backup. · 5.5 Armazenamento de dados na nuvem (cloud storage).", "23/09", "study"], ["LÍNGUA PORTUGUESA", "Revisão dos pontos com maior dificuldade e exercícios extras.", "24/09", "study"], ["RACIOCÍNIO LÓGICO", "Revisão geral dos tópicos de lógica sentencial e quantificadores.", "25/09", "study"], ["HISTÓRIA DO BRASIL + MARANHÃO", "Revisão completa dos tópicos históricos.", "26/09", "study"], ["SIMULADO FINAL", "Realização de simulado geral e revisão estratégica final.", "27/09", "simulado"], ["INFORMÁTICA - NOÇÕES", "5.4 Procedimentos de backup. · 5.5 Armazenamento de dados na nuvem (cloud storage). · 13 Revolução de 1930 no Maranhão. · 14 Principais fatos políticos, econômicos e sociais ocorridos no Maranhão, na segunda metade do século XX.", "28/09", "study"], ["LÍNGUA PORTUGUESA", "5.5 Concordância verbal e nominal. · 5.6 Regência verbal e nominal. · 5.7 Emprego do sinal indicativo de crase. · 5.8 Colocação dos pronomes átonos.", "29/09", "study"], ["LÍNGUA PORTUGUESA (FECHAMENTO) & HISTÓRIA DO BRASIL", "6 Reescrita de frases e parágrafos do texto (6.1 Significação das palavras; 6.2 Substituição de palavras ou de trechos de texto; 6.3 Reorganização da estrutura de orações e de períodos do texto; 6.4 Reescrita de textos de diferentes gêneros e níveis de formalidade). · 10 As Constituições.", "30/09", "final"]];
+const EDITAL_PADRAO = {"disciplinas": [{"nome": "LÍNGUA PORTUGUESA", "topicos": [{"nome": "1 Compreensão e interpretação de textos de gêneros variados.", "subtopicos": ["2 Reconhecimento de tipos e géneros textuais.", "3 Domínio da ortografia oficial."]}, {"nome": "4 Domínio dos mecanismos de coesão textual.", "subtopicos": ["4.1 Emprego de elementos de referenciação, substituição e repetição, de conectores e de outros elementos de sequenciação textual.", "4.2 Emprego de tempos e modos verbais."]}, {"nome": "5 Domínio da estrutura morfossintática do período.", "subtopicos": ["5.1 Emprego das classes de palavras."]}, {"nome": "5.2 Relações de coordenação entre orações e entre termos da oração.", "subtopicos": ["5.3 Relações de subordinação entre orações e entre termos da oração.", "5.4 Emprego dos sinais de pontuação."]}, {"nome": "5.5 Concordância verbal e nominal.", "subtopicos": ["5.6 Regência verbal e nominal.", "5.7 Emprego do sinal indicativo de crase.", "5.8 Colocação dos pronomes átonos."]}, {"nome": "> 1 Compreensão e interpretação de textos de gêneros variados.", "subtopicos": []}, {"nome": "> 2 Reconhecimento de tipos e géneros textuais.", "subtopicos": []}, {"nome": "> 3 Domínio da ortografia oficial.", "subtopicos": []}, {"nome": "> 4 Domínio dos mecanismos de coesão textual (- 4.1 e - 4.2).", "subtopicos": []}, {"nome": "> 5 Domínio da estrutura morfossintática do período.", "subtopicos": []}, {"nome": "1 Compreensão e interpretação de textos de gêneros variados.", "subtopicos": []}, {"nome": "2 Reconhecimento de tipos e géneros textuais.", "subtopicos": []}, {"nome": "3 Domínio da ortografia oficial.", "subtopicos": []}, {"nome": "4 Domínio dos mecanismos de coesão textual.", "subtopicos": []}, {"nome": "4.1 Emprego de elementos de referenciação, substituição e repetição, de conectores e de outros elementos de sequenciação textual.", "subtopicos": []}, {"nome": "4.2 Emprego de tempos e modos verbais.", "subtopicos": []}, {"nome": "5 Domínio da estrutura morfossintática do período.", "subtopicos": []}, {"nome": "5.1 Emprego das classes de palavras.", "subtopicos": []}, {"nome": "5.2 Relações de coordenação entre orações e entre termos da oração.", "subtopicos": []}, {"nome": "5.3 Relações de subordinação entre orações e entre termos da oração.", "subtopicos": []}, {"nome": "5.4 Emprego dos sinais de pontuação.", "subtopicos": []}, {"nome": "5.5 Concordância verbal e nominal.", "subtopicos": []}, {"nome": "5.6 Regência verbal e nominal.", "subtopicos": []}, {"nome": "5.7 Emprego do sinal indicativo de crase.", "subtopicos": []}, {"nome": "5.8 Colocação dos pronomes átonos.", "subtopicos": []}, {"nome": "6 Reescrita de frases e parágrafos do texto.", "subtopicos": []}, {"nome": "6.1 Significação das palavras.", "subtopicos": []}, {"nome": "6.2 Substituição de palavras ou de trechos de texto.", "subtopicos": []}, {"nome": "6.3 Reorganização da estrutura de orações e de períodos do texto.", "subtopicos": []}, {"nome": "6.4 Reescrita de textos de diferentes gêneros e níveis de formalidade.", "subtopicos": []}]}, {"nome": "RACIOCÍNIO LÓGICO", "topicos": [{"nome": "1 Compreensão de estruturas lógicas.", "subtopicos": ["2 Lógica de argumentação: analogias, inferências, deduções e conclusões.", "3 Lógica sentencial (ou proposicional).", "3.1 Proposições simples e compostas."]}, {"nome": "3.2 Tabelas verdade.", "subtopicos": ["3.3 Equivalências.", "3.4 Leis de Morgan.", "3.5 Diagramas lógicos."]}, {"nome": "> 1 Compreensão de estruturas lógicas.", "subtopicos": []}, {"nome": "> 2 Lógica de argumentação: analogias, inferências, deduções e conclusões.", "subtopicos": []}, {"nome": "> 3 Lógica sentencial (ou proposicional) e tabelas-verdade.", "subtopicos": []}, {"nome": "1 Compreensão de estruturas lógicas.", "subtopicos": []}, {"nome": "2 Lógica de argumentação: analogias, inferências, deduções e conclusões.", "subtopicos": []}, {"nome": "3 Lógica sentencial (ou proposicional).", "subtopicos": []}, {"nome": "3.1 Proposições simples e compostas.", "subtopicos": []}, {"nome": "3.2 Tabelas verdade.", "subtopicos": []}, {"nome": "3.3 Equivalências.", "subtopicos": []}, {"nome": "3.4 Leis de Morgan.", "subtopicos": []}, {"nome": "3.5 Diagramas lógicos.", "subtopicos": []}]}, {"nome": "HISTÓRIA DO BRASIL", "topicos": [{"nome": "1 A contribuição dos índios e negros para a formação do Brasil; A formação do Brasil Contemporâneo; A República Velha e as estruturas oligárquicas; Economia e Sociedade: o café e estratificação social.", "subtopicos": []}, {"nome": "A Revolução de 1930; A Era Vargas: política, economia e sociedade; O período democrático (1945 a 1964).", "subtopicos": ["2 A redemocratização do Estado e a constituição de 1946.", "3 A política de industrialização do governo JK.", "5 A crise do regime democrático."]}, {"nome": "6 O golpe de 1964.", "subtopicos": ["7 A crise do regime militar e a redemocratização.", "8 O Brasil politico: nação e território.", "9 Organização do Estado Brasileiro."]}, {"nome": "> 1 A contribuição dos índios e negros para a formação do Brasil....", "subtopicos": []}, {"nome": "> 2 A redemocratização do Estado e a constituição de 1946.", "subtopicos": []}, {"nome": "1 A contribuição dos índios e negros para a formação do Brasil; A formação do Brasil Contemporâneo; A República Velha e as estruturas oligárquicas; Economia e Sociedade: o café e estratificação social; A Revolução de 1930; A Era Vargas: política, economia e sociedade; O período democrático (1945 a 1964).", "subtopicos": []}, {"nome": "2 A redemocratização do Estado e a constituição de 1946.", "subtopicos": []}, {"nome": "3 A política de industrialização do governo JK.", "subtopicos": []}, {"nome": "5 A crise do regime democrático.", "subtopicos": []}, {"nome": "6 O golpe de 1964.", "subtopicos": []}, {"nome": "7 A crise do regime militar e a redemocratização.", "subtopicos": []}, {"nome": "8 O Brasil politico: nação e território.", "subtopicos": []}, {"nome": "9 Organização do Estado Brasileiro.", "subtopicos": []}, {"nome": "10 As Constituições.", "subtopicos": []}]}, {"nome": "HISTÓRIA DO MARANHÃO", "topicos": [{"nome": "1 França equinocial: expedição de Daniel de La Touche.", "subtopicos": ["2 Fundação de São Luís.", "3 Batalha de Guaxenduba.", "4 Capitães mores do Maranhão."]}, {"nome": "5 Invasão holandesa.", "subtopicos": ["6 Expulsão dos holandeses.", "7 Estado do Maranhão e Grão Pará: Revolta de Bequimão (causas e objetivos da revolta); Companhia de Comércio do Maranhão e Grão Pará.", "8 Período do Império: adesão do Maranhão."]}, {"nome": "9 Independência do Brasil.", "subtopicos": ["10 Causas da não adesão: Batalha do Jenipapo.", "11 Balaiada: caracterização e causas do movimento.", "12 Período Republicano: adesão do Maranhão à República."]}, {"nome": "> 1 França equinocial: expedição de Daniel de La Touche.", "subtopicos": []}, {"nome": "> 2 Fundação de São Luís e > 3 Batalha de Guaxenduba.", "subtopicos": []}, {"nome": "1 França equinocial: expedição de Daniel de La Touche.", "subtopicos": []}, {"nome": "2 Fundação de São Luís.", "subtopicos": []}, {"nome": "3 Batalha de Guaxenduba.", "subtopicos": []}, {"nome": "4 Capitães mores do Maranhão.", "subtopicos": []}, {"nome": "5 Invasão holandesa.", "subtopicos": []}, {"nome": "6 Expulsão dos holandeses.", "subtopicos": []}, {"nome": "7 Estado do Maranhão e Grão Pará: Revolta de Bequimão (causas e objetivos da revolta); Companhia de Comércio do Maranhão e Grão Pará.", "subtopicos": []}, {"nome": "8 Período do Império: adesão do Maranhão.", "subtopicos": []}, {"nome": "9 Independência do Brasil.", "subtopicos": []}, {"nome": "10 Causas da não adesão: Batalha do Jenipapo.", "subtopicos": []}, {"nome": "11 Balaiada: caracterização e causas do movimento.", "subtopicos": []}, {"nome": "12 Período Republicano: adesão do Maranhão à República.", "subtopicos": []}, {"nome": "13 Revolução de 1930 no Maranhão.", "subtopicos": []}, {"nome": "14 Principais fatos políticos, econômicos e sociais ocorridos no Maranhão, na segunda metade do século XX.", "subtopicos": []}]}, {"nome": "GEOGRAFIA DO BRASIL", "topicos": [{"nome": "1 A integração ao processo de internacionalização da economia.", "subtopicos": ["2 O processo de industrialização e suas repercussões na organização do espaço.", "3 A rede brasileira de transportes e sua evolução.", "4 A estrutura urbana brasileira e das grandes metrópoles."]}, {"nome": "5 A dinâmica das fronteiras agrícolas e sua expansão para o Centro Oeste e a Amazônia.", "subtopicos": ["6 A evolução da estrutura fundiária e problemas demográficos.", "7 Os movimentos migratórios internos.", "8 A população brasileira: distribuição dos efetivos demográficos no território nacional; evolução do crescimento ao longo do século XX; estrutura etária."]}, {"nome": "8 Integração entre indústria, estrutura urbana, rede de transportes e setor agrícola no Brasil.", "subtopicos": ["9 Recursos naturais: aproveitamento, desperdício e política de conservação de recursos naturais."]}, {"nome": "> 1 A integração ao processo de internacionalização da economia.", "subtopicos": []}, {"nome": "> 2 O processo de industrialização e suas repercussões na organização do espaço.", "subtopicos": []}, {"nome": "1 A integração ao processo de internacionalização da economia.", "subtopicos": []}, {"nome": "2 O processo de industrialização e suas repercussões na organização do espaço.", "subtopicos": []}, {"nome": "3 A rede brasileira de transportes e sua evolução.", "subtopicos": []}, {"nome": "4 A estrutura urbana brasileira e as grandes metrópoles.", "subtopicos": []}, {"nome": "5 A dinâmica das fronteiras agrícolas e sua expansão para o Centro Oeste e a Amazônia.", "subtopicos": []}, {"nome": "6 A evolução da estrutura fundiária e problemas demográficos.", "subtopicos": []}, {"nome": "7 Os movimentos migratórios internos.", "subtopicos": []}, {"nome": "8 A população brasileira: distribuição dos efetivos demográficos no território nacional; evolução do crescimento ao longo do século XX; estrutura etária.", "subtopicos": []}, {"nome": "8 Integração entre indústria, estrutura urbana, rede de transportes e setor agrícola no Brasil.", "subtopicos": []}, {"nome": "9 Recursos naturais: aproveitamento, desperdício e política de conservação de recursos naturais.", "subtopicos": []}]}, {"nome": "SIMULADO E REVISÃO", "topicos": [{"nome": "Realização de simulado com os conteúdos da semana e revisão ativa dos pontos com maior dificuldade.", "subtopicos": []}, {"nome": "Realização de simulado prático e revisão acumulada da semana.", "subtopicos": []}, {"nome": "Realização de simulado com os conteúdos da semana e revisão ativa.", "subtopicos": []}, {"nome": "Realização de simulado geral e revisão estratégica.", "subtopicos": []}, {"nome": "Simulado semanal e revisão dos conteúdos da semana.", "subtopicos": []}, {"nome": "Simulado geral e revisão dos blocos anteriores.", "subtopicos": []}, {"nome": "Simulado focado nas matérias estudadas na semana.", "subtopicos": []}, {"nome": "Simulado geral simulando o padrão de cobrança do edital.", "subtopicos": []}]}, {"nome": "GEOGRAFIA DO MARANHÃO", "topicos": [{"nome": "1 Localização do Estado do Maranhão: superfície; limites; linhas de fronteira; pontos extremos; áreas de proteção ambiental (APA).", "subtopicos": ["2 Parques nacionais.", "3 Climas do Maranhão: pluviosidade e temperatura.", "4 Geomorfologia (- 4.1 Classificação do relevo maranhense: planaltos, planícies e baixadas)."]}, {"nome": "5 Características dos rios maranhenses: bacias dos rios limítrofes (Parnaiba, Gurupi e Tocantins Araguaia).", "subtopicos": ["6 Bacias dos ríos genuinamente maranhenses.", "7 Principais formações vegetais: floresta, cerrado e cocais.", "8 Geografia da população: população absoluta; densidade demográfica; povoamento; movimentos populacionais."]}, {"nome": "> 1 Localização do Estado do Maranhão: superfície; limites; linhas de fronteira.", "subtopicos": []}, {"nome": "> 4 Geomorfologia e classificação do relevo maranhense.", "subtopicos": []}, {"nome": "1 Localização do Estado do Maranhão: superfície; limites; linhas de fronteira; pontos extremos; áreas de proteção ambiental (APA).", "subtopicos": []}, {"nome": "2 Parques nacionais.", "subtopicos": []}, {"nome": "3 Climas do Maranhão: pluviosidade e temperatura.", "subtopicos": []}, {"nome": "4 Geomorfologia.", "subtopicos": []}, {"nome": "4.1 Classificação do relevo maranhense: planaltos, planícies e baixadas.", "subtopicos": []}, {"nome": "5 Características dos rios maranhenses: bacias dos rios limítrofes (Parnaiba, Gurupi e Tocantins Araguaia).", "subtopicos": []}, {"nome": "6 Bacias dos ríos genuinamente maranhenses.", "subtopicos": []}, {"nome": "7 Principais formações vegetais: floresta, cerrado e cocais.", "subtopicos": []}, {"nome": "8 Geografia da população: população absoluta; densidade demográfica; povoamento; movimentos populacionais.", "subtopicos": []}, {"nome": "9 Agricultura maranhense: caracterização e principais produtos agrícolas; caracterização da pecuária.", "subtopicos": []}, {"nome": "10 Extrativismo: vegetal, animal e mineral.", "subtopicos": []}, {"nome": "11 Parque industrial: indústrias de base e indústrias de transformação.", "subtopicos": []}, {"nome": "12 Setor terciário: comércio, telecomunicações, transportes.", "subtopicos": []}, {"nome": "13 Malha viária.", "subtopicos": []}, {"nome": "14 Portos e aeroportos.", "subtopicos": []}, {"nome": "15 Cultura maranhense.", "subtopicos": []}]}, {"nome": "LEGISLAÇÃO INSTITUCIONAL", "topicos": [{"nome": "1 Lei estadual nº 6.513/1995 e suas alterações (Estatuto dos Policiais Militares do Estado do Maranhão).", "subtopicos": []}, {"nome": "2 Lei Federal nº 14.751/2023 e suas alterações (Lei Orgânica Nacional/PM/CBM).", "subtopicos": []}, {"nome": "3 Lei nº 12.896/2026 (Lei de Organização Básica da PMMA).", "subtopicos": []}, {"nome": "> 1 Lei estadual nº 6.513/1995 e suas alterações (Estatuto dos Policiais Militares do Estado do Maranhão).", "subtopicos": []}, {"nome": "> 2 Lei Federal nº 14.751/2023 e suas alterações (Lei Orgânica Nacional/PM/CBM).", "subtopicos": []}, {"nome": "> 3 Lei nº 12.896/2026 (Lei de Organização Básica da PMMA).", "subtopicos": []}, {"nome": "Revisão geral das leis estaduais e federais da corporação.", "subtopicos": []}]}, {"nome": "NOÇÕES DE INFORMÁTICA", "topicos": [{"nome": "1 Noções de sistema operacional (ambientes Linux e Windows).", "subtopicos": ["2 Edição de textos, planilhas e apresentações (ambientes Microsoft Office e BrOffice).", "3.1 Conceitos básicos, ferramentas, aplicativos e procedimentos de Internet e intranet.", "3.2 Programas de navegação (Microsoft Internet Explorer, Mozilla Firefox e Google Chrome)."]}, {"nome": "3.3 Programas de correio eletrônico (Outlook Express e Mozilla Thunderbird).", "subtopicos": ["3.4 Sítios de busca e pesquisa na Internet.", "3.5 Grupos de discussão.", "3.6 Redes sociais."]}, {"nome": "3.7 Computação na nuven (cloud computing).", "subtopicos": ["4 Conceitos de organização e de gerenciamento de informações, arquivos, pastas e programas.", "5.1 Procedimentos de segurança.", "5.2 Noções de vírus, worms e pragas virtuais.", "5.3 Aplicativos para segurança (antivirus)."]}, {"nome": "> 1 Noções de sistema operacional (ambientes Linux e Windows).", "subtopicos": []}, {"nome": "> 2 Edição de textos, planilhas e apresentações (ambientes Microsoft Office e BrOffice).", "subtopicos": []}, {"nome": "> 3 Redes de computadores (- 3.1 a - 3.7).", "subtopicos": []}, {"nome": "> 5 Segurança da informação (- 5.1 a - 5.5).", "subtopicos": []}, {"nome": "> 4 Conceitos de organização e gerenciamento de arquivos, pastas e programas.", "subtopicos": []}, {"nome": "1 Noções de sistema operacional (ambientes Linux e Windows).", "subtopicos": []}, {"nome": "2 Edição de textos, planilhas e apresentações (ambientes Microsoft Office e BrOffice).", "subtopicos": []}, {"nome": "3 Redes de computadores. (3.1 a 3.7)", "subtopicos": []}, {"nome": "4 Conceitos de organização e de gerenciamento de informações, arquivos, pastas e programas.", "subtopicos": []}, {"nome": "5 Segurança da informação.", "subtopicos": []}, {"nome": "5.1 a 5.5: Procedimentos de segurança, vírus, worms, pragas, aplicativos de segurança, backup e cloud storage.", "subtopicos": []}]}, {"nome": "HISTÓRIA DO MARANHÃO & INFORMÁTICA FINAL", "topicos": [{"nome": "5.4 Procedimentos de backup.", "subtopicos": ["5.5 Armazenamento de dados na nuvem (cloud storage).", "13 Revolução de 1930 no Maranhão.", "14 Principais fatos políticos, econômicos e sociais ocorridos no Maranhão, na segunda metade do século XX."]}]}, {"nome": "LÍNGUA PORTUGUESA (FECHAMENTO) & HISTÓRIA DO BRASIL", "topicos": [{"nome": "6 Reescrita de frases e parágrafos do texto (6.1 Significação das palavras; 6.2 Substituição de palavras ou de trechos de texto; 6.3 Reorganização da estrutura de orações e de períodos do texto; 6.4 Reescrita de textos de diferentes gêneros e níveis de formalidade).", "subtopicos": ["10 As Constituições."]}]}, {"nome": "REVISÃO FINAL GERAL", "topicos": [{"nome": "Fechamento de tópicos pendentes do edital verticalizado e flashcards.", "subtopicos": []}]}, {"nome": "SIMULADO E REVISÃO SEMANAL", "topicos": [{"nome": "Realização de simulado com os tópicos estudados na semana e revisão ativa dos erros.", "subtopicos": []}, {"nome": "Realização de simulado abordando Português e Raciocínio Lógico + revisão geral.", "subtopicos": []}, {"nome": "Simulado focado em História do Brasil e História do Maranhão com revisão ativa.", "subtopicos": []}, {"nome": "Simulado contemplando Geografia do Brasil e Geografia do Maranhão.", "subtopicos": []}]}]};
+const CRONOGRAMA_PADRAO = [["LÍNGUA PORTUGUESA", "1 Compreensão e interpretação de textos de gêneros variados. · 2 Reconhecimento de tipos e géneros textuais. · 3 Domínio da ortografia oficial.", "01/09", "study"], ["RACIOCÍNIO LÓGICO", "1 Compreensão de estruturas lógicas. · 2 Lógica de argumentação: analogias, inferências, deduções e conclusões. · 3 Lógica sentencial (ou proposicional). · 3.1 Proposições simples e compostas.", "02/09", "study"], ["HISTÓRIA DO BRASIL", "1 A contribuição dos índios e negros para a formação do Brasil; A formação do Brasil Contemporâneo; A República Velha e as estruturas oligárquicas; Economia e Sociedade: o café e estratificação social.", "03/09", "study"], ["HISTÓRIA DO MARANHÃO", "1 França equinocial: expedição de Daniel de La Touche. · 2 Fundação de São Luís. · 3 Batalha de Guaxenduba. · 4 Capitães mores do Maranhão.", "04/09", "study"], ["GEOGRAFIA DO BRASIL", "1 A integração ao processo de internacionalização da economia. · 2 O processo de industrialização e suas repercussões na organização do espaço. · 3 A rede brasileira de transportes e sua evolução. · 4 A estrutura urbana brasileira e das grandes metrópoles.", "05/09", "study"], ["SIMULADO E REVISÃO", "Realização de simulado com os conteúdos da semana e revisão ativa dos pontos com maior dificuldade.", "06/09", "simulado"], ["GEOGRAFIA DO MARANHÃO", "1 Localização do Estado do Maranhão: superfície; limites; linhas de fronteira; pontos extremos; áreas de proteção ambiental (APA). · 2 Parques nacionais. · 3 Climas do Maranhão: pluviosidade e temperatura. · 4 Geomorfologia (- 4.1 Classificação do relevo maranhense: planaltos, planícies e baixadas).", "07/09", "study"], ["LEGISLAÇÃO INSTITUCIONAL", "1 Lei estadual nº 6.513/1995 e suas alterações (Estatuto dos Policiais Militares do Estado do Maranhão).", "08/09", "study"], ["NOÇÕES DE INFORMÁTICA", "1 Noções de sistema operacional (ambientes Linux e Windows). · 2 Edição de textos, planilhas e apresentações (ambientes Microsoft Office e BrOffice). · 3.1 Conceitos básicos, ferramentas, aplicativos e procedimentos de Internet e intranet. · 3.2 Programas de navegação (Microsoft Internet Explorer, Mozilla Firefox e Google Chrome).", "09/09", "study"], ["LÍNGUA PORTUGUESA", "4 Domínio dos mecanismos de coesão textual. · 4.1 Emprego de elementos de referenciação, substituição e repetição, de conectores e de outros elementos de sequenciação textual. · 4.2 Emprego de tempos e modos verbais.", "10/09", "study"], ["RACIOCÍNIO LÓGICO", "3.2 Tabelas verdade. · 3.3 Equivalências. · 3.4 Leis de Morgan. · 3.5 Diagramas lógicos.", "11/09", "study"], ["HISTÓRIA DO BRASIL", "A Revolução de 1930; A Era Vargas: política, economia e sociedade; O período democrático (1945 a 1964). · 2 A redemocratização do Estado e a constituição de 1946. · 3 A política de industrialização do governo JK. · 5 A crise do regime democrático.", "12/09", "study"], ["SIMULADO E REVISÃO", "Realização de simulado prático e revisão acumulada da semana.", "13/09", "simulado"], ["HISTÓRIA DO MARANHÃO", "5 Invasão holandesa. · 6 Expulsão dos holandeses. · 7 Estado do Maranhão e Grão Pará: Revolta de Bequimão (causas e objetivos da revolta); Companhia de Comércio do Maranhão e Grão Pará. · 8 Período do Império: adesão do Maranhão.", "14/09", "study"], ["LÍNGUA PORTUGUESA", "5 Domínio da estrutura morfossintática do período. · 5.1 Emprego das classes de palavras.", "15/09", "study"], ["GEOGRAFIA DO BRASIL", "5 A dinâmica das fronteiras agrícolas e sua expansão para o Centro Oeste e a Amazônia. · 6 A evolução da estrutura fundiária e problemas demográficos. · 7 Os movimentos migratórios internos. · 8 A população brasileira: distribuição dos efetivos demográficos no território nacional; evolução do crescimento ao longo do século XX; estrutura etária.", "16/09", "study"], ["GEOGRAFIA DO MARANHÃO", "5 Características dos rios maranhenses: bacias dos rios limítrofes (Parnaiba, Gurupi e Tocantins Araguaia). · 6 Bacias dos ríos genuinamente maranhenses. · 7 Principais formações vegetais: floresta, cerrado e cocais. · 8 Geografia da população: população absoluta; densidade demográfica; povoamento; movimentos populacionais.", "17/09", "study"], ["LEGISLAÇÃO INSTITUCIONAL", "2 Lei Federal nº 14.751/2023 e suas alterações (Lei Orgânica Nacional/PM/CBM).", "18/09", "study"], ["NOÇÕES DE INFORMÁTICA", "3.3 Programas de correio eletrônico (Outlook Express e Mozilla Thunderbird). · 3.4 Sítios de busca e pesquisa na Internet. · 3.5 Grupos de discussão. · 3.6 Redes sociais.", "19/09", "study"], ["SIMULADO E REVISÃO", "Realização de simulado com os conteúdos da semana e revisão ativa.", "20/09", "simulado"], ["HISTÓRIA DO MARANHÃO", "9 Independência do Brasil. · 10 Causas da não adesão: Batalha do Jenipapo. · 11 Balaiada: caracterização e causas do movimento. · 12 Período Republicano: adesão do Maranhão à República.", "21/09", "study"], ["LÍNGUA PORTUGUESA", "5.2 Relações de coordenação entre orações e entre termos da oração. · 5.3 Relações de subordinação entre orações e entre termos da oração. · 5.4 Emprego dos sinais de pontuação.", "22/09", "study"], ["LEGISLAÇÃO INSTITUCIONAL", "3 Lei nº 12.896/2026 (Lei de Organização Básica da PMMA).", "23/09", "study"], ["HISTÓRIA DO BRASIL", "6 O golpe de 1964. · 7 A crise do regime militar e a redemocratização. · 8 O Brasil politico: nação e território. · 9 Organização do Estado Brasileiro.", "24/09", "study"], ["GEOGRAFIA DO BRASIL", "8 Integração entre indústria, estrutura urbana, rede de transportes e setor agrícola no Brasil. · 9 Recursos naturais: aproveitamento, desperdício e política de conservação de recursos naturais.", "25/09", "study"], ["NOÇÕES DE INFORMÁTICA", "3.7 Computação na nuven (cloud computing). · 4 Conceitos de organização e de gerenciamento de informações, arquivos, pastas e programas. · 5.1 Procedimentos de segurança. · 5.2 Noções de vírus, worms e pragas virtuais. · 5.3 Aplicativos para segurança (antivirus).", "26/09", "study"], ["SIMULADO E REVISÃO", "Realização de simulado geral e revisão estratégica.", "27/09", "simulado"], ["HISTÓRIA DO MARANHÃO & INFORMÁTICA FINAL", "5.4 Procedimentos de backup. · 5.5 Armazenamento de dados na nuvem (cloud storage). · 13 Revolução de 1930 no Maranhão. · 14 Principais fatos políticos, econômicos e sociais ocorridos no Maranhão, na segunda metade do século XX.", "28/09", "study"], ["LÍNGUA PORTUGUESA", "5.5 Concordância verbal e nominal. · 5.6 Regência verbal e nominal. · 5.7 Emprego do sinal indicativo de crase. · 5.8 Colocação dos pronomes átonos.", "29/09", "study"], ["LÍNGUA PORTUGUESA (FECHAMENTO) & HISTÓRIA DO BRASIL", "6 Reescrita de frases e parágrafos do texto (6.1 Significação das palavras; 6.2 Substituição de palavras ou de trechos de texto; 6.3 Reorganização da estrutura de orações e de períodos do texto; 6.4 Reescrita de textos de diferentes gêneros e níveis de formalidade). · 10 As Constituições.", "30/09", "final"]];
 </script>
-
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"4edd5f8ec12a48cfa682ab8261b80a79","spa":2}' crossorigin="anonymous"></script>
+</body>
+</html>
 <script>
 /* ============ CONTA: renomear / trocar PIN / apagar ============ */
 async function renomearOperador(e){
@@ -521,5 +1649,3 @@ async function novoEditalVazio(){
   await salvarEdital('Novo edital em branco criado ✅');
 }
 </script>
-</body>
-</html>
