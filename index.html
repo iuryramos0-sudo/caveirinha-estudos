@@ -3,1917 +3,500 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Caveirinha — Operação Aprovação</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<title>Operação Aprovação — Controle de Estudos</title>
 <style>
-:root{
-  --bg:#07080b;--bg2:#0c0e13;--panel:#12151c;--panel2:#171b24;--line:#252a36;
-  --text:#eef0f4;--muted:#8b93a7;--faint:#5c6478;
-  --red:#ef3340;--red2:#ff5a66;--red-dim:#3a1218;
-  --green:#2dd4a8;--green-dim:#0f2e26;
-  --amber:#f5b94a;--amber-dim:#2e2410;
-  --blue:#5b8cff;--purple:#9b7bff;
-  --radius:14px;--radius-sm:10px;
-  --shadow:0 20px 60px rgba(0,0,0,.45);
-  --font:'IBM Plex Sans',system-ui,sans-serif;
-  --mono:'IBM Plex Mono',ui-monospace,monospace;
-}
-*{box-sizing:border-box;margin:0}
-html,body{height:100%}
-body{background:var(--bg);color:var(--text);font:14px/1.45 var(--font);-webkit-font-smoothing:antialiased}
-button,input,select,textarea{font:inherit;color:inherit}
-button{cursor:pointer;border:none;background:none}
-a{color:inherit}
+:root{--bg:#090a0d;--panel:#13151a;--panel2:#191b21;--line:#2b2e36;--text:#f4f4f5;--muted:#969ca8;--red:#e52d47;--red2:#ff5267;--green:#39d98a;--amber:#f6b73c;--purple:#9b7bff;--shadow:0 18px 50px #0008}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 80% -10%,#4b111d 0,#090a0d 36%);color:var(--text);font:14px Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}.app{display:grid;grid-template-columns:260px 1fr;min-height:100vh}.side{background:#0d0f12;border-right:1px solid #24262c;padding:25px 17px;display:flex;flex-direction:column}.brand{display:flex;gap:11px;align-items:center;margin:0 9px 27px}.brandmark{width:40px;font-size:24px;height:40px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(145deg,var(--red2),#9b172c);box-shadow:0 10px 25px #d7284238;font-size:21px}.brand b{display:block;letter-spacing:.12em;font-size:13px}.brand span{display:block;color:#c4c7cc;font-size:10px;letter-spacing:.18em;margin-top:3px}.online{border:1px solid #34373d;border-radius:9px;color:#adb2ba;padding:12px 13px;font-size:10px;letter-spacing:.12em;margin-bottom:24px}.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);margin-right:8px}.nav{display:grid;gap:6px}.nav button{display:flex;align-items:center;gap:12px;border:1px solid transparent;background:transparent;color:#9ea3ad;text-align:left;padding:13px 12px;border-radius:10px}.nav button:hover,.nav button.active{background:#21151a;color:#fff;border-color:#682737;box-shadow:inset 3px 0 var(--red)}.sidefoot{margin-top:auto;color:#777d88;font-size:11px;line-height:1.5}.main{padding:33px clamp(20px,4vw,60px);max-width:1450px;width:100%;margin:auto}.top{display:flex;justify-content:space-between;gap:15px;align-items:center;margin-bottom:27px}.eyebrow{color:#9da3ae;font-size:10px;letter-spacing:.16em;font-weight:800;margin:0 0 8px;text-transform:uppercase}.top h1{font-size:clamp(28px,4vw,42px);margin:0;letter-spacing:-.04em}.top-actions{display:flex;align-items:center;gap:12px}.sync{font-size:11px;color:#aeb4be}.btn{border:1px solid var(--line);background:#17191e;color:#fff;border-radius:9px;padding:11px 14px;transition:.18s}.btn:hover{transform:translateY(-1px);border-color:#8b3243}.primary{background:var(--red);border-color:var(--red);box-shadow:0 8px 22px #df294333}.primary:hover{background:var(--red2)}.hero{display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center;border:1px solid #6b2939;background:linear-gradient(105deg,#2c1018,#17151a 65%);border-radius:16px;padding:23px;margin-bottom:17px;box-shadow:var(--shadow)}.emblem{height:54px;width:54px;border:1px solid #a7374b;border-radius:15px;display:grid;place-items:center;color:var(--red2);font-size:25px;background:#32121a}.hero h2{font-size:22px;margin:0 0 5px}.hero p{color:#a9adb5;margin:0;line-height:1.5}.status{border:1px solid #8d3347;border-radius:20px;color:#ff6d7c;padding:4px 8px;font-size:9px;letter-spacing:.1em;margin-left:5px}.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:13px;margin-bottom:17px}.card,.panel{background:linear-gradient(145deg,#17191e,#121419);border:1px solid #292c34;border-radius:14px;box-shadow:0 9px 30px #0003}.card{padding:17px}.card label{color:#969ca7;text-transform:uppercase;letter-spacing:.12em;font-weight:800;font-size:10px}.card strong{display:block;font-size:26px;margin:12px 0 4px}.card small{color:#8f96a2}.grid{display:grid;grid-template-columns:1.4fr 1fr;gap:17px}.panel{padding:22px;margin-bottom:17px}.panel h3{margin:0;font-size:18px}.panelhead{display:flex;justify-content:space-between;align-items:start;margin-bottom:17px}.tag{font-size:10px;color:#b0b5bf;border:1px solid #343741;border-radius:20px;padding:6px 9px}.bars{height:190px;display:flex;align-items:end;gap:10px;padding:15px 3px 0}.barcol{height:100%;flex:1;display:flex;flex-direction:column;justify-content:end;align-items:center;gap:7px}.bar{width:100%;max-width:38px;border-radius:7px 7px 2px 2px;background:linear-gradient(#ff596c,#a51e35);min-height:3px;box-shadow:0 0 18px #e52d4733}.barcol small{color:#777e89;font-size:10px}.radar{display:grid;place-items:center;height:190px;position:relative;background:radial-gradient(circle,#39202a 1px,transparent 1px);background-size:25px 25px;border-radius:50%}.radar:before,.radar:after{content:"";position:absolute;border:1px solid #633341;border-radius:50%;width:130px;height:130px}.radar:after{width:75px;height:75px}.radar span{z-index:1;text-align:center;color:#ff8090;font-weight:800}.progress{height:7px;background:#2b2e35;border-radius:20px;overflow:hidden}.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--red),#ff8794);border-radius:20px}.errorrow,.missionrow{display:flex;align-items:center;gap:12px;border-bottom:1px solid #282b32;padding:12px 0}.errorrow:last-child,.missionrow:last-child{border:0}.errordot{width:9px;height:9px;border-radius:50%;background:var(--amber)}.rowfill{flex:1}.rowfill strong{display:block}.rowfill small{display:block;color:#8f96a2;margin-top:4px}.page{display:none}.page.active{display:block}.sectiontitle{display:flex;justify-content:space-between;align-items:end;margin:12px 0 17px}.sectiontitle h2{font-size:27px;margin:0}.muted{color:var(--muted);line-height:1.5}.formgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.field{display:grid;gap:6px}.field.full{grid-column:1/-1}.field label,.field span{font-size:11px;color:#aeb4be;font-weight:700}.field input,.field select,.field textarea{width:100%;background:#0f1115;color:#f5f5f5;border:1px solid #343740;border-radius:8px;padding:11px}.field textarea{min-height:75px;resize:vertical}.actions{display:flex;gap:9px;justify-content:end;grid-column:1/-1}.week{margin-bottom:16px}.week h3{margin:0}.day{display:grid;grid-template-columns:42px 1fr auto;gap:12px;align-items:center;border:1px solid #282b32;background:#111318;color:#fff;text-align:left;width:100%;padding:11px;border-radius:10px;margin-top:7px}.day:hover{border-color:#8d3347}.day.done{background:#102018;border-color:#2c704c}.daynum{font-weight:900;color:#ff6b7d;font-size:12px}.day.done .daynum{color:var(--green)}.day b{display:block;font-size:12px}.day small{display:block;color:#9097a3;margin-top:4px;line-height:1.4}.badge{font-size:9px;color:#bfc4cb;letter-spacing:.08em}.badge.simulado{color:var(--amber)}.focusbox{text-align:center;padding:35px}.timer{font-size:76px;font-variant-numeric:tabular-nums;font-weight:900;letter-spacing:-.06em;color:#ff6273;text-shadow:0 0 35px #e52d4755}.focusbuttons{display:flex;justify-content:center;gap:10px;margin-top:20px}.history{width:100%;border-collapse:collapse}.history th,.history td{text-align:left;padding:12px 8px;border-bottom:1px solid #2a2d34;color:#c5c9d0;vertical-align:top}.history th{font-size:10px;color:#8f96a2;text-transform:uppercase;letter-spacing:.1em}.history-subject{display:flex;flex-direction:column;gap:4px}.history-subject b{color:#fff}.history-subject small{color:var(--muted);line-height:1.35}.history-actions{white-space:nowrap;text-align:right!important}.delete-btn{border:1px solid #63313d;background:#201318;color:#ff8794;border-radius:7px;padding:7px 9px;font-size:11px}.delete-btn:hover{background:#5a1e2c;color:#fff}.topic-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;max-height:230px;overflow:auto;padding:2px}.topic-option{display:flex;align-items:flex-start;gap:8px;border:1px solid #343740;background:#0f1115;color:#c9cdd4;border-radius:8px;padding:10px;cursor:pointer;font-size:12px;line-height:1.35}.topic-option:hover{border-color:#8d3347;background:#191116}.topic-option input{accent-color:var(--red);margin-top:2px}.topic-option:has(input:checked){border-color:var(--red);background:#2a1018;color:#fff;box-shadow:inset 3px 0 var(--red)}.topic-empty{grid-column:1/-1;color:var(--muted);padding:12px;border:1px dashed #343740;border-radius:8px}.topic-count{font-size:10px;color:var(--red2);margin-top:5px}.home-topic-list{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px}.home-topic-list span{font-size:10px;color:#c5c9d0;background:#24202a;border:1px solid #40313c;border-radius:999px;padding:4px 7px}.backup{display:flex;gap:10px;flex-wrap:wrap}.notice{padding:12px;background:#20161a;border:1px solid #67313d;border-radius:10px;color:#c9b8bc;margin-bottom:15px;font-size:12px;line-height:1.5}.performance-card{padding:20px;margin-bottom:14px}.performance-card summary{cursor:pointer;list-style:none}.performance-card summary::-webkit-details-marker{display:none}.performance-card summary{display:grid;grid-template-columns:1fr auto;gap:15px;align-items:center}.performance-card summary b{font-size:16px}.performance-card summary b:before{content:'DISCIPLINA · ';color:var(--red2);font-size:9px;letter-spacing:.12em;vertical-align:middle;margin-right:5px}.performance-card summary small{display:block;color:var(--muted);margin-top:5px}.performance-card summary strong{font-size:24px;color:var(--red2)}.performance-card .meterline{display:flex;align-items:center;gap:12px;margin:15px 0 5px}.performance-card .meterline .progress{flex:1}.subject-detail{display:grid;grid-template-columns:1.2fr .55fr .55fr .7fr;gap:10px;border-top:1px solid #2b2e36;padding:11px 0;color:#c5c9d0;font-size:12px}.subject-detail:first-child{margin-top:13px}.subject-detail span:first-child{font-weight:700;color:#fff}.subject-detail small{color:var(--muted)}.daygrid{display:grid;grid-template-columns:repeat(10,1fr);gap:6px;margin-top:17px}.daytile{border:1px solid #2b2e36;background:#111318;color:#969ca8;border-radius:6px;padding:7px 3px;text-align:center;font-size:10px}.daytile.done{background:#183323;border-color:#328353;color:#65e69e}.daytile.next{border-color:var(--red);color:#ff7482;box-shadow:0 0 12px #e52d4733}.performance-empty{padding:20px;text-align:center;color:var(--muted)}.home-performance-grid{display:grid;grid-template-columns:1.05fr 1.45fr;gap:17px;margin-bottom:17px}.discipline-row{padding:14px 0;border-bottom:1px solid #292c34}.discipline-row:last-child{border-bottom:0}.discipline-meta{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:8px}.discipline-meta b{font-size:13px}.discipline-meta strong{color:var(--red2);font-size:15px}.discipline-sub{display:flex;justify-content:space-between;color:var(--muted);font-size:11px;margin-top:7px}.stock-chart{height:230px;position:relative;border:1px solid #292c34;border-radius:12px;overflow:hidden;background:linear-gradient(180deg,#17131a,#101116)}.stock-chart:before{content:"";position:absolute;inset:0;background:linear-gradient(#ffffff09 1px,transparent 1px),linear-gradient(90deg,#ffffff06 1px,transparent 1px);background-size:100% 25%,10% 100%;pointer-events:none}.stock-chart svg{position:absolute;inset:0;width:100%;height:100%}.stock-chart .stock-label{position:absolute;top:12px;left:14px;z-index:1;font-size:10px;color:#aeb4be;letter-spacing:.13em;text-transform:uppercase}.stock-chart .stock-change{position:absolute;top:10px;right:14px;z-index:1;color:var(--green);font-weight:800}.stock-empty{height:100%;display:grid;place-items:center;text-align:center;color:var(--muted);font-size:12px;padding:30px}.stock-grid-labels{display:flex;justify-content:space-between;color:#707783;font-size:10px;margin-top:7px}
+/* CAVEIRINHA */
+.intel-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:17px;margin-bottom:17px}.priority-list{display:grid;gap:10px}.priority-item{border:1px solid #30333b;border-radius:10px;padding:13px;background:#101217}.priority-item.high{border-left:4px solid var(--red)}.priority-item.med{border-left:4px solid var(--amber)}.priority-item.good{border-left:4px solid var(--green)}.priority-top{display:flex;justify-content:space-between;gap:10px}.priority-top b{font-size:13px}.priority-item small{display:block;color:var(--muted);margin-top:5px}.intel-actions{margin-top:12px}.mission-progress{display:grid;gap:10px}.mission-progress .progress{margin-top:6px}.error-grid{display:grid;gap:9px}.error-line{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center}.error-line small{color:var(--muted)}.trend-box{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:12px}.trend-metric{border:1px solid #30333b;border-radius:10px;padding:11px;background:#101217}.trend-metric span{display:block;color:var(--muted);font-size:9px;text-transform:uppercase;letter-spacing:.08em}.trend-metric b{display:block;margin-top:7px;font-size:18px}.streak-detail{color:var(--muted);font-size:10px;margin-top:4px}.sim-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.sim-box{padding:12px;border:1px solid #30333b;border-radius:10px;background:#101217}.sim-box span{font-size:9px;color:var(--muted);text-transform:uppercase}.sim-box b{display:block;font-size:20px;margin-top:6px}@media(max-width:850px){.intel-grid{grid-template-columns:1fr}.trend-box,.sim-summary{grid-template-columns:1fr 1fr}}
 
-/* AUTH */
-.auth-screen{position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center;
-  background:radial-gradient(ellipse 80% 60% at 50% -10%,#3a1018 0%,transparent 55%),var(--bg);
-  padding:20px}
-.auth-card{width:100%;max-width:420px;background:var(--panel);border:1px solid var(--line);border-radius:20px;
-  box-shadow:var(--shadow),inset 0 1px 0 rgba(255,255,255,.04);overflow:hidden}
-.auth-head{padding:32px 28px 18px;text-align:center;border-bottom:1px solid var(--line)}
-.auth-logo{width:52px;height:52px;margin:0 auto 14px;border-radius:14px;display:grid;place-items:center;
-  background:linear-gradient(145deg,var(--red2),#9b172c);font-size:26px;box-shadow:0 12px 28px #e52d4730}
-.auth-head h1{font-size:20px;letter-spacing:.04em;text-transform:uppercase}
-.auth-head p{color:var(--muted);font-size:12px;margin-top:6px;letter-spacing:.08em;text-transform:uppercase}
-.auth-tabs{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:12px 16px;background:var(--bg2)}
-.auth-tab{padding:11px;border-radius:10px;color:var(--muted);font-weight:600;font-size:13px;transition:.15s}
-.auth-tab.active{background:var(--panel);color:#fff;box-shadow:0 1px 0 rgba(255,255,255,.04)}
-.auth-body{padding:22px 24px 28px;display:none}
-.auth-body.active{display:block}
-.auth-body .field{margin-bottom:14px}
-.auth-body label{display:block;font-size:11px;color:var(--muted);font-weight:600;margin-bottom:6px;letter-spacing:.04em}
-.auth-body input{width:100%;padding:13px 14px;background:var(--bg);border:1px solid var(--line);border-radius:10px;outline:none;transition:.15s}
-.auth-body input:focus{border-color:#6b2a38;box-shadow:0 0 0 3px #e52d4718}
-.auth-body .hint{font-size:11px;color:var(--faint);margin-top:10px;line-height:1.5}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 16px;border-radius:10px;
-  border:1px solid var(--line);background:var(--panel2);color:#fff;font-weight:600;font-size:13px;transition:.15s}
-.btn:hover{border-color:#4a3038;transform:translateY(-1px)}
-.btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
-.btn-primary{background:var(--red);border-color:var(--red);box-shadow:0 8px 24px #df294330}
-.btn-primary:hover{background:var(--red2);border-color:var(--red2)}
-.btn-ghost{background:transparent}
-.btn-danger{border-color:#5a2430;color:var(--red2);background:#1a1014}
-.btn-danger:hover{background:#2a141c}
-.btn-block{width:100%}
-.btn-sm{padding:7px 11px;font-size:12px;border-radius:8px}
-
-/* APP SHELL */
-.app{display:none;grid-template-columns:250px 1fr;min-height:100vh}
-.app.visible{display:grid}
-.side{background:var(--bg2);border-right:1px solid var(--line);padding:22px 14px;display:flex;flex-direction:column;position:sticky;top:0;height:100vh}
-.brand{display:flex;gap:12px;align-items:center;padding:0 8px 22px}
-.brandmark{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;
-  background:linear-gradient(145deg,var(--red2),#9b172c);font-size:20px;box-shadow:0 10px 22px #d7284230}
-.brand b{display:block;font-size:13px;letter-spacing:.14em}
-.brand span{display:block;color:var(--faint);font-size:10px;letter-spacing:.16em;margin-top:2px}
-.online{margin:0 6px 18px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font-size:10px;letter-spacing:.1em;color:var(--muted)}
-.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);margin-right:7px;vertical-align:middle}
-.nav{display:flex;flex-direction:column;gap:3px;flex:1;overflow:auto}
-.nav button{display:flex;align-items:center;gap:11px;padding:11px 12px;border-radius:10px;color:var(--muted);text-align:left;font-size:13px;font-weight:500;transition:.12s}
-.nav button:hover{background:#1a1216;color:#fff}
-.nav button.active{background:#21151a;color:#fff;border:1px solid #4a2430;box-shadow:inset 3px 0 var(--red)}
-.nav-section{font-size:9px;letter-spacing:.14em;color:var(--faint);padding:14px 12px 6px;text-transform:uppercase;font-weight:700}
-.sidefoot{padding:14px 8px 4px;color:var(--faint);font-size:11px;line-height:1.5;border-top:1px solid var(--line);margin-top:12px}
-
-.main{padding:28px clamp(16px,3.5vw,48px);max-width:1400px;width:100%;margin:0 auto}
-.top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:24px;flex-wrap:wrap}
-.eyebrow{color:var(--muted);font-size:10px;letter-spacing:.14em;font-weight:700;text-transform:uppercase;margin-bottom:6px}
-.top h1{font-size:clamp(24px,3.5vw,34px);letter-spacing:-.03em;font-weight:700}
-.top-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.user-pill{display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--line);border-radius:999px;font-size:12px;color:var(--muted)}
-
-.page{display:none}.page.active{display:block}
-
-/* CARDS */
-.panel{background:linear-gradient(160deg,var(--panel),#0f1218);border:1px solid var(--line);border-radius:var(--radius);padding:20px;margin-bottom:16px;box-shadow:0 8px 28px #0003}
-.panel h3{font-size:16px;font-weight:650}
-.panelhead{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:16px;flex-wrap:wrap}
-.tag{font-size:10px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:5px 10px;letter-spacing:.04em}
-.hero{display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center;border:1px solid #5a2432;
-  background:linear-gradient(110deg,#2a1018,#14161c 70%);border-radius:16px;padding:22px;margin-bottom:16px}
-.emblem{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;border:1px solid #a7374b;
-  background:#32121a;color:var(--red2);font-size:22px}
-.hero h2{font-size:20px;margin-bottom:4px}
-.hero p{color:var(--muted);line-height:1.5;font-size:13px}
-.status-pill{display:inline-block;border:1px solid #8d3347;border-radius:999px;color:#ff6d7c;padding:3px 8px;font-size:9px;letter-spacing:.1em;margin-left:6px}
-
-.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:16px}
-.card{background:linear-gradient(150deg,var(--panel),#10131a);border:1px solid var(--line);border-radius:var(--radius);padding:16px}
-.card label{color:var(--muted);text-transform:uppercase;letter-spacing:.1em;font-weight:700;font-size:10px}
-.card strong{display:block;font-size:24px;margin:10px 0 2px;font-variant-numeric:tabular-nums;font-family:var(--mono)}
-.card small{color:var(--faint);font-size:12px}
-
-.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.grid-intel{display:grid;grid-template-columns:1.15fr .85fr;gap:16px;margin-bottom:16px}
-
-/* FORMS */
-.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.field{display:grid;gap:6px}
-.field.full{grid-column:1/-1}
-.field label,.field > span{font-size:11px;color:var(--muted);font-weight:650}
-.field input,.field select,.field textarea{
-  width:100%;background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:9px;padding:11px 12px;outline:none}
-.field input:focus,.field select:focus,.field textarea:focus{border-color:#6b2a38}
-.field textarea{min-height:80px;resize:vertical}
-.actions{display:flex;gap:8px;justify-content:flex-end;grid-column:1/-1;flex-wrap:wrap}
-.period-group{display:flex;gap:8px;flex-wrap:wrap}
-.period-btn{flex:1;min-width:90px;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);text-align:center;font-weight:600;font-size:12px;color:var(--muted);transition:.12s}
-.period-btn:hover{border-color:#5a3038}
-.period-btn.active{border-color:var(--red);background:var(--red-dim);color:#fff;box-shadow:inset 0 0 0 1px var(--red)}
-
-.topic-tree{max-height:280px;overflow:auto;border:1px solid var(--line);border-radius:10px;background:var(--bg);padding:8px}
-.topic-group{margin-bottom:6px}
-.topic-group > summary{padding:8px 10px;cursor:pointer;font-weight:600;font-size:12px;color:#d0d4dc;border-radius:8px;list-style:none}
-.topic-group > summary::-webkit-details-marker{display:none}
-.topic-group > summary:hover{background:#1a1d26}
-.topic-group[open] > summary{color:#fff;background:#1a1216}
-.topic-option{display:flex;align-items:flex-start;gap:8px;padding:8px 10px 8px 18px;border-radius:8px;cursor:pointer;font-size:12px;color:var(--muted);line-height:1.35}
-.topic-option:hover{background:#1a1d26;color:#c9cdd4}
-.topic-option input{accent-color:var(--red);margin-top:2px}
-.topic-option:has(input:checked){background:#2a1018;color:#fff}
-.topic-count{font-size:10px;color:var(--red2);margin-top:4px}
-
-/* TABLES */
-.table-wrap{overflow:auto}
-table.history{width:100%;border-collapse:collapse}
-.history th,.history td{text-align:left;padding:11px 8px;border-bottom:1px solid var(--line);vertical-align:top;font-size:13px}
-.history th{font-size:10px;color:var(--faint);text-transform:uppercase;letter-spacing:.08em;font-weight:700}
-.history td{color:#c5c9d0}
-.delete-btn{border:1px solid #63313d;background:#201318;color:#ff8794;border-radius:7px;padding:6px 9px;font-size:11px}
-.delete-btn:hover{background:#5a1e2c;color:#fff}
-
-/* PROGRESS / LISTS */
-.progress{height:7px;background:#222632;border-radius:99px;overflow:hidden}
-.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--red),#ff8794);border-radius:99px}
-.priority-list{display:grid;gap:10px}
-.priority-item{border:1px solid var(--line);border-radius:10px;padding:13px;background:#101217;border-left:4px solid var(--line)}
-.priority-item.high{border-left-color:var(--red)}
-.priority-item.med{border-left-color:var(--amber)}
-.priority-item.good{border-left-color:var(--green)}
-.priority-top{display:flex;justify-content:space-between;gap:10px}
-.priority-top b{font-size:13px}
-.priority-item small{display:block;color:var(--muted);margin-top:5px}
-.day{display:grid;grid-template-columns:44px 1fr auto;gap:12px;align-items:center;border:1px solid var(--line);
-  background:#111318;color:#fff;text-align:left;width:100%;padding:12px;border-radius:10px;margin-top:7px}
-.day:hover{border-color:#8d3347}
-.day.done{background:var(--green-dim);border-color:#2c704c}
-.daynum{font-weight:800;color:var(--red2);font-size:12px;font-family:var(--mono)}
-.day.done .daynum{color:var(--green)}
-.day b{display:block;font-size:12px}
-.day small{display:block;color:var(--faint);margin-top:3px;line-height:1.4}
-.badge{font-size:9px;color:#bfc4cb;letter-spacing:.06em}
-.badge.simulado{color:var(--amber)}
-.period-chips{display:flex;gap:4px;margin-top:6px;flex-wrap:wrap}
-.chip{font-size:9px;padding:3px 7px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
-.chip.on{background:var(--green-dim);border-color:#2c704c;color:var(--green)}
-
-/* CHARTS */
-.chart-box{position:relative;height:220px;border:1px solid var(--line);border-radius:12px;background:linear-gradient(180deg,#14171f,#0e1016);overflow:hidden}
-.chart-box svg{width:100%;height:100%;display:block}
-.chart-label{position:absolute;top:12px;left:14px;font-size:10px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;z-index:1}
-.chart-value{position:absolute;top:10px;right:14px;font-weight:700;font-family:var(--mono);font-size:13px;z-index:1}
-.bars-row{height:200px;display:flex;align-items:flex-end;gap:8px;padding:24px 8px 8px;border-bottom:1px solid var(--line)}
-.barcol{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:6px;height:100%}
-.barcol .bar{width:14px;border-radius:99px;background:linear-gradient(#ff596c,#a51e35);min-height:4px;box-shadow:0 0 16px #e52d4730;transition:height .4s}
-.barcol small{color:var(--faint);font-size:10px}
-.barcol .val{font-size:10px;font-weight:700;color:#d0d4dc;font-family:var(--mono)}
-.waterfall{height:200px;display:flex;align-items:flex-end;gap:6px;padding:28px 10px 8px}
-.wf-col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;position:relative}
-.wf-bar{width:100%;max-width:36px;border-radius:4px 4px 0 0;min-height:3px}
-.wf-bar.up{background:linear-gradient(180deg,var(--green),#1a7a5c)}
-.wf-bar.down{background:linear-gradient(180deg,var(--red2),#8b1e2c)}
-.wf-bar.total{background:linear-gradient(180deg,var(--blue),#2a4a9a)}
-.wf-col small{font-size:9px;color:var(--faint);margin-top:6px;text-align:center}
-.donut-wrap{height:200px;display:grid;place-items:center}
-.donut{--p:0;--accent:var(--red2);width:150px;height:150px;border-radius:50%;
-  background:conic-gradient(var(--accent) calc(var(--p)*1%),#252a36 0);position:relative;display:grid;place-items:center}
-.donut:after{content:"";position:absolute;width:108px;height:108px;border-radius:50%;background:#12151c;border:1px solid var(--line)}
-.donut-center{position:relative;z-index:1;text-align:center}
-.donut-center b{display:block;font-size:26px;font-family:var(--mono)}
-.donut-center small{display:block;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.08em;margin-top:2px}
-
-/* COMMUNITY */
-.comm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
-.comm-card{padding:16px;border:1px solid var(--line);border-radius:12px;background:#101217}
-.comm-card span{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
-.comm-card b{display:block;font-size:22px;margin-top:8px;font-family:var(--mono)}
-.comm-card small{display:block;color:var(--faint);margin-top:4px;font-size:12px}
-
-/* MANAGE LISTS */
-.manage-item{display:flex;align-items:center;gap:12px;padding:14px;border:1px solid var(--line);border-radius:12px;background:#101217;margin-bottom:8px}
-.manage-item.active-item{border-color:#5a2432;background:#1a1216}
-.manage-item .grow{flex:1;min-width:0}
-.manage-item b{display:block;font-size:13px}
-.manage-item small{color:var(--muted);font-size:11px}
-.sectiontitle{display:flex;justify-content:space-between;align-items:flex-end;margin:4px 0 16px;gap:12px;flex-wrap:wrap}
-.sectiontitle h2{font-size:24px}
-.muted{color:var(--muted);line-height:1.5;font-size:13px}
-.notice{padding:12px 14px;background:#1a1216;border:1px solid #5a2432;border-radius:10px;color:#c9b8bc;font-size:12px;line-height:1.5;margin-bottom:14px}
-.empty{padding:28px;text-align:center;color:var(--muted);font-size:13px}
-.focusbox{text-align:center;padding:40px 20px}
-.timer{font-size:72px;font-variant-numeric:tabular-nums;font-weight:700;letter-spacing:-.04em;color:var(--red2);
-  font-family:var(--mono);text-shadow:0 0 40px #e52d4740}
-.focusbuttons{display:flex;justify-content:center;gap:10px;margin-top:22px;flex-wrap:wrap}
-.daygrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(36px,1fr));gap:5px;margin-top:14px}
-.daytile{border:1px solid var(--line);background:#111318;color:var(--muted);border-radius:6px;padding:7px 2px;text-align:center;font-size:10px;font-family:var(--mono)}
-.daytile.done{background:var(--green-dim);border-color:#328353;color:#65e69e}
-.daytile.next{border-color:var(--red);color:#ff7482;box-shadow:0 0 12px #e52d4730}
-.performance-card{margin-bottom:12px}
-.performance-card summary{cursor:pointer;list-style:none;display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center}
-.performance-card summary::-webkit-details-marker{display:none}
-.performance-card summary b{font-size:15px}
-.performance-card summary b:before{content:'DISCIPLINA · ';color:var(--red2);font-size:9px;letter-spacing:.1em}
-.performance-card summary small{display:block;color:var(--muted);margin-top:4px}
-.performance-card summary strong{font-size:22px;color:var(--red2);font-family:var(--mono)}
-.subject-detail{display:grid;grid-template-columns:1.3fr .5fr .5fr .55fr;gap:8px;border-top:1px solid var(--line);padding:10px 0;font-size:12px;color:#c5c9d0}
-.subject-detail span:first-child{font-weight:600;color:#fff}
-.toast{position:fixed;bottom:24px;right:24px;z-index:99999;padding:12px 18px;background:#1a1d26;border:1px solid var(--line);
-  border-radius:12px;box-shadow:var(--shadow);font-size:13px;transform:translateY(20px);opacity:0;transition:.25s;pointer-events:none}
-.toast.show{transform:none;opacity:1}
-.toast.ok{border-color:#2c704c}
-.toast.err{border-color:#8d3347}
-.loading-overlay{position:fixed;inset:0;background:#07080bcc;z-index:99998;display:none;place-items:center;color:var(--muted);font-size:13px}
-.loading-overlay.show{display:grid}
-
-@media(max-width:1100px){.stats{grid-template-columns:repeat(3,1fr)}.grid-2,.grid-intel{grid-template-columns:1fr}.comm-grid{grid-template-columns:1fr}}
-@media(max-width:800px){
-  .app{display:block}.app.visible{display:block}
-  .side{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line);padding:14px}
-  .nav{flex-direction:row;overflow:auto;gap:4px}
-  .nav button{white-space:nowrap;padding:9px 11px;font-size:12px}
-  .nav-section,.sidefoot{display:none}
-  .stats{grid-template-columns:1fr 1fr}.formgrid{grid-template-columns:1fr}
-  .hero{grid-template-columns:auto 1fr}.timer{font-size:52px}
-  .subject-detail{grid-template-columns:1fr 1fr}
-}
+/* GRÁFICOS DIVERSIFICADOS */
+.bars{height:210px;display:flex;align-items:flex-end;gap:10px;padding:18px 4px 4px;border-bottom:1px solid #2b2e36}.barcol{position:relative;height:100%;flex:1;display:flex;flex-direction:column;justify-content:end;align-items:center;gap:9px}.bar{width:14px;max-width:14px;border-radius:999px;background:linear-gradient(#ff596c,#a51e35);min-height:4px;box-shadow:0 0 18px #e52d4733;position:relative;transition:height .5s cubic-bezier(.2,.8,.2,1)}.bar:before{content:"";position:absolute;width:22px;height:22px;border-radius:50%;left:50%;top:-8px;transform:translateX(-50%);background:#ff6677;border:3px solid #2a1118;box-shadow:0 0 14px #e52d4755}.barcol small{color:#777e89;font-size:10px}.barvalue{font-size:10px;color:#d7dbe1;font-weight:800;margin-bottom:2px}.donut-wrap{height:210px;display:grid;place-items:center}.donut{--p:0;--accent:var(--red2);width:165px;height:165px;border-radius:50%;background:conic-gradient(var(--accent) calc(var(--p)*1%),#292c34 0);position:relative;display:grid;place-items:center;box-shadow:0 0 30px #0004;transition:background 1s ease}.donut:after{content:"";position:absolute;width:118px;height:118px;border-radius:50%;background:#15171c;border:1px solid #30333b}.donut-center{position:relative;z-index:1;text-align:center}.donut-center b{display:block;font-size:30px;color:#fff}.donut-center small{display:block;color:#9ea4ae;font-size:10px;text-transform:uppercase;letter-spacing:.09em;margin-top:4px}.stock-chart{height:230px;position:relative;border:1px solid #292c34;border-radius:12px;overflow:hidden;background:linear-gradient(180deg,#17131a,#101116)}.stock-chart:before{content:"";position:absolute;inset:0;background:linear-gradient(#ffffff09 1px,transparent 1px),linear-gradient(90deg,#ffffff06 1px,transparent 1px);background-size:100% 25%,10% 100%;pointer-events:none}.stock-chart svg{position:absolute;inset:0;width:100%;height:100%}.stock-chart .stock-label{position:absolute;top:12px;left:14px;z-index:1;font-size:10px;color:#aeb4be;letter-spacing:.13em;text-transform:uppercase}.stock-chart .stock-change{position:absolute;top:10px;right:14px;z-index:1;font-weight:800}.stock-empty{height:100%;display:grid;place-items:center;text-align:center;color:var(--muted);font-size:12px;padding:30px}.stock-grid-labels{display:flex;justify-content:space-between;color:#707783;font-size:10px;margin-top:7px}
+@media(max-width:1050px){.stats{grid-template-columns:repeat(3,1fr)}.grid{grid-template-columns:1fr}}@media(max-width:720px){.app{display:block}.side{position:static;padding:16px}.sidefoot{display:none}.nav{display:flex;overflow:auto}.nav button{white-space:nowrap;padding:10px}.main{padding:22px 14px}.top{align-items:start;display:block}.top-actions{margin-top:15px;justify-content:space-between}.hero{grid-template-columns:auto 1fr}.hero .btn{grid-column:1/-1}.stats{grid-template-columns:repeat(2,1fr)}.card:last-child{grid-column:1/-1}.formgrid{grid-template-columns:1fr}.field.full{grid-column:auto}.actions{grid-column:auto}.sectiontitle{display:block}.sectiontitle .btn{margin-top:12px}.day{grid-template-columns:34px 1fr}.day .badge{display:none}.timer{font-size:57px}.home-performance-grid{grid-template-columns:1fr}.subject-detail{grid-template-columns:1fr 1fr}.stock-chart{height:210px}}
 </style>
 </head>
 <body>
 
-<div class="loading-overlay" id="loadingOverlay">Sincronizando com a nuvem…</div>
-<div class="toast" id="toast"></div>
+<div id="modal-acesso" style="display: flex; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(9, 10, 13, 0.95); backdrop-filter: blur(8px); z-index: 9999; justify-content: center; align-items: center; font-family: 'Inter', system-ui, sans-serif;">
+  <div style="background: #13151a; padding: 40px; border-radius: 14px; border: 1px solid #2b2e36; width: 90%; max-width: 420px; color: #f4f4f5; box-shadow: 0 18px 50px rgba(0,0,0,0.8), inset 0 3px 0 #e52d47;">
+    
+    <div style="text-align: center; margin-bottom: 30px;">
+       <div style="font-size: 40px; margin-bottom: 10px;">💀</div>
+       <h2 style="color: #fff; margin: 0; text-transform: uppercase; letter-spacing: 2px; font-weight: 800; font-size: 22px;">Projeto Parabellum</h2>
+       <p style="color: #969ca8; font-size: 13px; margin-top: 5px; text-transform: uppercase; letter-spacing: 1px;">Operação PMMA - Identificação do Recruta</p>
+    </div>
 
-<!-- AUTH -->
-<div class="auth-screen" id="authScreen">
-  <div class="auth-card">
-    <div class="auth-head">
-      <div class="auth-logo">💀</div>
-      <h1>Projeto Parabellum</h1>
-      <p>Operação PMMA · Caveirinha</p>
+    <div id="tela-login">
+      <div style="display: grid; gap: 15px; margin-bottom: 25px;">
+        <input type="text" id="login-nome" placeholder="Digite seu Nome de Guerra (Ex: Sgt Iury)" style="width: 100%; padding: 14px; background: #0f1115; border: 1px solid #343740; color: #fff; border-radius: 8px; outline: none; font-size: 14px;">
+        <input type="password" id="login-pin" placeholder="PIN de 4 dígitos" maxlength="4" inputmode="numeric" pattern="[0-9]{4}" style="width: 100%; padding: 14px; background: #0f1115; border: 1px solid #343740; color: #fff; border-radius: 8px; outline: none; font-size: 14px; letter-spacing: 6px;">
+      </div>
+      <button onclick="entrarComPin()" style="width: 100%; padding: 15px; background: #e52d47; color: #fff; border: none; font-weight: 700; cursor: pointer; border-radius: 8px; text-transform: uppercase; font-size: 14px; letter-spacing: 1px; transition: 0.2s; box-shadow: 0 8px 22px #df294333;">Entrar na Missão</button>
+      <p style="text-align: center; margin-top: 25px; font-size: 12px; color: #969ca8;">Primeira vez? Esse nome + PIN vira seu acesso. Guarde o PIN — ele não pode ser recuperado.</p>
     </div>
-    <div class="auth-tabs">
-      <button type="button" class="auth-tab active" data-auth="login" id="tabLogin">Entrar</button>
-      <button type="button" class="auth-tab" data-auth="register" id="tabRegister">Criar conta</button>
-    </div>
-    <div class="auth-body active" id="authLogin">
-      <div class="field"><label>Nome de guerra</label><input type="text" id="loginNome" placeholder="Ex: Sgt Iury" autocomplete="username"></div>
-      <div class="field"><label>PIN (4 dígitos)</label><input type="password" id="loginPin" maxlength="4" inputmode="numeric" pattern="[0-9]{4}" placeholder="••••" autocomplete="current-password"></div>
-      <button class="btn btn-primary btn-block" id="btnLogin" style="margin-top:8px">Entrar na missão</button>
-      <p class="hint">Só entra quem já tem conta. Se for a primeira vez, use a aba <b>Criar conta</b>.</p>
-    </div>
-    <div class="auth-body" id="authRegister">
-      <div class="field"><label>Nome de guerra</label><input type="text" id="regNome" placeholder="Ex: Sgt Iury" autocomplete="username"></div>
-      <div class="field"><label>PIN (4 dígitos)</label><input type="password" id="regPin" maxlength="4" inputmode="numeric" pattern="[0-9]{4}" placeholder="••••"></div>
-      <div class="field"><label>Confirmar PIN</label><input type="password" id="regPin2" maxlength="4" inputmode="numeric" pattern="[0-9]{4}" placeholder="••••"></div>
-      <button class="btn btn-primary btn-block" id="btnRegister" style="margin-top:8px">Criar operador</button>
-      <p class="hint">O PIN não pode ser recuperado. Guarde com segurança. Após criar, use a aba Entrar.</p>
-    </div>
+    
   </div>
 </div>
 
-<!-- APP -->
-<div class="app" id="appShell">
-<aside class="side">
-  <div class="brand"><div class="brandmark">💀</div><div><b>CAVEIRINHA</b><span>CONTROLE DE ESTUDOS</span></div></div>
-  <div class="online" id="statusConexao"><i class="dot"></i> NUVEM ATIVA</div>
-  <nav class="nav">
-    <button class="active" data-page="dashboard">▦ Central</button>
-    <button data-page="registro">＋ Registrar</button>
-    <button data-page="questoes">◉ Questões</button>
-    <button data-page="desempenho">◒ Desempenho</button>
-    <button data-page="comunidade">🌐 Comunidade</button>
-    <div class="nav-section">Planejamento</div>
-    <button data-page="conteudos">▤ Cronogramas</button>
-    <button data-page="edital">📋 Editais</button>
-    <div class="nav-section">Ferramentas</div>
-    <button data-page="foco">◷ Modo foco</button>
-    <button data-page="ranking">🏆 Rankings</button>
-    <button data-page="conta">👤 Minha conta</button>
-  </nav>
-  <div class="sidefoot">Dados 100% na nuvem.<br>Projeto Parabellum.</div>
-</aside>
-
+<div class="app">
+<aside class="side"><div class="brand"><div class="brandmark" aria-label="Logo Caveirinha">💀</div><div><b>CAVEIRINHA</b><span>CONTROLE DE ESTUDOS</span></div></div><div class="online" id="status-conexao"><i class="dot"></i> CONECTADO AO RANKING</div><nav class="nav"><button class="active" data-page="dashboard">▦ Central de comando</button><button data-page="registro">＋ Registrar estudo</button><button data-page="questoes">◉ Questões</button><button data-page="desempenho">◒ Desempenho</button><button data-page="conteudos">▤ Cronograma PMMA</button><button data-page="novocronograma">🗓️ Novo Cronograma</button><button data-page="edital">📋 Edital Verticalizado</button><button data-page="ranking">🏆 Rankings</button><button data-page="foco">◷ Modo foco</button><button data-page="backup">↥ Backup pessoal</button><button data-page="conta">👤 Minha Conta</button></nav><div class="sidefoot">Sincronização em nuvem.<br>Projeto Parabellum.</div></aside>
 <main class="main">
-<header class="top">
-  <div>
-    <p class="eyebrow" id="todayLabel"></p>
-    <h1 id="pageTitle">Central de comando</h1>
-  </div>
-  <div class="top-actions">
-    <span class="user-pill"><i class="dot"></i><span id="nomeLogado">—</span></span>
-    <button class="btn btn-primary" onclick="openPage('registro')">＋ Registrar</button>
-  </div>
-</header>
+<header class="top"><div><p class="eyebrow" id="today"></p><h1 id="pageTitle">Central de comando</h1></div><div class="top-actions"><span class="sync" id="nome-aluno-logado"><i class="dot" style="background:var(--green)"></i> não identificado</span><button class="btn primary" onclick="openPage('registro')">＋ Registrar agora</button></div></header>
+<section class="page active" id="dashboard"><div class="hero"><div class="emblem">◎</div><div><p class="eyebrow">OPERAÇÃO DO DIA <span class="status">EM ANDAMENTO</span></p><h2 id="todayStudyTitle">Carregando missão...</h2><p id="todayStudyText">Identificando o conteúdo programado para hoje.</p><small id="examCountdown" style="display:block;margin-top:8px;color:#ff8794;font-weight:800;letter-spacing:.04em"></small></div><button class="btn" onclick="openPage('conteudos')">Abrir cronograma →</button></div><div class="stats"><div class="card"><label>Cronograma PMMA</label><strong id="sProgress">0%</strong><small id="sNext">Próximo alvo: Dia 1</small></div><div class="card"><label>Questões</label><strong id="sQuestions">0</strong><small id="sCorrect">0 certas</small></div><div class="card"><label>Precisão média</label><strong id="sAccuracy">0%</strong><small>registros locais</small></div><div class="card"><label>Tempo estudado</label><strong id="sMinutes">0m</strong><small>sessões registradas</small></div><div class="card"><label>Sequência</label><strong id="sStreak">0 dias</strong><small>dias com registro</small></div></div><div class="intel-grid"><div class="panel"><div class="panelhead"><div><p class="eyebrow">CENTRAL DE INTELIGÊNCIA</p><h3>Assuntos que precisam melhorar</h3></div><span class="tag">prioridade automática</span></div><div id="priorityList" class="priority-list"></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">DIAGNÓSTICO DOS ERROS</p><h3>Onde você está perdendo pontos</h3></div><span class="tag">por motivo</span></div><div id="errorAnalysis" class="error-grid"></div><div class="trend-box" id="trendMetrics"></div></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">MAPA DE FRAQUEZAS</p><h3>Disciplinas que precisam melhorar</h3></div><span class="tag">por desempenho</span></div><div id="disciplineWeakness" class="priority-list"></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">MISSÃO DE HOJE</p><h3>Execução diária</h3></div><span class="tag" id="dailyLabel">sem meta definida</span></div><div id="dailyMission" class="mission-progress"></div></div><div class="home-performance-grid"><div class="panel"><div class="panelhead"><div><p class="eyebrow">DESEMPENHO OPERACIONAL</p><h3>Por disciplina</h3></div><button class="btn" onclick="openPage('desempenho')">Detalhar</button></div><div id="homeDisciplineProgress"><div class="performance-empty">Registre questões para liberar o desempenho por disciplina.</div></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">ÍNDICE DE EVOLUÇÃO</p><h3>Curva de desempenho</h3></div><span class="tag">estilo mercado</span></div><div class="stock-chart" id="stockChart"><div class="stock-empty">Aguardando registros para desenhar a tendência.</div></div><div class="stock-grid-labels"><span>início</span><span>último registro</span></div></div></div><div class="grid"><div class="panel"><div class="panelhead"><div><p class="eyebrow">RITMO DE EVOLUÇÃO</p><h3>Questões por dia</h3></div><span class="tag">últimos 7 dias</span></div><div class="bars" id="chart"></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">RADAR TÁTICO</p><h3>Forças e alertas</h3></div><span style="color:var(--red2);font-size:20px">◉</span></div><div class="donut-wrap"><div class="donut" id="radarDonut"><div class="donut-center"><b id="radarText">0%</b><small id="radarSub">Precisão</small></div></div></div></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">PRÓXIMAS MISSÕES</p><h3>Seu cronograma em campo</h3></div><button class="btn" onclick="openPage('conteudos')">Ver todos</button></div><div id="nextMissions"></div></div></section>
+<section class="page" id="registro"><div class="sectiontitle"><div><p class="eyebrow">REGISTRO SEGURO LOCAL</p><h2>Adicionar estudo</h2><p class="muted">O registro é salvo imediatamente neste navegador.</p></div></div><div class="panel"><form class="formgrid" id="studyForm"><div class="field"><span>Data</span><input required type="date" name="date" id="studyDate"></div><div class="field"><span>Tipo</span><select name="type"><option value="questoes">Questões</option><option value="sessao">Sessão de estudo</option></select></div><div class="field"><span>Disciplina</span><select required name="subject" id="subjectSelect"><option value="">Selecione a disciplina</option></select></div><div class="field"><span>Assuntos <small style="color:var(--red2)">(marque um ou vários)</small></span><div id="topicOptions" class="topic-options" aria-live="polite"><div class="topic-empty">Selecione primeiro a disciplina</div></div><div id="topicCount" class="topic-count">0 assuntos selecionados</div></div><div class="field"><span>Questões respondidas</span><input type="number" min="0" value="0" name="total"></div><div class="field"><span>Questões certas</span><input type="number" min="0" value="0" name="correct"></div><div class="field"><span>Tempo estudado (minutos)</span><input required type="number" min="0" value="30" name="minutes"></div><div class="field"><span>Banca</span><input name="board" placeholder="Ex.: Cebraspe"></div><div class="field"><span>Motivo do erro</span><select name="reason"><option value="none">Sem erro / não se aplica</option><option>Falta de conhecimento</option><option>Distração</option><option>Interpretação</option><option>Cálculo</option><option>Dúvida</option></select></div><div class="field full"><span>Observações</span><textarea name="notes" placeholder="O que precisa ser revisto?"></textarea></div><div class="actions"><button class="btn" type="reset">Limpar</button><button class="btn primary" type="submit">Salvar registro</button></div></form></div><div class="panel"><p class="eyebrow">HISTÓRICO RECENTE</p><div id="historyPreview"></div></div></section>
+<section class="page" id="questoes"><div class="sectiontitle"><div><p class="eyebrow">HISTÓRICO CONSULTÁVEL</p><h2>Questões registradas</h2><p class="muted">Tudo permanece salvo localmente neste dispositivo.</p></div><button class="btn primary" onclick="openPage('registro')">＋ Novo registro</button></div><div class="panel"><table class="history"><thead><tr><th>Data</th><th>Disciplina</th><th>Assunto</th><th>Total</th><th>Certas</th><th>Precisão</th><th></th></tr></thead><tbody id="historyTable"></tbody></table></div></section>
+<section class="page" id="desempenho"><div class="sectiontitle"><div><p class="eyebrow">ANÁLISE TÁTICA DOS REGISTROS</p><h2>Desempenho por disciplina</h2><p class="muted">Abra cada disciplina para ver a precisão, volume e tempo por assunto.</p><div class="notice" style="margin-top:12px;margin-bottom:0">Quando um registro tiver vários assuntos, o total de questões, acertos e minutos será dividido igualmente entre eles. Para uma precisão individual exata, registre cada assunto separadamente.</div></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">PROGRESSO DO PLANO</p><h3>30 dias de operação</h3></div><span class="tag" id="performancePlanLabel">0/30 concluídos · 30 pendentes</span></div><div class="progress"><i id="performancePlanBar" style="width:0%"></i></div><div class="daygrid" id="dayProgress"></div></div><div id="performanceBySubject"></div></section><section class="page" id="conteudos"><div class="sectiontitle"><div><p class="eyebrow">PLANO PMMA · 30 DIAS</p><h2>Cronograma de conteúdos</h2><p class="muted">Clique em uma missão para marcar como concluída. O status fica salvo no navegador.</p></div></div><div id="curriculum"></div></section>
 
-<!-- DASHBOARD -->
-<section class="page active" id="dashboard">
-  <div class="hero">
-    <div class="emblem">◎</div>
-    <div>
-      <p class="eyebrow">OPERAÇÃO DO DIA <span class="status-pill">EM ANDAMENTO</span></p>
-      <h2 id="todayStudyTitle">Carregando missão…</h2>
-      <p id="todayStudyText">Identificando o conteúdo programado.</p>
-      <small id="examCountdown" style="display:block;margin-top:8px;color:#ff8794;font-weight:700"></small>
-    </div>
-    <button class="btn" onclick="openPage('conteudos')">Cronogramas →</button>
-  </div>
-  <div class="stats">
-    <div class="card"><label>Cronograma</label><strong id="sProgress">0%</strong><small id="sNext">Próximo alvo</small></div>
-    <div class="card"><label>Questões</label><strong id="sQuestions">0</strong><small id="sCorrect">0 certas</small></div>
-    <div class="card"><label>Precisão</label><strong id="sAccuracy">0%</strong><small>registros na nuvem</small></div>
-    <div class="card"><label>Tempo</label><strong id="sMinutes">0m</strong><small>estudado</small></div>
-    <div class="card"><label>Sequência</label><strong id="sStreak">0</strong><small>dias seguidos</small></div>
-  </div>
+<section class="page" id="novocronograma"><div class="sectiontitle"><div><p class="eyebrow">MONTAGEM DE CICLO</p><h2>Novo Cronograma</h2><p class="muted">Gere um cronograma com a quantidade de dias que quiser, distribuindo automaticamente os tópicos do edital atual. <span id="cronAtualInfo"></span></p></div></div>
 
-  <div class="grid-intel">
-    <div class="panel">
-      <div class="panelhead"><div><p class="eyebrow">CENTRAL DE INTELIGÊNCIA</p><h3>Assuntos prioritários</h3></div><span class="tag">auto</span></div>
-      <div id="priorityList" class="priority-list"></div>
-    </div>
-    <div class="panel">
-      <div class="panelhead"><div><p class="eyebrow">DIAGNÓSTICO</p><h3>Motivos de erro</h3></div><span class="tag">cascata</span></div>
-      <div id="errorWaterfall" class="waterfall"></div>
-    </div>
-  </div>
+<div class="panel"><div class="panelhead"><div><h3>Gerar novo cronograma</h3><p class="muted" style="margin:4px 0 0">Distribui os tópicos do edital carregado (aba Edital Verticalizado) em quantos dias você escolher, com simulados a cada 6 dias de estudo.</p></div></div>
+<form class="formgrid" id="formNovoCron" onsubmit="criarCronogramaForm(event)">
+<div class="field"><label>Quantidade de dias</label><input type="number" id="novoCronDias" min="5" max="120" value="30" required></div>
+<div class="field"><label>Data de início</label><input type="date" id="novoCronInicio"></div>
+<div class="actions"><button class="btn primary" type="submit">Gerar cronograma</button></div>
+</form></div>
 
-  <div class="grid-2" style="margin-bottom:16px">
-    <div class="panel">
-      <div class="panelhead"><div><p class="eyebrow">VOLUME</p><h3>Questões · 7 dias</h3></div><span class="tag">barras</span></div>
-      <div class="bars-row" id="chartBars"></div>
-    </div>
-    <div class="panel">
-      <div class="panelhead"><div><p class="eyebrow">PRECISÃO</p><h3>Radar tático</h3></div><span class="tag">donut</span></div>
-      <div class="donut-wrap"><div class="donut" id="radarDonut"><div class="donut-center"><b id="radarText">0%</b><small id="radarSub">Precisão</small></div></div></div>
-    </div>
-  </div>
+<div class="panel"><div class="panelhead"><div><h3>Modelo padrão</h3><p class="muted" style="margin:4px 0 0">Volte pro cronograma oficial de 30 dias da PMMA a qualquer momento.</p></div></div>
+<button class="btn" onclick="restaurarCronogramaPadrao()">Restaurar cronograma padrão (30 dias)</button></div>
 
-  <div class="panel">
-    <div class="panelhead"><div><p class="eyebrow">ÍNDICE DE EVOLUÇÃO</p><h3>Curva estilo mercado</h3></div><span class="tag">linha</span></div>
-    <div class="chart-box" id="stockChart"><div class="empty" style="height:100%;display:grid;place-items:center">Aguardando registros…</div></div>
-  </div>
+<div class="panel"><div class="panelhead"><div><h3>Exportar / Importar modelo</h3><p class="muted" style="margin:4px 0 0">Baixe o cronograma atual como arquivo (pra reaproveitar ou editar) ou importe um cronograma pronto no mesmo formato.</p></div></div>
+<div class="backup"><button class="btn" onclick="exportarCronograma()">↓ Exportar cronograma atual</button><label class="btn">↑ Importar cronograma<input hidden type="file" accept="application/json" onchange="importarCronograma(event)"></label></div></div>
 
-  <div class="panel">
-    <div class="panelhead"><div><p class="eyebrow">MISSÃO DE HOJE</p><h3>Execução diária</h3></div><span class="tag" id="dailyLabel">meta</span></div>
-    <div id="dailyMission"></div>
-  </div>
-
-  <div class="panel">
-    <div class="panelhead"><div><p class="eyebrow">PRÓXIMAS MISSÕES</p><h3>Cronograma ativo</h3></div><button class="btn btn-sm" onclick="openPage('conteudos')">Ver todos</button></div>
-    <div id="nextMissions"></div>
-  </div>
 </section>
 
-<!-- REGISTRO -->
-<section class="page" id="registro">
-  <div class="sectiontitle"><div><p class="eyebrow">REGISTRO NA NUVEM</p><h2>Adicionar estudo</h2><p class="muted">Salvo diretamente no Supabase — disponível em qualquer dispositivo.</p></div></div>
-  <div class="panel">
-    <form class="formgrid" id="studyForm">
-      <div class="field"><label>Data</label><input required type="date" name="date" id="studyDate"></div>
-      <div class="field"><label>Tipo</label>
-        <select name="type"><option value="questoes">Questões</option><option value="sessao">Sessão de estudo</option></select>
-      </div>
-      <div class="field full"><label>Período do dia</label>
-        <div class="period-group" id="periodGroup">
-          <button type="button" class="period-btn active" data-period="manha">🌅 Manhã</button>
-          <button type="button" class="period-btn" data-period="tarde">☀️ Tarde</button>
-          <button type="button" class="period-btn" data-period="noite">🌙 Noite</button>
-        </div>
-        <input type="hidden" name="period" id="studyPeriod" value="manha">
-      </div>
-      <div class="field"><label>Disciplina (edital ativo)</label>
-        <select required name="subject" id="subjectSelect"><option value="">Selecione</option></select>
-      </div>
-      <div class="field"><label>Assuntos / subtópicos</label>
-        <div id="topicOptions" class="topic-tree"><div class="empty">Selecione a disciplina</div></div>
-        <div id="topicCount" class="topic-count">0 selecionados</div>
-      </div>
-      <div class="field"><label>Questões respondidas</label><input type="number" min="0" value="0" name="total"></div>
-      <div class="field"><label>Questões certas</label><input type="number" min="0" value="0" name="correct"></div>
-      <div class="field"><label>Tempo (minutos)</label><input required type="number" min="0" value="30" name="minutes"></div>
-      <div class="field"><label>Banca</label><input name="board" placeholder="Ex.: Cebraspe"></div>
-      <div class="field"><label>Motivo do erro</label>
-        <select name="reason">
-          <option value="none">Sem erro / n.a.</option>
-          <option>Falta de conhecimento</option>
-          <option>Distração</option>
-          <option>Interpretação</option>
-          <option>Cálculo</option>
-          <option>Dúvida</option>
-        </select>
-      </div>
-      <div class="field full"><label>Observações</label><textarea name="notes" placeholder="O que revisar?"></textarea></div>
-      <div class="actions">
-        <button class="btn" type="reset">Limpar</button>
-        <button class="btn btn-primary" type="submit">Salvar na nuvem</button>
-      </div>
-    </form>
-  </div>
-  <div class="panel"><p class="eyebrow">ÚLTIMOS REGISTROS</p><div id="historyPreview"></div></div>
+<section class="page" id="edital"><div class="sectiontitle"><div><p class="eyebrow">CONTEÚDO PROGRAMÁTICO</p><h2>Edital Verticalizado</h2><p class="muted">Veja todas as disciplinas e tópicos do edital carregado, ou importe seu próprio edital em formato de arquivo.</p></div></div>
+
+<div class="panel"><div class="panelhead"><div><h3>Importar / Exportar edital</h3><p class="muted" style="margin:4px 0 0">Exporte o edital atual como modelo, edite o arquivo se quiser, e importe de volta — ele passa a valer no registro de estudos e nos próximos cronogramas gerados.</p></div></div>
+<div class="backup"><button class="btn" onclick="exportarEdital()">↓ Exportar edital atual</button><label class="btn">↑ Importar edital<input hidden type="file" accept="application/json" onchange="importarEdital(event)"></label><button class="btn" onclick="restaurarEditalPadrao()">Restaurar edital padrão</button></div></div>
+
+<div id="editalBox"></div>
+
 </section>
+<section class="page" id="ranking"><div class="sectiontitle"><div><p class="eyebrow">COMPETIÇÃO DA COMUNIDADE</p><h2>🏆 Rankings</h2><p class="muted">Duas formas de subir: resolver questões e cumprir o cronograma.</p></div></div><div class="grid"><div class="panel"><div class="panelhead"><div><p class="eyebrow">VOLUME DE EXECUÇÃO</p><h3>Ranking por questões</h3></div><span class="tag">total registrado</span></div><div id="rankingQuestions"></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">CONSISTÊNCIA</p><h3>Ranking por cronograma</h3></div><span class="tag">% concluído</span></div><div id="rankingProgress"></div></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">SUA POSIÇÃO</p><h3>Resumo competitivo</h3></div></div><div id="rankingSummary"></div></div></section><section class="page" id="foco"><div class="sectiontitle"><div><p class="eyebrow">PROTOCOLO DE CONCENTRAÇÃO</p><h2>Modo foco</h2><p class="muted">Um ciclo de 25 minutos para executar uma única missão.</p></div></div><div class="panel focusbox"><div class="timer" id="timer">25:00</div><p class="muted">Afaste o ruído. Execute. Registre a vitória.</p><div class="focusbuttons"><button class="btn primary" id="focusToggle" onclick="toggleFocus()">Iniciar ciclo</button><button class="btn" onclick="resetFocus()">Reiniciar</button><button class="btn" onclick="saveFocus()">Salvar ciclo</button></div></div></section>
+<section class="page" id="backup"><div class="sectiontitle"><div><p class="eyebrow">PROTEÇÃO DO HISTÓRICO</p><h2>Backup pessoal</h2><p class="muted">Exporte seus dados antes de trocar de computador ou limpar o navegador.</p></div></div><div class="panel"><div class="notice">Este arquivo usa armazenamento local. O histórico fica salvo após fechar o navegador, mas pode ser apagado se os dados do site forem limpos. Faça backups periódicos.</div><div class="backup"><button class="btn primary" onclick="exportData()">↓ Baixar backup JSON</button><label class="btn">↑ Importar backup JSON<input hidden type="file" accept="application/json" onchange="importData(event)"></label><button class="btn" onclick="clearData()">Apagar meus dados</button><button class="btn" onclick="openPage('conta')">👤 Gerenciar minha conta →</button></div><p class="muted" style="margin-top:17px">O backup inclui registros, conclusão do cronograma e ciclos de foco deste navegador.</p></div></section>
 
-<!-- QUESTÕES -->
-<section class="page" id="questoes">
-  <div class="sectiontitle">
-    <div><p class="eyebrow">HISTÓRICO NA NUVEM</p><h2>Questões registradas</h2><p class="muted">Todos os registros do operador logado.</p></div>
-    <button class="btn btn-primary" onclick="openPage('registro')">＋ Novo</button>
-  </div>
-  <div class="panel"><div class="table-wrap"><table class="history"><thead>
-    <tr><th>Data</th><th>Período</th><th>Disciplina</th><th>Assunto</th><th>Total</th><th>Certas</th><th>%</th><th></th></tr>
-  </thead><tbody id="historyTable"></tbody></table></div></div>
+<section class="page" id="conta"><div class="sectiontitle"><div><p class="eyebrow">IDENTIFICAÇÃO DO RECRUTA</p><h2>Minha Conta</h2><p class="muted">Operador logado: <b id="contaNomeAtual">—</b></p></div></div>
+
+<div class="panel"><div class="panelhead"><div><h3>Renomear</h3><p class="muted" style="margin:4px 0 0">Muda seu nome de guerra direto na nuvem — o progresso e o ranking continuam os mesmos, sem duplicar.</p></div></div>
+<form class="formgrid" id="formRenomear" onsubmit="renomearOperador(event)">
+<div class="field full"><label>Novo nome de guerra</label><input type="text" id="conta-nome-novo" placeholder="Ex: Sgt Iury" required></div>
+<div class="actions"><button class="btn primary" type="submit">Salvar novo nome</button></div>
+</form></div>
+
+<div class="panel"><div class="panelhead"><div><h3>Trocar PIN</h3><p class="muted" style="margin:4px 0 0">Por segurança o site nunca guarda seu PIN em texto puro, só um hash — por isso não dá pra "mostrar" o PIN atual. Pra trocar, confirme o atual e defina um novo.</p></div></div>
+<form class="formgrid" id="formTrocarPin" onsubmit="trocarPinOperador(event)">
+<div class="field"><label>PIN atual</label><input type="password" id="conta-pin-atual" maxlength="4" inputmode="numeric" pattern="[0-9]{4}" placeholder="••••" required></div>
+<div class="field"><label>PIN novo</label><input type="password" id="conta-pin-novo" maxlength="4" inputmode="numeric" pattern="[0-9]{4}" placeholder="••••" required></div>
+<div class="field full"><label>Confirmar PIN novo</label><input type="password" id="conta-pin-novo-confirma" maxlength="4" inputmode="numeric" pattern="[0-9]{4}" placeholder="••••" required></div>
+<div class="actions"><button class="btn primary" type="submit">Trocar PIN</button></div>
+</form></div>
+
+<div class="panel"><div class="panelhead"><div><h3>Sair da conta</h3><p class="muted" style="margin:4px 0 0">Desconecta este aparelho e volta pra tela de login. Seus dados na nuvem continuam intactos.</p></div></div>
+<button class="btn" onclick="sairOperador()">Sair</button></div>
+
+<div class="panel" style="border-color:#67313d"><div class="panelhead"><div><h3 style="color:var(--red2)">Apagar conta</h3><p class="muted" style="margin:4px 0 0">Remove seu operador por completo do Supabase: nome, PIN e posição no ranking. Essa ação não pode ser desfeita. Seus registros locais neste navegador não são apagados por esta ação — use "Apagar meus dados" no Backup pessoal pra isso.</p></div></div>
+<button class="btn" style="border-color:var(--red2); color:var(--red2)" onclick="apagarConta()">Apagar minha conta da nuvem</button></div>
+
 </section>
+</main></div>
 
-<!-- DESEMPENHO -->
-<section class="page" id="desempenho">
-  <div class="sectiontitle">
-    <div><p class="eyebrow">ANÁLISE TÁTICA</p><h2>Desempenho</h2>
-      <p class="muted">Gráficos distintos por métrica. Registros com vários assuntos dividem volume igualmente.</p>
-    </div>
-  </div>
-  <div class="panel">
-    <div class="panelhead"><div><p class="eyebrow">PLANO ATIVO</p><h3>Progresso do cronograma</h3></div>
-      <span class="tag" id="performancePlanLabel">0/0</span></div>
-    <div class="progress"><i id="performancePlanBar" style="width:0%"></i></div>
-    <div class="daygrid" id="dayProgress"></div>
-  </div>
-  <div class="grid-2" style="margin-bottom:16px">
-    <div class="panel">
-      <div class="panelhead"><div><p class="eyebrow">CASCATA</p><h3>Ganhos e perdas de precisão</h3></div><span class="tag">waterfall</span></div>
-      <div id="accWaterfall" class="waterfall"></div>
-    </div>
-    <div class="panel">
-      <div class="panelhead"><div><p class="eyebrow">LINHA</p><h3>Precisão por registro</h3></div><span class="tag">line</span></div>
-      <div class="chart-box" id="lineChart"><div class="empty" style="height:100%;display:grid;place-items:center">Sem dados</div></div>
-    </div>
-  </div>
-  <div id="performanceBySubject"></div>
-</section>
-
-<!-- COMUNIDADE -->
-<section class="page" id="comunidade">
-  <div class="sectiontitle">
-    <div><p class="eyebrow">INTELIGÊNCIA COLETIVA</p><h2>Desempenho da comunidade</h2>
-      <p class="muted">Volume e precisão agregados de todos os operadores — dia, semana e mês.</p>
-    </div>
-  </div>
-  <div class="comm-grid" id="commCards"></div>
-  <div class="panel">
-    <div class="panelhead"><div><p class="eyebrow">VOLUME COLETIVO</p><h3>Questões por dia (7 dias)</h3></div><span class="tag">barras</span></div>
-    <div class="bars-row" id="commBars"></div>
-  </div>
-  <div class="panel">
-    <div class="panelhead"><div><p class="eyebrow">TOP OPERADORES</p><h3>Precisão no período</h3></div><span class="tag">mês</span></div>
-    <div id="commTop"></div>
-  </div>
-</section>
-
-<!-- CRONOGRAMAS -->
-<section class="page" id="conteudos">
-  <div class="sectiontitle">
-    <div><p class="eyebrow">PLANEJAMENTO</p><h2>Cronogramas</h2>
-      <p class="muted">Vários cronogramas convivem. Ative um para as missões do dia. Apague os que não usar mais.</p>
-    </div>
-  </div>
-  <div class="panel">
-    <div class="panelhead"><div><h3>Seus cronogramas</h3><p class="muted" style="margin-top:4px">Ativo: <b id="cronAtivoNome">—</b></p></div>
-      <button class="btn btn-sm btn-primary" onclick="mostrarFormCron()">＋ Novo</button>
-    </div>
-    <div id="listaCronogramas"></div>
-  </div>
-  <div class="panel" id="formCronPanel" style="display:none">
-    <div class="panelhead"><div><h3>Gerar cronograma</h3></div></div>
-    <form class="formgrid" id="formNovoCron" onsubmit="criarCronogramaForm(event)">
-      <div class="field"><label>Nome</label><input type="text" id="novoCronNome" placeholder="Ex: Ciclo 45 dias" required></div>
-      <div class="field"><label>Dias</label><input type="number" id="novoCronDias" min="5" max="120" value="30" required></div>
-      <div class="field"><label>Data início</label><input type="date" id="novoCronInicio"></div>
-      <div class="field"><label>Edital base</label><select id="novoCronEdital"></select></div>
-      <div class="actions">
-        <button type="button" class="btn" onclick="esconderFormCron()">Cancelar</button>
-        <button class="btn btn-primary" type="submit">Gerar</button>
-      </div>
-    </form>
-  </div>
-  <div class="panel">
-    <div class="panelhead"><div><p class="eyebrow">MISSÕES</p><h3>Cronograma ativo · manhã / tarde / noite</h3></div></div>
-    <div id="curriculum"></div>
-  </div>
-</section>
-
-<!-- EDITAIS -->
-<section class="page" id="edital">
-  <div class="sectiontitle">
-    <div><p class="eyebrow">CONTEÚDO PROGRAMÁTICO</p><h2>Editais</h2>
-      <p class="muted">Vários editais salvos. O ativo alimenta o registro de questões e a geração de cronogramas.</p>
-    </div>
-  </div>
-  <div class="panel">
-    <div class="panelhead"><div><h3>Editais salvos</h3><p class="muted" style="margin-top:4px">Ativo: <b id="editalAtivoNome">—</b></p></div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <button class="btn btn-sm" onclick="exportarEditalAtivo()">↓ Exportar ativo</button>
-        <label class="btn btn-sm">↑ Importar JSON<input hidden type="file" accept="application/json" onchange="importarEditalArquivo(event)"></label>
-        <button class="btn btn-sm btn-primary" onclick="restaurarEditalPadraoNuvem()">＋ Padrão PMMA</button>
-      </div>
-    </div>
-    <div id="listaEditais"></div>
-  </div>
-  <div class="panel">
-    <div class="panelhead"><div><h3>Tópicos do edital ativo</h3></div></div>
-    <div id="editalBox"></div>
-  </div>
-</section>
-
-<!-- RANKING -->
-<section class="page" id="ranking">
-  <div class="sectiontitle">
-    <div><p class="eyebrow">COMPETIÇÃO</p><h2>Rankings</h2><p class="muted">Questões e consistência de cronograma.</p></div>
-  </div>
-  <div class="grid-2">
-    <div class="panel"><div class="panelhead"><div><p class="eyebrow">VOLUME</p><h3>Por questões</h3></div></div><div id="rankingQuestions"></div></div>
-    <div class="panel"><div class="panelhead"><div><p class="eyebrow">CONSISTÊNCIA</p><h3>Por cronograma</h3></div></div><div id="rankingProgress"></div></div>
-  </div>
-  <div class="panel"><div class="panelhead"><div><p class="eyebrow">SUA POSIÇÃO</p><h3>Resumo</h3></div></div><div id="rankingSummary"></div></div>
-</section>
-
-<!-- FOCO -->
-<section class="page" id="foco">
-  <div class="sectiontitle"><div><p class="eyebrow">PROTOCOLO</p><h2>Modo foco</h2><p class="muted">Ciclo de 25 minutos.</p></div></div>
-  <div class="panel focusbox">
-    <div class="timer" id="timer">25:00</div>
-    <p class="muted">Afaste o ruído. Execute.</p>
-    <div class="focusbuttons">
-      <button class="btn btn-primary" id="focusToggle" onclick="toggleFocus()">Iniciar</button>
-      <button class="btn" onclick="resetFocus()">Reiniciar</button>
-      <button class="btn" onclick="saveFocus()">Salvar ciclo</button>
-    </div>
-  </div>
-</section>
-
-<!-- CONTA -->
-<section class="page" id="conta">
-  <div class="sectiontitle"><div><p class="eyebrow">OPERADOR</p><h2>Minha conta</h2><p class="muted">Logado: <b id="contaNomeAtual">—</b></p></div></div>
-  <div class="panel">
-    <div class="panelhead"><div><h3>Renomear</h3></div></div>
-    <form class="formgrid" id="formRenomear" onsubmit="renomearOperador(event)">
-      <div class="field full"><label>Novo nome</label><input type="text" id="contaNomeNovo" required></div>
-      <div class="actions"><button class="btn btn-primary" type="submit">Salvar</button></div>
-    </form>
-  </div>
-  <div class="panel">
-    <div class="panelhead"><div><h3>Trocar PIN</h3><p class="muted" style="margin-top:4px">O PIN nunca é armazenado em texto puro.</p></div></div>
-    <form class="formgrid" id="formTrocarPin" onsubmit="trocarPinOperador(event)">
-      <div class="field"><label>PIN atual</label><input type="password" id="contaPinAtual" maxlength="4" inputmode="numeric" required></div>
-      <div class="field"><label>PIN novo</label><input type="password" id="contaPinNovo" maxlength="4" inputmode="numeric" required></div>
-      <div class="field full"><label>Confirmar</label><input type="password" id="contaPinNovo2" maxlength="4" inputmode="numeric" required></div>
-      <div class="actions"><button class="btn btn-primary" type="submit">Trocar PIN</button></div>
-    </form>
-  </div>
-  <div class="panel">
-    <div class="panelhead"><div><h3>Sessão</h3></div></div>
-    <button class="btn" onclick="sairOperador()">Sair deste dispositivo</button>
-  </div>
-  <div class="panel" style="border-color:#5a2432">
-    <div class="panelhead"><div><h3 style="color:var(--red2)">Apagar conta</h3>
-      <p class="muted" style="margin-top:4px">Remove operador, ranking e registros na nuvem. Irreversível.</p></div></div>
-    <button class="btn btn-danger" onclick="apagarConta()">Apagar conta da nuvem</button>
-  </div>
-</section>
-
-</main>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-/* ========== CONFIG ========== */
-const SUPABASE_URL = "https://nvmmzwaezgfifqwtxdyo.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_se9TL5vs1Xki9syaBaBQUA_jIlqKE6b";
-const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-window.supabaseClient = supabaseClient;
+let subjectCatalog={"LÍNGUA PORTUGUESA":["1 Compreensão e interpretação de textos de gêneros variados. · 2 Reconhecimento de tipos e géneros textuais. · 3 Domínio da ortografia oficial.","4 Domínio dos mecanismos de coesão textual. · 4.1 Emprego de elementos de referenciação, substituição e repetição, de conectores e de outros elementos de sequenciação textual. · 4.2 Emprego de tempos e modos verbais.","5 Domínio da estrutura morfossintática do período. · 5.1 Emprego das classes de palavras.","5.2 Relações de coordenação entre orações e entre termos da oração. · 5.3 Relações de subordinação entre orações e entre termos da oração. · 5.4 Emprego dos sinais de pontuação.","5.5 Concordância verbal e nominal. · 5.6 Regência verbal e nominal. · 5.7 Emprego do sinal indicativo de crase. · 5.8 Colocação dos pronomes átonos.","> 1 Compreensão e interpretação de textos de gêneros variados.","> 2 Reconhecimento de tipos e géneros textuais.","> 3 Domínio da ortografia oficial.","> 4 Domínio dos mecanismos de coesão textual (- 4.1 e - 4.2).","> 5 Domínio da estrutura morfossintática do período.","1 Compreensão e interpretação de textos de gêneros variados.","2 Reconhecimento de tipos e géneros textuais.","3 Domínio da ortografia oficial.","4 Domínio dos mecanismos de coesão textual.","4.1 Emprego de elementos de referenciação, substituição e repetição, de conectores e de outros elementos de sequenciação textual.","4.2 Emprego de tempos e modos verbais.","5 Domínio da estrutura morfossintática do período.","5.1 Emprego das classes de palavras.","5.2 Relações de coordenação entre orações e entre termos da oração.","5.3 Relações de subordinação entre orações e entre termos da oração.","5.4 Emprego dos sinais de pontuação.","5.5 Concordância verbal e nominal.","5.6 Regência verbal e nominal.","5.7 Emprego do sinal indicativo de crase.","5.8 Colocação dos pronomes átonos.","6 Reescrita de frases e parágrafos do texto.","6.1 Significação das palavras.","6.2 Substituição de palavras ou de trechos de texto.","6.3 Reorganização da estrutura de orações e de períodos do texto.","6.4 Reescrita de textos de diferentes gêneros e níveis de formalidade."],"RACIOCÍNIO LÓGICO":["1 Compreensão de estruturas lógicas. · 2 Lógica de argumentação: analogias, inferências, deduções e conclusões. · 3 Lógica sentencial (ou proposicional). · 3.1 Proposições simples e compostas.","3.2 Tabelas verdade. · 3.3 Equivalências. · 3.4 Leis de Morgan. · 3.5 Diagramas lógicos.","> 1 Compreensão de estruturas lógicas.","> 2 Lógica de argumentação: analogias, inferências, deduções e conclusões.","> 3 Lógica sentencial (ou proposicional) e tabelas-verdade.","1 Compreensão de estruturas lógicas.","2 Lógica de argumentação: analogias, inferências, deduções e conclusões.","3 Lógica sentencial (ou proposicional).","3.1 Proposições simples e compostas.","3.2 Tabelas verdade.","3.3 Equivalências.","3.4 Leis de Morgan.","3.5 Diagramas lógicos."],"HISTÓRIA DO BRASIL":["1 A contribuição dos índios e negros para a formação do Brasil; A formação do Brasil Contemporâneo; A República Velha e as estruturas oligárquicas; Economia e Sociedade: o café e estratificação social.","A Revolução de 1930; A Era Vargas: política, economia e sociedade; O período democrático (1945 a 1964). · 2 A redemocratização do Estado e a constituição de 1946. · 3 A política de industrialização do governo JK. · 5 A crise do regime democrático.","6 O golpe de 1964. · 7 A crise do regime militar e a redemocratização. · 8 O Brasil politico: nação e território. · 9 Organização do Estado Brasileiro.","> 1 A contribuição dos índios e negros para a formação do Brasil....","> 2 A redemocratização do Estado e a constituição de 1946.","1 A contribuição dos índios e negros para a formação do Brasil; A formação do Brasil Contemporâneo; A República Velha e as estruturas oligárquicas; Economia e Sociedade: o café e estratificação social; A Revolução de 1930; A Era Vargas: política, economia e sociedade; O período democrático (1945 a 1964).","2 A redemocratização do Estado e a constituição de 1946.","3 A política de industrialização do governo JK.","5 A crise do regime democrático.","6 O golpe de 1964.","7 A crise do regime militar e a redemocratização.","8 O Brasil politico: nação e território.","9 Organização do Estado Brasileiro.","10 As Constituições."],"HISTÓRIA DO MARANHÃO":["1 França equinocial: expedição de Daniel de La Touche. · 2 Fundação de São Luís. · 3 Batalha de Guaxenduba. · 4 Capitães mores do Maranhão.","5 Invasão holandesa. · 6 Expulsão dos holandeses. · 7 Estado do Maranhão e Grão Pará: Revolta de Bequimão (causas e objetivos da revolta); Companhia de Comércio do Maranhão e Grão Pará. · 8 Período do Império: adesão do Maranhão.","9 Independência do Brasil. · 10 Causas da não adesão: Batalha do Jenipapo. · 11 Balaiada: caracterização e causas do movimento. · 12 Período Republicano: adesão do Maranhão à República.","> 1 França equinocial: expedição de Daniel de La Touche.","> 2 Fundação de São Luís e > 3 Batalha de Guaxenduba.","1 França equinocial: expedição de Daniel de La Touche.","2 Fundação de São Luís.","3 Batalha de Guaxenduba.","4 Capitães mores do Maranhão.","5 Invasão holandesa.","6 Expulsão dos holandeses.","7 Estado do Maranhão e Grão Pará: Revolta de Bequimão (causas e objetivos da revolta); Companhia de Comércio do Maranhão e Grão Pará.","8 Período do Império: adesão do Maranhão.","9 Independência do Brasil.","10 Causas da não adesão: Batalha do Jenipapo.","11 Balaiada: caracterização e causas do movimento.","12 Período Republicano: adesão do Maranhão à República.","13 Revolução de 1930 no Maranhão.","14 Principais fatos políticos, econômicos e sociais ocorridos no Maranhão, na segunda metade do século XX."],"GEOGRAFIA DO BRASIL":["1 A integração ao processo de internacionalização da economia. · 2 O processo de industrialização e suas repercussões na organização do espaço. · 3 A rede brasileira de transportes e sua evolução. · 4 A estrutura urbana brasileira e das grandes metrópoles.","5 A dinâmica das fronteiras agrícolas e sua expansão para o Centro Oeste e a Amazônia. · 6 A evolução da estrutura fundiária e problemas demográficos. · 7 Os movimentos migratórios internos. · 8 A população brasileira: distribuição dos efetivos demográficos no território nacional; evolução do crescimento ao longo do século XX; estrutura etária.","8 Integração entre indústria, estrutura urbana, rede de transportes e setor agrícola no Brasil. · 9 Recursos naturais: aproveitamento, desperdício e política de conservação de recursos naturais.","> 1 A integração ao processo de internacionalização da economia.","> 2 O processo de industrialização e suas repercussões na organização do espaço.","1 A integração ao processo de internacionalização da economia.","2 O processo de industrialização e suas repercussões na organização do espaço.","3 A rede brasileira de transportes e sua evolução.","4 A estrutura urbana brasileira e as grandes metrópoles.","5 A dinâmica das fronteiras agrícolas e sua expansão para o Centro Oeste e a Amazônia.","6 A evolução da estrutura fundiária e problemas demográficos.","7 Os movimentos migratórios internos.","8 A população brasileira: distribuição dos efetivos demográficos no território nacional; evolução do crescimento ao longo do século XX; estrutura etária.","8 Integração entre indústria, estrutura urbana, rede de transportes e setor agrícola no Brasil.","9 Recursos naturais: aproveitamento, desperdício e política de conservação de recursos naturais."],"SIMULADO E REVISÃO":["Realização de simulado com os conteúdos da semana e revisão ativa dos pontos com maior dificuldade.","Realização de simulado prático e revisão acumulada da semana.","Realização de simulado com os conteúdos da semana e revisão ativa.","Realização de simulado geral e revisão estratégica.","Simulado semanal e revisão dos conteúdos da semana.","Simulado geral e revisão dos blocos anteriores.","Simulado focado nas matérias estudadas na semana.","Simulado geral simulando o padrão de cobrança do edital."],"GEOGRAFIA DO MARANHÃO":["1 Localização do Estado do Maranhão: superfície; limites; linhas de fronteira; pontos extremos; áreas de proteção ambiental (APA). · 2 Parques nacionais. · 3 Climas do Maranhão: pluviosidade e temperatura. · 4 Geomorfologia (- 4.1 Classificação do relevo maranhense: planaltos, planícies e baixadas).","5 Características dos rios maranhenses: bacias dos rios limítrofes (Parnaiba, Gurupi e Tocantins Araguaia). · 6 Bacias dos ríos genuinamente maranhenses. · 7 Principais formações vegetais: floresta, cerrado e cocais. · 8 Geografia da população: população absoluta; densidade demográfica; povoamento; movimentos populacionais.","> 1 Localização do Estado do Maranhão: superfície; limites; linhas de fronteira.","> 4 Geomorfologia e classificação do relevo maranhense.","1 Localização do Estado do Maranhão: superfície; limites; linhas de fronteira; pontos extremos; áreas de proteção ambiental (APA).","2 Parques nacionais.","3 Climas do Maranhão: pluviosidade e temperatura.","4 Geomorfologia.","4.1 Classificação do relevo maranhense: planaltos, planícies e baixadas.","5 Características dos rios maranhenses: bacias dos rios limítrofes (Parnaiba, Gurupi e Tocantins Araguaia).","6 Bacias dos ríos genuinamente maranhenses.","7 Principais formações vegetais: floresta, cerrado e cocais.","8 Geografia da população: população absoluta; densidade demográfica; povoamento; movimentos populacionais.","9 Agricultura maranhense: caracterização e principais produtos agrícolas; caracterização da pecuária.","10 Extrativismo: vegetal, animal e mineral.","11 Parque industrial: indústrias de base e indústrias de transformação.","12 Setor terciário: comércio, telecomunicações, transportes.","13 Malha viária.","14 Portos e aeroportos.","15 Cultura maranhense."],"LEGISLAÇÃO INSTITUCIONAL":["1 Lei estadual nº 6.513/1995 e suas alterações (Estatuto dos Policiais Militares do Estado do Maranhão).","2 Lei Federal nº 14.751/2023 e suas alterações (Lei Orgânica Nacional/PM/CBM).","3 Lei nº 12.896/2026 (Lei de Organização Básica da PMMA).","> 1 Lei estadual nº 6.513/1995 e suas alterações (Estatuto dos Policiais Militares do Estado do Maranhão).","> 2 Lei Federal nº 14.751/2023 e suas alterações (Lei Orgânica Nacional/PM/CBM).","> 3 Lei nº 12.896/2026 (Lei de Organização Básica da PMMA).","Revisão geral das leis estaduais e federais da corporação."],"NOÇÕES DE INFORMÁTICA":["1 Noções de sistema operacional (ambientes Linux e Windows). · 2 Edição de textos, planilhas e apresentações (ambientes Microsoft Office e BrOffice). · 3.1 Conceitos básicos, ferramentas, aplicativos e procedimentos de Internet e intranet. · 3.2 Programas de navegação (Microsoft Internet Explorer, Mozilla Firefox e Google Chrome).","3.3 Programas de correio eletrônico (Outlook Express e Mozilla Thunderbird). · 3.4 Sítios de busca e pesquisa na Internet. · 3.5 Grupos de discussão. · 3.6 Redes sociais.","3.7 Computação na nuven (cloud computing). · 4 Conceitos de organização e de gerenciamento de informações, arquivos, pastas e programas. · 5.1 Procedimentos de segurança. · 5.2 Noções de vírus, worms e pragas virtuais. · 5.3 Aplicativos para segurança (antivirus).","> 1 Noções de sistema operacional (ambientes Linux e Windows).","> 2 Edição de textos, planilhas e apresentações (ambientes Microsoft Office e BrOffice).","> 3 Redes de computadores (- 3.1 a - 3.7).","> 5 Segurança da informação (- 5.1 a - 5.5).","> 4 Conceitos de organização e gerenciamento de arquivos, pastas e programas.","1 Noções de sistema operacional (ambientes Linux e Windows).","2 Edição de textos, planilhas e apresentações (ambientes Microsoft Office e BrOffice).","3 Redes de computadores. (3.1 a 3.7)","4 Conceitos de organização e de gerenciamento de informações, arquivos, pastas e programas.","5 Segurança da informação.","5.1 a 5.5: Procedimentos de segurança, vírus, worms, pragas, aplicativos de segurança, backup e cloud storage."],"HISTÓRIA DO MARANHÃO & INFORMÁTICA FINAL":["5.4 Procedimentos de backup. · 5.5 Armazenamento de dados na nuvem (cloud storage). · 13 Revolução de 1930 no Maranhão. · 14 Principais fatos políticos, econômicos e sociais ocorridos no Maranhão, na segunda metade do século XX."],"LÍNGUA PORTUGUESA (FECHAMENTO) & HISTÓRIA DO BRASIL":["6 Reescrita de frases e parágrafos do texto (6.1 Significação das palavras; 6.2 Substituição de palavras ou de trechos de texto; 6.3 Reorganização da estrutura de orações e de períodos do texto; 6.4 Reescrita de textos de diferentes gêneros e níveis de formalidade). · 10 As Constituições."],"REVISÃO FINAL GERAL":["Fechamento de tópicos pendentes do edital verticalizado e flashcards."],"SIMULADO E REVISÃO SEMANAL":["Realização de simulado com os tópicos estudados na semana e revisão ativa dos erros.","Realização de simulado abordando Português e Raciocínio Lógico + revisão geral.","Simulado focado em História do Brasil e História do Maranhão com revisão ativa.","Simulado contemplando Geografia do Brasil e Geografia do Maranhão."]};const curriculumPadrao=[["LÍNGUA PORTUGUESA","1 Compreensão e interpretação de textos de gêneros variados. · 2 Reconhecimento de tipos e géneros textuais. · 3 Domínio da ortografia oficial.","01/09","study"],["RACIOCÍNIO LÓGICO","1 Compreensão de estruturas lógicas. · 2 Lógica de argumentação: analogias, inferências, deduções e conclusões. · 3 Lógica sentencial (ou proposicional). · 3.1 Proposições simples e compostas.","02/09","study"],["HISTÓRIA DO BRASIL","1 A contribuição dos índios e negros para a formação do Brasil; A formação do Brasil Contemporâneo; A República Velha e as estruturas oligárquicas; Economia e Sociedade: o café e estratificação social.","03/09","study"],["HISTÓRIA DO MARANHÃO","1 França equinocial: expedição de Daniel de La Touche. · 2 Fundação de São Luís. · 3 Batalha de Guaxenduba. · 4 Capitães mores do Maranhão.","04/09","study"],["GEOGRAFIA DO BRASIL","1 A integração ao processo de internacionalização da economia. · 2 O processo de industrialização e suas repercussões na organização do espaço. · 3 A rede brasileira de transportes e sua evolução. · 4 A estrutura urbana brasileira e das grandes metrópoles.","05/09","study"],["SIMULADO E REVISÃO","Realização de simulado com os conteúdos da semana e revisão ativa dos pontos com maior dificuldade.","06/09","simulado"],["GEOGRAFIA DO MARANHÃO","1 Localização do Estado do Maranhão: superfície; limites; linhas de fronteira; pontos extremos; áreas de proteção ambiental (APA). · 2 Parques nacionais. · 3 Climas do Maranhão: pluviosidade e temperatura. · 4 Geomorfologia (- 4.1 Classificação do relevo maranhense: planaltos, planícies e baixadas).","07/09","study"],["LEGISLAÇÃO INSTITUCIONAL","1 Lei estadual nº 6.513/1995 e suas alterações (Estatuto dos Policiais Militares do Estado do Maranhão).","08/09","study"],["NOÇÕES DE INFORMÁTICA","1 Noções de sistema operacional (ambientes Linux e Windows). · 2 Edição de textos, planilhas e apresentações (ambientes Microsoft Office e BrOffice). · 3.1 Conceitos básicos, ferramentas, aplicativos e procedimentos de Internet e intranet. · 3.2 Programas de navegação (Microsoft Internet Explorer, Mozilla Firefox e Google Chrome).","09/09","study"],["LÍNGUA PORTUGUESA","4 Domínio dos mecanismos de coesão textual. · 4.1 Emprego de elementos de referenciação, substituição e repetição, de conectores e de outros elementos de sequenciação textual. · 4.2 Emprego de tempos e modos verbais.","10/09","study"],["RACIOCÍNIO LÓGICO","3.2 Tabelas verdade. · 3.3 Equivalências. · 3.4 Leis de Morgan. · 3.5 Diagramas lógicos.","11/09","study"],["HISTÓRIA DO BRASIL","A Revolução de 1930; A Era Vargas: política, economia e sociedade; O período democrático (1945 a 1964). · 2 A redemocratização do Estado e a constituição de 1946. · 3 A política de industrialização do governo JK. · 5 A crise do regime democrático.","12/09","study"],["SIMULADO E REVISÃO","Realização de simulado prático e revisão acumulada da semana.","13/09","simulado"],["HISTÓRIA DO MARANHÃO","5 Invasão holandesa. · 6 Expulsão dos holandeses. · 7 Estado do Maranhão e Grão Pará: Revolta de Bequimão (causas e objetivos da revolta); Companhia de Comércio do Maranhão e Grão Pará. · 8 Período do Império: adesão do Maranhão.","14/09","study"],["LÍNGUA PORTUGUESA","5 Domínio da estrutura morfossintática do período. · 5.1 Emprego das classes de palavras.","15/09","study"],["GEOGRAFIA DO BRASIL","5 A dinâmica das fronteiras agrícolas e sua expansão para o Centro Oeste e a Amazônia. · 6 A evolução da estrutura fundiária e problemas demográficos. · 7 Os movimentos migratórios internos. · 8 A população brasileira: distribuição dos efetivos demográficos no território nacional; evolução do crescimento ao longo do século XX; estrutura etária.","16/09","study"],["GEOGRAFIA DO MARANHÃO","5 Características dos rios maranhenses: bacias dos rios limítrofes (Parnaiba, Gurupi e Tocantins Araguaia). · 6 Bacias dos ríos genuinamente maranhenses. · 7 Principais formações vegetais: floresta, cerrado e cocais. · 8 Geografia da população: população absoluta; densidade demográfica; povoamento; movimentos populacionais.","17/09","study"],["LEGISLAÇÃO INSTITUCIONAL","2 Lei Federal nº 14.751/2023 e suas alterações (Lei Orgânica Nacional/PM/CBM).","18/09","study"],["NOÇÕES DE INFORMÁTICA","3.3 Programas de correio eletrônico (Outlook Express e Mozilla Thunderbird). · 3.4 Sítios de busca e pesquisa na Internet. · 3.5 Grupos de discussão. · 3.6 Redes sociais.","19/09","study"],["SIMULADO E REVISÃO","Realização de simulado com os conteúdos da semana e revisão ativa.","20/09","simulado"],["HISTÓRIA DO MARANHÃO","9 Independência do Brasil. · 10 Causas da não adesão: Batalha do Jenipapo. · 11 Balaiada: caracterização e causas do movimento. · 12 Período Republicano: adesão do Maranhão à República.","21/09","study"],["LÍNGUA PORTUGUESA","5.2 Relações de coordenação entre orações e entre termos da oração. · 5.3 Relações de subordinação entre orações e entre termos da oração. · 5.4 Emprego dos sinais de pontuação.","22/09","study"],["LEGISLAÇÃO INSTITUCIONAL","3 Lei nº 12.896/2026 (Lei de Organização Básica da PMMA).","23/09","study"],["HISTÓRIA DO BRASIL","6 O golpe de 1964. · 7 A crise do regime militar e a redemocratização. · 8 O Brasil politico: nação e território. · 9 Organização do Estado Brasileiro.","24/09","study"],["GEOGRAFIA DO BRASIL","8 Integração entre indústria, estrutura urbana, rede de transportes e setor agrícola no Brasil. · 9 Recursos naturais: aproveitamento, desperdício e política de conservação de recursos naturais.","25/09","study"],["NOÇÕES DE INFORMÁTICA","3.7 Computação na nuven (cloud computing). · 4 Conceitos de organização e de gerenciamento de informações, arquivos, pastas e programas. · 5.1 Procedimentos de segurança. · 5.2 Noções de vírus, worms e pragas virtuais. · 5.3 Aplicativos para segurança (antivirus).","26/09","study"],["SIMULADO E REVISÃO","Realização de simulado geral e revisão estratégica.","27/09","simulado"],["HISTÓRIA DO MARANHÃO & INFORMÁTICA FINAL","5.4 Procedimentos de backup. · 5.5 Armazenamento de dados na nuvem (cloud storage). · 13 Revolução de 1930 no Maranhão. · 14 Principais fatos políticos, econômicos e sociais ocorridos no Maranhão, na segunda metade do século XX.","28/09","study"],["LÍNGUA PORTUGUESA","5.5 Concordância verbal e nominal. · 5.6 Regência verbal e nominal. · 5.7 Emprego do sinal indicativo de crase. · 5.8 Colocação dos pronomes átonos.","29/09","study"],["LÍNGUA PORTUGUESA (FECHAMENTO) & HISTÓRIA DO BRASIL","6 Reescrita de frases e parágrafos do texto (6.1 Significação das palavras; 6.2 Substituição de palavras ou de trechos de texto; 6.3 Reorganização da estrutura de orações e de períodos do texto; 6.4 Reescrita de textos de diferentes gêneros e níveis de formalidade). · 10 As Constituições.","30/09","final"]];
 
-/* ========== EDITAL PADRÃO PMMA ========== */
-const subjectCatalogPadrao = {
-"LÍNGUA PORTUGUESA":[
-"1 Compreensão e interpretação de textos de gêneros variados.",
-"2 Reconhecimento de tipos e gêneros textuais.",
-"3 Domínio da ortografia oficial.",
-"4 Domínio dos mecanismos de coesão textual.",
-"4.1 Emprego de elementos de referenciação, substituição e repetição, de conectores e de outros elementos de sequenciação textual.",
-"4.2 Emprego de tempos e modos verbais.",
-"5 Domínio da estrutura morfossintática do período.",
-"5.1 Emprego das classes de palavras.",
-"5.2 Relações de coordenação entre orações e entre termos da oração.",
-"5.3 Relações de subordinação entre orações e entre termos da oração.",
-"5.4 Emprego dos sinais de pontuação.",
-"5.5 Concordância verbal e nominal.",
-"5.6 Regência verbal e nominal.",
-"5.7 Emprego do sinal indicativo de crase.",
-"5.8 Colocação dos pronomes átonos.",
-"6 Reescrita de frases e parágrafos do texto.",
-"6.1 Significação das palavras.",
-"6.2 Substituição de palavras ou de trechos de texto.",
-"6.3 Reorganização da estrutura de orações e de períodos do texto.",
-"6.4 Reescrita de textos de diferentes gêneros e níveis de formalidade."
-],
-"RACIOCÍNIO LÓGICO":[
-"1 Compreensão de estruturas lógicas.",
-"2 Lógica de argumentação: analogias, inferências, deduções e conclusões.",
-"3 Lógica sentencial (ou proposicional).",
-"3.1 Proposições simples e compostas.",
-"3.2 Tabelas verdade.",
-"3.3 Equivalências.",
-"3.4 Leis de Morgan.",
-"3.5 Diagramas lógicos."
-],
-"HISTÓRIA DO BRASIL":[
-"1 A contribuição dos índios e negros para a formação do Brasil; A formação do Brasil Contemporâneo; A República Velha e as estruturas oligárquicas; Economia e Sociedade: o café e estratificação social.",
-"A Revolução de 1930; A Era Vargas: política, economia e sociedade; O período democrático (1945 a 1964).",
-"2 A redemocratização do Estado e a constituição de 1946.",
-"3 A política de industrialização do governo JK.",
-"5 A crise do regime democrático.",
-"6 O golpe de 1964.",
-"7 A crise do regime militar e a redemocratização.",
-"8 O Brasil político: nação e território.",
-"9 Organização do Estado Brasileiro.",
-"10 As Constituições."
-],
-"HISTÓRIA DO MARANHÃO":[
-"1 França equinocial: expedição de Daniel de La Touche.",
-"2 Fundação de São Luís.",
-"3 Batalha de Guaxenduba.",
-"4 Capitães mores do Maranhão.",
-"5 Invasão holandesa.",
-"6 Expulsão dos holandeses.",
-"7 Estado do Maranhão e Grão Pará: Revolta de Bequimão; Companhia de Comércio do Maranhão e Grão Pará.",
-"8 Período do Império: adesão do Maranhão.",
-"9 Independência do Brasil.",
-"10 Causas da não adesão: Batalha do Jenipapo.",
-"11 Balaiada: caracterização e causas do movimento.",
-"12 Período Republicano: adesão do Maranhão à República.",
-"13 Revolução de 1930 no Maranhão.",
-"14 Principais fatos políticos, econômicos e sociais ocorridos no Maranhão, na segunda metade do século XX."
-],
-"GEOGRAFIA DO BRASIL":[
-"1 A integração ao processo de internacionalização da economia.",
-"2 O processo de industrialização e suas repercussões na organização do espaço.",
-"3 A rede brasileira de transportes e sua evolução.",
-"4 A estrutura urbana brasileira e das grandes metrópoles.",
-"5 A dinâmica das fronteiras agrícolas e sua expansão para o Centro Oeste e a Amazônia.",
-"6 A evolução da estrutura fundiária e problemas demográficos.",
-"7 Os movimentos migratórios internos.",
-"8 A população brasileira: distribuição, crescimento e estrutura etária.",
-"8 Integração entre indústria, estrutura urbana, rede de transportes e setor agrícola no Brasil.",
-"9 Recursos naturais: aproveitamento, desperdício e política de conservação."
-],
-"GEOGRAFIA DO MARANHÃO":[
-"1 Localização do Estado do Maranhão: superfície; limites; linhas de fronteira; pontos extremos; APA.",
-"2 Parques nacionais.",
-"3 Climas do Maranhão: pluviosidade e temperatura.",
-"4 Geomorfologia.",
-"4.1 Classificação do relevo maranhense: planaltos, planícies e baixadas.",
-"5 Características dos rios maranhenses: bacias limítrofes (Parnaíba, Gurupi e Tocantins-Araguaia).",
-"6 Bacias dos rios genuinamente maranhenses.",
-"7 Principais formações vegetais: floresta, cerrado e cocais.",
-"8 Geografia da população: população absoluta; densidade; povoamento; movimentos.",
-"9 Agricultura maranhense e pecuária.",
-"10 Extrativismo: vegetal, animal e mineral.",
-"11 Parque industrial.",
-"12 Setor terciário: comércio, telecomunicações, transportes.",
-"13 Malha viária.",
-"14 Portos e aeroportos.",
-"15 Cultura maranhense."
-],
-"LEGISLAÇÃO INSTITUCIONAL":[
-"1 Lei estadual nº 6.513/1995 e alterações (Estatuto dos Policiais Militares do Maranhão).",
-"2 Lei Federal nº 14.751/2023 e alterações (Lei Orgânica Nacional/PM/CBM).",
-"3 Lei nº 12.896/2026 (Lei de Organização Básica da PMMA)."
-],
-"NOÇÕES DE INFORMÁTICA":[
-"1 Noções de sistema operacional (Linux e Windows).",
-"2 Edição de textos, planilhas e apresentações (Microsoft Office e BrOffice).",
-"3 Redes de computadores.",
-"3.1 Conceitos básicos, ferramentas, aplicativos e procedimentos de Internet e intranet.",
-"3.2 Programas de navegação.",
-"3.3 Programas de correio eletrônico.",
-"3.4 Sítios de busca e pesquisa.",
-"3.5 Grupos de discussão.",
-"3.6 Redes sociais.",
-"3.7 Computação na nuvem (cloud computing).",
-"4 Conceitos de organização e gerenciamento de informações, arquivos, pastas e programas.",
-"5 Segurança da informação.",
-"5.1 Procedimentos de segurança.",
-"5.2 Noções de vírus, worms e pragas virtuais.",
-"5.3 Aplicativos para segurança (antivírus).",
-"5.4 Procedimentos de backup.",
-"5.5 Armazenamento de dados na nuvem (cloud storage)."
-],
-"SIMULADO E REVISÃO":[
-"Realização de simulado com os conteúdos da semana e revisão ativa dos pontos com maior dificuldade."
-]
-};
+let subjectCatalogPadrao = JSON.parse(JSON.stringify(subjectCatalog));
+const editalSalvo = JSON.parse(localStorage.getItem('operacao-aprovacao-edital')||'null');
+if (editalSalvo) { subjectCatalog = editalSalvo; }
 
-const curriculumPadrao = [
-["LÍNGUA PORTUGUESA","1 Compreensão e interpretação de textos de gêneros variados. · 2 Reconhecimento de tipos e gêneros textuais. · 3 Domínio da ortografia oficial.","01/09","study"],
-["RACIOCÍNIO LÓGICO","1 Compreensão de estruturas lógicas. · 2 Lógica de argumentação. · 3 Lógica sentencial.","02/09","study"],
-["HISTÓRIA DO BRASIL","1 Formação do Brasil; República Velha; café e estratificação social.","03/09","study"],
-["HISTÓRIA DO MARANHÃO","1 França equinocial. · 2 Fundação de São Luís. · 3 Batalha de Guaxenduba. · 4 Capitães mores.","04/09","study"],
-["GEOGRAFIA DO BRASIL","1 Internacionalização. · 2 Industrialização. · 3 Rede de transportes. · 4 Estrutura urbana.","05/09","study"],
-["SIMULADO E REVISÃO","Simulado semanal e revisão ativa.","06/09","simulado"],
-["GEOGRAFIA DO MARANHÃO","1 Localização e limites. · 2 Parques. · 3 Climas. · 4 Geomorfologia.","07/09","study"],
-["LEGISLAÇÃO INSTITUCIONAL","1 Lei estadual nº 6.513/1995 (Estatuto PMMA).","08/09","study"],
-["NOÇÕES DE INFORMÁTICA","1 Sistemas operacionais. · 2 Office/BrOffice. · 3.1–3.2 Internet e navegadores.","09/09","study"],
-["LÍNGUA PORTUGUESA","4 Coesão textual. · 4.1 Referenciação. · 4.2 Tempos e modos verbais.","10/09","study"],
-["RACIOCÍNIO LÓGICO","3.2 Tabelas verdade. · 3.3 Equivalências. · 3.4 Leis de Morgan. · 3.5 Diagramas.","11/09","study"],
-["HISTÓRIA DO BRASIL","Era Vargas; 1945–1964; redemocratização 1946; JK; crise democrática.","12/09","study"],
-["SIMULADO E REVISÃO","Simulado prático e revisão acumulada.","13/09","simulado"],
-["HISTÓRIA DO MARANHÃO","5–8 Invasão holandesa; Bequimão; Império.","14/09","study"],
-["LÍNGUA PORTUGUESA","5 Estrutura morfossintática. · 5.1 Classes de palavras.","15/09","study"],
-["GEOGRAFIA DO BRASIL","5 Fronteiras agrícolas. · 6 Estrutura fundiária. · 7 Migrações. · 8 População.","16/09","study"],
-["GEOGRAFIA DO MARANHÃO","5–8 Rios, vegetação e população.","17/09","study"],
-["LEGISLAÇÃO INSTITUCIONAL","2 Lei Federal nº 14.751/2023 (LON/PM/CBM).","18/09","study"],
-["NOÇÕES DE INFORMÁTICA","3.3–3.6 Correio, busca, grupos, redes sociais.","19/09","study"],
-["SIMULADO E REVISÃO","Simulado da semana e revisão.","20/09","simulado"],
-["HISTÓRIA DO MARANHÃO","9–12 Independência; Jenipapo; Balaiada; República.","21/09","study"],
-["LÍNGUA PORTUGUESA","5.2 Coordenação. · 5.3 Subordinação. · 5.4 Pontuação.","22/09","study"],
-["LEGISLAÇÃO INSTITUCIONAL","3 Lei nº 12.896/2026 (LOB PMMA).","23/09","study"],
-["HISTÓRIA DO BRASIL","6–9 Golpe 1964; regime militar; nação e território; organização do Estado.","24/09","study"],
-["GEOGRAFIA DO BRASIL","Integração indústria/urbano/transporte/agro. · 9 Recursos naturais.","25/09","study"],
-["NOÇÕES DE INFORMÁTICA","3.7 Cloud. · 4 Arquivos. · 5 Segurança (5.1–5.3).","26/09","study"],
-["SIMULADO E REVISÃO","Simulado geral e revisão estratégica.","27/09","simulado"],
-["NOÇÕES DE INFORMÁTICA","5.4 Backup. · 5.5 Cloud storage.","28/09","study"],
-["LÍNGUA PORTUGUESA","5.5 Concordância. · 5.6 Regência. · 5.7 Crase. · 5.8 Pronomes átonos.","29/09","study"],
-["LÍNGUA PORTUGUESA","6 Reescrita (6.1–6.4). · HISTÓRIA DO BRASIL 10 Constituições.","30/09","final"]
-];
+let curriculum = JSON.parse(localStorage.getItem('operacao-aprovacao-cronograma')||'null') || curriculumPadrao;
 
-/* ========== STATE (só em memória; persistência = Supabase) ========== */
-let session = { nome: null, pinHash: null };
-let records = [];
-let editais = [];        // {id, nome, catalog, is_active}
-let cronogramas = [];    // {id, nome, curriculum, done, periods, is_active}
+let state=JSON.parse(localStorage.getItem('operacao-aprovacao-local')||'null')||{records:[],done:[],focus:[],goals:{dailyQuestions:200,dailyMinutes:300}};state.goals=state.goals||{dailyQuestions:200,dailyMinutes:300};let focusSeconds=1500,focusTimer=null;
+const $=id=>document.getElementById(id);const save=()=>localStorage.setItem('operacao-aprovacao-local',JSON.stringify(state));const topicOptions=$('topicOptions');const topicCount=$('topicCount');
+$('today').textContent=new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long'});$('studyDate').value=new Date().toISOString().slice(0,10);const subjectSelect=$('subjectSelect');Object.keys(subjectCatalog).forEach(subject=>subjectSelect.insertAdjacentHTML('beforeend',`<option value="${subject}">${subject}</option>`));function updateTopicCount(){const selected=[...document.querySelectorAll('input[name="topic"]:checked')];topicCount.textContent=`${selected.length} assunto${selected.length===1?'':'s'} selecionado${selected.length===1?'':'s'}`}function updateTopicOptions(){const subject=subjectSelect.value;topicOptions.innerHTML=subject?subjectCatalog[subject].map(topic=>`<label class="topic-option"><input type="checkbox" name="topic" value="${topic}"><span>${topic}</span></label>`).join(''):'<div class="topic-empty">Selecione primeiro a disciplina</div>';topicOptions.querySelectorAll('input[name="topic"]').forEach(input=>input.addEventListener('change',updateTopicCount));updateTopicCount()}subjectSelect.addEventListener('change',updateTopicOptions);$('studyForm').addEventListener('reset',()=>setTimeout(updateTopicOptions,0));
+function openPage(page){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));$(page).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===page));const names={dashboard:'Central de comando',registro:'Registrar estudo',questoes:'Questões registradas',desempenho:'Desempenho',conteudos:'Cronograma PMMA',foco:'Modo foco',backup:'Backup pessoal',ranking:'Rankings',conta:'Minha Conta',novocronograma:'Novo Cronograma',edital:'Edital Verticalizado'};$('pageTitle').textContent=names[page];render();renderHomePerformance();renderPerformance();if(page==='conta')renderConta();if(page==='novocronograma')renderNovoCronograma();if(page==='edital')renderEdital();scrollTo({top:0,behavior:'smooth'})}document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>openPage(b.dataset.page));
+$('studyForm').onsubmit=e=>{e.preventDefault();const f=new FormData(e.target),subject=String(f.get('subject')||''),topics=[...document.querySelectorAll('input[name="topic"]:checked')].map(input=>input.value).filter(Boolean),total=+f.get('total')||0,correct=+f.get('correct')||0;if(!Object.prototype.hasOwnProperty.call(subjectCatalog,subject)){alert('Selecione uma disciplina válida do edital.');return}if(!topics.length||topics.some(topic=>!subjectCatalog[subject].includes(topic))){alert('Selecione um ou mais assuntos válidos para a disciplina escolhida.');return}if(correct>total){alert('As questões certas não podem ser maiores que o total.');return}state.records.unshift({id:Date.now(),date:f.get('date'),type:f.get('type'),subject,topics,topic:topics.join(' · '),total,correct,minutes:+f.get('minutes')||0,board:f.get('board'),reason:f.get('reason'),notes:f.get('notes')});save();e.target.reset();$('studyDate').value=new Date().toISOString().slice(0,10);alert('Registro salvo neste dispositivo.');render();renderHomePerformance();renderPerformance();atualizarProgressoNuvem();};
+function deleteRecord(id){const record=state.records.find(item=>item.id===id);if(!record)return;if(confirm(`Apagar o registro de ${record.date} em ${record.subject}? Esta ação não pode ser desfeita.`)){state.records=state.records.filter(item=>item.id!==id);save();render();renderHomePerformance();renderPerformance();atualizarProgressoNuvem();}}function toggleDay(i){state.done[i]=!state.done[i];save();render();renderHomePerformance();renderPerformance();atualizarProgressoNuvem();}
+function renderCurriculum(){const ranges=[];const tamanho=7;for(let start=0;start<curriculum.length;start+=tamanho){const end=Math.min(start+tamanho,curriculum.length);const numSemana=Math.floor(start/tamanho)+1;const ultimo=(end===curriculum.length)&&((end-start)<tamanho);const label=ultimo?'FECHAMENTO DO CICLO':('SEMANA '+numSemana);const title=ultimo?'Fechamento do Ciclo':('Semana '+numSemana);ranges.push([start,end,label,title]);}let out='';for(const [start,end,label,title] of ranges){out+=`<div class="panel week"><div class="panelhead"><div><p class="eyebrow">${label}</p><h3>${title}</h3></div><span class="tag">${state.done.slice(start,end).filter(Boolean).length}/${end-start} concluídos</span></div>`;for(let i=start;i<end;i++){let c=curriculum[i],done=!!state.done[i];out+=`<button class="day ${done?'done':''}" onclick="toggleDay(${i})"><span class="daynum">${String(i+1).padStart(2,'0')}</span><span><b>${c[0]}${c[2]?' · '+c[2]:''}</b><small>${['Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado','Domingo','Segunda-feira'][i%7]} · ${c[1]}</small></span><span class="badge ${c[3]==='simulado'?'simulado':''}">${done?'✓ CONCLUÍDO':c[3]==='simulado'?'SIMULADO':c[3]==='final'?'RETA FINAL':'ESTUDAR'}</span></button>`}out+='</div>'}return out}
+	function renderHomePerformance(){const grouped={};state.records.forEach(r=>{const subject=r.subject||'Sem disciplina';if(!grouped[subject])grouped[subject]={total:0,correct:0,minutes:0};grouped[subject].total+=Number(r.total)||0;grouped[subject].correct+=Number(r.correct)||0;grouped[subject].minutes+=Number(r.minutes)||0});const entries=Object.entries(grouped).sort((a,b)=>b[1].total-a[1].total);$('homeDisciplineProgress').innerHTML=entries.length?entries.map(([subject,g])=>{const accuracy=g.total?Math.round(g.correct/g.total*100):0;return `<div class="discipline-row"><div class="discipline-meta"><b>${subject}</b><strong>${accuracy}%</strong></div><div class="progress"><i style="width:${accuracy}%"></i></div><div class="discipline-sub"><span>${g.correct} de ${g.total} questões certas</span><span>${g.minutes} min</span></div></div>`}).join(''):'<div class="performance-empty">Registre questões para liberar o desempenho por disciplina.</div>';const ordered=[...state.records].filter(r=>Number(r.total)>0).sort((a,b)=>(a.date||'').localeCompare(b.date||'')||Number(a.id)-Number(b.id));if(!ordered.length){$('stockChart').innerHTML='<div class="stock-empty">Aguardando registros para desenhar a tendência.</div>';return}let cumulativeTotal=0,cumulativeCorrect=0;const values=ordered.map(r=>{cumulativeTotal+=Number(r.total)||0;cumulativeCorrect+=Number(r.correct)||0;return cumulativeTotal?Math.round(cumulativeCorrect/cumulativeTotal*100):0});const W=1000,H=220,padX=28,padY=32,min=0,max=100;const pts=values.map((value,i)=>({x:values.length===1?W/2:padX+i*(W-padX*2)/(values.length-1),y:H-padY-(value-min)/(max-min)*(H-padY*2)}));const linePath=smoothPath(pts);const areaPath=`${linePath} L ${pts[pts.length-1].x.toFixed(1)},${H-padY} L ${pts[0].x.toFixed(1)},${H-padY} Z`;const first=values[0],last=values[values.length-1],change=last-first;const changeLabel=`${change>=0?'+':''}${change} pts`;const yTicks=[0,25,50,75,100];const yTickLines=yTicks.map(t=>{const y=H-padY-(t-min)/(max-min)*(H-padY*2);return `<line x1="${padX}" y1="${y}" x2="${W-padX}" y2="${y}" stroke="#ffffff0d"/><text x="${padX-6}" y="${y+3}" text-anchor="end" font-size="14" fill="#6b7280">${t}</text>`}).join('');$('stockChart').innerHTML=`<span class="stock-label">PRECISÃO ACUMULADA</span><span class="stock-change" style="color:${change>=0?'var(--green)':'var(--red2)'}">${changeLabel}</span><svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="Gráfico de evolução da precisão acumulada">${yTickLines}<path d="${areaPath}" fill="${change>=0?'#39d98a1c':'#ff52671c'}" stroke="none"/><path d="${linePath}" fill="none" stroke="${change>=0?'#39d98a':'#ff5267'}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>${pts.map((p,i)=>`<circle cx="${p.x}" cy="${p.y}" r="6" fill="${change>=0?'#39d98a':'#ff5267'}" stroke="#17131a" stroke-width="3"><title>${values[i]}% no registro ${i+1}</title></circle>`).join('')}</svg>`}
+function smoothPath(pts){if(!pts.length)return'';if(pts.length===1)return`M ${pts[0].x},${pts[0].y}`;let d=`M ${pts[0].x.toFixed(1)},${pts[0].y.toFixed(1)}`;for(let i=0;i<pts.length-1;i++){const p0=pts[i-1]||pts[i],p1=pts[i],p2=pts[i+1],p3=pts[i+2]||p2;const cp1x=p1.x+(p2.x-p0.x)/6,cp1y=p1.y+(p2.y-p0.y)/6;const cp2x=p2.x-(p3.x-p1.x)/6,cp2y=p2.y-(p3.y-p1.y)/6;d+=` C ${cp1x.toFixed(1)},${cp1y.toFixed(1)} ${cp2x.toFixed(1)},${cp2y.toFixed(1)} ${p2.x.toFixed(1)},${p2.y.toFixed(1)}`}return d}
+function renderPerformance(){const grouped={};state.records.forEach(r=>{const subject=r.subject||'Sem disciplina';if(!grouped[subject])grouped[subject]={total:0,correct:0,minutes:0,topics:{}};const g=grouped[subject];g.total+=Number(r.total)||0;g.correct+=Number(r.correct)||0;g.minutes+=Number(r.minutes)||0;const topics=Array.isArray(r.topics)&&r.topics.length?r.topics:[r.topic||'Assunto não informado'];const share=1/topics.length;topics.forEach(topic=>{if(!g.topics[topic])g.topics[topic]={total:0,correct:0,minutes:0};g.topics[topic].total+=(Number(r.total)||0)*share;g.topics[topic].correct+=(Number(r.correct)||0)*share;g.topics[topic].minutes+=(Number(r.minutes)||0)*share})});const done=state.done.filter(Boolean).length;$('performancePlanLabel').textContent=`${done}/${curriculum.length} concluídos · ${curriculum.length-done} pendentes`;$('performancePlanBar').style.width=Math.round(done/curriculum.length*100)+'%';const next=curriculum.findIndex((_,i)=>!state.done[i]);$('dayProgress').innerHTML=curriculum.map((_,i)=>`<div class="daytile ${state.done[i]?'done':''} ${i===next?'next':''}" title="Dia ${i+1}">${String(i+1).padStart(2,'0')}</div>`).join('');const entries=Object.entries(grouped);$('performanceBySubject').innerHTML=entries.length?entries.map(([subject,g])=>{const accuracy=g.total?Math.round(g.correct/g.total*100):0;const topicRows=Object.entries(g.topics).map(([topic,t])=>`<div class="subject-detail"><span>${topic}</span><span>${Math.round(t.total)} questões</span><span>${Math.round(t.correct)} certas</span><span>${t.total?Math.round(t.correct/t.total*100):0}%</span></div>`).join('');const topicHeader='<div class="subject-detail" style="color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.08em"><span>Assunto</span><span>Questões</span><span>Certas</span><span>Precisão</span></div>';return `<details class="panel performance-card" open><summary><div><b>${subject}</b><small>${g.total} questões · ${g.minutes} minutos · ${Object.keys(g.topics).length} assunto(s)</small></div><strong>${accuracy}%</strong></summary><div class="meterline"><div class="progress"><i style="width:${accuracy}%"></i></div><small>${g.correct} de ${g.total} certas</small></div>${topicHeader}${topicRows}</details>`}).join(''):'<div class="panel performance-empty">Registre suas primeiras questões para liberar o desempenho por disciplina e assunto.</div>'}
+function getTopicStats(){const m={};state.records.forEach(r=>{const ts=Array.isArray(r.topics)&&r.topics.length?r.topics:[r.topic||'Assunto não informado'];const share=1/ts.length;ts.forEach(t=>{if(!m[t])m[t]={subject:r.subject,total:0,correct:0,last:r.date};m[t].total+=(Number(r.total)||0)*share;m[t].correct+=(Number(r.correct)||0)*share;if((r.date||'')>(m[t].last||''))m[t].last=r.date})});return Object.entries(m).map(([topic,v])=>({...v,topic,accuracy:v.total?Math.round(v.correct/v.total*100):0}))}function renderIntelligence(){const topics=getTopicStats().filter(x=>x.total>0);const scored=topics.map(x=>{const days=Math.max(0,(Date.now()-new Date(x.last+'T12:00:00'))/86400000);return {...x,score:(100-x.accuracy)+Math.min(30,days*2)+Math.max(0,20-Math.min(20,x.total/5))}}).sort((a,b)=>b.score-a.score).slice(0,3);$('priorityList').innerHTML=scored.length?scored.map((x,i)=>`<div class="priority-item ${x.accuracy<60?'high':x.accuracy<75?'med':'good'}"><div class="priority-top"><b>${i+1}. ${x.subject} — ${x.topic}</b><strong>${x.accuracy}%</strong></div><small>${Math.round(x.total)} questões · última atividade: ${new Date(x.last+'T12:00:00').toLocaleDateString('pt-BR')} · ${x.accuracy<60?'REVISAR URGENTEMENTE':x.accuracy<75?'PRECISA DE REFORÇO':'MANTER DOMÍNIO'}</small></div>`).join(''):'<div class="performance-empty">Registre questões para o sistema identificar suas prioridades.</div>';const disciplines={};state.records.forEach(r=>{const sub=r.subject||'Sem disciplina';if(!disciplines[sub])disciplines[sub]={total:0,correct:0,last:r.date};disciplines[sub].total+=Number(r.total)||0;disciplines[sub].correct+=Number(r.correct)||0;if((r.date||'')>(disciplines[sub].last||''))disciplines[sub].last=r.date});const weak=Object.entries(disciplines).map(([subject,v])=>({...v,subject,accuracy:v.total?Math.round(v.correct/v.total*100):0})).filter(x=>x.total>0).sort((a,b)=>a.accuracy-b.accuracy).slice(0,5);$('disciplineWeakness').innerHTML=weak.length?weak.map((x,i)=>`<div class="priority-item ${x.accuracy<60?'high':x.accuracy<75?'med':'good'}"><div class="priority-top"><b>${i+1}. ${x.subject}</b><strong>${x.accuracy}%</strong></div><div class="progress" style="margin-top:9px"><i style="width:${x.accuracy}%"></i></div><small>${Math.round(x.correct)} de ${Math.round(x.total)} certas · ${x.accuracy<60?'DISCIPLINA CRÍTICA — PRIORIDADE MÁXIMA':x.accuracy<75?'PRECISA DE REFORÇO':'MANTER E EVOLUIR'}</small></div>`).join(''):'<div class="performance-empty">Registre questões para identificar as disciplinas que precisam de reforço.</div>';const reasons={};state.records.forEach(r=>{if(r.reason&&r.reason!=='none')reasons[r.reason]=(reasons[r.reason]||0)+Math.max(0,(Number(r.total)||0)-(Number(r.correct)||0))});const re=Object.entries(reasons).sort((a,b)=>b[1]-a[1]);const max=Math.max(1,...re.map(x=>x[1]));$('errorAnalysis').innerHTML=re.length?re.map(([k,v])=>`<div class="error-line"><div><b>${k}</b><div class="progress" style="margin-top:6px"><i style="width:${v/max*100}%"></i></div></div><strong>${v}</strong></div>`).join(''):'<div class="performance-empty">Ainda não há erros classificados.</div>';const ordered=[...state.records].filter(r=>Number(r.total)>0).sort((a,b)=>String(a.date).localeCompare(String(b.date)));const recent=ordered.slice(-Math.min(100,ordered.length));const lastAcc=recent.reduce((a,r)=>a+(Number(r.correct)||0),0)/(recent.reduce((a,r)=>a+(Number(r.total)||0),0)||1)*100;const allT=ordered.reduce((a,r)=>a+(Number(r.total)||0),0),allC=ordered.reduce((a,r)=>a+(Number(r.correct)||0),0);const overall=allT?allC/allT*100:0;const half=Math.ceil(recent.length/2);const a1=recent.slice(0,half),a2=recent.slice(half);const calc=a=>a.reduce((x,r)=>x+(Number(r.correct)||0),0)/(a.reduce((x,r)=>x+(Number(r.total)||0),0)||1)*100;const trend=recent.length>1?Math.round(calc(a2)-calc(a1)):0;$('trendMetrics').innerHTML=`<div class="trend-metric"><span>Média geral</span><b>${Math.round(overall)}%</b></div><div class="trend-metric"><span>Últimas 100</span><b>${Math.round(lastAcc)}%</b></div><div class="trend-metric"><span>Tendência</span><b>${trend>=0?'+':''}${trend} pts</b></div>`;const today=new Date().toISOString().slice(0,10);const todays=state.records.filter(r=>r.date===today);const q=todays.reduce((a,r)=>a+(Number(r.total)||0),0),mins=todays.reduce((a,r)=>a+(Number(r.minutes)||0),0),g=state.goals;$('dailyLabel').textContent=`${q}/${g.dailyQuestions} questões · ${mins}/${g.dailyMinutes} min`;$('dailyMission').innerHTML=`<div><b>Questões</b><small>${q} de ${g.dailyQuestions}</small><div class="progress"><i style="width:${Math.min(100,q/g.dailyQuestions*100)}%"></i></div></div><div><b>Tempo estudado</b><small>${mins} de ${g.dailyMinutes} minutos</small><div class="progress"><i style="width:${Math.min(100,mins/g.dailyMinutes*100)}%"></i></div></div>`}
+
 let rankingGlobal = [];
-let communityStats = null;
-let focusSeconds = 1500, focusTimer = null;
-let goals = { dailyQuestions: 200, dailyMinutes: 300 };
-
-const $ = id => document.getElementById(id);
-const periodLabels = { manha: 'Manhã', tarde: 'Tarde', noite: 'Noite' };
-
-function toast(msg, type='ok'){
-  const t = $('toast');
-  t.textContent = msg;
-  t.className = 'toast show ' + type;
-  setTimeout(()=>t.classList.remove('show'), 3200);
-}
-function setLoading(on){ $('loadingOverlay').classList.toggle('show', !!on); }
-
-async function sha256Hex(texto){
-  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(texto));
-  return [...new Uint8Array(buf)].map(b=>b.toString(16).padStart(2,'0')).join('');
+async function carregarRankingNuvem() {
+  if (!window.supabaseClient) return;
+  const { data, error } = await window.supabaseClient.from('ranking').select('nome, questoes_resolvidas, cronograma_concluido');
+  if (!error && data) {
+    rankingGlobal = data;
+    renderRanking();
+  }
 }
 
-/* ========== AUTH UI ========== */
-document.querySelectorAll('.auth-tab').forEach(tab=>{
-  tab.onclick = ()=>{
-    document.querySelectorAll('.auth-tab').forEach(x=>x.classList.remove('active'));
-    document.querySelectorAll('.auth-body').forEach(x=>x.classList.remove('active'));
-    tab.classList.add('active');
-    $(tab.dataset.auth === 'login' ? 'authLogin' : 'authRegister').classList.add('active');
-  };
-});
-
-$('btnLogin').onclick = async ()=>{
-  const nome = $('loginNome').value.trim();
-  const pin = $('loginPin').value.trim();
-  if(!nome) return toast('Digite o nome de guerra.','err');
-  if(!/^\d{4}$/.test(pin)) return toast('PIN deve ter 4 dígitos.','err');
-  setLoading(true);
-  try{
-    const pinHash = await sha256Hex(pin);
-    const { data, error } = await supabaseClient.rpc('autenticar_operador', { p_nome: nome, p_pin_hash: pinHash });
-    if(error) throw error;
-    if(!data || !data.ok){ toast(data?.erro || 'PIN ou nome incorretos.','err'); return; }
-    session = { nome: data.nome || nome, pinHash };
-    localStorage.setItem('parabellum_operador', session.nome);
-    localStorage.setItem('parabellum_pin_hash', pinHash);
-    await bootApp();
-  }catch(e){ toast('Erro: '+(e.message||e),'err'); }
-  finally{ setLoading(false); }
-};
-
-$('btnRegister').onclick = async ()=>{
-  const nome = $('regNome').value.trim();
-  const pin = $('regPin').value.trim();
-  const pin2 = $('regPin2').value.trim();
-  if(!nome) return toast('Digite o nome de guerra.','err');
-  if(!/^\d{4}$/.test(pin)) return toast('PIN deve ter 4 dígitos.','err');
-  if(pin !== pin2) return toast('PINs não conferem.','err');
-  setLoading(true);
-  try{
-    const pinHash = await sha256Hex(pin);
-    // tenta RPC de cadastro; se não existir, fallback insert controlado
-    let data, error;
-    const rpc = await supabaseClient.rpc('criar_operador', { p_nome: nome, p_pin_hash: pinHash });
-    if(rpc.error && /function|does not exist/i.test(rpc.error.message||'')){
-      // fallback: autenticar para ver se já existe; se não, insert via ranking + operadores se disponível
-      const check = await supabaseClient.rpc('autenticar_operador', { p_nome: nome, p_pin_hash: pinHash });
-      if(check.data && check.data.ok){
-        toast('Este nome já existe. Use Entrar.','err'); return;
-      }
-      // tenta criar via RPC genérico ou tabela ranking (estrutura legada)
-      const ins = await supabaseClient.from('ranking').insert({
-        nome, pin_hash: pinHash, questoes_resolvidas: 0, cronograma_concluido: 0
-      }).select().maybeSingle();
-      if(ins.error){
-        // se pin_hash não existe na tabela, tenta só nome
-        const ins2 = await supabaseClient.from('ranking').insert({
-          nome, questoes_resolvidas: 0, cronograma_concluido: 0
-        });
-        if(ins2.error) throw new Error('Não foi possível criar conta. Rode o SQL de migração (criar_operador). Detalhe: '+ins2.error.message);
-      }
-      data = { ok: true, nome };
-    } else if(rpc.error){
-      throw rpc.error;
-    } else {
-      data = rpc.data;
-    }
-    if(!data || !data.ok){ toast(data?.erro || 'Não foi possível criar.','err'); return; }
-    toast('Conta criada! Agora entre com nome e PIN.');
-    document.querySelector('[data-auth="login"]').click();
-    $('loginNome').value = nome;
-    $('regNome').value = ''; $('regPin').value = ''; $('regPin2').value = '';
-  }catch(e){ toast('Erro ao criar: '+(e.message||e),'err'); }
-  finally{ setLoading(false); }
-};
-
-function sairOperador(){
-  localStorage.removeItem('parabellum_operador');
-  localStorage.removeItem('parabellum_pin_hash');
-  session = { nome:null, pinHash:null };
-  location.reload();
-}
-
-/* ========== BOOT ========== */
-async function verificarSessao(){
-  const nome = localStorage.getItem('parabellum_operador');
+async function atualizarProgressoNuvem() {
+  if (!window.supabaseClient) return;
+  const nomeAtual = localStorage.getItem('parabellum_operador');
   const pinHash = localStorage.getItem('parabellum_pin_hash');
-  if(!nome || !pinHash){
-    $('authScreen').style.display = 'flex';
-    $('appShell').classList.remove('visible');
-    return;
-  }
-  // valida na nuvem
-  setLoading(true);
-  try{
-    const { data, error } = await supabaseClient.rpc('autenticar_operador', { p_nome: nome, p_pin_hash: pinHash });
-    if(error || !data || !data.ok){
-      localStorage.removeItem('parabellum_operador');
-      localStorage.removeItem('parabellum_pin_hash');
-      $('authScreen').style.display = 'flex';
-      return;
-    }
-    session = { nome: data.nome || nome, pinHash };
-    await bootApp();
-  }catch(e){
-    $('authScreen').style.display = 'flex';
-  }finally{ setLoading(false); }
-}
+  if (!nomeAtual || !pinHash) return;
+  const meQ = state.records.reduce((a,r)=>a+(Number(r.total)||0),0);
+  const meDone = state.done.filter(Boolean).length;
 
-async function bootApp(){
-  $('authScreen').style.display = 'none';
-  $('appShell').classList.add('visible');
-  $('nomeLogado').textContent = session.nome;
-  $('todayLabel').textContent = new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long'});
-  $('studyDate').value = new Date().toISOString().slice(0,10);
-  await carregarTudoNuvem();
-  renderAll();
-}
-
-/* ========== CLOUD DATA LAYER ==========
-   Tabelas esperadas (rode o SQL de migração se ainda não existir):
-   - study_records (id, operador_nome, pin_hash, date, period, type, subject, topics jsonb, total, correct, minutes, board, reason, notes, created_at)
-   - editais (id, operador_nome, nome, catalog jsonb, is_active, created_at)
-   - cronogramas (id, operador_nome, nome, curriculum jsonb, done jsonb, periods jsonb, is_active, created_at)
-   RPCs: criar_operador, autenticar_operador (já existe), atualizar_progresso, etc.
-*/
-async function carregarTudoNuvem(){
-  await Promise.all([
-    carregarRecords(),
-    carregarEditais(),
-    carregarCronogramas(),
-    carregarRankingNuvem(),
-    carregarComunidade()
-  ]);
-  // se não tem edital, cria o padrão
-  if(!editais.length){
-    await salvarEditalNuvem({ nome:'Edital PMMA (padrão)', catalog: subjectCatalogPadrao, is_active:true });
-    await carregarEditais();
-  }
-  if(!cronogramas.length){
-    await salvarCronogramaNuvem({
-      nome:'Cronograma PMMA 30 dias',
-      curriculum: curriculumPadrao,
-      done: new Array(curriculumPadrao.length).fill(false),
-      periods: curriculumPadrao.map(()=>({manha:false,tarde:false,noite:false})),
-      is_active:true
-    });
-    await carregarCronogramas();
-  }
-  atualizarSelectDisciplinas();
-}
-
-async function carregarRecords(){
-  try{
-    const { data, error } = await supabaseClient.from('study_records')
-      .select('*')
-      .eq('operador_nome', session.nome)
-      .order('date', { ascending:false })
-      .order('created_at', { ascending:false });
-    if(error) throw error;
-    records = (data||[]).map(r=>({
-      id: r.id,
-      date: r.date,
-      period: r.period || 'manha',
-      type: r.type || 'questoes',
-      subject: r.subject,
-      topics: Array.isArray(r.topics) ? r.topics : (r.topic ? [r.topic] : []),
-      topic: Array.isArray(r.topics) ? r.topics.join(' · ') : (r.topic||''),
-      total: Number(r.total)||0,
-      correct: Number(r.correct)||0,
-      minutes: Number(r.minutes)||0,
-      board: r.board||'',
-      reason: r.reason||'none',
-      notes: r.notes||''
-    }));
-  }catch(e){
-    console.warn('study_records:', e.message);
-    records = [];
-    toast('Tabela study_records ausente ou sem permissão. Rode o SQL de migração.','err');
-  }
-}
-
-async function salvarRecordNuvem(rec){
-  const row = {
-    operador_nome: session.nome,
-    pin_hash: session.pinHash,
-    date: rec.date,
-    period: rec.period,
-    type: rec.type,
-    subject: rec.subject,
-    topics: rec.topics,
-    total: rec.total,
-    correct: rec.correct,
-    minutes: rec.minutes,
-    board: rec.board||null,
-    reason: rec.reason||null,
-    notes: rec.notes||null
-  };
-  const { data, error } = await supabaseClient.from('study_records').insert(row).select().single();
-  if(error) throw error;
-  return data;
-}
-
-async function apagarRecordNuvem(id){
-  const { error } = await supabaseClient.from('study_records').delete().eq('id', id).eq('operador_nome', session.nome);
-  if(error) throw error;
-}
-
-async function carregarEditais(){
-  try{
-    const { data, error } = await supabaseClient.from('editais')
-      .select('*').eq('operador_nome', session.nome).order('created_at',{ascending:false});
-    if(error) throw error;
-    editais = (data||[]).map(e=>({
-      id: e.id, nome: e.nome, catalog: e.catalog || {}, is_active: !!e.is_active
-    }));
-  }catch(e){
-    console.warn('editais:', e.message);
-    editais = [];
-  }
-}
-
-async function salvarEditalNuvem({ nome, catalog, is_active }){
-  if(is_active){
-    await supabaseClient.from('editais').update({ is_active:false }).eq('operador_nome', session.nome);
-  }
-  const { data, error } = await supabaseClient.from('editais').insert({
-    operador_nome: session.nome, nome, catalog, is_active: !!is_active
-  }).select().single();
-  if(error) throw error;
-  return data;
-}
-
-async function ativarEditalNuvem(id){
-  await supabaseClient.from('editais').update({ is_active:false }).eq('operador_nome', session.nome);
-  const { error } = await supabaseClient.from('editais').update({ is_active:true }).eq('id', id).eq('operador_nome', session.nome);
-  if(error) throw error;
-  await carregarEditais();
-  atualizarSelectDisciplinas();
-  renderEditalPage();
-  toast('Edital ativado.');
-}
-
-async function apagarEditalNuvem(id){
-  if(editais.length <= 1){ toast('Mantenha ao menos um edital.','err'); return; }
-  if(!confirm('Apagar este edital? Não afeta registros nem outros cronogramas.')) return;
-  const { error } = await supabaseClient.from('editais').delete().eq('id', id).eq('operador_nome', session.nome);
-  if(error){ toast(error.message,'err'); return; }
-  await carregarEditais();
-  if(!editais.some(e=>e.is_active) && editais[0]) await ativarEditalNuvem(editais[0].id);
-  else { atualizarSelectDisciplinas(); renderEditalPage(); }
-  toast('Edital apagado.');
-}
-
-function editalAtivo(){
-  return editais.find(e=>e.is_active) || editais[0] || { nome:'—', catalog: subjectCatalogPadrao };
-}
-
-async function carregarCronogramas(){
-  try{
-    const { data, error } = await supabaseClient.from('cronogramas')
-      .select('*').eq('operador_nome', session.nome).order('created_at',{ascending:false});
-    if(error) throw error;
-    cronogramas = (data||[]).map(c=>({
-      id: c.id,
-      nome: c.nome,
-      curriculum: c.curriculum || [],
-      done: Array.isArray(c.done) ? c.done : [],
-      periods: Array.isArray(c.periods) ? c.periods : (c.curriculum||[]).map(()=>({manha:false,tarde:false,noite:false})),
-      is_active: !!c.is_active
-    }));
-  }catch(e){
-    console.warn('cronogramas:', e.message);
-    cronogramas = [];
-  }
-}
-
-async function salvarCronogramaNuvem({ nome, curriculum, done, periods, is_active }){
-  if(is_active){
-    await supabaseClient.from('cronogramas').update({ is_active:false }).eq('operador_nome', session.nome);
-  }
-  const { data, error } = await supabaseClient.from('cronogramas').insert({
-    operador_nome: session.nome, nome, curriculum, done, periods, is_active: !!is_active
-  }).select().single();
-  if(error) throw error;
-  return data;
-}
-
-async function atualizarCronogramaNuvem(c){
-  const { error } = await supabaseClient.from('cronogramas').update({
-    done: c.done, periods: c.periods, nome: c.nome, is_active: c.is_active
-  }).eq('id', c.id).eq('operador_nome', session.nome);
-  if(error) throw error;
-}
-
-async function ativarCronogramaNuvem(id){
-  await supabaseClient.from('cronogramas').update({ is_active:false }).eq('operador_nome', session.nome);
-  const { error } = await supabaseClient.from('cronogramas').update({ is_active:true }).eq('id', id).eq('operador_nome', session.nome);
-  if(error) throw error;
-  await carregarCronogramas();
-  renderAll();
-  toast('Cronograma ativado.');
-}
-
-async function apagarCronogramaNuvem(id){
-  if(cronogramas.length <= 1){ toast('Mantenha ao menos um cronograma.','err'); return; }
-  if(!confirm('Apagar este cronograma?')) return;
-  const { error } = await supabaseClient.from('cronogramas').delete().eq('id', id).eq('operador_nome', session.nome);
-  if(error){ toast(error.message,'err'); return; }
-  await carregarCronogramas();
-  if(!cronogramas.some(c=>c.is_active) && cronogramas[0]) await ativarCronogramaNuvem(cronogramas[0].id);
-  else renderAll();
-  toast('Cronograma apagado.');
-}
-
-function cronAtivo(){
-  return cronogramas.find(c=>c.is_active) || cronogramas[0] || null;
-}
-
-async function carregarRankingNuvem(){
-  try{
-    const { data, error } = await supabaseClient.from('ranking').select('nome, questoes_resolvidas, cronograma_concluido');
-    if(!error && data) rankingGlobal = data;
-  }catch(e){ rankingGlobal = []; }
-}
-
-async function atualizarProgressoNuvem(){
-  if(!session.nome) return;
-  const meQ = records.reduce((a,r)=>a+(Number(r.total)||0),0);
-  const c = cronAtivo();
-  const meDone = c ? c.done.filter(Boolean).length : 0;
-  try{
-    await supabaseClient.rpc('atualizar_progresso', {
-      p_nome: session.nome,
-      p_pin_hash: session.pinHash,
-      p_questoes: meQ,
-      p_cronograma: meDone
-    });
-  }catch(e){ console.warn(e); }
-  carregarRankingNuvem().then(()=>renderRanking());
-}
-
-async function carregarComunidade(){
-  try{
-    // agrega dos study_records de todos (se RLS permitir leitura agregada)
-    const { data, error } = await supabaseClient.from('study_records')
-      .select('date, total, correct, operador_nome');
-    if(error) throw error;
-    communityStats = data || [];
-  }catch(e){
-    communityStats = null;
-  }
-}
-
-/* ========== UI HELPERS ========== */
-function openPage(page){
-  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
-  $(page).classList.add('active');
-  document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active', x.dataset.page===page));
-  const names = {
-    dashboard:'Central de comando', registro:'Registrar estudo', questoes:'Questões',
-    desempenho:'Desempenho', comunidade:'Comunidade', conteudos:'Cronogramas',
-    edital:'Editais', ranking:'Rankings', foco:'Modo foco', conta:'Minha conta'
-  };
-  $('pageTitle').textContent = names[page] || page;
-  if(page==='conta') $('contaNomeAtual').textContent = session.nome;
-  if(page==='conteudos') renderCronogramasPage();
-  if(page==='edital') renderEditalPage();
-  if(page==='comunidade') renderComunidade();
-  if(page==='desempenho') renderPerformance();
-  scrollTo({top:0,behavior:'smooth'});
-}
-document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>openPage(b.dataset.page));
-
-/* período */
-document.querySelectorAll('#periodGroup .period-btn').forEach(btn=>{
-  btn.onclick = ()=>{
-    document.querySelectorAll('#periodGroup .period-btn').forEach(x=>x.classList.remove('active'));
-    btn.classList.add('active');
-    $('studyPeriod').value = btn.dataset.period;
-  };
-});
-
-function atualizarSelectDisciplinas(){
-  const cat = editalAtivo().catalog || {};
-  const sel = $('subjectSelect');
-  sel.innerHTML = '<option value="">Selecione a disciplina</option>';
-  Object.keys(cat).forEach(s=>{
-    if(/SIMULADO|REVISÃO FINAL/i.test(s)) return;
-    sel.insertAdjacentHTML('beforeend', `<option value="${s.replace(/"/g,'&quot;')}">${s}</option>`);
+  await window.supabaseClient.rpc('atualizar_progresso', {
+    p_nome: nomeAtual,
+    p_pin_hash: pinHash,
+    p_questoes: meQ,
+    p_cronograma: meDone
   });
-  updateTopicOptions();
-}
 
-function updateTopicCount(){
-  const n = document.querySelectorAll('input[name="topic"]:checked').length;
-  $('topicCount').textContent = n + ' assunto' + (n===1?'':'s') + ' selecionado' + (n===1?'':'s');
-}
-
-function updateTopicOptions(){
-  const subject = $('subjectSelect').value;
-  const cat = editalAtivo().catalog || {};
-  const topics = subject && cat[subject] ? cat[subject] : [];
-  // agrupa por prefixo numérico (ex: 5, 5.1, 5.2)
-  const groups = {};
-  topics.forEach(t=>{
-    const m = String(t).match(/^>?[\s]*(\d+)/);
-    const key = m ? m[1] : 'outros';
-    if(!groups[key]) groups[key] = [];
-    groups[key].push(t);
-  });
-  const keys = Object.keys(groups).sort((a,b)=> (a==='outros'?999:Number(a)) - (b==='outros'?999:Number(b)));
-  if(!topics.length){
-    $('topicOptions').innerHTML = '<div class="empty">Selecione a disciplina</div>';
-  } else {
-    $('topicOptions').innerHTML = keys.map(k=>{
-      const items = groups[k].map(t=>`<label class="topic-option"><input type="checkbox" name="topic" value="${t.replace(/"/g,'&quot;')}"><span>${t}</span></label>`).join('');
-      return `<details class="topic-group" open><summary>Grupo ${k}</summary>${items}</details>`;
-    }).join('');
-    $('topicOptions').querySelectorAll('input[name="topic"]').forEach(i=>i.addEventListener('change', updateTopicCount));
-  }
-  updateTopicCount();
-}
-$('subjectSelect').addEventListener('change', updateTopicOptions);
-$('studyForm').addEventListener('reset', ()=>setTimeout(()=>{
-  document.querySelectorAll('#periodGroup .period-btn').forEach(x=>x.classList.remove('active'));
-  document.querySelector('#periodGroup .period-btn').classList.add('active');
-  $('studyPeriod').value='manha';
-  updateTopicOptions();
-},0));
-
-$('studyForm').onsubmit = async e=>{
-  e.preventDefault();
-  const f = new FormData(e.target);
-  const subject = String(f.get('subject')||'');
-  const topics = [...document.querySelectorAll('input[name="topic"]:checked')].map(i=>i.value);
-  const total = +f.get('total')||0, correct = +f.get('correct')||0;
-  const cat = editalAtivo().catalog || {};
-  if(!cat[subject]){ toast('Disciplina inválida.','err'); return; }
-  if(!topics.length){ toast('Selecione ao menos um assunto.','err'); return; }
-  if(correct > total){ toast('Certas não podem superar o total.','err'); return; }
-  setLoading(true);
-  try{
-    const rec = {
-      date: f.get('date'),
-      period: f.get('period')||'manha',
-      type: f.get('type'),
-      subject, topics,
-      total, correct,
-      minutes: +f.get('minutes')||0,
-      board: f.get('board'),
-      reason: f.get('reason'),
-      notes: f.get('notes')
-    };
-    const saved = await salvarRecordNuvem(rec);
-    records.unshift({
-      id: saved.id, ...rec, topic: topics.join(' · ')
-    });
-    e.target.reset();
-    $('studyDate').value = new Date().toISOString().slice(0,10);
-    document.querySelectorAll('#periodGroup .period-btn').forEach(x=>x.classList.remove('active'));
-    document.querySelector('#periodGroup .period-btn').classList.add('active');
-    $('studyPeriod').value='manha';
-    updateTopicOptions();
-    await atualizarProgressoNuvem();
-    renderAll();
-    toast('Registro salvo na nuvem.');
-  }catch(err){ toast('Falha ao salvar: '+(err.message||err),'err'); }
-  finally{ setLoading(false); }
-};
-
-async function deleteRecord(id){
-  if(!confirm('Apagar este registro na nuvem?')) return;
-  setLoading(true);
-  try{
-    await apagarRecordNuvem(id);
-    records = records.filter(r=>r.id!==id);
-    await atualizarProgressoNuvem();
-    renderAll();
-    toast('Registro apagado.');
-  }catch(e){ toast(e.message,'err'); }
-  finally{ setLoading(false); }
-}
-
-/* ========== CRONOGRAMA / PERÍODOS ========== */
-async function toggleDayPeriod(dayIndex, period){
-  const c = cronAtivo();
-  if(!c) return;
-  if(!c.periods[dayIndex]) c.periods[dayIndex] = {manha:false,tarde:false,noite:false};
-  c.periods[dayIndex][period] = !c.periods[dayIndex][period];
-  // dia concluído se os 3 períodos (ou ao menos um clicado como "dia inteiro" via done)
-  const p = c.periods[dayIndex];
-  c.done[dayIndex] = !!(p.manha && p.tarde && p.noite);
-  try{
-    await atualizarCronogramaNuvem(c);
-    renderCurriculum();
-    renderDashboardStats();
-    atualizarProgressoNuvem();
-  }catch(e){ toast(e.message,'err'); }
-}
-
-async function toggleDayFull(dayIndex){
-  const c = cronAtivo();
-  if(!c) return;
-  const next = !c.done[dayIndex];
-  c.done[dayIndex] = next;
-  c.periods[dayIndex] = { manha: next, tarde: next, noite: next };
-  try{
-    await atualizarCronogramaNuvem(c);
-    renderCurriculum();
-    renderDashboardStats();
-    atualizarProgressoNuvem();
-  }catch(e){ toast(e.message,'err'); }
-}
-
-function renderCurriculum(){
-  const c = cronAtivo();
-  const box = $('curriculum');
-  if(!c){ box.innerHTML = '<div class="empty">Nenhum cronograma ativo.</div>'; return; }
-  const curr = c.curriculum;
-  const ranges = [];
-  for(let start=0; start<curr.length; start+=7){
-    const end = Math.min(start+7, curr.length);
-    const num = Math.floor(start/7)+1;
-    ranges.push([start, end, end===curr.length && (end-start)<7 ? 'FECHAMENTO' : 'SEMANA '+num]);
-  }
-  let out = '';
-  for(const [start,end,label] of ranges){
-    const doneCount = c.done.slice(start,end).filter(Boolean).length;
-    out += `<div class="panel" style="margin-bottom:12px"><div class="panelhead"><div><p class="eyebrow">${label}</p><h3>${label}</h3></div><span class="tag">${doneCount}/${end-start}</span></div>`;
-    for(let i=start;i<end;i++){
-      const item = curr[i];
-      const done = !!c.done[i];
-      const per = c.periods[i] || {manha:false,tarde:false,noite:false};
-      out += `<div class="day ${done?'done':''}">
-        <span class="daynum">${String(i+1).padStart(2,'0')}</span>
-        <span>
-          <b>${item[0]}${item[2]?' · '+item[2]:''}</b>
-          <small>${item[1]}</small>
-          <div class="period-chips">
-            <button type="button" class="chip ${per.manha?'on':''}" onclick="toggleDayPeriod(${i},'manha')">Manhã</button>
-            <button type="button" class="chip ${per.tarde?'on':''}" onclick="toggleDayPeriod(${i},'tarde')">Tarde</button>
-            <button type="button" class="chip ${per.noite?'on':''}" onclick="toggleDayPeriod(${i},'noite')">Noite</button>
-            <button type="button" class="chip ${done?'on':''}" onclick="toggleDayFull(${i})">Dia inteiro</button>
-          </div>
-        </span>
-        <span class="badge ${item[3]==='simulado'?'simulado':''}">${done?'✓':(item[3]==='simulado'?'SIMULADO':item[3]==='final'?'FINAL':'ESTUDAR')}</span>
-      </div>`;
-    }
-    out += '</div>';
-  }
-  box.innerHTML = out;
-}
-
-function mostrarFormCron(){
-  $('formCronPanel').style.display = 'block';
-  const sel = $('novoCronEdital');
-  sel.innerHTML = editais.map(e=>`<option value="${e.id}">${e.nome}</option>`).join('');
-  if(!$('novoCronInicio').value) $('novoCronInicio').value = new Date().toISOString().slice(0,10);
-}
-function esconderFormCron(){ $('formCronPanel').style.display = 'none'; }
-
-function gerarCurriculum(dias, dataInicioStr, catalog){
-  dias = Math.max(5, Math.min(120, Number(dias)||30));
-  const disciplinas = Object.keys(catalog).filter(d=>!/SIMULADO|REVIS/i.test(d));
-  const filas = {};
-  disciplinas.forEach(d=>{ filas[d] = [...(catalog[d]||[])]; });
-  const ordem = [];
-  let contador = 0, di = 0;
-  while(ordem.length < dias){
-    if(contador>0 && contador%6===0 && ordem.length < dias-1){
-      ordem.push(['SIMULADO E REVISÃO','Simulado semanal e revisão ativa.','simulado']);
-      contador = 0; continue;
-    }
-    const disc = disciplinas[di % disciplinas.length];
-    if(!filas[disc]?.length) filas[disc] = [...(catalog[disc]||[])];
-    const topico = filas[disc].shift() || 'Revisão da disciplina.';
-    ordem.push([disc, topico, 'study']);
-    di++; contador++;
-  }
-  if(ordem.length) ordem[ordem.length-1][2] = 'final';
-  const inicio = dataInicioStr ? new Date(dataInicioStr+'T12:00:00') : new Date();
-  return ordem.map((item,i)=>{
-    const d = new Date(inicio); d.setDate(d.getDate()+i);
-    const fmt = String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0');
-    return [item[0], item[1], fmt, item[2]];
-  });
-}
-
-async function criarCronogramaForm(e){
-  e.preventDefault();
-  const nome = $('novoCronNome').value.trim();
-  const dias = $('novoCronDias').value;
-  const inicio = $('novoCronInicio').value;
-  const editalId = $('novoCronEdital').value;
-  const ed = editais.find(x=>String(x.id)===String(editalId)) || editalAtivo();
-  if(!confirm('Gerar cronograma de '+dias+' dias? O progresso deste novo cronograma começa zerado.')) return;
-  setLoading(true);
-  try{
-    const curriculum = gerarCurriculum(dias, inicio, ed.catalog);
-    await salvarCronogramaNuvem({
-      nome, curriculum,
-      done: new Array(curriculum.length).fill(false),
-      periods: curriculum.map(()=>({manha:false,tarde:false,noite:false})),
-      is_active: true
-    });
-    await carregarCronogramas();
-    esconderFormCron();
-    renderAll();
-    toast('Cronograma criado e ativado.');
-  }catch(err){ toast(err.message,'err'); }
-  finally{ setLoading(false); }
-}
-
-function renderCronogramasPage(){
-  const c = cronAtivo();
-  $('cronAtivoNome').textContent = c ? c.nome : '—';
-  $('listaCronogramas').innerHTML = cronogramas.length ? cronogramas.map(cr=>`
-    <div class="manage-item ${cr.is_active?'active-item':''}">
-      <div class="grow"><b>${cr.nome}</b><small>${cr.curriculum.length} dias · ${cr.done.filter(Boolean).length} concluídos${cr.is_active?' · ATIVO':''}</small></div>
-      ${!cr.is_active?`<button class="btn btn-sm" onclick="ativarCronogramaNuvem('${cr.id}')">Ativar</button>`:''}
-      <button class="btn btn-sm btn-danger" onclick="apagarCronogramaNuvem('${cr.id}')">Apagar</button>
-    </div>`).join('') : '<div class="empty">Nenhum cronograma.</div>';
-  renderCurriculum();
-}
-
-/* ========== EDITAIS PAGE ========== */
-function renderEditalPage(){
-  const ativo = editalAtivo();
-  $('editalAtivoNome').textContent = ativo.nome || '—';
-  $('listaEditais').innerHTML = editais.length ? editais.map(ed=>`
-    <div class="manage-item ${ed.is_active?'active-item':''}">
-      <div class="grow"><b>${ed.nome}</b><small>${Object.keys(ed.catalog||{}).length} disciplinas${ed.is_active?' · ATIVO':''}</small></div>
-      ${!ed.is_active?`<button class="btn btn-sm" onclick="ativarEditalNuvem('${ed.id}')">Ativar</button>`:''}
-      <button class="btn btn-sm btn-danger" onclick="apagarEditalNuvem('${ed.id}')">Apagar</button>
-    </div>`).join('') : '<div class="empty">Nenhum edital.</div>';
-  const cat = ativo.catalog || {};
-  const discs = Object.keys(cat);
-  $('editalBox').innerHTML = discs.length ? discs.map(d=>{
-    const tops = cat[d]||[];
-    const linhas = tops.map((t,i)=>`<div class="subject-detail" style="grid-template-columns:36px 1fr"><span>${String(i+1).padStart(2,'0')}</span><span style="font-weight:400">${t}</span></div>`).join('');
-    return `<details class="panel performance-card"><summary><div><b>${d}</b><small>${tops.length} tópico(s)</small></div></summary>${linhas}</details>`;
-  }).join('') : '<div class="empty">Edital vazio.</div>';
-}
-
-function exportarEditalAtivo(){
-  const ed = editalAtivo();
-  const blob = new Blob([JSON.stringify({version:1,tipo:'edital-operacao-aprovacao',nome:ed.nome,subjectCatalog:ed.catalog},null,2)],{type:'application/json'});
-  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'edital.json'; a.click();
-}
-
-async function importarEditalArquivo(e){
-  const file = e.target.files[0]; if(!file) return;
-  const reader = new FileReader();
-  reader.onload = async ()=>{
-    try{
-      const incoming = JSON.parse(reader.result);
-      const catalog = incoming.subjectCatalog || incoming.catalog || incoming;
-      if(!catalog || typeof catalog !== 'object') throw Error('formato');
-      const nome = incoming.nome || file.name.replace(/\.json$/i,'') || 'Edital importado';
-      if(!confirm('Importar edital "'+nome+'"?')) return;
-      setLoading(true);
-      await salvarEditalNuvem({ nome, catalog, is_active: true });
-      await carregarEditais();
-      atualizarSelectDisciplinas();
-      renderEditalPage();
-      toast('Edital importado e ativado.');
-    }catch(err){ toast('Arquivo inválido.','err'); }
-    finally{ setLoading(false); e.target.value=''; }
-  };
-  reader.readAsText(file);
-}
-
-async function restaurarEditalPadraoNuvem(){
-  if(!confirm('Adicionar o edital padrão PMMA (não apaga os outros)?')) return;
-  setLoading(true);
-  try{
-    await salvarEditalNuvem({ nome:'Edital PMMA (padrão)', catalog: subjectCatalogPadrao, is_active:true });
-    await carregarEditais();
-    atualizarSelectDisciplinas();
-    renderEditalPage();
-    toast('Edital padrão adicionado.');
-  }catch(e){ toast(e.message,'err'); }
-  finally{ setLoading(false); }
-}
-
-/* ========== CHARTS ========== */
-function smoothPath(pts){
-  if(!pts.length) return '';
-  if(pts.length===1) return `M ${pts[0].x},${pts[0].y}`;
-  let d = `M ${pts[0].x.toFixed(1)},${pts[0].y.toFixed(1)}`;
-  for(let i=0;i<pts.length-1;i++){
-    const p0=pts[i-1]||pts[i], p1=pts[i], p2=pts[i+1], p3=pts[i+2]||p2;
-    const cp1x=p1.x+(p2.x-p0.x)/6, cp1y=p1.y+(p2.y-p0.y)/6;
-    const cp2x=p2.x-(p3.x-p1.x)/6, cp2y=p2.y-(p3.y-p1.y)/6;
-    d += ` C ${cp1x.toFixed(1)},${cp1y.toFixed(1)} ${cp2x.toFixed(1)},${cp2y.toFixed(1)} ${p2.x.toFixed(1)},${p2.y.toFixed(1)}`;
-  }
-  return d;
-}
-
-function renderStockChart(){
-  const ordered = [...records].filter(r=>Number(r.total)>0).sort((a,b)=>(a.date||'').localeCompare(b.date||'')||Number(a.id)-Number(b.id));
-  const el = $('stockChart');
-  if(!ordered.length){ el.innerHTML = '<div class="empty" style="height:100%;display:grid;place-items:center">Aguardando registros…</div>'; return; }
-  let ct=0,cc=0;
-  const values = ordered.map(r=>{ ct+=Number(r.total)||0; cc+=Number(r.correct)||0; return ct?Math.round(cc/ct*100):0; });
-  const W=1000,H=220,padX=36,padY=28,min=0,max=100;
-  const pts = values.map((v,i)=>({
-    x: values.length===1 ? W/2 : padX + i*(W-padX*2)/(values.length-1),
-    y: H-padY - (v-min)/(max-min)*(H-padY*2)
-  }));
-  const line = smoothPath(pts);
-  const area = `${line} L ${pts[pts.length-1].x},${H-padY} L ${pts[0].x},${H-padY} Z`;
-  const change = values[values.length-1]-values[0];
-  const color = change>=0 ? '#2dd4a8' : '#ff5a66';
-  el.innerHTML = `<span class="chart-label">PRECISÃO ACUMULADA</span>
-    <span class="chart-value" style="color:${color}">${change>=0?'+':''}${change} pts</span>
-    <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">
-      ${[0,25,50,75,100].map(t=>{const y=H-padY-(t-min)/(max-min)*(H-padY*2);return `<line x1="${padX}" y1="${y}" x2="${W-padX}" y2="${y}" stroke="#ffffff0a"/><text x="${padX-8}" y="${y+4}" text-anchor="end" font-size="12" fill="#5c6478">${t}</text>`;}).join('')}
-      <path d="${area}" fill="${color}22" stroke="none"/>
-      <path d="${line}" fill="none" stroke="${color}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-      ${pts.map((p,i)=>`<circle cx="${p.x}" cy="${p.y}" r="5" fill="${color}" stroke="#0e1016" stroke-width="2"><title>${values[i]}%</title></circle>`).join('')}
-    </svg>`;
-}
-
-function renderLineChart(){
-  const ordered = [...records].filter(r=>Number(r.total)>0).sort((a,b)=>(a.date||'').localeCompare(b.date||''));
-  const el = $('lineChart');
-  if(!ordered.length){ el.innerHTML = '<div class="empty" style="height:100%;display:grid;place-items:center">Sem dados</div>'; return; }
-  const values = ordered.map(r=>Math.round((Number(r.correct)||0)/(Number(r.total)||1)*100));
-  const W=1000,H=220,padX=36,padY=28;
-  const pts = values.map((v,i)=>({
-    x: values.length===1?W/2:padX+i*(W-padX*2)/(values.length-1),
-    y: H-padY - v/100*(H-padY*2)
-  }));
-  const line = smoothPath(pts);
-  el.innerHTML = `<span class="chart-label">% POR REGISTRO</span>
-    <span class="chart-value">${values[values.length-1]}%</span>
-    <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">
-      <path d="${line}" fill="none" stroke="#5b8cff" stroke-width="4" stroke-linecap="round"/>
-      ${pts.map((p,i)=>`<circle cx="${p.x}" cy="${p.y}" r="4" fill="#5b8cff"><title>${values[i]}%</title></circle>`).join('')}
-    </svg>`;
-}
-
-function renderBars7(){
-  const days = [];
-  for(let i=6;i>=0;i--){
-    const d = new Date(); d.setDate(d.getDate()-i);
-    const key = d.toISOString().slice(0,10);
-    const q = records.filter(r=>r.date===key).reduce((a,r)=>a+(Number(r.total)||0),0);
-    days.push({ key, q, label: d.toLocaleDateString('pt-BR',{weekday:'short'}).replace('.','') });
-  }
-  const max = Math.max(1, ...days.map(x=>x.q));
-  $('chartBars').innerHTML = days.map(x=>`
-    <div class="barcol"><span class="val">${x.q}</span>
-    <div class="bar" style="height:${Math.max(4,x.q/max*150)}px"></div>
-    <small>${x.label}</small></div>`).join('');
-}
-
-function renderErrorWaterfall(){
-  const reasons = {};
-  records.forEach(r=>{
-    if(r.reason && r.reason!=='none'){
-      const err = Math.max(0,(Number(r.total)||0)-(Number(r.correct)||0));
-      reasons[r.reason] = (reasons[r.reason]||0)+err;
-    }
-  });
-  const entries = Object.entries(reasons).sort((a,b)=>b[1]-a[1]).slice(0,6);
-  const el = $('errorWaterfall');
-  if(!entries.length){ el.innerHTML = '<div class="empty" style="width:100%">Sem erros classificados</div>'; return; }
-  const max = Math.max(1, ...entries.map(x=>x[1]));
-  el.innerHTML = entries.map(([k,v])=>`
-    <div class="wf-col">
-      <div style="font-size:10px;font-weight:700;font-family:var(--mono);margin-bottom:4px">${v}</div>
-      <div class="wf-bar down" style="height:${Math.max(8,v/max*150)}px"></div>
-      <small>${k.split(' ')[0]}</small>
-    </div>`).join('');
-}
-
-function renderAccWaterfall(){
-  const ordered = [...records].filter(r=>Number(r.total)>0).sort((a,b)=>(a.date||'').localeCompare(b.date||'')).slice(-8);
-  const el = $('accWaterfall');
-  if(ordered.length < 2){ el.innerHTML = '<div class="empty" style="width:100%">Precisa de mais registros</div>'; return; }
-  let prev = null;
-  const steps = ordered.map(r=>{
-    const acc = Math.round((Number(r.correct)||0)/(Number(r.total)||1)*100);
-    const delta = prev===null ? acc : acc - prev;
-    prev = acc;
-    return { acc, delta, date: r.date };
-  });
-  const maxAbs = Math.max(10, ...steps.map(s=>Math.abs(s.delta)));
-  el.innerHTML = steps.map(s=>`
-    <div class="wf-col">
-      <div style="font-size:10px;font-family:var(--mono);font-weight:700">${s.delta>=0?'+':''}${s.delta}</div>
-      <div class="wf-bar ${s.delta>=0?'up':'down'}" style="height:${Math.max(6,Math.abs(s.delta)/maxAbs*140)}px"></div>
-      <small>${(s.date||'').slice(5)}</small>
-    </div>`).join('');
-}
-
-/* ========== RENDER MAIN ========== */
-function getTopicStats(){
-  const m = {};
-  records.forEach(r=>{
-    const ts = Array.isArray(r.topics)&&r.topics.length ? r.topics : [r.topic||'Assunto n/i'];
-    const share = 1/ts.length;
-    ts.forEach(t=>{
-      if(!m[t]) m[t]={subject:r.subject,total:0,correct:0,last:r.date};
-      m[t].total += (Number(r.total)||0)*share;
-      m[t].correct += (Number(r.correct)||0)*share;
-      if((r.date||'')>(m[t].last||'')) m[t].last = r.date;
-    });
-  });
-  return Object.entries(m).map(([topic,v])=>({...v,topic,accuracy:v.total?Math.round(v.correct/v.total*100):0}));
-}
-
-function renderIntelligence(){
-  const topics = getTopicStats().filter(x=>x.total>0);
-  const scored = topics.map(x=>{
-    const days = Math.max(0,(Date.now()-new Date(x.last+'T12:00:00'))/86400000);
-    return {...x, score:(100-x.accuracy)+Math.min(30,days*2)+Math.max(0,20-Math.min(20,x.total/5))};
-  }).sort((a,b)=>b.score-a.score).slice(0,4);
-  $('priorityList').innerHTML = scored.length ? scored.map((x,i)=>`
-    <div class="priority-item ${x.accuracy<60?'high':x.accuracy<75?'med':'good'}">
-      <div class="priority-top"><b>${i+1}. ${x.subject}</b><strong>${x.accuracy}%</strong></div>
-      <small>${x.topic.slice(0,80)}${x.topic.length>80?'…':''} · ${Math.round(x.total)} q</small>
-    </div>`).join('') : '<div class="empty">Registre questões para ver prioridades.</div>';
-}
-
-function renderDashboardStats(){
-  const total = records.reduce((a,r)=>a+(Number(r.total)||0),0);
-  const correct = records.reduce((a,r)=>a+(Number(r.correct)||0),0);
-  const minutes = records.reduce((a,r)=>a+(Number(r.minutes)||0),0);
-  const pct = total ? Math.round(correct/total*100) : 0;
-  const c = cronAtivo();
-  const done = c ? c.done.filter(Boolean).length : 0;
-  const len = c ? c.curriculum.length : 1;
-  let next = c ? c.done.findIndex(x=>!x) : -1;
-  $('sProgress').textContent = Math.round(done/len*100)+'%';
-  $('sNext').textContent = next<0 ? (done+' dias ok') : 'Próximo: Dia '+(next+1);
-  $('sQuestions').textContent = total;
-  $('sCorrect').textContent = correct+' certas';
-  $('sAccuracy').textContent = pct+'%';
-  $('sMinutes').textContent = minutes<60 ? minutes+'m' : Math.floor(minutes/60)+'h '+minutes%60+'m';
-  const dates = new Set(records.map(r=>r.date));
-  let streak=0; let check=new Date();
-  while(dates.has(check.toISOString().slice(0,10))){ streak++; check.setDate(check.getDate()-1); }
-  $('sStreak').textContent = streak+'d';
-  $('radarText').textContent = total?pct+'%':'0%';
-  $('radarSub').textContent = !total?'Sem dados':pct>=85?'Excelente':pct>=70?'Boa':pct>=55?'Regular':'Crítica';
-  $('radarDonut').style.setProperty('--p', total?pct:0);
-  $('radarDonut').style.setProperty('--accent', pct>=75?'var(--green)':pct>=60?'var(--amber)':'var(--red2)');
-
-  // missão hoje
-  const today = new Date().toISOString().slice(0,10);
-  const todays = records.filter(r=>r.date===today);
-  const q = todays.reduce((a,r)=>a+(Number(r.total)||0),0);
-  const mins = todays.reduce((a,r)=>a+(Number(r.minutes)||0),0);
-  $('dailyLabel').textContent = `${q}/${goals.dailyQuestions} q · ${mins}/${goals.dailyMinutes} min`;
-  $('dailyMission').innerHTML = `
-    <div style="margin-bottom:12px"><b>Questões</b><small style="display:block;color:var(--muted)">${q} de ${goals.dailyQuestions}</small>
-    <div class="progress"><i style="width:${Math.min(100,q/goals.dailyQuestions*100)}%"></i></div></div>
-    <div><b>Tempo</b><small style="display:block;color:var(--muted)">${mins} de ${goals.dailyMinutes} min</small>
-    <div class="progress"><i style="width:${Math.min(100,mins/goals.dailyMinutes*100)}%"></i></div></div>`;
-
-  // today mission text
-  const day = String(new Date().getDate()).padStart(2,'0');
-  const month = String(new Date().getMonth()+1).padStart(2,'0');
-  const key = day+'/'+month;
-  const idx = c ? c.curriculum.findIndex(x=>x[2]===key) : -1;
-  if(idx>=0){
-    const item = c.curriculum[idx];
-    $('todayStudyTitle').textContent = `DIA ${String(idx+1).padStart(2,'0')} · ${item[0]}`;
-    $('todayStudyText').textContent = item[1];
-  } else {
-    $('todayStudyTitle').textContent = 'Missão fora do ciclo datado';
-    $('todayStudyText').textContent = 'Use o cronograma ativo para a próxima missão pendente.';
-  }
-  const exam = new Date('2026-10-11T00:00:00');
-  const start = new Date(); start.setHours(0,0,0,0);
-  const diff = Math.ceil((exam-start)/86400000);
-  $('examCountdown').textContent = diff>0 ? `⚔ FALTAM ${diff} DIAS PARA A PROVA · 11/10/2026` : diff===0 ? '⚔ HOJE É DIA DE PROVA' : '⚔ DATA DA PROVA JÁ PASSOU';
-
-  // next missions
-  if(c){
-    const base = next<0 ? c.curriculum.length-1 : next;
-    $('nextMissions').innerHTML = [0,1,2].map(j=>{
-      const i = Math.min(base+j, c.curriculum.length-1);
-      const item = c.curriculum[i];
-      return `<div style="display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)">
-        <span class="daynum">DIA ${i+1}</span>
-        <div style="flex:1"><strong style="font-size:13px">${item[0]}</strong><small style="display:block;color:var(--muted)">${item[1].slice(0,90)}</small></div>
-        <span class="badge">${item[3]==='simulado'?'SIMULADO':'PENDENTE'}</span></div>`;
-    }).join('');
-  } else $('nextMissions').innerHTML = '';
-}
-
-function renderHistory(){
-  const periodName = p => periodLabels[p]||p||'—';
-  $('historyTable').innerHTML = records.length ? records.map(r=>`
-    <tr>
-      <td>${new Date(r.date+'T12:00:00').toLocaleDateString('pt-BR')}</td>
-      <td>${periodName(r.period)}</td>
-      <td><b style="color:#fff">${r.subject}</b></td>
-      <td style="max-width:220px">${(r.topic||'—').slice(0,80)}</td>
-      <td>${r.total}</td><td>${r.correct}</td>
-      <td>${r.total?Math.round(r.correct/r.total*100):0}%</td>
-      <td><button class="delete-btn" onclick="deleteRecord('${r.id}')">Apagar</button></td>
-    </tr>`).join('') : '<tr><td colspan="8" class="muted">Nenhum registro.</td></tr>';
-  $('historyPreview').innerHTML = records.slice(0,4).map(r=>`
-    <div style="display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)">
-      <div style="flex:1"><strong>${r.subject}</strong>
-      <small style="display:block;color:var(--muted)">${periodName(r.period)} · ${r.date} · ${r.total}q · ${r.minutes}min</small></div>
-      <b>${r.total?Math.round(r.correct/r.total*100):0}%</b>
-      <button class="delete-btn" onclick="deleteRecord('${r.id}')">Apagar</button>
-    </div>`).join('') || '<p class="muted">Histórico aparecerá após o primeiro registro.</p>';
-}
-
-function renderPerformance(){
-  const c = cronAtivo();
-  if(c){
-    const done = c.done.filter(Boolean).length;
-    $('performancePlanLabel').textContent = `${done}/${c.curriculum.length} · ${c.curriculum.length-done} pendentes`;
-    $('performancePlanBar').style.width = Math.round(done/c.curriculum.length*100)+'%';
-    const next = c.done.findIndex(x=>!x);
-    $('dayProgress').innerHTML = c.curriculum.map((_,i)=>`
-      <div class="daytile ${c.done[i]?'done':''} ${i===next?'next':''}">${String(i+1).padStart(2,'0')}</div>`).join('');
-  }
-  const grouped = {};
-  records.forEach(r=>{
-    const s = r.subject||'Sem disciplina';
-    if(!grouped[s]) grouped[s]={total:0,correct:0,minutes:0,topics:{}};
-    const g = grouped[s];
-    g.total += Number(r.total)||0; g.correct += Number(r.correct)||0; g.minutes += Number(r.minutes)||0;
-    const ts = Array.isArray(r.topics)&&r.topics.length ? r.topics : [r.topic||'n/i'];
-    const share = 1/ts.length;
-    ts.forEach(t=>{
-      if(!g.topics[t]) g.topics[t]={total:0,correct:0,minutes:0};
-      g.topics[t].total += (Number(r.total)||0)*share;
-      g.topics[t].correct += (Number(r.correct)||0)*share;
-      g.topics[t].minutes += (Number(r.minutes)||0)*share;
-    });
-  });
-  const entries = Object.entries(grouped);
-  $('performanceBySubject').innerHTML = entries.length ? entries.map(([subject,g])=>{
-    const acc = g.total?Math.round(g.correct/g.total*100):0;
-    const rows = Object.entries(g.topics).map(([t,v])=>`
-      <div class="subject-detail"><span>${t.slice(0,70)}</span><span>${Math.round(v.total)}</span>
-      <span>${Math.round(v.correct)}</span><span>${v.total?Math.round(v.correct/v.total*100):0}%</span></div>`).join('');
-    return `<details class="panel performance-card" open>
-      <summary><div><b>${subject}</b><small>${g.total} q · ${g.minutes} min · ${Object.keys(g.topics).length} assuntos</small></div>
-      <strong>${acc}%</strong></summary>
-      <div style="display:flex;align-items:center;gap:12px;margin:12px 0 8px"><div class="progress" style="flex:1"><i style="width:${acc}%"></i></div>
-      <small>${g.correct}/${g.total}</small></div>
-      <div class="subject-detail" style="color:var(--faint);font-size:10px;text-transform:uppercase"><span>Assunto</span><span>Q</span><span>C</span><span>%</span></div>
-      ${rows}</details>`;
-  }).join('') : '<div class="panel empty">Registre questões para ver desempenho.</div>';
-  renderAccWaterfall();
-  renderLineChart();
+  carregarRankingNuvem();
 }
 
 function renderRanking(){
-  const meQ = records.reduce((a,r)=>a+(Number(r.total)||0),0);
-  const c = cronAtivo();
-  const meDone = c ? c.done.filter(Boolean).length : 0;
-  const len = c ? c.curriculum.length : 30;
-  const meP = Math.round(meDone/len*100);
-  const lista = rankingGlobal.length ? [...rankingGlobal] : [{nome:session.nome, questoes_resolvidas:meQ, cronograma_concluido:meDone}];
-  const q = [...lista].sort((a,b)=>(b.questoes_resolvidas||0)-(a.questoes_resolvidas||0));
-  const pr = [...lista].sort((a,b)=>(b.cronograma_concluido||0)-(a.cronograma_concluido||0));
-  const medals = ['🥇','🥈','🥉'];
-  const rows = (arr, key)=>arr.map((x,i)=>{
-    const isMe = x.nome === session.nome;
-    const valQ = x.questoes_resolvidas||0;
-    const valDone = x.cronograma_concluido||0;
-    const valP = Math.round(valDone/len*100);
-    return `<div style="display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)">
-      <span class="daynum">${medals[i]||((i+1)+'º')}</span>
-      <div style="flex:1"><strong>${x.nome}${isMe?' · VOCÊ':''}</strong>
-      <div class="progress" style="margin-top:6px"><i style="width:${key==='q'?Math.min(100,valQ/Math.max(1,arr[0].questoes_resolvidas||1)*100):valP}%"></i></div></div>
-      <b>${key==='q'?valQ+' q':valP+'%'}</b></div>`;
+  const meQ = state.records.reduce((a,r)=>a+(Number(r.total)||0),0), meDone = state.done.filter(Boolean).length, meP = Math.round(meDone/curriculum.length*100);
+  const nomeAtual = localStorage.getItem('parabellum_operador') || 'Você';
+  const lista = rankingGlobal.length ? [...rankingGlobal] : [{nome: nomeAtual, questoes_resolvidas: meQ, cronograma_concluido: meDone}];
+  
+  const q = [...lista].sort((a,b)=>b.questoes_resolvidas - a.questoes_resolvidas);
+  const pr = [...lista].sort((a,b)=> (b.cronograma_concluido - a.cronograma_concluido));
+  
+  const medals=['🥇','🥈','🥉'];
+  const rows=(arr,key)=>arr.map((x,i)=>{
+    const isMe = x.nome === nomeAtual;
+    const valQ = x.questoes_resolvidas || 0;
+    const valDone = x.cronograma_concluido || 0;
+    const valP = Math.round(valDone/curriculum.length*100);
+    return `<div class="missionrow"><span class="daynum">${medals[i]||((i+1)+'º')}</span><div class="rowfill"><strong>${x.nome}${isMe?' · VOCÊ':''}</strong><div class="progress" style="margin-top:7px"><i style="width:${key==='q'?Math.min(100,valQ/Math.max(1,arr[0].questoes_resolvidas||1)*100):valP}%"></i></div></div><b>${key==='q'?valQ+' questões':valP+'% · '+valDone+'/'+curriculum.length}</b></div>`;
   }).join('');
-  $('rankingQuestions').innerHTML = rows(q,'q');
-  $('rankingProgress').innerHTML = rows(pr,'p');
-  const iQ = q.findIndex(x=>x.nome===session.nome)+1;
-  const iP = pr.findIndex(x=>x.nome===session.nome)+1;
-  $('rankingSummary').innerHTML = `<div class="comm-grid">
-    <div class="comm-card"><span>Questões</span><b>${meQ}</b><small>${iQ||'-'}º lugar</small></div>
-    <div class="comm-card"><span>Cronograma</span><b>${meP}%</b><small>${iP||'-'}º lugar</small></div>
-    <div class="comm-card"><span>Missões</span><b>${meDone}/${len}</b><small>ativo</small></div>
-  </div>`;
+  
+  $('rankingQuestions').innerHTML=rows(q,'q');
+  $('rankingProgress').innerHTML=rows(pr,'p');
+  
+  const meuIndexQ = q.findIndex(x=>x.nome === nomeAtual) + 1;
+  const meuIndexP = pr.findIndex(x=>x.nome === nomeAtual) + 1;
+  
+  $('rankingSummary').innerHTML=`<div class="sim-summary"><div class="sim-box"><span>Questões</span><b>${meQ}</b><small>${meuIndexQ > 0 ? meuIndexQ : '-'}º lugar</small></div><div class="sim-box"><span>Cronograma</span><b>${meP}%</b><small>${meuIndexP > 0 ? meuIndexP : '-'}º lugar</small></div><div class="sim-box"><span>Missões</span><b>${meDone}/${curriculum.length}</b><small>progresso atual</small></div></div><p class="notice" style="margin-top:14px">Ranking sincronizado em tempo real na nuvem do Supabase com todos os recrutas cadastrados.</p>`;
 }
 
-function renderComunidade(){
-  const now = new Date();
-  const today = now.toISOString().slice(0,10);
-  const weekAgo = new Date(now); weekAgo.setDate(weekAgo.getDate()-7);
-  const monthAgo = new Date(now); monthAgo.setDate(monthAgo.getDate()-30);
-  const src = communityStats || records.map(r=>({...r, operador_nome: session.nome}));
+function renderTodayMission(){const today=new Date();const day=String(today.getDate()).padStart(2,'0');const month=String(today.getMonth()+1).padStart(2,'0');const key=day+'/'+month;const index=curriculum.findIndex(c=>c[2]===key);const title=$('todayStudyTitle'),text=$('todayStudyText');if(index>=0){const c=curriculum[index];title.textContent=`DIA ${String(index+1).padStart(2,'0')} · ${c[0]}`;text.textContent=c[1]}else{title.textContent='Missão do dia fora do ciclo atual';text.textContent='Consulte o cronograma para continuar pela próxima missão pendente.'}const exam=new Date('2026-10-11T00:00:00');const start=new Date(today.getFullYear(),today.getMonth(),today.getDate());const diff=Math.ceil((exam-start)/86400000);$('examCountdown').textContent=diff>0?`⚔ FALTAM ${diff} DIAS PARA A PROVA DA PMMA · 11/10/2026`:diff===0?'⚔ HOJE É DIA DE PROVA · PMMA':'⚔ DATA DA PROVA JÁ PASSOU'}
+function render(){renderTodayMission();renderRanking();const total=state.records.reduce((a,r)=>a+r.total,0),correct=state.records.reduce((a,r)=>a+r.correct,0),minutes=state.records.reduce((a,r)=>a+r.minutes,0),pct=total?Math.round(correct/total*100):0,done=state.done.filter(Boolean).length;let next=curriculum.findIndex((_,i)=>!state.done[i]);$('sProgress').textContent=Math.round(done/curriculum.length*100)+'%';$('sNext').textContent=next<0?curriculum.length+' dias concluídos':'Próximo alvo: Dia '+(next+1);$('sQuestions').textContent=total;$('sCorrect').textContent=correct+' certas';$('sAccuracy').textContent=pct+'%';$('sMinutes').textContent=minutes<60?minutes+'m':Math.floor(minutes/60)+'h '+minutes%60+'m';const dates=new Set(state.records.map(r=>r.date));let streak=0,best=0,run=0;const sorted=[...dates].sort();for(const d of sorted){const cur=new Date(d+'T12:00:00');const prev=sorted[sorted.indexOf(d)-1]?new Date(sorted[sorted.indexOf(d)-1]+'T12:00:00'):null;run=prev&&Math.round((cur-prev)/86400000)===1?run+1:1;best=Math.max(best,run)}let check=new Date();while(dates.has(check.toISOString().slice(0,10))){streak++;check.setDate(check.getDate()-1)}$('sStreak').textContent=streak+' dias';$('sStreak').title='Melhor sequência: '+best+' dias';let days=[];for(let i=6;i>=0;i--){let d=new Date();d.setDate(d.getDate()-i);let key=d.toISOString().slice(0,10),q=state.records.filter(r=>r.date===key).reduce((a,r)=>a+r.total,0);days.push({key,q,label:d.toLocaleDateString('pt-BR',{weekday:'short'}).replace('.','')})}let max=Math.max(1,...days.map(x=>x.q));$('chart').innerHTML=days.map(x=>`<div class="barcol"><span class="barvalue">${x.q||0}</span><div class="bar" style="height:${Math.max(4,x.q/max*150)}px"></div><small>${x.label}</small></div>`).join('');$('radarText').textContent=total?pct+'%':'0%';$('radarSub').textContent=!total?'Sem dados':pct>=85?'Excelente':pct>=70?'Boa':pct>=55?'Regular':'Crítica';$('radarDonut').style.setProperty('--p',total?pct:0);$('radarDonut').style.setProperty('--accent',pct>=75?'var(--green)':pct>=60?'var(--amber)':'var(--red2)');renderHomePerformance();renderIntelligence();$('nextMissions').innerHTML=[...Array(3)].map((_,j)=>{let ultimo=curriculum.length-1,i=next<0?ultimo:Math.min(next+j,ultimo),c=curriculum[i];return `<div class="missionrow"><span class="daynum">DIA ${i+1}</span><div class="rowfill"><strong>${c[0]}</strong><small>${c[1]}</small></div><span class="badge ${c[3]==='simulado'?'SIMULADO':'PENDENTE'}</span></div>`}).join('');$('curriculum').innerHTML=renderCurriculum();let rows=state.records.slice(0,8).map(r=>`<tr><td>${new Date(r.date+'T12:00:00').toLocaleDateString('pt-BR')}</td><td><div class="history-subject"><b>${r.subject}</b><small>${r.type==='questoes'?'Questões':'Sessão de estudo'}</small></div></td><td>${r.topic||'—'}</td><td>${r.total}</td><td>${r.correct}</td><td>${r.total?Math.round(r.correct/r.total*100):0}%</td><td class="history-actions"><button class="delete-btn" onclick="deleteRecord(${r.id})" title="Apagar este registro">Apagar</button></td></tr>`).join('')||'<tr><td colspan="7" class="muted">Nenhum registro ainda.</td></tr>';$('historyTable').innerHTML=rows;$('historyPreview').innerHTML=state.records.slice(0,3).map(r=>`<div class="errorrow"><span class="errordot"></span><div class="rowfill"><strong>${r.subject}</strong><small>${r.topic||'Assunto não informado'}<br>${r.date} · ${r.total} questões · ${r.minutes} min</small></div><b>${r.total?Math.round(r.correct/r.total*100):0}%</b><button class="delete-btn" onclick="deleteRecord(${r.id})">Apagar</button></div>`).join('')||'<p class="muted">Seu histórico aparecerá aqui depois do primeiro registro.</p>'}
+function updateTimer(){let m=String(Math.floor(focusSeconds/60)).padStart(2,'0'),s=String(focusSeconds%60).padStart(2,'0');$('timer').textContent=m+':'+s;if(focusSeconds===0){clearInterval(focusTimer);focusTimer=null;alert('Ciclo concluído. Registre sua vitória!')}}function toggleFocus(){if(focusTimer){clearInterval(focusTimer);focusTimer=null;$('focusToggle').textContent='Retomar ciclo'}else{focusTimer=setInterval(()=>{if(focusSeconds>0){focusSeconds--;updateTimer()}},1000);$('focusToggle').textContent='Pausar ciclo'}}function resetFocus(){clearInterval(focusTimer);focusTimer=null;focusSeconds=1500;updateTimer();$('focusToggle').textContent='Iniciar ciclo'}function saveFocus(){state.focus.push({date:new Date().toISOString(),minutes:25});save();alert('Ciclo de foco salvo neste dispositivo.')}function exportData(){const blob=new Blob([JSON.stringify({version:1,exportedAt:new Date().toISOString(),...state},null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='operacao-aprovacao-backup.json';a.click();URL.revokeObjectURL(a.href)}function importData(e){const file=e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const incoming=JSON.parse(reader.result);if(!Array.isArray(incoming.records)||!Array.isArray(incoming.done))throw Error();state={records:incoming.records,done:incoming.done,focus:Array.isArray(incoming.focus)?incoming.focus:[],goals:incoming.goals||state.goals};save();render();renderHomePerformance();renderPerformance();alert('Backup importado com sucesso.')}catch{alert('Arquivo de backup inválido.')}};reader.readAsText(file)}function clearData(){if(confirm('Tem certeza? Esta ação apagará os dados deste navegador. Faça um backup antes.')){state={records:[],done:[],focus:[],goals:state.goals||{dailyQuestions:200,dailyMinutes:300}};save();render();renderHomePerformance();renderPerformance()}}
 
-  function agg(fromDate){
-    const slice = src.filter(r=>r.date >= fromDate);
-    const total = slice.reduce((a,r)=>a+(Number(r.total)||0),0);
-    const correct = slice.reduce((a,r)=>a+(Number(r.correct)||0),0);
-    const users = new Set(slice.map(r=>r.operador_nome)).size;
-    return { total, correct, pct: total?Math.round(correct/total*100):0, users };
+/* ===== CRONOGRAMA PERSONALIZADO ===== */
+function gerarCronograma(dias, dataInicioStr){
+  dias = Math.max(5, Math.min(120, Number(dias)||30));
+  const disciplinas = Object.keys(subjectCatalog).filter(d=>!/SIMULADO|REVIS/i.test(d));
+  if(!disciplinas.length){ alert('O edital atual não tem disciplinas suficientes para gerar um cronograma.'); return; }
+  const filas = {};
+  disciplinas.forEach(d=>{ filas[d] = subjectCatalog[d].filter(t=>!t.trim().startsWith('>')); });
+  const ordem = [];
+  let contadorSemana = 0, diaAtual = 0;
+  const dataInicio = dataInicioStr ? new Date(dataInicioStr+'T12:00:00') : new Date();
+  let di = 0;
+  while(ordem.length < dias){
+    if(contadorSemana>0 && contadorSemana%6===0 && ordem.length < dias-1){
+      ordem.push(['SIMULADO E REVISÃO','Simulado com os conteúdos estudados na semana e revisão ativa dos pontos com maior dificuldade.','simulado']);
+      contadorSemana=0;
+      continue;
+    }
+    const disciplina = disciplinas[di % disciplinas.length];
+    if(!filas[disciplina].length){ filas[disciplina] = subjectCatalog[disciplina].filter(t=>!t.trim().startsWith('>')); }
+    const topico = filas[disciplina].shift() || 'Revisão geral da disciplina.';
+    ordem.push([disciplina, topico, 'study']);
+    di++; contadorSemana++;
   }
-  const d = agg(today);
-  const w = agg(weekAgo.toISOString().slice(0,10));
-  const m = agg(monthAgo.toISOString().slice(0,10));
-  $('commCards').innerHTML = `
-    <div class="comm-card"><span>Hoje</span><b>${d.total} q</b><small>${d.pct}% acerto · ${d.users} ops</small></div>
-    <div class="comm-card"><span>Semana</span><b>${w.total} q</b><small>${w.pct}% acerto · ${w.users} ops</small></div>
-    <div class="comm-card"><span>Mês</span><b>${m.total} q</b><small>${m.pct}% acerto · ${m.users} ops</small></div>`;
-
-  const days = [];
-  for(let i=6;i>=0;i--){
-    const dt = new Date(); dt.setDate(dt.getDate()-i);
-    const key = dt.toISOString().slice(0,10);
-    const q = src.filter(r=>r.date===key).reduce((a,r)=>a+(Number(r.total)||0),0);
-    days.push({q, label: dt.toLocaleDateString('pt-BR',{weekday:'short'}).replace('.','')});
-  }
-  const max = Math.max(1, ...days.map(x=>x.q));
-  $('commBars').innerHTML = days.map(x=>`
-    <div class="barcol"><span class="val">${x.q}</span>
-    <div class="bar" style="height:${Math.max(4,x.q/max*150)}px;background:linear-gradient(#5b8cff,#2a4a9a)"></div>
-    <small>${x.label}</small></div>`).join('');
-
-  // top por precisão no mês
-  const byUser = {};
-  src.filter(r=>r.date >= monthAgo.toISOString().slice(0,10)).forEach(r=>{
-    if(!byUser[r.operador_nome]) byUser[r.operador_nome]={total:0,correct:0};
-    byUser[r.operador_nome].total += Number(r.total)||0;
-    byUser[r.operador_nome].correct += Number(r.correct)||0;
+  if(ordem.length) ordem[ordem.length-1][2] = 'final';
+  const novoCurriculum = ordem.map((item,i)=>{
+    const d = new Date(dataInicio); d.setDate(d.getDate()+i);
+    const dataFmt = String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0');
+    return [item[0], item[1], dataFmt, item[2]];
   });
-  const top = Object.entries(byUser).map(([nome,v])=>({
-    nome, total:v.total, pct:v.total?Math.round(v.correct/v.total*100):0
-  })).filter(x=>x.total>=5).sort((a,b)=>b.pct-a.pct||b.total-a.total).slice(0,10);
-  $('commTop').innerHTML = top.length ? top.map((x,i)=>`
-    <div style="display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)">
-      <span class="daynum">${i+1}º</span>
-      <div style="flex:1"><strong>${x.nome}</strong>
-      <div class="progress" style="margin-top:6px"><i style="width:${x.pct}%"></i></div></div>
-      <b>${x.pct}% · ${x.total}q</b></div>`).join('') : '<div class="empty">Dados coletivos indisponíveis (RLS) ou poucos registros.</div>';
+  curriculum = novoCurriculum;
+  localStorage.setItem('operacao-aprovacao-cronograma', JSON.stringify(curriculum));
+  state.done = new Array(curriculum.length).fill(false);
+  save();
+  render();renderHomePerformance();renderPerformance();
+  alert('Novo cronograma de '+dias+' dias gerado! O progresso do cronograma foi zerado (seus registros de questões continuam salvos).');
 }
 
-function renderAll(){
-  renderDashboardStats();
-  renderBars7();
-  renderStockChart();
-  renderErrorWaterfall();
-  renderIntelligence();
-  renderHistory();
-  renderRanking();
-  renderCurriculum();
-}
-
-/* FOCO */
-function updateTimer(){
-  const m = String(Math.floor(focusSeconds/60)).padStart(2,'0');
-  const s = String(focusSeconds%60).padStart(2,'0');
-  $('timer').textContent = m+':'+s;
-  if(focusSeconds===0){ clearInterval(focusTimer); focusTimer=null; toast('Ciclo concluído!'); }
-}
-function toggleFocus(){
-  if(focusTimer){ clearInterval(focusTimer); focusTimer=null; $('focusToggle').textContent='Retomar'; }
-  else { focusTimer=setInterval(()=>{ if(focusSeconds>0){ focusSeconds--; updateTimer(); }},1000); $('focusToggle').textContent='Pausar'; }
-}
-function resetFocus(){ clearInterval(focusTimer); focusTimer=null; focusSeconds=1500; updateTimer(); $('focusToggle').textContent='Iniciar'; }
-function saveFocus(){ toast('Ciclo de foco anotado localmente nesta sessão.'); }
-
-/* CONTA */
-async function renomearOperador(e){
+function criarCronogramaForm(e){
   e.preventDefault();
-  const nomeNovo = $('contaNomeNovo').value.trim();
-  if(!nomeNovo) return;
-  setLoading(true);
-  try{
-    const { data, error } = await supabaseClient.rpc('renomear_operador', {
-      p_nome_atual: session.nome, p_pin_hash: session.pinHash, p_nome_novo: nomeNovo
-    });
-    if(error) throw error;
-    if(!data?.ok){ toast(data?.erro||'Falha','err'); return; }
-    session.nome = data.nome || nomeNovo;
-    localStorage.setItem('parabellum_operador', session.nome);
-    $('nomeLogado').textContent = session.nome;
-    $('contaNomeAtual').textContent = session.nome;
-    toast('Nome atualizado.');
-    e.target.reset();
-    carregarRankingNuvem().then(renderRanking);
-  }catch(err){ toast(err.message,'err'); }
-  finally{ setLoading(false); }
+  const dias = document.getElementById('novoCronDias').value;
+  const inicio = document.getElementById('novoCronInicio').value;
+  if(!confirm('Isso substitui o cronograma atual por um novo de '+dias+' dias e zera o progresso das missões. Seus registros de questões continuam. Deseja continuar?')) return;
+  gerarCronograma(dias, inicio);
 }
 
-async function trocarPinOperador(e){
-  e.preventDefault();
-  const a = $('contaPinAtual').value.trim(), n = $('contaPinNovo').value.trim(), n2 = $('contaPinNovo2').value.trim();
-  if(!/^\d{4}$/.test(a)||!/^\d{4}$/.test(n)) return toast('PIN 4 dígitos.','err');
-  if(n!==n2) return toast('Confirmação diferente.','err');
-  setLoading(true);
-  try{
-    const hashA = await sha256Hex(a), hashN = await sha256Hex(n);
-    const { data, error } = await supabaseClient.rpc('trocar_pin_operador', {
-      p_nome: session.nome, p_pin_hash_atual: hashA, p_pin_hash_novo: hashN
-    });
-    if(error) throw error;
-    if(!data?.ok){ toast(data?.erro||'PIN atual incorreto.','err'); return; }
-    session.pinHash = hashN;
-    localStorage.setItem('parabellum_pin_hash', hashN);
-    e.target.reset();
-    toast('PIN atualizado.');
-  }catch(err){ toast(err.message,'err'); }
-  finally{ setLoading(false); }
+function restaurarCronogramaPadrao(){
+  if(!confirm('Restaurar o cronograma padrão de 30 dias da PMMA? Isso zera o progresso do cronograma atual.')) return;
+  curriculum = curriculumPadrao;
+  localStorage.removeItem('operacao-aprovacao-cronograma');
+  state.done = new Array(curriculum.length).fill(false);
+  save();
+  render();renderHomePerformance();renderPerformance();
+  alert('Cronograma padrão restaurado.');
 }
 
-async function apagarConta(){
-  if(!confirm('Apagar operador na nuvem? Irreversível.')) return;
-  const pin = prompt('Digite o PIN de 4 dígitos para confirmar:');
-  if(!pin||!/^\d{4}$/.test(pin)) return toast('Cancelado.','err');
-  setLoading(true);
-  try{
-    const pinHash = await sha256Hex(pin);
-    const { data, error } = await supabaseClient.rpc('apagar_operador', { p_nome: session.nome, p_pin_hash: pinHash });
-    if(error) throw error;
-    if(!data?.ok){ toast(data?.erro||'Falha','err'); return; }
-    // limpa dados do usuário nas tabelas novas
-    try{ await supabaseClient.from('study_records').delete().eq('operador_nome', session.nome); }catch(_){}
-    try{ await supabaseClient.from('editais').delete().eq('operador_nome', session.nome); }catch(_){}
-    try{ await supabaseClient.from('cronogramas').delete().eq('operador_nome', session.nome); }catch(_){}
-    toast('Conta apagada.');
-    setTimeout(sairOperador, 800);
-  }catch(err){ toast(err.message,'err'); }
-  finally{ setLoading(false); }
+function exportarCronograma(){
+  const blob = new Blob([JSON.stringify({version:1,tipo:'cronograma-operacao-aprovacao',dias:curriculum.length,curriculum},null,2)],{type:'application/json'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='cronograma-modelo.json'; a.click(); URL.revokeObjectURL(a.href);
 }
 
-verificarSessao();
+function importarCronograma(e){
+  const file=e.target.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=()=>{
+    try{
+      const incoming=JSON.parse(reader.result);
+      const lista = Array.isArray(incoming) ? incoming : incoming.curriculum;
+      if(!Array.isArray(lista) || !lista.length) throw Error();
+      lista.forEach(item=>{ if(!Array.isArray(item)||item.length<4) throw Error(); });
+      if(!confirm('Importar este cronograma de '+lista.length+' dias? Isso substitui o cronograma atual e zera o progresso das missões.')) return;
+      curriculum = lista;
+      localStorage.setItem('operacao-aprovacao-cronograma', JSON.stringify(curriculum));
+      state.done = new Array(curriculum.length).fill(false);
+      save();
+      render();renderHomePerformance();renderPerformance();
+      alert('Cronograma importado com sucesso!');
+    }catch{ alert('Arquivo de cronograma inválido.'); }
+  };
+  reader.readAsText(file);
+  e.target.value='';
+}
+
+function renderNovoCronograma(){
+  const el = document.getElementById('cronAtualInfo');
+  if(el) el.textContent = curriculum.length+' dias no cronograma atual · '+state.done.filter(Boolean).length+' concluídos';
+  const inicioEl = document.getElementById('novoCronInicio');
+  if(inicioEl && !inicioEl.value) inicioEl.value = new Date().toISOString().slice(0,10);
+}
+
+/* ===== EDITAL VERTICALIZADO ===== */
+function renderEdital(){
+  const box = document.getElementById('editalBox');
+  if(!box) return;
+  const disciplinas = Object.keys(subjectCatalog);
+  box.innerHTML = disciplinas.length ? disciplinas.map(d=>{
+    const topicos = subjectCatalog[d].filter(t=>!t.trim().startsWith('>'));
+    const linhas = topicos.map((t,i)=>`<div class="subject-detail" style="grid-template-columns:32px 1fr"><span>${String(i+1).padStart(2,'0')}</span><span style="font-weight:400;color:#c5c9d0">${t}</span></div>`).join('');
+    return `<details class="panel performance-card"><summary><div><b>${d}</b><small>${topicos.length} tópico(s)</small></div></summary>${linhas}</details>`;
+  }).join('') : '<div class="performance-empty">Nenhum edital carregado.</div>';
+}
+
+function exportarEdital(){
+  const blob = new Blob([JSON.stringify({version:1,tipo:'edital-operacao-aprovacao',subjectCatalog},null,2)],{type:'application/json'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='edital-modelo.json'; a.click(); URL.revokeObjectURL(a.href);
+}
+
+function restaurarEditalPadrao(){
+  if(!confirm('Restaurar o edital padrão da PMMA? Isso não apaga seus registros nem o cronograma atual, só a lista de disciplinas/tópicos.')) return;
+  subjectCatalog = JSON.parse(JSON.stringify(subjectCatalogPadrao));
+  localStorage.removeItem('operacao-aprovacao-edital');
+  atualizarSelectDisciplinas();
+  renderEdital();
+  alert('Edital padrão restaurado.');
+}
+
+function importarEdital(e){
+  const file=e.target.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=()=>{
+    try{
+      const incoming=JSON.parse(reader.result);
+      const catalogo = incoming.subjectCatalog || incoming;
+      const chaves = Object.keys(catalogo);
+      if(!chaves.length) throw Error();
+      chaves.forEach(k=>{ if(!Array.isArray(catalogo[k])) throw Error(); });
+      if(!confirm('Importar este edital com '+chaves.length+' disciplina(s)? Isso substitui a lista de disciplinas/tópicos usada no site (registro de estudos, cronograma novo, etc.).')) return;
+      subjectCatalog = catalogo;
+      localStorage.setItem('operacao-aprovacao-edital', JSON.stringify(subjectCatalog));
+      atualizarSelectDisciplinas();
+      renderEdital();
+      alert('Edital importado com sucesso! Você já pode gerar um novo cronograma baseado nele em "Novo Cronograma".');
+    }catch{ alert('Arquivo de edital inválido. Use o formato exportado por "Exportar edital atual".'); }
+  };
+  reader.readAsText(file);
+  e.target.value='';
+}
+
+function atualizarSelectDisciplinas(){
+  subjectSelect.innerHTML = '<option value="">Selecione</option>';
+  Object.keys(subjectCatalog).forEach(subject=>subjectSelect.insertAdjacentHTML('beforeend',`<option value="${subject}">${subject}</option>`));
+  updateTopicOptions();
+}
+
+render();renderHomePerformance();renderPerformance();
 </script>
+
+<!-- SUPABASE SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const SUPABASE_URL = "https://nvmmzwaezgfifqwtxdyo.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_se9TL5vs1Xki9syaBaBQUA_jIlqKE6b";
+
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+window.supabaseClient = supabaseClient;
+
+async function sha256Hex(texto) {
+  const enc = new TextEncoder().encode(texto);
+  const buf = await crypto.subtle.digest('SHA-256', enc);
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+function verificarOperador() {
+  const nomeSalvo = localStorage.getItem('parabellum_operador');
+  const pinSalvo = localStorage.getItem('parabellum_pin_hash');
+  if (nomeSalvo && pinSalvo) {
+    document.getElementById('modal-acesso').style.display = 'none';
+    document.getElementById('nome-aluno-logado').innerHTML = `<i class="dot" style="background:var(--green)"></i> Operador: ${nomeSalvo}`;
+    carregarRankingNuvem();
+    atualizarProgressoNuvem();
+  } else {
+    document.getElementById('modal-acesso').style.display = 'flex';
+  }
+}
+
+async function entrarComPin() {
+  const nomeInput = document.getElementById('login-nome').value.trim();
+  const pinInput = document.getElementById('login-pin').value.trim();
+
+  if (!nomeInput) return alert("Digite o seu Nome de Guerra para entrar.");
+  if (!/^\d{4}$/.test(pinInput)) return alert("O PIN precisa ter exatamente 4 números.");
+
+  const pinHash = await sha256Hex(pinInput);
+
+  const { data, error } = await window.supabaseClient.rpc('autenticar_operador', {
+    p_nome: nomeInput,
+    p_pin_hash: pinHash
+  });
+
+  if (error) {
+    alert('ERRO TÉCNICO (manda esse texto pro suporte):\n\n' + (error.message || JSON.stringify(error)));
+    return;
+  }
+
+  if (!data || !data.ok) {
+    alert(data && data.erro ? data.erro : 'PIN incorreto para este nome. Tente novamente.');
+    return;
+  }
+
+  localStorage.setItem('parabellum_operador', nomeInput);
+  localStorage.setItem('parabellum_pin_hash', pinHash);
+  document.getElementById('modal-acesso').style.display = 'none';
+  document.getElementById('nome-aluno-logado').innerHTML = `<i class="dot" style="background:var(--green)"></i> Operador: ${nomeInput}`;
+
+  atualizarProgressoNuvem();
+  carregarRankingNuvem();
+}
+
+function sairOperador() {
+  localStorage.removeItem('parabellum_operador');
+  localStorage.removeItem('parabellum_pin_hash');
+  location.reload();
+}
+
+function renderConta() {
+  const nome = localStorage.getItem('parabellum_operador') || '—';
+  const el = document.getElementById('contaNomeAtual');
+  if (el) el.textContent = nome;
+}
+
+async function renomearOperador(e) {
+  e.preventDefault();
+  const nomeAtual = localStorage.getItem('parabellum_operador');
+  const pinHash = localStorage.getItem('parabellum_pin_hash');
+  const nomeNovo = document.getElementById('conta-nome-novo').value.trim();
+
+  if (!nomeNovo) return alert('Digite o novo nome de guerra.');
+
+  const { data, error } = await window.supabaseClient.rpc('renomear_operador', {
+    p_nome_atual: nomeAtual,
+    p_pin_hash: pinHash,
+    p_nome_novo: nomeNovo
+  });
+
+  if (error) {
+    alert('ERRO TÉCNICO (manda esse texto pro suporte):\n\n' + (error.message || JSON.stringify(error)));
+    return;
+  }
+  if (!data || !data.ok) {
+    alert(data && data.erro ? data.erro : 'Não foi possível renomear.');
+    return;
+  }
+
+  localStorage.setItem('parabellum_operador', data.nome);
+  document.getElementById('nome-aluno-logado').innerHTML = `<i class="dot" style="background:var(--green)"></i> Operador: ${data.nome}`;
+  document.getElementById('formRenomear').reset();
+  alert('Nome atualizado com sucesso!');
+  renderConta();
+  carregarRankingNuvem();
+}
+
+async function trocarPinOperador(e) {
+  e.preventDefault();
+  const nome = localStorage.getItem('parabellum_operador');
+  const pinAtual = document.getElementById('conta-pin-atual').value.trim();
+  const pinNovo = document.getElementById('conta-pin-novo').value.trim();
+  const pinNovoConfirma = document.getElementById('conta-pin-novo-confirma').value.trim();
+
+  if (!/^\d{4}$/.test(pinAtual) || !/^\d{4}$/.test(pinNovo)) {
+    return alert('O PIN precisa ter exatamente 4 números.');
+  }
+  if (pinNovo !== pinNovoConfirma) {
+    return alert('Os PINs novos não conferem.');
+  }
+
+  const hashAtual = await sha256Hex(pinAtual);
+  const hashNovo = await sha256Hex(pinNovo);
+
+  const { data, error } = await window.supabaseClient.rpc('trocar_pin_operador', {
+    p_nome: nome,
+    p_pin_hash_atual: hashAtual,
+    p_pin_hash_novo: hashNovo
+  });
+
+  if (error) {
+    alert('ERRO TÉCNICO (manda esse texto pro suporte):\n\n' + (error.message || JSON.stringify(error)));
+    return;
+  }
+  if (!data || !data.ok) {
+    alert(data && data.erro ? data.erro : 'Não foi possível trocar o PIN.');
+    return;
+  }
+
+  localStorage.setItem('parabellum_pin_hash', hashNovo);
+  document.getElementById('formTrocarPin').reset();
+  alert('PIN atualizado com sucesso!');
+}
+
+async function apagarConta() {
+  const nome = localStorage.getItem('parabellum_operador');
+  if (!confirm(`Tem certeza que quer apagar o operador "${nome}" da nuvem? Isso apaga seu ranking e progresso salvo no Supabase. Essa ação não pode ser desfeita.`)) {
+    return;
+  }
+  const pin = prompt('Pra confirmar, digite seu PIN de 4 dígitos:');
+  if (!pin || !/^\d{4}$/.test(pin)) {
+    return alert('PIN inválido. Operação cancelada.');
+  }
+
+  const pinHash = await sha256Hex(pin);
+  const { data, error } = await window.supabaseClient.rpc('apagar_operador', {
+    p_nome: nome,
+    p_pin_hash: pinHash
+  });
+
+  if (error) {
+    alert('ERRO TÉCNICO (manda esse texto pro suporte):\n\n' + (error.message || JSON.stringify(error)));
+    return;
+  }
+  if (!data || !data.ok) {
+    alert(data && data.erro ? data.erro : 'Não foi possível apagar a conta.');
+    return;
+  }
+
+  alert('Conta apagada da nuvem. Você será desconectado.');
+  sairOperador();
+}
+
+verificarOperador();
+</script>
+
 </body>
 </html>
