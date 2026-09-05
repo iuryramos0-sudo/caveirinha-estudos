@@ -37,7 +37,19 @@ body{background:#000!important;color:#fff;font-family:'Barlow Condensed',Impact,
         <input type="password" id="login-pin" placeholder="PIN de 4 dígitos" maxlength="4" inputmode="numeric" pattern="[0-9]{4}" style="width: 100%; padding: 14px; background: #0f1115; border: 1px solid #343740; color: #fff; border-radius: 8px; outline: none; font-size: 14px; letter-spacing: 6px;">
       </div>
       <button onclick="entrarComPin()" style="width: 100%; padding: 15px; background: #e52d47; color: #fff; border: none; font-weight: 700; cursor: pointer; border-radius: 8px; text-transform: uppercase; font-size: 14px; letter-spacing: 1px; transition: 0.2s; box-shadow: 0 8px 22px #df294333;">Entrar na Missão</button>
-      <p style="text-align: center; margin-top: 25px; font-size: 12px; color: #969ca8;">Primeira vez? Esse nome + PIN vira seu acesso. Guarde o PIN — ele não pode ser recuperado.</p>
+      <p style="text-align: center; margin-top: 25px; font-size: 12px; color: #969ca8;">Ainda não possui cadastro? Crie sua conta abaixo. Só será possível entrar com um login previamente criado.</p>
+      <button type="button" onclick="mostrarCadastro()" style="width: 100%; margin-top: 12px; padding: 12px; background: transparent; color: #fff; border: 1px solid #555; font-weight: 700; cursor: pointer; border-radius: 8px; text-transform: uppercase; font-size: 12px; letter-spacing: 1px;">Criar novo login</button>
+    </div>
+
+    <div id="tela-cadastro" style="display:none;">
+      <div style="display:grid;gap:15px;margin-bottom:20px;">
+        <input type="text" id="cadastro-nome" placeholder="Crie seu Nome de Guerra" maxlength="60" style="width:100%;padding:14px;background:#0f1115;border:1px solid #343740;color:#fff;border-radius:8px;outline:none;font-size:14px;">
+        <input type="password" id="cadastro-pin" placeholder="Crie um PIN de 4 dígitos" maxlength="4" inputmode="numeric" pattern="[0-9]{4}" style="width:100%;padding:14px;background:#0f1115;border:1px solid #343740;color:#fff;border-radius:8px;outline:none;font-size:14px;letter-spacing:6px;">
+        <input type="password" id="cadastro-pin-confirmacao" placeholder="Repita o PIN" maxlength="4" inputmode="numeric" pattern="[0-9]{4}" style="width:100%;padding:14px;background:#0f1115;border:1px solid #343740;color:#fff;border-radius:8px;outline:none;font-size:14px;letter-spacing:6px;">
+      </div>
+      <button type="button" onclick="cadastrarOperador()" style="width:100%;padding:15px;background:#e52d47;color:#fff;border:none;font-weight:700;cursor:pointer;border-radius:8px;text-transform:uppercase;font-size:14px;letter-spacing:1px;">Criar login</button>
+      <button type="button" onclick="mostrarLogin()" style="width:100%;margin-top:10px;padding:12px;background:transparent;color:#fff;border:1px solid #555;font-weight:700;cursor:pointer;border-radius:8px;text-transform:uppercase;font-size:12px;letter-spacing:1px;">Voltar para entrar</button>
+      <p style="text-align:center;margin-top:18px;font-size:12px;color:#969ca8;">O nome de guerra precisa ser único. O PIN é armazenado apenas como hash no Supabase.</p>
     </div>
     
   </div>
@@ -562,8 +574,46 @@ verificarOperador();
     localStorage.removeItem('operacao-aprovacao-edital');
     localStorage.removeItem('operacao-aprovacao-cronograma');
   };
-  const originalEnter = window.entrarComPin;
-  if(originalEnter){ window.entrarComPin = async function(){ await originalEnter(); const loaded=await cloudLoadState(); if(!loaded) await cloudSaveState(); await carregarRankingNuvem(); }; }
+  window.mostrarCadastro = function(){ document.getElementById('tela-login').style.display='none'; document.getElementById('tela-cadastro').style.display='block'; };
+  window.mostrarLogin = function(){ document.getElementById('tela-cadastro').style.display='none'; document.getElementById('tela-login').style.display='block'; };
+  window.cadastrarOperador = async function(){
+    const nome = document.getElementById('cadastro-nome').value.trim();
+    const pin = document.getElementById('cadastro-pin').value.trim();
+    const confirmacao = document.getElementById('cadastro-pin-confirmacao').value.trim();
+    if(!nome) return alert('Digite um nome para criar o login.');
+    if(!/^[^<>]{3,60}$/.test(nome)) return alert('O nome precisa ter entre 3 e 60 caracteres.');
+    if(!/^\d{4}$/.test(pin)) return alert('O PIN precisa ter exatamente 4 números.');
+    if(pin !== confirmacao) return alert('Os PINs não conferem.');
+    const hash = await sha256Hex(pin);
+    const {data,error} = await window.supabaseClient.rpc('caveirinha_cadastrar_login',{p_nome:nome,p_pin_hash:hash});
+    if(error) return alert('Não foi possível criar o login: '+(error.message||'erro técnico'));
+    if(!data || !data.ok) return alert(data && data.erro ? data.erro : 'Esse nome de guerra já está cadastrado.');
+    document.getElementById('login-nome').value=nome;
+    document.getElementById('login-pin').value=pin;
+    document.getElementById('cadastro-nome').value='';
+    document.getElementById('cadastro-pin').value='';
+    document.getElementById('cadastro-pin-confirmacao').value='';
+    mostrarLogin();
+    alert('Login criado. Agora entre com as credenciais cadastradas.');
+  };
+  window.entrarComPin = async function(){
+    const nome = document.getElementById('login-nome').value.trim();
+    const pin = document.getElementById('login-pin').value.trim();
+    if(!nome) return alert('Digite o nome do login cadastrado.');
+    if(!/^\d{4}$/.test(pin)) return alert('O PIN precisa ter exatamente 4 números.');
+    const hash = await sha256Hex(pin);
+    const {data,error} = await window.supabaseClient.rpc('caveirinha_validar_login',{p_nome:nome,p_pin_hash:hash});
+    if(error) return alert('Não foi possível validar o login: '+(error.message||'erro técnico'));
+    if(!data || !data.ok) return alert('Login não cadastrado ou PIN incorreto. Crie o login antes de entrar.');
+    localStorage.setItem('parabellum_operador',data.nome||nome);
+    localStorage.setItem('parabellum_pin_hash',hash);
+    document.getElementById('modal-acesso').style.display='none';
+    document.getElementById('nome-aluno-logado').innerHTML = `<i class="dot" style="background:var(--green)"></i> Operador: ${data.nome||nome}`;
+    window._caveirinhaCloudHydrated=false;
+    const loaded=await cloudLoadState();
+    if(!loaded) await cloudSaveState();
+    await carregarRankingNuvem();
+  };
   const originalVerify = window.verificarOperador;
   if(originalVerify){ window.verificarOperador = async function(){ await originalVerify(); await cloudMigrateLocalData(); await cloudLoadState(); await carregarRankingNuvem(); }; }
   setTimeout(async function(){ if(operador()){ await cloudMigrateLocalData(); await cloudLoadState(); await carregarRankingNuvem(); } }, 0);
