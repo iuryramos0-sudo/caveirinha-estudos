@@ -108,6 +108,7 @@ let subjectCatalogPadrao = JSON.parse(JSON.stringify(subjectCatalog));
 const editalSalvo = JSON.parse(localStorage.getItem('operacao-aprovacao-edital')||'null');
 if (editalSalvo) { subjectCatalog = editalSalvo; }
 
+let rankingGlobal = [];
 let curriculum = JSON.parse(localStorage.getItem('operacao-aprovacao-cronograma')||'null') || curriculumPadrao;
 
 let state=JSON.parse(localStorage.getItem('operacao-aprovacao-local')||'null')||{records:[],done:[],focus:[],goals:{dailyQuestions:200,dailyMinutes:300}};state.goals=state.goals||{dailyQuestions:200,dailyMinutes:300};let focusSeconds=1500,focusTimer=null;
