@@ -117,47 +117,56 @@ function openPage(page){document.querySelectorAll('.page').forEach(x=>x.classLis
 $('studyForm').onsubmit=e=>{e.preventDefault();const f=new FormData(e.target),subject=String(f.get('subject')||''),topics=[...document.querySelectorAll('input[name="topic"]:checked')].map(input=>input.value).filter(Boolean),total=+f.get('total')||0,correct=+f.get('correct')||0;if(!Object.prototype.hasOwnProperty.call(subjectCatalog,subject)){alert('Selecione uma disciplina válida do edital.');return}if(!topics.length||topics.some(topic=>!subjectCatalog[subject].includes(topic))){alert('Selecione um ou mais assuntos válidos para a disciplina escolhida.');return}if(correct>total){alert('As questões certas não podem ser maiores que o total.');return}state.records.unshift({id:Date.now(),date:f.get('date'),type:f.get('type'),subject,topics,topic:topics.join(' · '),total,correct,minutes:+f.get('minutes')||0,board:f.get('board'),reason:f.get('reason'),notes:f.get('notes')});save();e.target.reset();$('studyDate').value=new Date().toISOString().slice(0,10);alert('Registro salvo neste dispositivo.');render();renderHomePerformance();renderPerformance();atualizarProgressoNuvem();};
 function deleteRecord(id){const record=state.records.find(item=>item.id===id);if(!record)return;if(confirm(`Apagar o registro de ${record.date} em ${record.subject}? Esta ação não pode ser desfeita.`)){state.records=state.records.filter(item=>item.id!==id);save();render();renderHomePerformance();renderPerformance();atualizarProgressoNuvem();}}function toggleDay(i){state.done[i]=!state.done[i];save();render();renderHomePerformance();renderPerformance();atualizarProgressoNuvem();}
 
+
 function renderCurriculum(){
-  const ranges=[];
-  const tamanho=7;
-  for(let start=0;start<curriculumPadraoEstruturado.length;start+=tamanho){
-    const end=Math.min(start+tamanho,curriculumPadraoEstruturado.length);
-    const numSemana=Math.floor(start/tamanho)+1;
-    const ultimo=(end===curriculumPadraoEstruturado.length)&&((end-start)<tamanho);
-    const label=ultimo?'FECHAMENTO DO CICLO':('SEMANA '+numSemana);
-    const title=ultimo?'Fechamento do Ciclo':('Semana '+numSemana);
-    ranges.push([start,end,label,title]);
-  }
-  let out='';
-  for(const [start,end,label,title] of ranges){
-    out+=`<div class="panel week"><div class="panelhead"><div><p class="eyebrow">${label}</p><h3>${title}</h3></div><span class="tag">${state.done.slice(start,end).filter(Boolean).length}/${end-start} concluídos</span></div>`;
-    for(let i=start;i<end;i++){
-      let item=curriculumPadraoEstruturado[i],done=!!state.done[i];
-      let diaSemana = ['Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado','Domingo','Segunda-feira'][i%7];
-      
-      let htmlManha = `<div class="turno-bloco manha"><span class="turno-tag">☀️ Manhã</span><span class="turno-conteudo"><b>${item.manha.disciplina}</b> — ${item.manha.topico}</span></div>`;
-      let htmlTarde = `<div class="turno-bloco tarde"><span class="turno-tag">🌤️ Tarde</span><span class="turno-conteudo"><b>${item.tarde.disciplina}</b> — ${item.tarde.topico}</span></div>`;
-      let htmlNoite = `<div class="turno-bloco noite"><span class="turno-tag">🌙 Noite</span><span class="turno-conteudo"><b>${item.noite.disciplina}</b> — ${item.noite.topico}</span></div>`;
-      
-      out+=`<div class="day-card-container ${done?'done':''}" style="margin-bottom:12px">
-        <button class="day ${done?'done':''}" style="width:100%; display:grid; grid-template-columns:42px 1fr auto; gap:12px; align-items:center;" onclick="toggleDay(${i})">
-          <span class="daynum">${String(i+1).padStart(2,'0')}</span>
-          <span style="text-align:left">
-            <b>${item.titulo} · ${item.data}</b>
-            <small>${diaSemana} — Toque para alternar conclusão</small>
-          </span>
-          <span class="badge ${item.tipo==='simulado'?'simulado':''}">${done?'✓ CONCLUÍDO':item.tipo==='simulado'?'SIMULADO':'ESTUDAR'}</span>
-        </button>
-        <div style="padding: 8px 12px 12px 54px; background: #111318; border: 1px solid #282b32; border-top: none; border-radius: 0 0 10px 10px; margin-top: -4px;">
-          ${htmlManha}
-          ${htmlTarde}
-          ${htmlNoite}
-        </div>
-      </div>`;
+  try {
+    const ranges=[];
+    const tamanho=7;
+    const totalItens = (typeof curriculumPadraoEstruturado !== 'undefined') ? curriculumPadraoEstruturado.length : 30;
+    for(let start=0; start<totalItens; start+=tamanho){
+      const end=Math.min(start+tamanho, totalItens);
+      const numSemana=Math.floor(start/tamanho)+1;
+      const ultimo=(end===totalItens)&&((end-start)<tamanho);
+      const label=ultimo?'FECHAMENTO DO CICLO':('SEMANA '+numSemana);
+      const title=ultimo?'Fechamento do Ciclo':('Semana '+numSemana);
+      ranges.push([start,end,label,title]);
     }
-    out+='</div>';
+    let out='';
+    for(const [start,end,label,title] of ranges){
+      out+=`<div class="panel week"><div class="panelhead"><div><p class="eyebrow">${label}</p><h3>${title}</h3></div><span class="tag">${state.done.slice(start,end).filter(Boolean).length}/${end-start} concluídos</span></div>`;
+      for(let i=start; i<end; i++){
+        let item = curriculumPadraoEstruturado[i];
+        if(!item) continue;
+        let done = !!state.done[i];
+        let diaSemana = ['Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado','Domingo','Segunda-feira'][i%7];
+        
+        let htmlManha = `<div class="turno-bloco manha" style="display:grid;grid-template-columns:85px 1fr;gap:8px;align-items:baseline;margin-top:6px;padding:6px 10px;background:#16181e;border-radius:6px;border:1px solid #252830;border-left:3px solid #f6b73c;font-size:11px;"><span class="turno-tag" style="font-weight:800;color:#f6b73c;text-transform:uppercase;">☀️ Manhã</span><span class="turno-conteudo" style="color:#c5c9d0;line-height:1.4;"><b style="color:#fff">${item.manha.disciplina}</b> — ${item.manha.topico}</span></div>`;
+        let htmlTarde = `<div class="turno-bloco tarde" style="display:grid;grid-template-columns:85px 1fr;gap:8px;align-items:baseline;margin-top:6px;padding:6px 10px;background:#16181e;border-radius:6px;border:1px solid #252830;border-left:3px solid #39d98a;font-size:11px;"><span class="turno-tag" style="font-weight:800;color:#39d98a;text-transform:uppercase;">🌤️ Tarde</span><span class="turno-conteudo" style="color:#c5c9d0;line-height:1.4;"><b style="color:#fff">${item.tarde.disciplina}</b> — ${item.tarde.topico}</span></div>`;
+        let htmlNoite = `<div class="turno-bloco noite" style="display:grid;grid-template-columns:85px 1fr;gap:8px;align-items:baseline;margin-top:6px;padding:6px 10px;background:#16181e;border-radius:6px;border:1px solid #252830;border-left:3px solid #9b7bff;font-size:11px;"><span class="turno-tag" style="font-weight:800;color:#9b7bff;text-transform:uppercase;">🌙 Noite</span><span class="turno-conteudo" style="color:#c5c9d0;line-height:1.4;"><b style="color:#fff">${item.noite.disciplina}</b> — ${item.noite.topico}</span></div>`;
+        
+        out+=`<div class="day-card-container ${done?'done':''}" style="margin-bottom:12px">
+          <button class="day ${done?'done':''}" style="width:100%; display:grid; grid-template-columns:42px 1fr auto; gap:12px; align-items:center;" onclick="toggleDay(${i})">
+            <span class="daynum">${String(i+1).padStart(2,'0')}</span>
+            <span style="text-align:left">
+              <b>${item.titulo} · ${item.data}</b>
+              <small>${diaSemana} — Toque para alternar conclusão</small>
+            </span>
+            <span class="badge ${item.tipo==='simulado'?'simulado':''}">${done?'✓ CONCLUÍDO':item.tipo==='simulado'?'SIMULADO':'ESTUDAR'}</span>
+          </button>
+          <div style="padding: 8px 12px 12px 54px; background: #111318; border: 1px solid #282b32; border-top: none; border-radius: 0 0 10px 10px; margin-top: -4px;">
+            ${htmlManha}
+            ${htmlTarde}
+            ${htmlNoite}
+          </div>
+        </div>`;
+      }
+      out+='</div>';
+    }
+    return out;
+  } catch(err) {
+    console.error("Erro ao renderizar cronograma:", err);
+    return '<div class="panel">Erro ao carregar cronograma. Verifique o console.</div>';
   }
-  return out;
 }
 
 function renderRanking(){
