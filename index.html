@@ -9,6 +9,21 @@
 /* CAVEIRINHA */
 .intel-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:17px;margin-bottom:17px}.priority-list{display:grid;gap:10px}.priority-item{border:1px solid #30333b;border-radius:10px;padding:13px;background:#101217}.priority-item.high{border-left:4px solid var(--red)}.priority-item.med{border-left:4px solid var(--amber)}.priority-item.good{border-left:4px solid var(--green)}.priority-top{display:flex;justify-content:space-between;gap:10px}.priority-top b{font-size:13px}.priority-item small{display:block;color:var(--muted);margin-top:5px}.intel-actions{margin-top:12px}.mission-progress{display:grid;gap:10px}.mission-progress .progress{margin-top:6px}.error-grid{display:grid;gap:9px}.error-line{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center}.error-line small{color:var(--muted)}.trend-box{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:12px}.trend-metric{border:1px solid #30333b;border-radius:10px;padding:11px;background:#101217}.trend-metric span{display:block;color:var(--muted);font-size:9px;text-transform:uppercase;letter-spacing:.08em}.trend-metric b{display:block;margin-top:7px;font-size:18px}.streak-detail{color:var(--muted);font-size:10px;margin-top:4px}.sim-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.sim-box{padding:12px;border:1px solid #30333b;border-radius:10px;background:#101217}.sim-box span{font-size:9px;color:var(--muted);text-transform:uppercase}.sim-box b{display:block;font-size:20px;margin-top:6px}@media(max-width:850px){.intel-grid{grid-template-columns:1fr}.trend-box,.sim-summary{grid-template-columns:1fr 1fr}}
 
+/* GRÁFICOS NOVOS: radar tático, mapa de fraquezas em barras e heatmap de consistência */
+.radar-wrap{height:210px;display:grid;place-items:center}
+.hbar-row{margin-bottom:14px}.hbar-row:last-child{margin-bottom:0}
+.hbar-top{display:flex;justify-content:space-between;gap:10px;font-size:12px;margin-bottom:6px}
+.hbar-top b{color:#fff}
+.hbar-track{height:16px;background:#1b1d23;border-radius:8px;overflow:hidden;border:1px solid #2b2e36}
+.hbar-fill{height:100%;border-radius:8px;transition:width .5s cubic-bezier(.2,.8,.2,1)}
+.heatmap{display:grid;grid-template-columns:repeat(14,1fr);gap:4px}
+.heatcell{aspect-ratio:1;border-radius:3px;background:#1b1d23;border:1px solid #24262c}
+.heatcell.l1{background:#3a1620;border-color:#3a1620}
+.heatcell.l2{background:#7a1f30;border-color:#7a1f30}
+.heatcell.l3{background:#c22a44;border-color:#c22a44}
+.heatcell.l4{background:#ff5267;border-color:#ff5267;box-shadow:0 0 8px #ff526755}
+.heatmap-caption{display:flex;justify-content:space-between;color:#707783;font-size:10px;margin-top:8px}
+
 /* GRÁFICOS DIVERSIFICADOS */
 .bars{height:210px;display:flex;align-items:flex-end;gap:10px;padding:18px 4px 4px;border-bottom:1px solid #2b2e36}.barcol{position:relative;height:100%;flex:1;display:flex;flex-direction:column;justify-content:end;align-items:center;gap:9px}.bar{width:14px;max-width:14px;border-radius:999px;background:linear-gradient(#ff596c,#a51e35);min-height:4px;box-shadow:0 0 18px #e52d4733;position:relative;transition:height .5s cubic-bezier(.2,.8,.2,1)}.bar:before{content:"";position:absolute;width:22px;height:22px;border-radius:50%;left:50%;top:-8px;transform:translateX(-50%);background:#ff6677;border:3px solid #2a1118;box-shadow:0 0 14px #e52d4755}.barcol small{color:#777e89;font-size:10px}.barvalue{font-size:10px;color:#d7dbe1;font-weight:800;margin-bottom:2px}.donut-wrap{height:210px;display:grid;place-items:center}.donut{--p:0;--accent:var(--red2);width:165px;height:165px;border-radius:50%;background:conic-gradient(var(--accent) calc(var(--p)*1%),#292c34 0);position:relative;display:grid;place-items:center;box-shadow:0 0 30px #0004;transition:background 1s ease}.donut:after{content:"";position:absolute;width:118px;height:118px;border-radius:50%;background:#15171c;border:1px solid #30333b}.donut-center{position:relative;z-index:1;text-align:center}.donut-center b{display:block;font-size:30px;color:#fff}.donut-center small{display:block;color:#9ea4ae;font-size:10px;text-transform:uppercase;letter-spacing:.09em;margin-top:4px}.stock-chart{height:230px;position:relative;border:1px solid #292c34;border-radius:12px;overflow:hidden;background:linear-gradient(180deg,#17131a,#101116)}.stock-chart:before{content:"";position:absolute;inset:0;background:linear-gradient(#ffffff09 1px,transparent 1px),linear-gradient(90deg,#ffffff06 1px,transparent 1px);background-size:100% 25%,10% 100%;pointer-events:none}.stock-chart svg{position:absolute;inset:0;width:100%;height:100%}.stock-chart .stock-label{position:absolute;top:12px;left:14px;z-index:1;font-size:10px;color:#aeb4be;letter-spacing:.13em;text-transform:uppercase}.stock-chart .stock-change{position:absolute;top:10px;right:14px;z-index:1;font-weight:800}.stock-empty{height:100%;display:grid;place-items:center;text-align:center;color:var(--muted);font-size:12px;padding:30px}.stock-grid-labels{display:flex;justify-content:space-between;color:#707783;font-size:10px;margin-top:7px}
 @media(max-width:1050px){.stats{grid-template-columns:repeat(3,1fr)}.grid{grid-template-columns:1fr}}@media(max-width:720px){.app{display:block}.side{position:static;padding:16px}.sidefoot{display:none}.nav{display:flex;overflow:auto}.nav button{white-space:nowrap;padding:10px}.main{padding:22px 14px}.top{align-items:start;display:block}.top-actions{margin-top:15px;justify-content:space-between}.hero{grid-template-columns:auto 1fr}.hero .btn{grid-column:1/-1}.stats{grid-template-columns:repeat(2,1fr)}.card:last-child{grid-column:1/-1}.formgrid{grid-template-columns:1fr}.field.full{grid-column:auto}.actions{grid-column:auto}.sectiontitle{display:block}.sectiontitle .btn{margin-top:12px}.day{grid-template-columns:34px 1fr}.day .badge{display:none}.timer{font-size:57px}.home-performance-grid{grid-template-columns:1fr}.subject-detail{grid-template-columns:1fr 1fr}.stock-chart{height:210px}}
@@ -27,13 +42,24 @@
 
     <div id="tela-login">
       <div style="display: grid; gap: 15px; margin-bottom: 25px;">
-        <input type="text" id="login-nome" placeholder="Digite seu Nome de Guerra (Ex: Sgt Iury)" style="width: 100%; padding: 14px; background: #0f1115; border: 1px solid #343740; color: #fff; border-radius: 8px; outline: none; font-size: 14px;">
+        <input type="text" id="login-nome" placeholder="Seu Nome de Guerra" style="width: 100%; padding: 14px; background: #0f1115; border: 1px solid #343740; color: #fff; border-radius: 8px; outline: none; font-size: 14px;">
         <input type="password" id="login-pin" placeholder="PIN de 4 dígitos" maxlength="4" inputmode="numeric" pattern="[0-9]{4}" style="width: 100%; padding: 14px; background: #0f1115; border: 1px solid #343740; color: #fff; border-radius: 8px; outline: none; font-size: 14px; letter-spacing: 6px;">
       </div>
       <button onclick="entrarComPin()" style="width: 100%; padding: 15px; background: #e52d47; color: #fff; border: none; font-weight: 700; cursor: pointer; border-radius: 8px; text-transform: uppercase; font-size: 14px; letter-spacing: 1px; transition: 0.2s; box-shadow: 0 8px 22px #df294333;">Entrar na Missão</button>
-      <p style="text-align: center; margin-top: 25px; font-size: 12px; color: #969ca8;">Primeira vez? Esse nome + PIN vira seu acesso. Guarde o PIN — ele não pode ser recuperado.</p>
+      <p style="text-align: center; margin-top: 25px; font-size: 12px; color: #969ca8;">Ainda não tem conta? <a href="#" onclick="mostrarCadastro();return false;" style="color:#ff6d7c;font-weight:700;text-decoration:none;">Criar agora</a></p>
     </div>
-    
+
+    <div id="tela-cadastro" style="display:none">
+      <div style="display: grid; gap: 15px; margin-bottom: 25px;">
+        <input type="text" id="cadastro-nome" placeholder="Escolha seu Nome de Guerra (Ex: Sgt Iury)" style="width: 100%; padding: 14px; background: #0f1115; border: 1px solid #343740; color: #fff; border-radius: 8px; outline: none; font-size: 14px;">
+        <input type="password" id="cadastro-pin" placeholder="Crie um PIN de 4 dígitos" maxlength="4" inputmode="numeric" pattern="[0-9]{4}" style="width: 100%; padding: 14px; background: #0f1115; border: 1px solid #343740; color: #fff; border-radius: 8px; outline: none; font-size: 14px; letter-spacing: 6px;">
+        <input type="password" id="cadastro-pin-confirma" placeholder="Confirme o PIN" maxlength="4" inputmode="numeric" pattern="[0-9]{4}" style="width: 100%; padding: 14px; background: #0f1115; border: 1px solid #343740; color: #fff; border-radius: 8px; outline: none; font-size: 14px; letter-spacing: 6px;">
+      </div>
+      <button onclick="criarConta()" style="width: 100%; padding: 15px; background: #e52d47; color: #fff; border: none; font-weight: 700; cursor: pointer; border-radius: 8px; text-transform: uppercase; font-size: 14px; letter-spacing: 1px; transition: 0.2s; box-shadow: 0 8px 22px #df294333;">Criar Conta e Entrar</button>
+      <p style="text-align: center; margin-top: 25px; font-size: 12px; color: #969ca8;">Guarde o PIN — ele não pode ser recuperado.</p>
+      <p style="text-align: center; margin-top: 12px; font-size: 12px; color: #969ca8;">Já tem conta? <a href="#" onclick="mostrarLogin();return false;" style="color:#ff6d7c;font-weight:700;text-decoration:none;">Entrar</a></p>
+    </div>
+
   </div>
 </div>
 
@@ -41,7 +67,7 @@
 <aside class="side"><div class="brand"><div class="brandmark" aria-label="Logo Caveirinha">💀</div><div><b>CAVEIRINHA</b><span>CONTROLE DE ESTUDOS</span></div></div><div class="online" id="status-conexao"><i class="dot"></i> CONECTADO AO RANKING</div><nav class="nav"><button class="active" data-page="dashboard">▦ Central de comando</button><button data-page="registro">＋ Registrar estudo</button><button data-page="questoes">◉ Questões</button><button data-page="desempenho">◒ Desempenho</button><button data-page="conteudos">▤ Cronograma PMMA</button><button data-page="novocronograma">🗓️ Novo Cronograma</button><button data-page="edital">📋 Edital Verticalizado</button><button data-page="ranking">🏆 Rankings</button><button data-page="foco">◷ Modo foco</button><button data-page="backup">↥ Backup pessoal</button><button data-page="conta">👤 Minha Conta</button></nav><div class="sidefoot">Sincronização em nuvem.<br>Projeto Parabellum.</div></aside>
 <main class="main">
 <header class="top"><div><p class="eyebrow" id="today"></p><h1 id="pageTitle">Central de comando</h1></div><div class="top-actions"><span class="sync" id="nome-aluno-logado"><i class="dot" style="background:var(--green)"></i> não identificado</span><button class="btn primary" onclick="openPage('registro')">＋ Registrar agora</button></div></header>
-<section class="page active" id="dashboard"><div class="hero"><div class="emblem">◎</div><div><p class="eyebrow">OPERAÇÃO DO DIA <span class="status">EM ANDAMENTO</span></p><h2 id="todayStudyTitle">Carregando missão...</h2><p id="todayStudyText">Identificando o conteúdo programado para hoje.</p><small id="examCountdown" style="display:block;margin-top:8px;color:#ff8794;font-weight:800;letter-spacing:.04em"></small></div><button class="btn" onclick="openPage('conteudos')">Abrir cronograma →</button></div><div class="stats"><div class="card"><label>Cronograma PMMA</label><strong id="sProgress">0%</strong><small id="sNext">Próximo alvo: Dia 1</small></div><div class="card"><label>Questões</label><strong id="sQuestions">0</strong><small id="sCorrect">0 certas</small></div><div class="card"><label>Precisão média</label><strong id="sAccuracy">0%</strong><small>registros locais</small></div><div class="card"><label>Tempo estudado</label><strong id="sMinutes">0m</strong><small>sessões registradas</small></div><div class="card"><label>Sequência</label><strong id="sStreak">0 dias</strong><small>dias com registro</small></div></div><div class="intel-grid"><div class="panel"><div class="panelhead"><div><p class="eyebrow">CENTRAL DE INTELIGÊNCIA</p><h3>Assuntos que precisam melhorar</h3></div><span class="tag">prioridade automática</span></div><div id="priorityList" class="priority-list"></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">DIAGNÓSTICO DOS ERROS</p><h3>Onde você está perdendo pontos</h3></div><span class="tag">por motivo</span></div><div id="errorAnalysis" class="error-grid"></div><div class="trend-box" id="trendMetrics"></div></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">MAPA DE FRAQUEZAS</p><h3>Disciplinas que precisam melhorar</h3></div><span class="tag">por desempenho</span></div><div id="disciplineWeakness" class="priority-list"></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">MISSÃO DE HOJE</p><h3>Execução diária</h3></div><span class="tag" id="dailyLabel">sem meta definida</span></div><div id="dailyMission" class="mission-progress"></div></div><div class="home-performance-grid"><div class="panel"><div class="panelhead"><div><p class="eyebrow">DESEMPENHO OPERACIONAL</p><h3>Por disciplina</h3></div><button class="btn" onclick="openPage('desempenho')">Detalhar</button></div><div id="homeDisciplineProgress"><div class="performance-empty">Registre questões para liberar o desempenho por disciplina.</div></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">ÍNDICE DE EVOLUÇÃO</p><h3>Curva de desempenho</h3></div><span class="tag">estilo mercado</span></div><div class="stock-chart" id="stockChart"><div class="stock-empty">Aguardando registros para desenhar a tendência.</div></div><div class="stock-grid-labels"><span>início</span><span>último registro</span></div></div></div><div class="grid"><div class="panel"><div class="panelhead"><div><p class="eyebrow">RITMO DE EVOLUÇÃO</p><h3>Questões por dia</h3></div><span class="tag">últimos 7 dias</span></div><div class="bars" id="chart"></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">RADAR TÁTICO</p><h3>Forças e alertas</h3></div><span style="color:var(--red2);font-size:20px">◉</span></div><div class="donut-wrap"><div class="donut" id="radarDonut"><div class="donut-center"><b id="radarText">0%</b><small id="radarSub">Precisão</small></div></div></div></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">PRÓXIMAS MISSÕES</p><h3>Seu cronograma em campo</h3></div><button class="btn" onclick="openPage('conteudos')">Ver todos</button></div><div id="nextMissions"></div></div></section>
+<section class="page active" id="dashboard"><div class="hero"><div class="emblem">◎</div><div><p class="eyebrow">OPERAÇÃO DO DIA <span class="status">EM ANDAMENTO</span></p><h2 id="todayStudyTitle">Carregando missão...</h2><p id="todayStudyText">Identificando o conteúdo programado para hoje.</p><small id="examCountdown" style="display:block;margin-top:8px;color:#ff8794;font-weight:800;letter-spacing:.04em"></small></div><button class="btn" onclick="openPage('conteudos')">Abrir cronograma →</button></div><div class="stats"><div class="card"><label>Cronograma PMMA</label><strong id="sProgress">0%</strong><small id="sNext">Próximo alvo: Dia 1</small></div><div class="card"><label>Questões</label><strong id="sQuestions">0</strong><small id="sCorrect">0 certas</small></div><div class="card"><label>Precisão média</label><strong id="sAccuracy">0%</strong><small>registros locais</small></div><div class="card"><label>Tempo estudado</label><strong id="sMinutes">0m</strong><small>sessões registradas</small></div><div class="card"><label>Sequência</label><strong id="sStreak">0 dias</strong><small>dias com registro</small></div></div><div class="intel-grid"><div class="panel"><div class="panelhead"><div><p class="eyebrow">CENTRAL DE INTELIGÊNCIA</p><h3>Assuntos que precisam melhorar</h3></div><span class="tag">prioridade automática</span></div><div id="priorityList" class="priority-list"></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">DIAGNÓSTICO DOS ERROS</p><h3>Onde você está perdendo pontos</h3></div><span class="tag">por motivo</span></div><div id="errorAnalysis" class="error-grid"></div><div class="trend-box" id="trendMetrics"></div></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">MAPA DE FRAQUEZAS</p><h3>Disciplinas que precisam melhorar</h3></div><span class="tag">por desempenho</span></div><div id="disciplineWeakness" class="priority-list"></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">MISSÃO DE HOJE</p><h3>Execução diária</h3></div><span class="tag" id="dailyLabel">sem meta definida</span></div><div id="dailyMission" class="mission-progress"></div></div><div class="home-performance-grid"><div class="panel"><div class="panelhead"><div><p class="eyebrow">DESEMPENHO OPERACIONAL</p><h3>Por disciplina</h3></div><button class="btn" onclick="openPage('desempenho')">Detalhar</button></div><div id="homeDisciplineProgress"><div class="performance-empty">Registre questões para liberar o desempenho por disciplina.</div></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">ÍNDICE DE EVOLUÇÃO</p><h3>Curva de desempenho</h3></div><span class="tag">estilo mercado</span></div><div class="stock-chart" id="stockChart"><div class="stock-empty">Aguardando registros para desenhar a tendência.</div></div><div class="stock-grid-labels"><span>início</span><span>último registro</span></div></div></div><div class="grid"><div class="panel"><div class="panelhead"><div><p class="eyebrow">RITMO DE EVOLUÇÃO</p><h3>Questões por dia</h3></div><span class="tag">últimos 7 dias</span></div><div class="bars" id="chart"></div><div class="heatmap" id="heatmap" style="margin-top:16px"></div><div class="heatmap-caption"><span>28 dias atrás</span><span>hoje</span></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">RADAR TÁTICO</p><h3>Forças e alertas</h3></div><span style="color:var(--red2);font-size:20px">◉</span></div><div class="radar-wrap"><div id="radarChart" style="width:100%;height:100%"></div></div></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">PRÓXIMAS MISSÕES</p><h3>Seu cronograma em campo</h3></div><button class="btn" onclick="openPage('conteudos')">Ver todos</button></div><div id="nextMissions"></div></div></section>
 <section class="page" id="registro"><div class="sectiontitle"><div><p class="eyebrow">REGISTRO SEGURO LOCAL</p><h2>Adicionar estudo</h2><p class="muted">O registro é salvo imediatamente neste navegador.</p></div></div><div class="panel"><form class="formgrid" id="studyForm"><div class="field"><span>Data</span><input required type="date" name="date" id="studyDate"></div><div class="field"><span>Tipo</span><select name="type"><option value="questoes">Questões</option><option value="sessao">Sessão de estudo</option></select></div><div class="field"><span>Disciplina</span><select required name="subject" id="subjectSelect"><option value="">Selecione a disciplina</option></select></div><div class="field"><span>Assuntos <small style="color:var(--red2)">(marque um ou vários)</small></span><div id="topicOptions" class="topic-options" aria-live="polite"><div class="topic-empty">Selecione primeiro a disciplina</div></div><div id="topicCount" class="topic-count">0 assuntos selecionados</div></div><div class="field"><span>Questões respondidas</span><input type="number" min="0" value="0" name="total"></div><div class="field"><span>Questões certas</span><input type="number" min="0" value="0" name="correct"></div><div class="field"><span>Tempo estudado (minutos)</span><input required type="number" min="0" value="30" name="minutes"></div><div class="field"><span>Banca</span><input name="board" placeholder="Ex.: Cebraspe"></div><div class="field"><span>Motivo do erro</span><select name="reason"><option value="none">Sem erro / não se aplica</option><option>Falta de conhecimento</option><option>Distração</option><option>Interpretação</option><option>Cálculo</option><option>Dúvida</option></select></div><div class="field full"><span>Observações</span><textarea name="notes" placeholder="O que precisa ser revisto?"></textarea></div><div class="actions"><button class="btn" type="reset">Limpar</button><button class="btn primary" type="submit">Salvar registro</button></div></form></div><div class="panel"><p class="eyebrow">HISTÓRICO RECENTE</p><div id="historyPreview"></div></div></section>
 <section class="page" id="questoes"><div class="sectiontitle"><div><p class="eyebrow">HISTÓRICO CONSULTÁVEL</p><h2>Questões registradas</h2><p class="muted">Tudo permanece salvo localmente neste dispositivo.</p></div><button class="btn primary" onclick="openPage('registro')">＋ Novo registro</button></div><div class="panel"><table class="history"><thead><tr><th>Data</th><th>Disciplina</th><th>Assunto</th><th>Total</th><th>Certas</th><th>Precisão</th><th></th></tr></thead><tbody id="historyTable"></tbody></table></div></section>
 <section class="page" id="desempenho"><div class="sectiontitle"><div><p class="eyebrow">ANÁLISE TÁTICA DOS REGISTROS</p><h2>Desempenho por disciplina</h2><p class="muted">Abra cada disciplina para ver a precisão, volume e tempo por assunto.</p><div class="notice" style="margin-top:12px;margin-bottom:0">Quando um registro tiver vários assuntos, o total de questões, acertos e minutos será dividido igualmente entre eles. Para uma precisão individual exata, registre cada assunto separadamente.</div></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">PROGRESSO DO PLANO</p><h3>30 dias de operação</h3></div><span class="tag" id="performancePlanLabel">0/30 concluídos · 30 pendentes</span></div><div class="progress"><i id="performancePlanBar" style="width:0%"></i></div><div class="daygrid" id="dayProgress"></div></div><div id="performanceBySubject"></div></section><section class="page" id="conteudos"><div class="sectiontitle"><div><p class="eyebrow">PLANO PMMA · 30 DIAS</p><h2>Cronograma de conteúdos</h2><p class="muted">Clique em uma missão para marcar como concluída. O status fica salvo no navegador.</p></div></div><div id="curriculum"></div></section>
@@ -112,18 +138,18 @@ let state=JSON.parse(localStorage.getItem('operacao-aprovacao-local')||'null')||
 const $=id=>document.getElementById(id);const save=()=>localStorage.setItem('operacao-aprovacao-local',JSON.stringify(state));const topicOptions=$('topicOptions');const topicCount=$('topicCount');
 $('today').textContent=new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long'});$('studyDate').value=new Date().toISOString().slice(0,10);const subjectSelect=$('subjectSelect');Object.keys(subjectCatalog).forEach(subject=>subjectSelect.insertAdjacentHTML('beforeend',`<option value="${subject}">${subject}</option>`));function updateTopicCount(){const selected=[...document.querySelectorAll('input[name="topic"]:checked')];topicCount.textContent=`${selected.length} assunto${selected.length===1?'':'s'} selecionado${selected.length===1?'':'s'}`}function updateTopicOptions(){const subject=subjectSelect.value;topicOptions.innerHTML=subject?subjectCatalog[subject].map(topic=>`<label class="topic-option"><input type="checkbox" name="topic" value="${topic}"><span>${topic}</span></label>`).join(''):'<div class="topic-empty">Selecione primeiro a disciplina</div>';topicOptions.querySelectorAll('input[name="topic"]').forEach(input=>input.addEventListener('change',updateTopicCount));updateTopicCount()}subjectSelect.addEventListener('change',updateTopicOptions);$('studyForm').addEventListener('reset',()=>setTimeout(updateTopicOptions,0));
 function openPage(page){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));$(page).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===page));const names={dashboard:'Central de comando',registro:'Registrar estudo',questoes:'Questões registradas',desempenho:'Desempenho',conteudos:'Cronograma PMMA',foco:'Modo foco',backup:'Backup pessoal',ranking:'Rankings',conta:'Minha Conta',novocronograma:'Novo Cronograma',edital:'Edital Verticalizado'};$('pageTitle').textContent=names[page];render();renderHomePerformance();renderPerformance();if(page==='conta')renderConta();if(page==='novocronograma')renderNovoCronograma();if(page==='edital')renderEdital();scrollTo({top:0,behavior:'smooth'})}document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>openPage(b.dataset.page));
-$('studyForm').onsubmit=e=>{e.preventDefault();const f=new FormData(e.target),subject=String(f.get('subject')||''),topics=[...document.querySelectorAll('input[name="topic"]:checked')].map(input=>input.value).filter(Boolean),total=+f.get('total')||0,correct=+f.get('correct')||0;if(!Object.prototype.hasOwnProperty.call(subjectCatalog,subject)){alert('Selecione uma disciplina válida do edital.');return}if(!topics.length||topics.some(topic=>!subjectCatalog[subject].includes(topic))){alert('Selecione um ou mais assuntos válidos para a disciplina escolhida.');return}if(correct>total){alert('As questões certas não podem ser maiores que o total.');return}state.records.unshift({id:Date.now(),date:f.get('date'),type:f.get('type'),subject,topics,topic:topics.join(' · '),total,correct,minutes:+f.get('minutes')||0,board:f.get('board'),reason:f.get('reason'),notes:f.get('notes')});save();e.target.reset();$('studyDate').value=new Date().toISOString().slice(0,10);alert('Registro salvo neste dispositivo.');render();renderHomePerformance();renderPerformance();atualizarProgressoNuvem();};
-function deleteRecord(id){const record=state.records.find(item=>item.id===id);if(!record)return;if(confirm(`Apagar o registro de ${record.date} em ${record.subject}? Esta ação não pode ser desfeita.`)){state.records=state.records.filter(item=>item.id!==id);save();render();renderHomePerformance();renderPerformance();atualizarProgressoNuvem();}}function toggleDay(i){state.done[i]=!state.done[i];save();render();renderHomePerformance();renderPerformance();atualizarProgressoNuvem();}
+$('studyForm').onsubmit=e=>{e.preventDefault();const f=new FormData(e.target),subject=String(f.get('subject')||''),topics=[...document.querySelectorAll('input[name="topic"]:checked')].map(input=>input.value).filter(Boolean),total=+f.get('total')||0,correct=+f.get('correct')||0;if(!Object.prototype.hasOwnProperty.call(subjectCatalog,subject)){alert('Selecione uma disciplina válida do edital.');return}if(!topics.length||topics.some(topic=>!subjectCatalog[subject].includes(topic))){alert('Selecione um ou mais assuntos válidos para a disciplina escolhida.');return}if(correct>total){alert('As questões certas não podem ser maiores que o total.');return}const novoRegistro={id:Date.now(),date:f.get('date'),type:f.get('type'),subject,topics,topic:topics.join(' · '),total,correct,minutes:+f.get('minutes')||0,board:f.get('board'),reason:f.get('reason'),notes:f.get('notes')};state.records.unshift(novoRegistro);save();e.target.reset();$('studyDate').value=new Date().toISOString().slice(0,10);alert('Registro salvo e sincronizado com a nuvem.');render();renderHomePerformance();renderPerformance();atualizarProgressoNuvem();registrarEstudoNuvem(novoRegistro);};
+function deleteRecord(id){const record=state.records.find(item=>item.id===id);if(!record)return;if(confirm(`Apagar o registro de ${record.date} em ${record.subject}? Esta ação não pode ser desfeita.`)){state.records=state.records.filter(item=>item.id!==id);save();render();renderHomePerformance();renderPerformance();atualizarProgressoNuvem();apagarRegistroNuvem(id);}}function toggleDay(i){state.done[i]=!state.done[i];save();render();renderHomePerformance();renderPerformance();atualizarProgressoNuvem();sincronizarCronogramaNuvem();}
 function renderCurriculum(){const ranges=[];const tamanho=7;for(let start=0;start<curriculum.length;start+=tamanho){const end=Math.min(start+tamanho,curriculum.length);const numSemana=Math.floor(start/tamanho)+1;const ultimo=(end===curriculum.length)&&((end-start)<tamanho);const label=ultimo?'FECHAMENTO DO CICLO':('SEMANA '+numSemana);const title=ultimo?'Fechamento do Ciclo':('Semana '+numSemana);ranges.push([start,end,label,title]);}let out='';for(const [start,end,label,title] of ranges){out+=`<div class="panel week"><div class="panelhead"><div><p class="eyebrow">${label}</p><h3>${title}</h3></div><span class="tag">${state.done.slice(start,end).filter(Boolean).length}/${end-start} concluídos</span></div>`;for(let i=start;i<end;i++){let c=curriculum[i],done=!!state.done[i];out+=`<button class="day ${done?'done':''}" onclick="toggleDay(${i})"><span class="daynum">${String(i+1).padStart(2,'0')}</span><span><b>${c[0]}${c[2]?' · '+c[2]:''}</b><small>${['Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado','Domingo','Segunda-feira'][i%7]} · ${c[1]}</small></span><span class="badge ${c[3]==='simulado'?'simulado':''}">${done?'✓ CONCLUÍDO':c[3]==='simulado'?'SIMULADO':c[3]==='final'?'RETA FINAL':'ESTUDAR'}</span></button>`}out+='</div>'}return out}
 	function renderHomePerformance(){const grouped={};state.records.forEach(r=>{const subject=r.subject||'Sem disciplina';if(!grouped[subject])grouped[subject]={total:0,correct:0,minutes:0};grouped[subject].total+=Number(r.total)||0;grouped[subject].correct+=Number(r.correct)||0;grouped[subject].minutes+=Number(r.minutes)||0});const entries=Object.entries(grouped).sort((a,b)=>b[1].total-a[1].total);$('homeDisciplineProgress').innerHTML=entries.length?entries.map(([subject,g])=>{const accuracy=g.total?Math.round(g.correct/g.total*100):0;return `<div class="discipline-row"><div class="discipline-meta"><b>${subject}</b><strong>${accuracy}%</strong></div><div class="progress"><i style="width:${accuracy}%"></i></div><div class="discipline-sub"><span>${g.correct} de ${g.total} questões certas</span><span>${g.minutes} min</span></div></div>`}).join(''):'<div class="performance-empty">Registre questões para liberar o desempenho por disciplina.</div>';const ordered=[...state.records].filter(r=>Number(r.total)>0).sort((a,b)=>(a.date||'').localeCompare(b.date||'')||Number(a.id)-Number(b.id));if(!ordered.length){$('stockChart').innerHTML='<div class="stock-empty">Aguardando registros para desenhar a tendência.</div>';return}let cumulativeTotal=0,cumulativeCorrect=0;const values=ordered.map(r=>{cumulativeTotal+=Number(r.total)||0;cumulativeCorrect+=Number(r.correct)||0;return cumulativeTotal?Math.round(cumulativeCorrect/cumulativeTotal*100):0});const W=1000,H=220,padX=28,padY=32,min=0,max=100;const pts=values.map((value,i)=>({x:values.length===1?W/2:padX+i*(W-padX*2)/(values.length-1),y:H-padY-(value-min)/(max-min)*(H-padY*2)}));const linePath=smoothPath(pts);const areaPath=`${linePath} L ${pts[pts.length-1].x.toFixed(1)},${H-padY} L ${pts[0].x.toFixed(1)},${H-padY} Z`;const first=values[0],last=values[values.length-1],change=last-first;const changeLabel=`${change>=0?'+':''}${change} pts`;const yTicks=[0,25,50,75,100];const yTickLines=yTicks.map(t=>{const y=H-padY-(t-min)/(max-min)*(H-padY*2);return `<line x1="${padX}" y1="${y}" x2="${W-padX}" y2="${y}" stroke="#ffffff0d"/><text x="${padX-6}" y="${y+3}" text-anchor="end" font-size="14" fill="#6b7280">${t}</text>`}).join('');$('stockChart').innerHTML=`<span class="stock-label">PRECISÃO ACUMULADA</span><span class="stock-change" style="color:${change>=0?'var(--green)':'var(--red2)'}">${changeLabel}</span><svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="Gráfico de evolução da precisão acumulada">${yTickLines}<path d="${areaPath}" fill="${change>=0?'#39d98a1c':'#ff52671c'}" stroke="none"/><path d="${linePath}" fill="none" stroke="${change>=0?'#39d98a':'#ff5267'}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>${pts.map((p,i)=>`<circle cx="${p.x}" cy="${p.y}" r="6" fill="${change>=0?'#39d98a':'#ff5267'}" stroke="#17131a" stroke-width="3"><title>${values[i]}% no registro ${i+1}</title></circle>`).join('')}</svg>`}
 function smoothPath(pts){if(!pts.length)return'';if(pts.length===1)return`M ${pts[0].x},${pts[0].y}`;let d=`M ${pts[0].x.toFixed(1)},${pts[0].y.toFixed(1)}`;for(let i=0;i<pts.length-1;i++){const p0=pts[i-1]||pts[i],p1=pts[i],p2=pts[i+1],p3=pts[i+2]||p2;const cp1x=p1.x+(p2.x-p0.x)/6,cp1y=p1.y+(p2.y-p0.y)/6;const cp2x=p2.x-(p3.x-p1.x)/6,cp2y=p2.y-(p3.y-p1.y)/6;d+=` C ${cp1x.toFixed(1)},${cp1y.toFixed(1)} ${cp2x.toFixed(1)},${cp2y.toFixed(1)} ${p2.x.toFixed(1)},${p2.y.toFixed(1)}`}return d}
 function renderPerformance(){const grouped={};state.records.forEach(r=>{const subject=r.subject||'Sem disciplina';if(!grouped[subject])grouped[subject]={total:0,correct:0,minutes:0,topics:{}};const g=grouped[subject];g.total+=Number(r.total)||0;g.correct+=Number(r.correct)||0;g.minutes+=Number(r.minutes)||0;const topics=Array.isArray(r.topics)&&r.topics.length?r.topics:[r.topic||'Assunto não informado'];const share=1/topics.length;topics.forEach(topic=>{if(!g.topics[topic])g.topics[topic]={total:0,correct:0,minutes:0};g.topics[topic].total+=(Number(r.total)||0)*share;g.topics[topic].correct+=(Number(r.correct)||0)*share;g.topics[topic].minutes+=(Number(r.minutes)||0)*share})});const done=state.done.filter(Boolean).length;$('performancePlanLabel').textContent=`${done}/${curriculum.length} concluídos · ${curriculum.length-done} pendentes`;$('performancePlanBar').style.width=Math.round(done/curriculum.length*100)+'%';const next=curriculum.findIndex((_,i)=>!state.done[i]);$('dayProgress').innerHTML=curriculum.map((_,i)=>`<div class="daytile ${state.done[i]?'done':''} ${i===next?'next':''}" title="Dia ${i+1}">${String(i+1).padStart(2,'0')}</div>`).join('');const entries=Object.entries(grouped);$('performanceBySubject').innerHTML=entries.length?entries.map(([subject,g])=>{const accuracy=g.total?Math.round(g.correct/g.total*100):0;const topicRows=Object.entries(g.topics).map(([topic,t])=>`<div class="subject-detail"><span>${topic}</span><span>${Math.round(t.total)} questões</span><span>${Math.round(t.correct)} certas</span><span>${t.total?Math.round(t.correct/t.total*100):0}%</span></div>`).join('');const topicHeader='<div class="subject-detail" style="color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.08em"><span>Assunto</span><span>Questões</span><span>Certas</span><span>Precisão</span></div>';return `<details class="panel performance-card" open><summary><div><b>${subject}</b><small>${g.total} questões · ${g.minutes} minutos · ${Object.keys(g.topics).length} assunto(s)</small></div><strong>${accuracy}%</strong></summary><div class="meterline"><div class="progress"><i style="width:${accuracy}%"></i></div><small>${g.correct} de ${g.total} certas</small></div>${topicHeader}${topicRows}</details>`}).join(''):'<div class="panel performance-empty">Registre suas primeiras questões para liberar o desempenho por disciplina e assunto.</div>'}
-function getTopicStats(){const m={};state.records.forEach(r=>{const ts=Array.isArray(r.topics)&&r.topics.length?r.topics:[r.topic||'Assunto não informado'];const share=1/ts.length;ts.forEach(t=>{if(!m[t])m[t]={subject:r.subject,total:0,correct:0,last:r.date};m[t].total+=(Number(r.total)||0)*share;m[t].correct+=(Number(r.correct)||0)*share;if((r.date||'')>(m[t].last||''))m[t].last=r.date})});return Object.entries(m).map(([topic,v])=>({...v,topic,accuracy:v.total?Math.round(v.correct/v.total*100):0}))}function renderIntelligence(){const topics=getTopicStats().filter(x=>x.total>0);const scored=topics.map(x=>{const days=Math.max(0,(Date.now()-new Date(x.last+'T12:00:00'))/86400000);return {...x,score:(100-x.accuracy)+Math.min(30,days*2)+Math.max(0,20-Math.min(20,x.total/5))}}).sort((a,b)=>b.score-a.score).slice(0,3);$('priorityList').innerHTML=scored.length?scored.map((x,i)=>`<div class="priority-item ${x.accuracy<60?'high':x.accuracy<75?'med':'good'}"><div class="priority-top"><b>${i+1}. ${x.subject} — ${x.topic}</b><strong>${x.accuracy}%</strong></div><small>${Math.round(x.total)} questões · última atividade: ${new Date(x.last+'T12:00:00').toLocaleDateString('pt-BR')} · ${x.accuracy<60?'REVISAR URGENTEMENTE':x.accuracy<75?'PRECISA DE REFORÇO':'MANTER DOMÍNIO'}</small></div>`).join(''):'<div class="performance-empty">Registre questões para o sistema identificar suas prioridades.</div>';const disciplines={};state.records.forEach(r=>{const sub=r.subject||'Sem disciplina';if(!disciplines[sub])disciplines[sub]={total:0,correct:0,last:r.date};disciplines[sub].total+=Number(r.total)||0;disciplines[sub].correct+=Number(r.correct)||0;if((r.date||'')>(disciplines[sub].last||''))disciplines[sub].last=r.date});const weak=Object.entries(disciplines).map(([subject,v])=>({...v,subject,accuracy:v.total?Math.round(v.correct/v.total*100):0})).filter(x=>x.total>0).sort((a,b)=>a.accuracy-b.accuracy).slice(0,5);$('disciplineWeakness').innerHTML=weak.length?weak.map((x,i)=>`<div class="priority-item ${x.accuracy<60?'high':x.accuracy<75?'med':'good'}"><div class="priority-top"><b>${i+1}. ${x.subject}</b><strong>${x.accuracy}%</strong></div><div class="progress" style="margin-top:9px"><i style="width:${x.accuracy}%"></i></div><small>${Math.round(x.correct)} de ${Math.round(x.total)} certas · ${x.accuracy<60?'DISCIPLINA CRÍTICA — PRIORIDADE MÁXIMA':x.accuracy<75?'PRECISA DE REFORÇO':'MANTER E EVOLUIR'}</small></div>`).join(''):'<div class="performance-empty">Registre questões para identificar as disciplinas que precisam de reforço.</div>';const reasons={};state.records.forEach(r=>{if(r.reason&&r.reason!=='none')reasons[r.reason]=(reasons[r.reason]||0)+Math.max(0,(Number(r.total)||0)-(Number(r.correct)||0))});const re=Object.entries(reasons).sort((a,b)=>b[1]-a[1]);const max=Math.max(1,...re.map(x=>x[1]));$('errorAnalysis').innerHTML=re.length?re.map(([k,v])=>`<div class="error-line"><div><b>${k}</b><div class="progress" style="margin-top:6px"><i style="width:${v/max*100}%"></i></div></div><strong>${v}</strong></div>`).join(''):'<div class="performance-empty">Ainda não há erros classificados.</div>';const ordered=[...state.records].filter(r=>Number(r.total)>0).sort((a,b)=>String(a.date).localeCompare(String(b.date)));const recent=ordered.slice(-Math.min(100,ordered.length));const lastAcc=recent.reduce((a,r)=>a+(Number(r.correct)||0),0)/(recent.reduce((a,r)=>a+(Number(r.total)||0),0)||1)*100;const allT=ordered.reduce((a,r)=>a+(Number(r.total)||0),0),allC=ordered.reduce((a,r)=>a+(Number(r.correct)||0),0);const overall=allT?allC/allT*100:0;const half=Math.ceil(recent.length/2);const a1=recent.slice(0,half),a2=recent.slice(half);const calc=a=>a.reduce((x,r)=>x+(Number(r.correct)||0),0)/(a.reduce((x,r)=>x+(Number(r.total)||0),0)||1)*100;const trend=recent.length>1?Math.round(calc(a2)-calc(a1)):0;$('trendMetrics').innerHTML=`<div class="trend-metric"><span>Média geral</span><b>${Math.round(overall)}%</b></div><div class="trend-metric"><span>Últimas 100</span><b>${Math.round(lastAcc)}%</b></div><div class="trend-metric"><span>Tendência</span><b>${trend>=0?'+':''}${trend} pts</b></div>`;const today=new Date().toISOString().slice(0,10);const todays=state.records.filter(r=>r.date===today);const q=todays.reduce((a,r)=>a+(Number(r.total)||0),0),mins=todays.reduce((a,r)=>a+(Number(r.minutes)||0),0),g=state.goals;$('dailyLabel').textContent=`${q}/${g.dailyQuestions} questões · ${mins}/${g.dailyMinutes} min`;$('dailyMission').innerHTML=`<div><b>Questões</b><small>${q} de ${g.dailyQuestions}</small><div class="progress"><i style="width:${Math.min(100,q/g.dailyQuestions*100)}%"></i></div></div><div><b>Tempo estudado</b><small>${mins} de ${g.dailyMinutes} minutos</small><div class="progress"><i style="width:${Math.min(100,mins/g.dailyMinutes*100)}%"></i></div></div>`}
+function getTopicStats(){const m={};state.records.forEach(r=>{const ts=Array.isArray(r.topics)&&r.topics.length?r.topics:[r.topic||'Assunto não informado'];const share=1/ts.length;ts.forEach(t=>{if(!m[t])m[t]={subject:r.subject,total:0,correct:0,last:r.date};m[t].total+=(Number(r.total)||0)*share;m[t].correct+=(Number(r.correct)||0)*share;if((r.date||'')>(m[t].last||''))m[t].last=r.date})});return Object.entries(m).map(([topic,v])=>({...v,topic,accuracy:v.total?Math.round(v.correct/v.total*100):0}))}function renderIntelligence(){const topics=getTopicStats().filter(x=>x.total>0);const scored=topics.map(x=>{const days=Math.max(0,(Date.now()-new Date(x.last+'T12:00:00'))/86400000);return {...x,score:(100-x.accuracy)+Math.min(30,days*2)+Math.max(0,20-Math.min(20,x.total/5))}}).sort((a,b)=>b.score-a.score).slice(0,3);$('priorityList').innerHTML=scored.length?scored.map((x,i)=>`<div class="priority-item ${x.accuracy<60?'high':x.accuracy<75?'med':'good'}"><div class="priority-top"><b>${i+1}. ${x.subject} — ${x.topic}</b><strong>${x.accuracy}%</strong></div><small>${Math.round(x.total)} questões · última atividade: ${new Date(x.last+'T12:00:00').toLocaleDateString('pt-BR')} · ${x.accuracy<60?'REVISAR URGENTEMENTE':x.accuracy<75?'PRECISA DE REFORÇO':'MANTER DOMÍNIO'}</small></div>`).join(''):'<div class="performance-empty">Registre questões para o sistema identificar suas prioridades.</div>';const disciplines={};state.records.forEach(r=>{const sub=r.subject||'Sem disciplina';if(!disciplines[sub])disciplines[sub]={total:0,correct:0,last:r.date};disciplines[sub].total+=Number(r.total)||0;disciplines[sub].correct+=Number(r.correct)||0;if((r.date||'')>(disciplines[sub].last||''))disciplines[sub].last=r.date});const weak=Object.entries(disciplines).map(([subject,v])=>({...v,subject,accuracy:v.total?Math.round(v.correct/v.total*100):0})).filter(x=>x.total>0).sort((a,b)=>a.accuracy-b.accuracy).slice(0,5);renderMapaFraquezas(weak);const reasons={};state.records.forEach(r=>{if(r.reason&&r.reason!=='none')reasons[r.reason]=(reasons[r.reason]||0)+Math.max(0,(Number(r.total)||0)-(Number(r.correct)||0))});const re=Object.entries(reasons).sort((a,b)=>b[1]-a[1]);const max=Math.max(1,...re.map(x=>x[1]));$('errorAnalysis').innerHTML=re.length?re.map(([k,v])=>`<div class="error-line"><div><b>${k}</b><div class="progress" style="margin-top:6px"><i style="width:${v/max*100}%"></i></div></div><strong>${v}</strong></div>`).join(''):'<div class="performance-empty">Ainda não há erros classificados.</div>';const ordered=[...state.records].filter(r=>Number(r.total)>0).sort((a,b)=>String(a.date).localeCompare(String(b.date)));const recent=ordered.slice(-Math.min(100,ordered.length));const lastAcc=recent.reduce((a,r)=>a+(Number(r.correct)||0),0)/(recent.reduce((a,r)=>a+(Number(r.total)||0),0)||1)*100;const allT=ordered.reduce((a,r)=>a+(Number(r.total)||0),0),allC=ordered.reduce((a,r)=>a+(Number(r.correct)||0),0);const overall=allT?allC/allT*100:0;const half=Math.ceil(recent.length/2);const a1=recent.slice(0,half),a2=recent.slice(half);const calc=a=>a.reduce((x,r)=>x+(Number(r.correct)||0),0)/(a.reduce((x,r)=>x+(Number(r.total)||0),0)||1)*100;const trend=recent.length>1?Math.round(calc(a2)-calc(a1)):0;$('trendMetrics').innerHTML=`<div class="trend-metric"><span>Média geral</span><b>${Math.round(overall)}%</b></div><div class="trend-metric"><span>Últimas 100</span><b>${Math.round(lastAcc)}%</b></div><div class="trend-metric"><span>Tendência</span><b>${trend>=0?'+':''}${trend} pts</b></div>`;const today=new Date().toISOString().slice(0,10);const todays=state.records.filter(r=>r.date===today);const q=todays.reduce((a,r)=>a+(Number(r.total)||0),0),mins=todays.reduce((a,r)=>a+(Number(r.minutes)||0),0),g=state.goals;$('dailyLabel').textContent=`${q}/${g.dailyQuestions} questões · ${mins}/${g.dailyMinutes} min`;$('dailyMission').innerHTML=`<div><b>Questões</b><small>${q} de ${g.dailyQuestions}</small><div class="progress"><i style="width:${Math.min(100,q/g.dailyQuestions*100)}%"></i></div></div><div><b>Tempo estudado</b><small>${mins} de ${g.dailyMinutes} minutos</small><div class="progress"><i style="width:${Math.min(100,mins/g.dailyMinutes*100)}%"></i></div></div>`}
 
 let rankingGlobal = [];
 async function carregarRankingNuvem() {
   if (!window.supabaseClient) return;
-  const { data, error } = await window.supabaseClient.from('ranking').select('nome, questoes_resolvidas, cronograma_concluido');
+  const { data, error } = await window.supabaseClient.from('ranking').select('nome, questoes_resolvidas, acertos, cronograma_concluido, cronograma_total, ultimo_login');
   if (!error && data) {
     rankingGlobal = data;
     renderRanking();
@@ -136,46 +162,201 @@ async function atualizarProgressoNuvem() {
   const pinHash = localStorage.getItem('parabellum_pin_hash');
   if (!nomeAtual || !pinHash) return;
   const meQ = state.records.reduce((a,r)=>a+(Number(r.total)||0),0);
+  const meC = state.records.reduce((a,r)=>a+(Number(r.correct)||0),0);
   const meDone = state.done.filter(Boolean).length;
 
-  await window.supabaseClient.rpc('atualizar_progresso', {
+  await window.supabaseClient.rpc('sincronizar_progresso', {
     p_nome: nomeAtual,
     p_pin_hash: pinHash,
     p_questoes: meQ,
-    p_cronograma: meDone
+    p_acertos: meC,
+    p_cronograma: meDone,
+    p_cronograma_total: curriculum.length
   });
 
   carregarRankingNuvem();
 }
 
+async function registrarEstudoNuvem(registro) {
+  if (!window.supabaseClient) return;
+  const nome = localStorage.getItem('parabellum_operador');
+  const pinHash = localStorage.getItem('parabellum_pin_hash');
+  if (!nome || !pinHash) return;
+  try {
+    await window.supabaseClient.rpc('registrar_estudo', { p_nome: nome, p_pin_hash: pinHash, p_registro: registro });
+  } catch(e) { console.warn('Falha ao sincronizar registro com a nuvem', e); }
+}
+
+async function apagarRegistroNuvem(registroId) {
+  if (!window.supabaseClient) return;
+  const nome = localStorage.getItem('parabellum_operador');
+  const pinHash = localStorage.getItem('parabellum_pin_hash');
+  if (!nome || !pinHash) return;
+  try {
+    await window.supabaseClient.rpc('apagar_registro_nuvem', { p_nome: nome, p_pin_hash: pinHash, p_registro_id: String(registroId) });
+  } catch(e) { console.warn('Falha ao apagar registro na nuvem', e); }
+}
+
+async function sincronizarCronogramaNuvem() {
+  if (!window.supabaseClient) return;
+  const nome = localStorage.getItem('parabellum_operador');
+  const pinHash = localStorage.getItem('parabellum_pin_hash');
+  if (!nome || !pinHash) return;
+  try {
+    await window.supabaseClient.rpc('sincronizar_cronograma', { p_nome: nome, p_pin_hash: pinHash, p_done: state.done });
+  } catch(e) { console.warn('Falha ao sincronizar cronograma com a nuvem', e); }
+}
+
+async function registrarAcessoNuvem() {
+  if (!window.supabaseClient) return;
+  const nome = localStorage.getItem('parabellum_operador');
+  const pinHash = localStorage.getItem('parabellum_pin_hash');
+  if (!nome || !pinHash) return;
+  try {
+    await window.supabaseClient.rpc('atualizar_login', { p_nome: nome, p_pin_hash: pinHash });
+  } catch(e) { console.warn('Falha ao registrar acesso', e); }
+}
+
+async function carregarDadosNuvem() {
+  if (!window.supabaseClient) return;
+  const nome = localStorage.getItem('parabellum_operador');
+  const pinHash = localStorage.getItem('parabellum_pin_hash');
+  if (!nome || !pinHash) return;
+  const { data, error } = await window.supabaseClient.rpc('obter_dados_nuvem', { p_nome: nome, p_pin_hash: pinHash });
+  if (error || !data || !data.ok) return;
+
+  const registrosNuvem = Array.isArray(data.registros) ? data.registros : [];
+  const doneNuvem = Array.isArray(data.done) ? data.done : null;
+
+  const idsLocais = new Set(state.records.map(r => String(r.id)));
+  const novos = registrosNuvem.filter(r => r && r.id != null && !idsLocais.has(String(r.id)));
+  let mudou = false;
+  if (novos.length) {
+    state.records = [...novos, ...state.records].sort((a,b)=> String(b.date||'').localeCompare(String(a.date||'')) || Number(b.id)-Number(a.id));
+    mudou = true;
+  }
+
+  if (doneNuvem && doneNuvem.length === state.done.length) {
+    const mesclado = state.done.map((v,i)=> v || !!doneNuvem[i]);
+    if (JSON.stringify(mesclado) !== JSON.stringify(state.done)) { state.done = mesclado; mudou = true; }
+  }
+
+  if (mudou) {
+    save();
+    render(); renderHomePerformance(); renderPerformance();
+    atualizarProgressoNuvem();
+  }
+}
+
+function formatarUltimoAcesso(iso){
+  if(!iso) return 'sem registro';
+  const d = new Date(iso);
+  const diffMin = Math.round((Date.now()-d.getTime())/60000);
+  if(diffMin<1) return 'agora mesmo';
+  if(diffMin<60) return 'há '+diffMin+' min';
+  const diffH = Math.round(diffMin/60);
+  if(diffH<24) return 'há '+diffH+'h';
+  const diffD = Math.round(diffH/24);
+  if(diffD<30) return 'há '+diffD+'d';
+  return d.toLocaleDateString('pt-BR');
+}
+
 function renderRanking(){
-  const meQ = state.records.reduce((a,r)=>a+(Number(r.total)||0),0), meDone = state.done.filter(Boolean).length, meP = Math.round(meDone/curriculum.length*100);
+  const meQ = state.records.reduce((a,r)=>a+(Number(r.total)||0),0);
+  const meC = state.records.reduce((a,r)=>a+(Number(r.correct)||0),0);
+  const meDone = state.done.filter(Boolean).length, meP = Math.round(meDone/curriculum.length*100);
   const nomeAtual = localStorage.getItem('parabellum_operador') || 'Você';
-  const lista = rankingGlobal.length ? [...rankingGlobal] : [{nome: nomeAtual, questoes_resolvidas: meQ, cronograma_concluido: meDone}];
-  
-  const q = [...lista].sort((a,b)=>b.questoes_resolvidas - a.questoes_resolvidas);
-  const pr = [...lista].sort((a,b)=> (b.cronograma_concluido - a.cronograma_concluido));
-  
+  const lista = rankingGlobal.length ? [...rankingGlobal] : [{nome: nomeAtual, questoes_resolvidas: meQ, acertos: meC, cronograma_concluido: meDone, cronograma_total: curriculum.length, ultimo_login: new Date().toISOString()}];
+
+  const comMetricas = lista.map(x=>({
+    ...x,
+    precisao: x.questoes_resolvidas ? Math.round((x.acertos||0)/x.questoes_resolvidas*100) : 0,
+    percCronograma: x.cronograma_total ? Math.round((x.cronograma_concluido||0)/x.cronograma_total*100) : 0
+  }));
+
+  const q = [...comMetricas].sort((a,b)=>b.questoes_resolvidas - a.questoes_resolvidas);
+  const pr = [...comMetricas].sort((a,b)=> b.percCronograma - a.percCronograma);
+
   const medals=['🥇','🥈','🥉'];
-  const rows=(arr,key)=>arr.map((x,i)=>{
+  const maxQ = Math.max(1, ...q.map(x=>x.questoes_resolvidas||0));
+
+  $('rankingQuestions').innerHTML = q.map((x,i)=>{
     const isMe = x.nome === nomeAtual;
-    const valQ = x.questoes_resolvidas || 0;
-    const valDone = x.cronograma_concluido || 0;
-    const valP = Math.round(valDone/curriculum.length*100);
-    return `<div class="missionrow"><span class="daynum">${medals[i]||((i+1)+'º')}</span><div class="rowfill"><strong>${x.nome}${isMe?' · VOCÊ':''}</strong><div class="progress" style="margin-top:7px"><i style="width:${key==='q'?Math.min(100,valQ/Math.max(1,arr[0].questoes_resolvidas||1)*100):valP}%"></i></div></div><b>${key==='q'?valQ+' questões':valP+'% · '+valDone+'/'+curriculum.length}</b></div>`;
+    return `<div class="missionrow"><span class="daynum">${medals[i]||((i+1)+'º')}</span><div class="rowfill"><strong>${x.nome}${isMe?' · VOCÊ':''}</strong><small>${x.precisao}% de acerto · visto ${formatarUltimoAcesso(x.ultimo_login)}</small><div class="progress" style="margin-top:7px"><i style="width:${Math.min(100,(x.questoes_resolvidas||0)/maxQ*100)}%"></i></div></div><b>${x.questoes_resolvidas||0} questões</b></div>`;
   }).join('');
-  
-  $('rankingQuestions').innerHTML=rows(q,'q');
-  $('rankingProgress').innerHTML=rows(pr,'p');
-  
+
+  $('rankingProgress').innerHTML = pr.map((x,i)=>{
+    const isMe = x.nome === nomeAtual;
+    return `<div class="missionrow"><span class="daynum">${medals[i]||((i+1)+'º')}</span><div class="rowfill"><strong>${x.nome}${isMe?' · VOCÊ':''}</strong><small>${x.cronograma_concluido||0}/${x.cronograma_total||curriculum.length} dias · visto ${formatarUltimoAcesso(x.ultimo_login)}</small><div class="progress" style="margin-top:7px"><i style="width:${x.percCronograma}%"></i></div></div><b>${x.percCronograma}%</b></div>`;
+  }).join('');
+
   const meuIndexQ = q.findIndex(x=>x.nome === nomeAtual) + 1;
   const meuIndexP = pr.findIndex(x=>x.nome === nomeAtual) + 1;
-  
-  $('rankingSummary').innerHTML=`<div class="sim-summary"><div class="sim-box"><span>Questões</span><b>${meQ}</b><small>${meuIndexQ > 0 ? meuIndexQ : '-'}º lugar</small></div><div class="sim-box"><span>Cronograma</span><b>${meP}%</b><small>${meuIndexP > 0 ? meuIndexP : '-'}º lugar</small></div><div class="sim-box"><span>Missões</span><b>${meDone}/${curriculum.length}</b><small>progresso atual</small></div></div><p class="notice" style="margin-top:14px">Ranking sincronizado em tempo real na nuvem do Supabase com todos os recrutas cadastrados.</p>`;
+  const minhaPrecisao = meQ ? Math.round(meC/meQ*100) : 0;
+
+  $('rankingSummary').innerHTML=`<div style="display:flex;gap:24px;align-items:center;flex-wrap:wrap"><div class="donut" style="--p:${minhaPrecisao};--accent:${minhaPrecisao>=75?'var(--green)':minhaPrecisao>=60?'var(--amber)':'var(--red2)'}"><div class="donut-center"><b>${minhaPrecisao}%</b><small>Precisão geral</small></div></div><div class="sim-summary" style="flex:1;min-width:220px"><div class="sim-box"><span>Questões</span><b>${meQ}</b><small>${meuIndexQ > 0 ? meuIndexQ : '-'}º lugar</small></div><div class="sim-box"><span>Cronograma</span><b>${meP}%</b><small>${meuIndexP > 0 ? meuIndexP : '-'}º lugar</small></div><div class="sim-box"><span>Missões</span><b>${meDone}/${curriculum.length}</b><small>progresso atual</small></div></div></div><p class="notice" style="margin-top:14px">Ranking sincronizado em tempo real na nuvem do Supabase — questões, precisão, cronograma e último acesso de todos os recrutas.</p>`;
 }
 
 function renderTodayMission(){const today=new Date();const day=String(today.getDate()).padStart(2,'0');const month=String(today.getMonth()+1).padStart(2,'0');const key=day+'/'+month;const index=curriculum.findIndex(c=>c[2]===key);const title=$('todayStudyTitle'),text=$('todayStudyText');if(index>=0){const c=curriculum[index];title.textContent=`DIA ${String(index+1).padStart(2,'0')} · ${c[0]}`;text.textContent=c[1]}else{title.textContent='Missão do dia fora do ciclo atual';text.textContent='Consulte o cronograma para continuar pela próxima missão pendente.'}const exam=new Date('2026-10-11T00:00:00');const start=new Date(today.getFullYear(),today.getMonth(),today.getDate());const diff=Math.ceil((exam-start)/86400000);$('examCountdown').textContent=diff>0?`⚔ FALTAM ${diff} DIAS PARA A PROVA DA PMMA · 11/10/2026`:diff===0?'⚔ HOJE É DIA DE PROVA · PMMA':'⚔ DATA DA PROVA JÁ PASSOU'}
-function render(){renderTodayMission();renderRanking();const total=state.records.reduce((a,r)=>a+r.total,0),correct=state.records.reduce((a,r)=>a+r.correct,0),minutes=state.records.reduce((a,r)=>a+r.minutes,0),pct=total?Math.round(correct/total*100):0,done=state.done.filter(Boolean).length;let next=curriculum.findIndex((_,i)=>!state.done[i]);$('sProgress').textContent=Math.round(done/curriculum.length*100)+'%';$('sNext').textContent=next<0?curriculum.length+' dias concluídos':'Próximo alvo: Dia '+(next+1);$('sQuestions').textContent=total;$('sCorrect').textContent=correct+' certas';$('sAccuracy').textContent=pct+'%';$('sMinutes').textContent=minutes<60?minutes+'m':Math.floor(minutes/60)+'h '+minutes%60+'m';const dates=new Set(state.records.map(r=>r.date));let streak=0,best=0,run=0;const sorted=[...dates].sort();for(const d of sorted){const cur=new Date(d+'T12:00:00');const prev=sorted[sorted.indexOf(d)-1]?new Date(sorted[sorted.indexOf(d)-1]+'T12:00:00'):null;run=prev&&Math.round((cur-prev)/86400000)===1?run+1:1;best=Math.max(best,run)}let check=new Date();while(dates.has(check.toISOString().slice(0,10))){streak++;check.setDate(check.getDate()-1)}$('sStreak').textContent=streak+' dias';$('sStreak').title='Melhor sequência: '+best+' dias';let days=[];for(let i=6;i>=0;i--){let d=new Date();d.setDate(d.getDate()-i);let key=d.toISOString().slice(0,10),q=state.records.filter(r=>r.date===key).reduce((a,r)=>a+r.total,0);days.push({key,q,label:d.toLocaleDateString('pt-BR',{weekday:'short'}).replace('.','')})}let max=Math.max(1,...days.map(x=>x.q));$('chart').innerHTML=days.map(x=>`<div class="barcol"><span class="barvalue">${x.q||0}</span><div class="bar" style="height:${Math.max(4,x.q/max*150)}px"></div><small>${x.label}</small></div>`).join('');$('radarText').textContent=total?pct+'%':'0%';$('radarSub').textContent=!total?'Sem dados':pct>=85?'Excelente':pct>=70?'Boa':pct>=55?'Regular':'Crítica';$('radarDonut').style.setProperty('--p',total?pct:0);$('radarDonut').style.setProperty('--accent',pct>=75?'var(--green)':pct>=60?'var(--amber)':'var(--red2)');renderHomePerformance();renderIntelligence();$('nextMissions').innerHTML=[...Array(3)].map((_,j)=>{let ultimo=curriculum.length-1,i=next<0?ultimo:Math.min(next+j,ultimo),c=curriculum[i];return `<div class="missionrow"><span class="daynum">DIA ${i+1}</span><div class="rowfill"><strong>${c[0]}</strong><small>${c[1]}</small></div><span class="badge ${c[3]==='simulado'?'SIMULADO':'PENDENTE'}</span></div>`}).join('');$('curriculum').innerHTML=renderCurriculum();let rows=state.records.slice(0,8).map(r=>`<tr><td>${new Date(r.date+'T12:00:00').toLocaleDateString('pt-BR')}</td><td><div class="history-subject"><b>${r.subject}</b><small>${r.type==='questoes'?'Questões':'Sessão de estudo'}</small></div></td><td>${r.topic||'—'}</td><td>${r.total}</td><td>${r.correct}</td><td>${r.total?Math.round(r.correct/r.total*100):0}%</td><td class="history-actions"><button class="delete-btn" onclick="deleteRecord(${r.id})" title="Apagar este registro">Apagar</button></td></tr>`).join('')||'<tr><td colspan="7" class="muted">Nenhum registro ainda.</td></tr>';$('historyTable').innerHTML=rows;$('historyPreview').innerHTML=state.records.slice(0,3).map(r=>`<div class="errorrow"><span class="errordot"></span><div class="rowfill"><strong>${r.subject}</strong><small>${r.topic||'Assunto não informado'}<br>${r.date} · ${r.total} questões · ${r.minutes} min</small></div><b>${r.total?Math.round(r.correct/r.total*100):0}%</b><button class="delete-btn" onclick="deleteRecord(${r.id})">Apagar</button></div>`).join('')||'<p class="muted">Seu histórico aparecerá aqui depois do primeiro registro.</p>'}
+function render(){renderTodayMission();renderRanking();const total=state.records.reduce((a,r)=>a+r.total,0),correct=state.records.reduce((a,r)=>a+r.correct,0),minutes=state.records.reduce((a,r)=>a+r.minutes,0),pct=total?Math.round(correct/total*100):0,done=state.done.filter(Boolean).length;let next=curriculum.findIndex((_,i)=>!state.done[i]);$('sProgress').textContent=Math.round(done/curriculum.length*100)+'%';$('sNext').textContent=next<0?curriculum.length+' dias concluídos':'Próximo alvo: Dia '+(next+1);$('sQuestions').textContent=total;$('sCorrect').textContent=correct+' certas';$('sAccuracy').textContent=pct+'%';$('sMinutes').textContent=minutes<60?minutes+'m':Math.floor(minutes/60)+'h '+minutes%60+'m';const dates=new Set(state.records.map(r=>r.date));let streak=0,best=0,run=0;const sorted=[...dates].sort();for(const d of sorted){const cur=new Date(d+'T12:00:00');const prev=sorted[sorted.indexOf(d)-1]?new Date(sorted[sorted.indexOf(d)-1]+'T12:00:00'):null;run=prev&&Math.round((cur-prev)/86400000)===1?run+1:1;best=Math.max(best,run)}let check=new Date();while(dates.has(check.toISOString().slice(0,10))){streak++;check.setDate(check.getDate()-1)}$('sStreak').textContent=streak+' dias';$('sStreak').title='Melhor sequência: '+best+' dias';let days=[];for(let i=6;i>=0;i--){let d=new Date();d.setDate(d.getDate()-i);let key=d.toISOString().slice(0,10),q=state.records.filter(r=>r.date===key).reduce((a,r)=>a+r.total,0);days.push({key,q,label:d.toLocaleDateString('pt-BR',{weekday:'short'}).replace('.','')})}let max=Math.max(1,...days.map(x=>x.q));$('chart').innerHTML=days.map(x=>`<div class="barcol"><span class="barvalue">${x.q||0}</span><div class="bar" style="height:${Math.max(4,x.q/max*150)}px"></div><small>${x.label}</small></div>`).join('');renderRadarTatico();renderHeatmap();renderHomePerformance();renderIntelligence();$('nextMissions').innerHTML=[...Array(3)].map((_,j)=>{let ultimo=curriculum.length-1,i=next<0?ultimo:Math.min(next+j,ultimo),c=curriculum[i];return `<div class="missionrow"><span class="daynum">DIA ${i+1}</span><div class="rowfill"><strong>${c[0]}</strong><small>${c[1]}</small></div><span class="badge ${c[3]==='simulado'?'SIMULADO':'PENDENTE'}</span></div>`}).join('');$('curriculum').innerHTML=renderCurriculum();let rows=state.records.slice(0,8).map(r=>`<tr><td>${new Date(r.date+'T12:00:00').toLocaleDateString('pt-BR')}</td><td><div class="history-subject"><b>${r.subject}</b><small>${r.type==='questoes'?'Questões':'Sessão de estudo'}</small></div></td><td>${r.topic||'—'}</td><td>${r.total}</td><td>${r.correct}</td><td>${r.total?Math.round(r.correct/r.total*100):0}%</td><td class="history-actions"><button class="delete-btn" onclick="deleteRecord(${r.id})" title="Apagar este registro">Apagar</button></td></tr>`).join('')||'<tr><td colspan="7" class="muted">Nenhum registro ainda.</td></tr>';$('historyTable').innerHTML=rows;$('historyPreview').innerHTML=state.records.slice(0,3).map(r=>`<div class="errorrow"><span class="errordot"></span><div class="rowfill"><strong>${r.subject}</strong><small>${r.topic||'Assunto não informado'}<br>${r.date} · ${r.total} questões · ${r.minutes} min</small></div><b>${r.total?Math.round(r.correct/r.total*100):0}%</b><button class="delete-btn" onclick="deleteRecord(${r.id})">Apagar</button></div>`).join('')||'<p class="muted">Seu histórico aparecerá aqui depois do primeiro registro.</p>'}
+function computeRadarMetrics(){
+  const total=state.records.reduce((a,r)=>a+(Number(r.total)||0),0);
+  const correct=state.records.reduce((a,r)=>a+(Number(r.correct)||0),0);
+  const pct=total?Math.round(correct/total*100):0;
+  const done=state.done.filter(Boolean).length;
+  const cronPct=Math.round(done/curriculum.length*100);
+  const dates=new Set(state.records.map(r=>r.date));
+  let streak=0,check=new Date();
+  while(dates.has(check.toISOString().slice(0,10))){streak++;check.setDate(check.getDate()-1);}
+  const consistencia=Math.min(100,streak*15);
+  const seteDiasAtras=new Date();seteDiasAtras.setDate(seteDiasAtras.getDate()-7);
+  const chaveLimite=seteDiasAtras.toISOString().slice(0,10);
+  const recentes=state.records.filter(r=>(r.date||'')>=chaveLimite);
+  const qSemana=recentes.reduce((a,r)=>a+(Number(r.total)||0),0);
+  const metaSemana=(state.goals.dailyQuestions||200)*7;
+  const volume=metaSemana?Math.min(100,Math.round(qSemana/metaSemana*100)):0;
+  const minSemana=recentes.reduce((a,r)=>a+(Number(r.minutes)||0),0);
+  const metaMinSemana=(state.goals.dailyMinutes||300)*7;
+  const foco=metaMinSemana?Math.min(100,Math.round(minSemana/metaMinSemana*100)):0;
+  return [
+    {label:'Precisão',value:pct},
+    {label:'Volume',value:volume},
+    {label:'Cronograma',value:cronPct},
+    {label:'Consistência',value:consistencia},
+    {label:'Foco',value:foco}
+  ];
+}
+function renderRadarTatico(){
+  const metrics=computeRadarMetrics();
+  const cx=100,cy=100,R=76,n=metrics.length;
+  const angleFor=i=>(Math.PI*2*i/n)-Math.PI/2;
+  const pointFor=(i,val)=>{const r=R*(Math.max(0,Math.min(100,val))/100);const a=angleFor(i);return [cx+r*Math.cos(a),cy+r*Math.sin(a)];};
+  const rings=[20,40,60,80,100].map(p=>{const r=R*p/100;const pts=metrics.map((_,i)=>{const a=angleFor(i);return `${(cx+r*Math.cos(a)).toFixed(1)},${(cy+r*Math.sin(a)).toFixed(1)}`;}).join(' ');return `<polygon points="${pts}" fill="none" stroke="#3a2530" stroke-width="1"/>`;}).join('');
+  const axisLines=metrics.map((_,i)=>{const [x,y]=pointFor(i,100);return `<line x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="#3a2530" stroke-width="1"/>`;}).join('');
+  const dataPts=metrics.map((m,i)=>pointFor(i,m.value));
+  const dataPolygon=dataPts.map(p=>`${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(' ');
+  const labels=metrics.map((m,i)=>{const [x,y]=pointFor(i,128);const anchor=Math.abs(x-cx)<6?'middle':(x>cx?'start':'end');return `<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" font-size="10" fill="#c5c9d0" text-anchor="${anchor}" dominant-baseline="middle">${m.label} · ${m.value}%</text>`;}).join('');
+  const dots=dataPts.map(p=>`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="3.5" fill="#ff5267" stroke="#17131a" stroke-width="1.5"/>`).join('');
+  const el=$('radarChart');
+  if(el) el.innerHTML=`<svg viewBox="0 0 200 210" width="100%" height="100%">${rings}${axisLines}<polygon points="${dataPolygon}" fill="#e52d4733" stroke="#ff5267" stroke-width="2.5" stroke-linejoin="round"/>${dots}${labels}</svg>`;
+}
+function renderHeatmap(){
+  const dias=[];
+  for(let i=27;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);const key=d.toISOString().slice(0,10);const q=state.records.filter(r=>r.date===key).reduce((a,r)=>a+(Number(r.total)||0),0);dias.push({key,q});}
+  const max=Math.max(1,...dias.map(d=>d.q));
+  const el=$('heatmap');
+  if(el) el.innerHTML=dias.map(d=>{const ratio=d.q/max;const lvl=d.q===0?0:ratio>0.75?4:ratio>0.5?3:ratio>0.25?2:1;const dataFmt=new Date(d.key+'T12:00:00').toLocaleDateString('pt-BR');return `<div class="heatcell l${lvl}" title="${dataFmt}: ${d.q} questões"></div>`;}).join('');
+}
+function renderMapaFraquezas(weak){
+  const el=$('disciplineWeakness');
+  if(!el)return;
+  if(!weak.length){el.innerHTML='<div class="performance-empty">Registre questões para identificar as disciplinas que precisam de reforço.</div>';return;}
+  el.innerHTML=weak.map((x,i)=>{
+    const color=x.accuracy<60?'var(--red2)':x.accuracy<75?'var(--amber)':'var(--green)';
+    const status=x.accuracy<60?'CRÍTICA':x.accuracy<75?'REFORÇAR':'DOMINADA';
+    return `<div class="hbar-row"><div class="hbar-top"><b>${i+1}. ${x.subject}</b><span style="color:${color};font-weight:800">${x.accuracy}% · ${status}</span></div><div class="hbar-track"><div class="hbar-fill" style="width:${Math.max(6,x.accuracy)}%;background:linear-gradient(90deg,${color}99,${color})"></div></div><small style="color:var(--muted)">${Math.round(x.correct)} de ${Math.round(x.total)} certas</small></div>`;
+  }).join('');
+}
 function updateTimer(){let m=String(Math.floor(focusSeconds/60)).padStart(2,'0'),s=String(focusSeconds%60).padStart(2,'0');$('timer').textContent=m+':'+s;if(focusSeconds===0){clearInterval(focusTimer);focusTimer=null;alert('Ciclo concluído. Registre sua vitória!')}}function toggleFocus(){if(focusTimer){clearInterval(focusTimer);focusTimer=null;$('focusToggle').textContent='Retomar ciclo'}else{focusTimer=setInterval(()=>{if(focusSeconds>0){focusSeconds--;updateTimer()}},1000);$('focusToggle').textContent='Pausar ciclo'}}function resetFocus(){clearInterval(focusTimer);focusTimer=null;focusSeconds=1500;updateTimer();$('focusToggle').textContent='Iniciar ciclo'}function saveFocus(){state.focus.push({date:new Date().toISOString(),minutes:25});save();alert('Ciclo de foco salvo neste dispositivo.')}function exportData(){const blob=new Blob([JSON.stringify({version:1,exportedAt:new Date().toISOString(),...state},null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='operacao-aprovacao-backup.json';a.click();URL.revokeObjectURL(a.href)}function importData(e){const file=e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const incoming=JSON.parse(reader.result);if(!Array.isArray(incoming.records)||!Array.isArray(incoming.done))throw Error();state={records:incoming.records,done:incoming.done,focus:Array.isArray(incoming.focus)?incoming.focus:[],goals:incoming.goals||state.goals};save();render();renderHomePerformance();renderPerformance();alert('Backup importado com sucesso.')}catch{alert('Arquivo de backup inválido.')}};reader.readAsText(file)}function clearData(){if(confirm('Tem certeza? Esta ação apagará os dados deste navegador. Faça um backup antes.')){state={records:[],done:[],focus:[],goals:state.goals||{dailyQuestions:200,dailyMinutes:300}};save();render();renderHomePerformance();renderPerformance()}}
 
 /* ===== CRONOGRAMA PERSONALIZADO ===== */
@@ -212,6 +393,7 @@ function gerarCronograma(dias, dataInicioStr){
   state.done = new Array(curriculum.length).fill(false);
   save();
   render();renderHomePerformance();renderPerformance();
+  atualizarProgressoNuvem();sincronizarCronogramaNuvem();
   alert('Novo cronograma de '+dias+' dias gerado! O progresso do cronograma foi zerado (seus registros de questões continuam salvos).');
 }
 
@@ -230,6 +412,7 @@ function restaurarCronogramaPadrao(){
   state.done = new Array(curriculum.length).fill(false);
   save();
   render();renderHomePerformance();renderPerformance();
+  atualizarProgressoNuvem();sincronizarCronogramaNuvem();
   alert('Cronograma padrão restaurado.');
 }
 
@@ -253,6 +436,7 @@ function importarCronograma(e){
       state.done = new Array(curriculum.length).fill(false);
       save();
       render();renderHomePerformance();renderPerformance();
+      atualizarProgressoNuvem();sincronizarCronogramaNuvem();
       alert('Cronograma importado com sucesso!');
     }catch{ alert('Arquivo de cronograma inválido.'); }
   };
@@ -346,11 +530,60 @@ function verificarOperador() {
   if (nomeSalvo && pinSalvo) {
     document.getElementById('modal-acesso').style.display = 'none';
     document.getElementById('nome-aluno-logado').innerHTML = `<i class="dot" style="background:var(--green)"></i> Operador: ${nomeSalvo}`;
+    registrarAcessoNuvem();
+    carregarDadosNuvem();
     carregarRankingNuvem();
     atualizarProgressoNuvem();
   } else {
     document.getElementById('modal-acesso').style.display = 'flex';
   }
+}
+
+function mostrarCadastro(){
+  document.getElementById('tela-login').style.display = 'none';
+  document.getElementById('tela-cadastro').style.display = 'block';
+}
+function mostrarLogin(){
+  document.getElementById('tela-cadastro').style.display = 'none';
+  document.getElementById('tela-login').style.display = 'block';
+}
+
+async function criarConta() {
+  const nomeInput = document.getElementById('cadastro-nome').value.trim();
+  const pinInput = document.getElementById('cadastro-pin').value.trim();
+  const pinConfirma = document.getElementById('cadastro-pin-confirma').value.trim();
+
+  if (!nomeInput) return alert("Escolha um Nome de Guerra para criar sua conta.");
+  if (!/^\d{4}$/.test(pinInput)) return alert("O PIN precisa ter exatamente 4 números.");
+  if (pinInput !== pinConfirma) return alert("Os PINs não conferem. Digite o mesmo PIN nos dois campos.");
+
+  const pinHash = await sha256Hex(pinInput);
+
+  const { data, error } = await window.supabaseClient.rpc('criar_operador', {
+    p_nome: nomeInput,
+    p_pin_hash: pinHash
+  });
+
+  if (error) {
+    alert('ERRO TÉCNICO (manda esse texto pro suporte):\n\n' + (error.message || JSON.stringify(error)));
+    return;
+  }
+
+  if (!data || !data.ok) {
+    alert(data && data.erro ? data.erro : 'Não foi possível criar a conta. Esse nome já pode estar em uso.');
+    return;
+  }
+
+  localStorage.setItem('parabellum_operador', nomeInput);
+  localStorage.setItem('parabellum_pin_hash', pinHash);
+  document.getElementById('modal-acesso').style.display = 'none';
+  document.getElementById('nome-aluno-logado').innerHTML = `<i class="dot" style="background:var(--green)"></i> Operador: ${nomeInput}`;
+
+  registrarAcessoNuvem();
+  await carregarDadosNuvem();
+  atualizarProgressoNuvem();
+  carregarRankingNuvem();
+  alert('Conta criada com sucesso! Bem-vindo à Operação.');
 }
 
 async function entrarComPin() {
@@ -362,7 +595,7 @@ async function entrarComPin() {
 
   const pinHash = await sha256Hex(pinInput);
 
-  const { data, error } = await window.supabaseClient.rpc('autenticar_operador', {
+  const { data, error } = await window.supabaseClient.rpc('login_operador', {
     p_nome: nomeInput,
     p_pin_hash: pinHash
   });
@@ -382,6 +615,8 @@ async function entrarComPin() {
   document.getElementById('modal-acesso').style.display = 'none';
   document.getElementById('nome-aluno-logado').innerHTML = `<i class="dot" style="background:var(--green)"></i> Operador: ${nomeInput}`;
 
+  registrarAcessoNuvem();
+  await carregarDadosNuvem();
   atualizarProgressoNuvem();
   carregarRankingNuvem();
 }
