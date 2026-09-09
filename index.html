@@ -853,9 +853,25 @@ verificarOperador();
 
   window.apagarRegistroNuvem = async function(id){
     const client=SB();
+    if(!client) throw new Error('Supabase não está disponível.');
     const u=await authenticatedUser();
-    const {error}=await client.from('study_records').delete().eq('id',id).eq('user_id',u.id);
-    if(error) throw new Error(`Supabase rejeitou a exclusão (${error.code||'sem código'}): ${error.message}`);
+    if(!u) throw new Error('Usuário não autenticado.');
+
+    const {data,error}=await client
+      .from('study_records')
+      .delete()
+      .eq('id',id)
+      .eq('user_id',u.id)
+      .select('id');
+
+    if(error){
+      throw new Error(`Supabase rejeitou a exclusão (${error.code||'sem código'}): ${error.message}`);
+    }
+
+    if(!data || data.length===0){
+      throw new Error('O registro não foi encontrado ou não pertence a esta conta. Nada foi apagado.');
+    }
+
     return true;
   };
 
@@ -873,14 +889,30 @@ verificarOperador();
   };
 
   window.deleteRecord = async function(id){
-    const r=state.records.find(x=>String(x.id)===String(id)); if(!r) return;
-    if(!confirm(`Apagar o registro de ${r.date} em ${r.subject}?\n\nEssa ação não pode ser desfeita.`)) return;
+    const r=state.records.find(x=>String(x.id)===String(id));
+    if(!r) return;
+
+    if(!confirm(`Apagar o registro de ${r.date} em ${r.subject}?\n\nQuestões: ${Number(r.total)||0}\nAcertos: ${Number(r.correct)||0}\n\nEssa ação não pode ser desfeita.`)) return;
+
     try{
-      await apagarRegistroNuvem(id);
-      state.records=state.records.filter(x=>String(x.id)!==String(id));
-      render();renderHomePerformance();renderPerformance();carregarRankingNuvem();
-      alert('Registro apagado da nuvem com sucesso.');
-    }catch(e){alert('Não foi possível apagar o registro: '+e.message);}
+      // Primeiro apaga na nuvem. Só alteramos a tela depois da confirmação do Supabase.
+      await apagarRegistroNuvem(r.id);
+
+      // Remove também do estado local, inclusive IDs vindos de registros antigos.
+      state.records=state.records.filter(x=>String(x.id)!==String(r.id));
+      save();
+
+      render();
+      renderHomePerformance();
+      renderPerformance();
+      if(typeof renderIntelligence==='function') renderIntelligence();
+      await carregarRankingNuvem();
+
+      alert('✓ Registro apagado com sucesso. O ranking foi atualizado.');
+    }catch(e){
+      // Se a nuvem recusou, o registro permanece na tela e no navegador.
+      alert('Não foi possível apagar o registro.\n\n'+e.message);
+    }
   };
 
   const oldOpen=window.abrirPainelAutenticado;
