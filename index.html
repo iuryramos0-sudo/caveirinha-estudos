@@ -27,169 +27,11 @@
 /* GRÁFICOS DIVERSIFICADOS */
 .bars{height:210px;display:flex;align-items:flex-end;gap:10px;padding:18px 4px 4px;border-bottom:1px solid #2b2e36}.barcol{position:relative;height:100%;flex:1;display:flex;flex-direction:column;justify-content:end;align-items:center;gap:9px}.bar{width:14px;max-width:14px;border-radius:999px;background:linear-gradient(#ff596c,#a51e35);min-height:4px;box-shadow:0 0 18px #e52d4733;position:relative;transition:height .5s cubic-bezier(.2,.8,.2,1)}.bar:before{content:"";position:absolute;width:22px;height:22px;border-radius:50%;left:50%;top:-8px;transform:translateX(-50%);background:#ff6677;border:3px solid #2a1118;box-shadow:0 0 14px #e52d4755}.barcol small{color:#777e89;font-size:10px}.barvalue{font-size:10px;color:#d7dbe1;font-weight:800;margin-bottom:2px}.donut-wrap{height:210px;display:grid;place-items:center}.donut{--p:0;--accent:var(--red2);width:165px;height:165px;border-radius:50%;background:conic-gradient(var(--accent) calc(var(--p)*1%),#292c34 0);position:relative;display:grid;place-items:center;box-shadow:0 0 30px #0004;transition:background 1s ease}.donut:after{content:"";position:absolute;width:118px;height:118px;border-radius:50%;background:#15171c;border:1px solid #30333b}.donut-center{position:relative;z-index:1;text-align:center}.donut-center b{display:block;font-size:30px;color:#fff}.donut-center small{display:block;color:#9ea4ae;font-size:10px;text-transform:uppercase;letter-spacing:.09em;margin-top:4px}.stock-chart{height:230px;position:relative;border:1px solid #292c34;border-radius:12px;overflow:hidden;background:linear-gradient(180deg,#17131a,#101116)}.stock-chart:before{content:"";position:absolute;inset:0;background:linear-gradient(#ffffff09 1px,transparent 1px),linear-gradient(90deg,#ffffff06 1px,transparent 1px);background-size:100% 25%,10% 100%;pointer-events:none}.stock-chart svg{position:absolute;inset:0;width:100%;height:100%}.stock-chart .stock-label{position:absolute;top:12px;left:14px;z-index:1;font-size:10px;color:#aeb4be;letter-spacing:.13em;text-transform:uppercase}.stock-chart .stock-change{position:absolute;top:10px;right:14px;z-index:1;font-weight:800}.stock-empty{height:100%;display:grid;place-items:center;text-align:center;color:var(--muted);font-size:12px;padding:30px}.stock-grid-labels{display:flex;justify-content:space-between;color:#707783;font-size:10px;margin-top:7px}
 @media(max-width:1050px){.stats{grid-template-columns:repeat(3,1fr)}.grid{grid-template-columns:1fr}}@media(max-width:720px){.app{display:block}.side{position:static;padding:16px}.sidefoot{display:none}.nav{display:flex;overflow:auto}.nav button{white-space:nowrap;padding:10px}.main{padding:22px 14px}.top{align-items:start;display:block}.top-actions{margin-top:15px;justify-content:space-between}.hero{grid-template-columns:auto 1fr}.hero .btn{grid-column:1/-1}.stats{grid-template-columns:repeat(2,1fr)}.card:last-child{grid-column:1/-1}.formgrid{grid-template-columns:1fr}.field.full{grid-column:auto}.actions{grid-column:auto}.sectiontitle{display:block}.sectiontitle .btn{margin-top:12px}.day{grid-template-columns:34px 1fr}.day .badge{display:none}.timer{font-size:57px}.home-performance-grid{grid-template-columns:1fr}.subject-detail{grid-template-columns:1fr 1fr}.stock-chart{height:210px}}
-</style>
-
-<style id="parabellum-functional-redesign">
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap');
-
-:root{
- --bg:#050609;--bg2:#080b10;--surface:#0d1117;--surface2:#111720;
- --surface3:#151b24;--line:rgba(255,255,255,.075);--line2:rgba(255,255,255,.12);
- --text:#f5f7fa;--muted:#87919e;--dim:#5e6875;
- --red:#e32643;--red2:#ff526a;--green:#31d38a;--gold:#e7b84d;
- --blue:#6da8ff;--purple:#a77bff;
- --shadow:0 18px 55px rgba(0,0,0,.32);
-}
-body{
- background:
- radial-gradient(900px 600px at 0% -10%,rgba(227,38,67,.13),transparent 60%),
- radial-gradient(800px 600px at 100% 20%,rgba(90,110,145,.07),transparent 65%),
- #050609!important;
- color:var(--text)!important;font-family:Inter,system-ui,sans-serif!important;
-}
-body:before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.035;
-background:linear-gradient(90deg,#fff 1px,transparent 1px),linear-gradient(#fff 1px,transparent 1px);background-size:48px 48px}
-body:after{content:"";position:fixed;left:0;right:0;top:0;height:2px;z-index:10000;
-background:linear-gradient(90deg,transparent,var(--red),var(--red2),var(--red),transparent);
-box-shadow:0 0 22px rgba(227,38,67,.5)}
-h1,h2,h3{font-family:"Barlow Condensed",sans-serif!important;letter-spacing:.035em!important;text-transform:uppercase}
-
-/* shell */
-.app{grid-template-columns:245px minmax(0,1fr)!important}
-.side{
-position:sticky!important;top:0!important;height:100vh!important;padding:0!important;
-background:linear-gradient(180deg,#080a0e,#0b0e13 60%,#07090c)!important;
-border-right:1px solid var(--line)!important;box-shadow:15px 0 55px rgba(0,0,0,.22)!important;
-overflow:auto!important
-}
-.brand{padding:24px 20px!important;margin:0!important;border-bottom:1px solid var(--line)!important}
-.brandmark{width:47px!important;height:47px!important;border-radius:14px!important;
-background:linear-gradient(145deg,var(--red2),#8f142b)!important;box-shadow:0 12px 30px rgba(227,38,67,.25)!important}
-.brand b{font-family:"Barlow Condensed",sans-serif!important;font-size:19px!important;letter-spacing:.11em!important}
-.brand span{color:#727d8b!important;font-size:8px!important}
-.online{margin:15px!important;padding:9px 10px!important;border-radius:9px!important;
-background:rgba(49,211,138,.035)!important;border:1px solid rgba(49,211,138,.13)!important}
-.nav{padding:2px 11px!important;gap:4px!important}
-.nav button{padding:11px 12px!important;border-radius:10px!important;color:#7f8a98!important}
-.nav button.active{background:linear-gradient(90deg,rgba(227,38,67,.17),rgba(227,38,67,.025))!important;
-border-color:rgba(227,38,67,.18)!important;box-shadow:inset 3px 0 var(--red)!important;color:#fff!important}
-.nav button:hover{background:rgba(255,255,255,.035)!important;color:#fff!important}
-.sidefoot{padding:20px!important;color:#4f5965!important}
-
-/* top */
-.main{max-width:1500px!important;padding:0 32px 50px!important}
-.top{position:sticky!important;top:0!important;z-index:30!important;
-margin:0 -32px 24px!important;padding:22px 32px 18px!important;
-background:rgba(5,6,9,.78)!important;backdrop-filter:blur(18px)!important;
-border-bottom:1px solid var(--line)!important}
-.top h1{font-size:40px!important;line-height:.9!important}
-.eyebrow{color:#788493!important;font-size:9px!important;letter-spacing:.17em!important}
-.sync{padding:8px 10px!important;border:1px solid var(--line)!important;border-radius:999px!important;background:#0c1016!important}
-.btn{background:#151a22!important;border:1px solid var(--line2)!important;border-radius:10px!important}
-.btn.primary{background:linear-gradient(135deg,var(--red2),var(--red))!important;border-color:transparent!important;
-box-shadow:0 9px 28px rgba(227,38,67,.2)!important}
-
-/* login */
-#modal-acesso{background:rgba(3,4,7,.95)!important;backdrop-filter:blur(18px)!important}
-#modal-acesso>div{background:linear-gradient(145deg,#11161e,#080b10)!important;
-border:1px solid var(--line2)!important;border-radius:22px!important;
-box-shadow:0 35px 120px rgba(0,0,0,.7)!important}
-
-/* hero */
-.hero{min-height:205px!important;padding:29px!important;border-radius:20px!important;
-border:1px solid rgba(227,38,67,.27)!important;
-background:
-radial-gradient(circle at 100% 0,rgba(255,82,106,.18),transparent 35%),
-linear-gradient(135deg,#171017,#0c1118 70%)!important;box-shadow:var(--shadow)!important}
-.emblem{width:78px!important;height:78px!important;border-radius:21px!important;
-background:rgba(227,38,67,.08)!important;border:1px solid rgba(255,82,106,.35)!important;
-box-shadow:inset 0 0 30px rgba(227,38,67,.08)!important}
-.hero h2{font-size:32px!important}
-.hero p{color:#a4aeb9!important}
-.status{color:#ff7183!important;background:rgba(227,38,67,.09)!important;
-border-color:rgba(255,82,106,.25)!important}
-
-/* KPI */
-.stats{gap:11px!important;margin:14px 0!important}
-.stats .card{min-height:118px!important;padding:18px!important;border-radius:15px!important;
-background:linear-gradient(145deg,#11161e,#0b0f15)!important;border:1px solid var(--line)!important;
-box-shadow:0 12px 40px rgba(0,0,0,.20)!important}
-.stats .card:before{content:"";display:block;width:22px;height:3px;border-radius:99px;background:var(--red);
-margin-bottom:12px;box-shadow:0 0 12px rgba(227,38,67,.35)}
-.stats .card:nth-child(2):before{background:var(--blue)}
-.stats .card:nth-child(3):before{background:var(--green)}
-.stats .card:nth-child(4):before{background:var(--gold)}
-.stats .card:nth-child(5):before{background:var(--purple)}
-.card strong{font-family:"Barlow Condensed",sans-serif!important;font-size:36px!important}
-.card label{font-size:9px!important;color:#7f8996!important;letter-spacing:.12em!important}
-
-/* panels and sections */
-.panel{border:1px solid var(--line)!important;border-radius:16px!important;
-background:linear-gradient(145deg,rgba(16,21,29,.96),rgba(8,11,16,.98))!important;
-box-shadow:0 14px 45px rgba(0,0,0,.21)!important}
-.panelhead{border-bottom:1px solid rgba(255,255,255,.045)!important;padding-bottom:13px!important}
-.panel h3{font-size:21px!important}
-.tag{background:rgba(255,255,255,.03)!important;border-color:var(--line2)!important;border-radius:999px!important}
-
-/* make the dashboard breathing room */
-.intel-grid{gap:14px!important;margin-bottom:14px!important}
-.home-performance-grid{gap:14px!important}
-.grid{gap:14px!important}
-.performance-card{border-radius:15px!important}
-
-/* charts */
-.bars{height:220px!important}
-.bar{width:14px!important;border-radius:999px!important;
-background:linear-gradient(#ff6278,#8f142b)!important;box-shadow:0 0 16px rgba(227,38,67,.18)!important}
-.bar:before{background:#ff6378!important;box-shadow:0 0 12px rgba(227,38,67,.35)!important}
-.heatcell{border-radius:4px!important}
-.radar-wrap{height:220px!important}
-.stock-chart{border-radius:14px!important;background:linear-gradient(180deg,#151019,#0e1116)!important}
-.donut{filter:drop-shadow(0 8px 25px rgba(0,0,0,.28))}
-
-/* rows */
-.missionrow,.errorrow{border-bottom:1px solid rgba(255,255,255,.055)!important;padding:13px 0!important}
-.day{background:linear-gradient(145deg,#11161e,#0c1016)!important;border-color:var(--line)!important;
-border-radius:12px!important}
-.day:hover{border-color:rgba(227,38,67,.30)!important;transform:translateX(2px)!important}
-.day.done{background:rgba(49,211,138,.055)!important;border-color:rgba(49,211,138,.18)!important}
-.progress{background:#20252d!important}
-.progress i{background:linear-gradient(90deg,var(--red),var(--red2))!important}
-
-/* forms */
-.field input,.field select,.field textarea{background:#080b10!important;border-color:var(--line2)!important;border-radius:10px!important}
-.field input:focus,.field select:focus,.field textarea:focus{border-color:rgba(227,38,67,.55)!important;
-box-shadow:0 0 0 3px rgba(227,38,67,.08)!important}
-.topic-option{background:#0c1016!important;border-color:var(--line)!important;border-radius:10px!important}
-.topic-option:has(input:checked){background:rgba(227,38,67,.08)!important;border-color:rgba(227,38,67,.45)!important}
-
-/* ranking */
-.ranking-item,.rank-item{background:#10151c!important;border-color:var(--line)!important;border-radius:12px!important}
-.ranking-item:hover,.rank-item:hover{border-color:rgba(227,38,67,.25)!important}
-.rank-1,.ranking-item:first-child{background:rgba(232,184,77,.055)!important;border-color:rgba(232,184,77,.25)!important}
-
-/* account / notices */
-.notice{background:rgba(227,38,67,.055)!important;border-color:rgba(227,38,67,.18)!important;border-radius:11px!important}
-.delete-btn{border-radius:8px!important}
-
-/* mobile */
-@media(max-width:1050px){
- .app{grid-template-columns:220px 1fr!important}.stats{grid-template-columns:repeat(3,1fr)!important}
- .main{padding:0 22px 40px!important}.top{margin:0 -22px 22px!important;padding-left:22px!important;padding-right:22px!important}
- .grid,.home-performance-grid{grid-template-columns:1fr!important}
-}
-@media(max-width:720px){
- .app{display:block!important}.side{position:relative!important;height:auto!important}
- .nav{display:flex!important;overflow:auto!important}.nav button{min-width:max-content!important}
- .main{padding:0 12px 30px!important}.top{position:relative!important;margin:0 -12px 18px!important;padding:17px 12px!important}
- .top h1{font-size:33px!important}.hero{grid-template-columns:1fr!important;padding:22px!important}
- .hero .btn{width:100%!important}.stats{grid-template-columns:1fr 1fr!important}
- .stats .card:last-child{grid-column:1/-1}.panel{padding:17px!important}
- .formgrid{grid-template-columns:1fr!important}.field.full{grid-column:auto!important}
- .actions{grid-column:auto!important}.timer{font-size:58px!important}
-}
-</style>
-
+<style>
+.auth-input{transition:.18s;border:1px solid #343740!important}
+.auth-input:focus{border-color:#e52d47!important;box-shadow:0 0 0 3px #e52d471c;outline:none}
+.auth-hint{font-size:11px;color:#7f8691;line-height:1.5;margin-top:8px}
+</style></style>
 </head>
 <body>
 
@@ -203,23 +45,25 @@ box-shadow:0 0 0 3px rgba(227,38,67,.08)!important}
     </div>
 
     <div id="tela-login">
-      <div style="display: grid; gap: 15px; margin-bottom: 25px;">
-        <input type="text" id="login-nome" placeholder="Seu Nome de Guerra" style="width: 100%; padding: 14px; background: #0f1115; border: 1px solid #343740; color: #fff; border-radius: 8px; outline: none; font-size: 14px;">
-        <input type="password" id="login-pin" placeholder="PIN de 4 dígitos" maxlength="4" inputmode="numeric" pattern="[0-9]{4}" style="width: 100%; padding: 14px; background: #0f1115; border: 1px solid #343740; color: #fff; border-radius: 8px; outline: none; font-size: 14px; letter-spacing: 6px;">
+      <div style="display:grid;gap:15px;margin-bottom:25px;">
+        <input type="email" class="auth-input" id="login-email" placeholder="Seu e-mail" autocomplete="email" style="width:100%;padding:14px;background:#0f1115;border:1px solid #343740;color:#fff;border-radius:8px;outline:none;font-size:14px;">
+        <input type="password" class="auth-input" id="login-senha" placeholder="Sua senha" autocomplete="current-password" style="width:100%;padding:14px;background:#0f1115;border:1px solid #343740;color:#fff;border-radius:8px;outline:none;font-size:14px;">
       </div>
-      <button onclick="entrarComPin()" style="width: 100%; padding: 15px; background: #e52d47; color: #fff; border: none; font-weight: 700; cursor: pointer; border-radius: 8px; text-transform: uppercase; font-size: 14px; letter-spacing: 1px; transition: 0.2s; box-shadow: 0 8px 22px #df294333;">Entrar na Missão</button>
-      <p style="text-align: center; margin-top: 25px; font-size: 12px; color: #969ca8;">Ainda não tem conta? <a href="#" onclick="mostrarCadastro();return false;" style="color:#ff6d7c;font-weight:700;text-decoration:none;">Criar agora</a></p>
+      <button onclick="entrarComEmail()" style="width:100%;padding:15px;background:#e52d47;color:#fff;border:none;font-weight:700;cursor:pointer;border-radius:8px;text-transform:uppercase;font-size:14px;letter-spacing:1px;transition:.2s;box-shadow:0 8px 22px #df294333;">Entrar na Missão</button>
+      <p style="text-align:center;margin-top:25px;font-size:12px;color:#969ca8;">Ainda não tem conta? <a href="#" onclick="mostrarCadastro();return false;" style="color:#ff6d7c;font-weight:700;text-decoration:none;">Criar agora</a></p>
+      <p style="text-align:center;margin-top:10px;font-size:11px;color:#737984;">Acesso protegido pelo Supabase Auth.</p>
     </div>
 
     <div id="tela-cadastro" style="display:none">
-      <div style="display: grid; gap: 15px; margin-bottom: 25px;">
-        <input type="text" id="cadastro-nome" placeholder="Escolha seu Nome de Guerra (Ex: Sgt Iury)" style="width: 100%; padding: 14px; background: #0f1115; border: 1px solid #343740; color: #fff; border-radius: 8px; outline: none; font-size: 14px;">
-        <input type="password" id="cadastro-pin" placeholder="Crie um PIN de 4 dígitos" maxlength="4" inputmode="numeric" pattern="[0-9]{4}" style="width: 100%; padding: 14px; background: #0f1115; border: 1px solid #343740; color: #fff; border-radius: 8px; outline: none; font-size: 14px; letter-spacing: 6px;">
-        <input type="password" id="cadastro-pin-confirma" placeholder="Confirme o PIN" maxlength="4" inputmode="numeric" pattern="[0-9]{4}" style="width: 100%; padding: 14px; background: #0f1115; border: 1px solid #343740; color: #fff; border-radius: 8px; outline: none; font-size: 14px; letter-spacing: 6px;">
+      <div style="display:grid;gap:15px;margin-bottom:25px;">
+        <input type="text" class="auth-input" id="cadastro-nome" placeholder="Nome de Guerra (Ex: Sgt Iury)" autocomplete="nickname" style="width:100%;padding:14px;background:#0f1115;border:1px solid #343740;color:#fff;border-radius:8px;outline:none;font-size:14px;">
+        <input type="email" class="auth-input" id="cadastro-email" placeholder="Seu e-mail" autocomplete="email" style="width:100%;padding:14px;background:#0f1115;border:1px solid #343740;color:#fff;border-radius:8px;outline:none;font-size:14px;">
+        <input type="password" class="auth-input" id="cadastro-senha" placeholder="Crie uma senha (mín. 6 caracteres)" autocomplete="new-password" style="width:100%;padding:14px;background:#0f1115;border:1px solid #343740;color:#fff;border-radius:8px;outline:none;font-size:14px;">
+        <input type="password" class="auth-input" id="cadastro-senha-confirma" placeholder="Confirme a senha" autocomplete="new-password" style="width:100%;padding:14px;background:#0f1115;border:1px solid #343740;color:#fff;border-radius:8px;outline:none;font-size:14px;">
       </div>
-      <button onclick="criarConta()" style="width: 100%; padding: 15px; background: #e52d47; color: #fff; border: none; font-weight: 700; cursor: pointer; border-radius: 8px; text-transform: uppercase; font-size: 14px; letter-spacing: 1px; transition: 0.2s; box-shadow: 0 8px 22px #df294333;">Criar Conta e Entrar</button>
-      <p style="text-align: center; margin-top: 25px; font-size: 12px; color: #969ca8;">Guarde o PIN — ele não pode ser recuperado.</p>
-      <p style="text-align: center; margin-top: 12px; font-size: 12px; color: #969ca8;">Já tem conta? <a href="#" onclick="mostrarLogin();return false;" style="color:#ff6d7c;font-weight:700;text-decoration:none;">Entrar</a></p>
+      <button onclick="criarConta()" style="width:100%;padding:15px;background:#e52d47;color:#fff;border:none;font-weight:700;cursor:pointer;border-radius:8px;text-transform:uppercase;font-size:14px;letter-spacing:1px;transition:.2s;box-shadow:0 8px 22px #df294333;">Criar Conta e Entrar</button>
+      <p style="text-align:center;margin-top:25px;font-size:12px;color:#969ca8;">A senha é gerenciada com segurança pelo Supabase.</p>
+      <p style="text-align:center;margin-top:12px;font-size:12px;color:#969ca8;">Já tem conta? <a href="#" onclick="mostrarLogin();return false;" style="color:#ff6d7c;font-weight:700;text-decoration:none;">Entrar</a></p>
     </div>
 
   </div>
@@ -230,9 +74,9 @@ box-shadow:0 0 0 3px rgba(227,38,67,.08)!important}
 <main class="main">
 <header class="top"><div><p class="eyebrow" id="today"></p><h1 id="pageTitle">Central de comando</h1></div><div class="top-actions"><span class="sync" id="nome-aluno-logado"><i class="dot" style="background:var(--green)"></i> não identificado</span><button class="btn primary" onclick="openPage('registro')">＋ Registrar agora</button></div></header>
 <section class="page active" id="dashboard"><div class="hero"><div class="emblem">◎</div><div><p class="eyebrow">OPERAÇÃO DO DIA <span class="status">EM ANDAMENTO</span></p><h2 id="todayStudyTitle">Carregando missão...</h2><p id="todayStudyText">Identificando o conteúdo programado para hoje.</p><small id="examCountdown" style="display:block;margin-top:8px;color:#ff8794;font-weight:800;letter-spacing:.04em"></small></div><button class="btn" onclick="openPage('conteudos')">Abrir cronograma →</button></div><div class="stats"><div class="card"><label>Cronograma PMMA</label><strong id="sProgress">0%</strong><small id="sNext">Próximo alvo: Dia 1</small></div><div class="card"><label>Questões</label><strong id="sQuestions">0</strong><small id="sCorrect">0 certas</small></div><div class="card"><label>Precisão média</label><strong id="sAccuracy">0%</strong><small>registros locais</small></div><div class="card"><label>Tempo estudado</label><strong id="sMinutes">0m</strong><small>sessões registradas</small></div><div class="card"><label>Sequência</label><strong id="sStreak">0 dias</strong><small>dias com registro</small></div></div><div class="intel-grid"><div class="panel"><div class="panelhead"><div><p class="eyebrow">CENTRAL DE INTELIGÊNCIA</p><h3>Assuntos que precisam melhorar</h3></div><span class="tag">prioridade automática</span></div><div id="priorityList" class="priority-list"></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">DIAGNÓSTICO DOS ERROS</p><h3>Onde você está perdendo pontos</h3></div><span class="tag">por motivo</span></div><div id="errorAnalysis" class="error-grid"></div><div class="trend-box" id="trendMetrics"></div></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">MAPA DE FRAQUEZAS</p><h3>Disciplinas que precisam melhorar</h3></div><span class="tag">por desempenho</span></div><div id="disciplineWeakness" class="priority-list"></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">MISSÃO DE HOJE</p><h3>Execução diária</h3></div><span class="tag" id="dailyLabel">sem meta definida</span></div><div id="dailyMission" class="mission-progress"></div></div><div class="home-performance-grid"><div class="panel"><div class="panelhead"><div><p class="eyebrow">DESEMPENHO OPERACIONAL</p><h3>Por disciplina</h3></div><button class="btn" onclick="openPage('desempenho')">Detalhar</button></div><div id="homeDisciplineProgress"><div class="performance-empty">Registre questões para liberar o desempenho por disciplina.</div></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">ÍNDICE DE EVOLUÇÃO</p><h3>Curva de desempenho</h3></div><span class="tag">estilo mercado</span></div><div class="stock-chart" id="stockChart"><div class="stock-empty">Aguardando registros para desenhar a tendência.</div></div><div class="stock-grid-labels"><span>início</span><span>último registro</span></div></div></div><div class="grid"><div class="panel"><div class="panelhead"><div><p class="eyebrow">RITMO DE EVOLUÇÃO</p><h3>Questões por dia</h3></div><span class="tag">últimos 7 dias</span></div><div class="bars" id="chart"></div><div class="heatmap" id="heatmap" style="margin-top:16px"></div><div class="heatmap-caption"><span>28 dias atrás</span><span>hoje</span></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">RADAR TÁTICO</p><h3>Forças e alertas</h3></div><span style="color:var(--red2);font-size:20px">◉</span></div><div class="radar-wrap"><div id="radarChart" style="width:100%;height:100%"></div></div></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">PRÓXIMAS MISSÕES</p><h3>Seu cronograma em campo</h3></div><button class="btn" onclick="openPage('conteudos')">Ver todos</button></div><div id="nextMissions"></div></div></section>
-<section class="page" id="registro"><div class="sectiontitle"><div><p class="eyebrow">REGISTRO SEGURO LOCAL</p><h2>Adicionar estudo</h2><p class="muted">O registro é salvo imediatamente neste navegador.</p></div></div><div class="panel"><form class="formgrid" id="studyForm"><div class="field"><span>Data</span><input required type="date" name="date" id="studyDate"></div><div class="field"><span>Tipo</span><select name="type"><option value="questoes">Questões</option><option value="sessao">Sessão de estudo</option></select></div><div class="field"><span>Disciplina</span><select required name="subject" id="subjectSelect"><option value="">Selecione a disciplina</option></select></div><div class="field"><span>Assuntos <small style="color:var(--red2)">(marque um ou vários)</small></span><div id="topicOptions" class="topic-options" aria-live="polite"><div class="topic-empty">Selecione primeiro a disciplina</div></div><div id="topicCount" class="topic-count">0 assuntos selecionados</div></div><div class="field"><span>Questões respondidas</span><input type="number" min="0" value="0" name="total"></div><div class="field"><span>Questões certas</span><input type="number" min="0" value="0" name="correct"></div><div class="field"><span>Tempo estudado (minutos)</span><input required type="number" min="0" value="30" name="minutes"></div><div class="field"><span>Banca</span><input name="board" placeholder="Ex.: Cebraspe"></div><div class="field"><span>Motivo do erro</span><select name="reason"><option value="none">Sem erro / não se aplica</option><option>Falta de conhecimento</option><option>Distração</option><option>Interpretação</option><option>Cálculo</option><option>Dúvida</option></select></div><div class="field full"><span>Observações</span><textarea name="notes" placeholder="O que precisa ser revisto?"></textarea></div><div class="actions"><button class="btn" type="reset">Limpar</button><button class="btn primary" type="submit">Salvar registro</button></div></form></div><div class="panel"><p class="eyebrow">HISTÓRICO RECENTE</p><div id="historyPreview"></div></div></section>
-<section class="page" id="questoes"><div class="sectiontitle"><div><p class="eyebrow">HISTÓRICO CONSULTÁVEL</p><h2>Questões registradas</h2><p class="muted">Tudo permanece salvo localmente neste dispositivo.</p></div><button class="btn primary" onclick="openPage('registro')">＋ Novo registro</button></div><div class="panel"><table class="history"><thead><tr><th>Data</th><th>Disciplina</th><th>Assunto</th><th>Total</th><th>Certas</th><th>Precisão</th><th></th></tr></thead><tbody id="historyTable"></tbody></table></div></section>
-<section class="page" id="desempenho"><div class="sectiontitle"><div><p class="eyebrow">ANÁLISE TÁTICA DOS REGISTROS</p><h2>Desempenho por disciplina</h2><p class="muted">Abra cada disciplina para ver a precisão, volume e tempo por assunto.</p><div class="notice" style="margin-top:12px;margin-bottom:0">Quando um registro tiver vários assuntos, o total de questões, acertos e minutos será dividido igualmente entre eles. Para uma precisão individual exata, registre cada assunto separadamente.</div></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">PROGRESSO DO PLANO</p><h3>30 dias de operação</h3></div><span class="tag" id="performancePlanLabel">0/30 concluídos · 30 pendentes</span></div><div class="progress"><i id="performancePlanBar" style="width:0%"></i></div><div class="daygrid" id="dayProgress"></div></div><div id="performanceBySubject"></div></section><section class="page" id="conteudos"><div class="sectiontitle"><div><p class="eyebrow">PLANO PMMA · 30 DIAS</p><h2>Cronograma de conteúdos</h2><p class="muted">Clique em uma missão para marcar como concluída. O status fica salvo no navegador.</p></div></div><div id="curriculum"></div></section>
+<section class="page" id="registro"><div class="sectiontitle"><div><p class="eyebrow">REGISTRO SEGURO NA NUVEM</p><h2>Adicionar estudo</h2><p class="muted">O registro é salvo na conta do usuário e sincronizado com o Supabase.</p></div></div><div class="panel"><form class="formgrid" id="studyForm"><div class="field"><span>Data</span><input required type="date" name="date" id="studyDate"></div><div class="field"><span>Tipo</span><select name="type"><option value="questoes">Questões</option><option value="sessao">Sessão de estudo</option></select></div><div class="field"><span>Disciplina</span><select required name="subject" id="subjectSelect"><option value="">Selecione a disciplina</option></select></div><div class="field"><span>Assuntos <small style="color:var(--red2)">(marque um ou vários)</small></span><div id="topicOptions" class="topic-options" aria-live="polite"><div class="topic-empty">Selecione primeiro a disciplina</div></div><div id="topicCount" class="topic-count">0 assuntos selecionados</div></div><div class="field"><span>Questões respondidas</span><input type="number" min="0" value="0" name="total"></div><div class="field"><span>Questões certas</span><input type="number" min="0" value="0" name="correct"></div><div class="field"><span>Tempo estudado (minutos)</span><input required type="number" min="0" value="30" name="minutes"></div><div class="field"><span>Banca</span><input name="board" placeholder="Ex.: Cebraspe"></div><div class="field"><span>Motivo do erro</span><select name="reason"><option value="none">Sem erro / não se aplica</option><option>Falta de conhecimento</option><option>Distração</option><option>Interpretação</option><option>Cálculo</option><option>Dúvida</option></select></div><div class="field full"><span>Observações</span><textarea name="notes" placeholder="O que precisa ser revisto?"></textarea></div><div class="actions"><button class="btn" type="reset">Limpar</button><button class="btn primary" type="submit">Salvar registro</button></div></form></div><div class="panel"><p class="eyebrow">HISTÓRICO RECENTE</p><div id="historyPreview"></div></div></section>
+<section class="page" id="questoes"><div class="sectiontitle"><div><p class="eyebrow">HISTÓRICO CONSULTÁVEL</p><h2>Questões registradas</h2><p class="muted">Os registros são carregados da sua conta no Supabase.</p></div><button class="btn primary" onclick="openPage('registro')">＋ Novo registro</button></div><div class="panel"><table class="history"><thead><tr><th>Data</th><th>Disciplina</th><th>Assunto</th><th>Total</th><th>Certas</th><th>Precisão</th><th></th></tr></thead><tbody id="historyTable"></tbody></table></div></section>
+<section class="page" id="desempenho"><div class="sectiontitle"><div><p class="eyebrow">ANÁLISE TÁTICA DOS REGISTROS</p><h2>Desempenho por disciplina</h2><p class="muted">Abra cada disciplina para ver a precisão, volume e tempo por assunto.</p><div class="notice" style="margin-top:12px;margin-bottom:0">Quando um registro tiver vários assuntos, o total de questões, acertos e minutos será dividido igualmente entre eles. Para uma precisão individual exata, registre cada assunto separadamente.</div></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">PROGRESSO DO PLANO</p><h3>30 dias de operação</h3></div><span class="tag" id="performancePlanLabel">0/30 concluídos · 30 pendentes</span></div><div class="progress"><i id="performancePlanBar" style="width:0%"></i></div><div class="daygrid" id="dayProgress"></div></div><div id="performanceBySubject"></div></section><section class="page" id="conteudos"><div class="sectiontitle"><div><p class="eyebrow">PLANO PMMA · 30 DIAS</p><h2>Cronograma de conteúdos</h2><p class="muted">Clique em uma missão para marcar como concluída. O status fica salvo na sua conta no Supabase.</p></div></div><div id="curriculum"></div></section>
 
 <section class="page" id="novocronograma"><div class="sectiontitle"><div><p class="eyebrow">MONTAGEM DE CICLO</p><h2>Novo Cronograma</h2><p class="muted">Gere um cronograma com a quantidade de dias que quiser, distribuindo automaticamente os tópicos do edital atual. <span id="cronAtualInfo"></span></p></div></div>
 
@@ -260,7 +104,7 @@ box-shadow:0 0 0 3px rgba(227,38,67,.08)!important}
 
 </section>
 <section class="page" id="ranking"><div class="sectiontitle"><div><p class="eyebrow">COMPETIÇÃO DA COMUNIDADE</p><h2>🏆 Rankings</h2><p class="muted">Duas formas de subir: resolver questões e cumprir o cronograma.</p></div></div><div class="grid"><div class="panel"><div class="panelhead"><div><p class="eyebrow">VOLUME DE EXECUÇÃO</p><h3>Ranking por questões</h3></div><span class="tag">total registrado</span></div><div id="rankingQuestions"></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">CONSISTÊNCIA</p><h3>Ranking por cronograma</h3></div><span class="tag">% concluído</span></div><div id="rankingProgress"></div></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">SUA POSIÇÃO</p><h3>Resumo competitivo</h3></div></div><div id="rankingSummary"></div></div></section><section class="page" id="foco"><div class="sectiontitle"><div><p class="eyebrow">PROTOCOLO DE CONCENTRAÇÃO</p><h2>Modo foco</h2><p class="muted">Um ciclo de 25 minutos para executar uma única missão.</p></div></div><div class="panel focusbox"><div class="timer" id="timer">25:00</div><p class="muted">Afaste o ruído. Execute. Registre a vitória.</p><div class="focusbuttons"><button class="btn primary" id="focusToggle" onclick="toggleFocus()">Iniciar ciclo</button><button class="btn" onclick="resetFocus()">Reiniciar</button><button class="btn" onclick="saveFocus()">Salvar ciclo</button></div></div></section>
-<section class="page" id="backup"><div class="sectiontitle"><div><p class="eyebrow">PROTEÇÃO DO HISTÓRICO</p><h2>Backup pessoal</h2><p class="muted">Exporte seus dados antes de trocar de computador ou limpar o navegador.</p></div></div><div class="panel"><div class="notice">Este arquivo usa armazenamento local. O histórico fica salvo após fechar o navegador, mas pode ser apagado se os dados do site forem limpos. Faça backups periódicos.</div><div class="backup"><button class="btn primary" onclick="exportData()">↓ Baixar backup JSON</button><label class="btn">↑ Importar backup JSON<input hidden type="file" accept="application/json" onchange="importData(event)"></label><button class="btn" onclick="clearData()">Apagar meus dados</button><button class="btn" onclick="openPage('conta')">👤 Gerenciar minha conta →</button></div><p class="muted" style="margin-top:17px">O backup inclui registros, conclusão do cronograma e ciclos de foco deste navegador.</p></div></section>
+<section class="page" id="backup"><div class="sectiontitle"><div><p class="eyebrow">PROTEÇÃO DO HISTÓRICO</p><h2>Backup pessoal</h2><p class="muted">Exporte seus dados antes de trocar de computador ou limpar o navegador.</p></div></div><div class="panel"><div class="notice">Seus dados principais ficam no Supabase. O backup JSON é uma cópia pessoal adicional para segurança.</div><div class="backup"><button class="btn primary" onclick="exportData()">↓ Baixar backup JSON</button><label class="btn">↑ Importar backup JSON<input hidden type="file" accept="application/json" onchange="importData(event)"></label><button class="btn" onclick="clearData()">Apagar meus dados</button><button class="btn" onclick="openPage('conta')">👤 Gerenciar minha conta →</button></div><p class="muted" style="margin-top:17px">O backup inclui registros, conclusão do cronograma e ciclos de foco deste navegador.</p></div></section>
 
 <section class="page" id="conta"><div class="sectiontitle"><div><p class="eyebrow">IDENTIFICAÇÃO DO RECRUTA</p><h2>Minha Conta</h2><p class="muted">Operador logado: <b id="contaNomeAtual">—</b></p></div></div>
 
@@ -270,13 +114,7 @@ box-shadow:0 0 0 3px rgba(227,38,67,.08)!important}
 <div class="actions"><button class="btn primary" type="submit">Salvar novo nome</button></div>
 </form></div>
 
-<div class="panel"><div class="panelhead"><div><h3>Trocar PIN</h3><p class="muted" style="margin:4px 0 0">Por segurança o site nunca guarda seu PIN em texto puro, só um hash — por isso não dá pra "mostrar" o PIN atual. Pra trocar, confirme o atual e defina um novo.</p></div></div>
-<form class="formgrid" id="formTrocarPin" onsubmit="trocarPinOperador(event)">
-<div class="field"><label>PIN atual</label><input type="password" id="conta-pin-atual" maxlength="4" inputmode="numeric" pattern="[0-9]{4}" placeholder="••••" required></div>
-<div class="field"><label>PIN novo</label><input type="password" id="conta-pin-novo" maxlength="4" inputmode="numeric" pattern="[0-9]{4}" placeholder="••••" required></div>
-<div class="field full"><label>Confirmar PIN novo</label><input type="password" id="conta-pin-novo-confirma" maxlength="4" inputmode="numeric" pattern="[0-9]{4}" placeholder="••••" required></div>
-<div class="actions"><button class="btn primary" type="submit">Trocar PIN</button></div>
-</form></div>
+<div class="panel"><div class="panelhead"><div><h3>Segurança da conta</h3><p class="muted" style="margin:4px 0 0">A senha é administrada pelo Supabase Auth e não fica armazenada no código do site. Para alterar a senha, usaremos o fluxo seguro de recuperação de senha do Supabase.</p></div></div><button class="btn" onclick="alert('Vamos ativar a recuperação de senha por e-mail na próxima etapa.')">Alterar senha</button></div>
 
 <div class="panel"><div class="panelhead"><div><h3>Sair da conta</h3><p class="muted" style="margin:4px 0 0">Desconecta este aparelho e volta pra tela de login. Seus dados na nuvem continuam intactos.</p></div></div>
 <button class="btn" onclick="sairOperador()">Sair</button></div>
@@ -311,11 +149,25 @@ function getTopicStats(){const m={};state.records.forEach(r=>{const ts=Array.isA
 let rankingGlobal = [];
 async function carregarRankingNuvem() {
   if (!window.supabaseClient) return;
-  const { data, error } = await window.supabaseClient.from('ranking').select('nome, questoes_resolvidas, questoes_corretas, cronograma_concluido, cronograma_total, ultimo_login');
-  if (!error && data) {
-    rankingGlobal = data;
-    renderRanking();
+  const { data, error } = await window.supabaseClient
+    .from('ranking_publico')
+    .select('user_id, nome, questoes_resolvidas, questoes_corretas, taxa_acerto, progresso_cronograma, ultima_atualizacao')
+    .order('questoes_resolvidas', { ascending: false });
+
+  if (error) {
+    console.warn('Ranking público:', error.message);
+    return;
   }
+
+  rankingGlobal = (data || []).map(x => ({
+    ...x,
+    acertos: Number(x.questoes_corretas) || 0,
+    cronograma_concluido: Math.round((Number(x.progresso_cronograma) || 0) * 30 / 100),
+    cronograma_total: 30,
+    ultimo_login: x.ultima_atualizacao
+  }));
+
+  renderRanking();
 }
 
 async function atualizarProgressoNuvem() {
@@ -327,7 +179,7 @@ async function atualizarProgressoNuvem() {
   const meC = state.records.reduce((a,r)=>a+(Number(r.correct)||0),0);
   const meDone = state.done.filter(Boolean).length;
 
-  const { error: syncError } = await window.supabaseClient.rpc('sincronizar_progresso', {
+  await window.supabaseClient.rpc('sincronizar_progresso', {
     p_nome: nomeAtual,
     p_pin_hash: pinHash,
     p_questoes: meQ,
@@ -335,7 +187,7 @@ async function atualizarProgressoNuvem() {
     p_cronograma: meDone,
     p_cronograma_total: curriculum.length
   });
-  if (syncError) console.warn('Falha ao sincronizar progresso:', syncError);
+
   carregarRankingNuvem();
 }
 
@@ -432,7 +284,7 @@ function renderRanking(){
 
   const comMetricas = lista.map(x=>({
     ...x,
-    precisao: x.questoes_resolvidas ? Math.round((x.questoes_corretas||0)/x.questoes_resolvidas*100) : 0,
+    precisao: x.questoes_resolvidas ? Math.round((x.acertos||0)/x.questoes_resolvidas*100) : 0,
     percCronograma: x.cronograma_total ? Math.round((x.cronograma_concluido||0)/x.cronograma_total*100) : 0
   }));
 
@@ -674,8 +526,8 @@ render();renderHomePerformance();renderPerformance();
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-const SUPABASE_URL = "https://nvmmzwaezgfifqwtxdyo.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_se9TL5vs1Xki9syaBaBQUA_jIlqKE6b";
+const SUPABASE_URL = "https://flhksnfqqsxkkqvgjyia.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_X6Qo07R5atDibWBFt3aGxA_dzvkWsb9";
 
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 window.supabaseClient = supabaseClient;
@@ -686,16 +538,62 @@ async function sha256Hex(texto) {
   return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
-function verificarOperador() {
-  const nomeSalvo = localStorage.getItem('parabellum_operador');
-  const pinSalvo = localStorage.getItem('parabellum_pin_hash');
-  if (nomeSalvo && pinSalvo) {
-    document.getElementById('modal-acesso').style.display = 'none';
-    document.getElementById('nome-aluno-logado').innerHTML = `<i class="dot" style="background:var(--green)"></i> Operador: ${nomeSalvo}`;
-    registrarAcessoNuvem();
-    carregarDadosNuvem();
-    carregarRankingNuvem();
-    atualizarProgressoNuvem();
+async function atualizarUltimoAcesso(userId) {
+  if (!userId) return;
+  const agora = new Date().toISOString();
+  const { error } = await window.supabaseClient
+    .from('profiles')
+    .update({ last_seen_at: agora })
+    .eq('id', userId);
+  if (error) console.warn('Não foi possível atualizar último acesso:', error.message);
+}
+
+async function carregarPerfilAtual(user) {
+  if (!user) return null;
+  let { data, error } = await window.supabaseClient.from('profiles').select('id, display_name, last_seen_at, created_at').eq('id', user.id).maybeSingle();
+  if (!data && !error) {
+    const nome = user.user_metadata?.display_name || user.email?.split('@')[0] || 'Recruta';
+    const result = await window.supabaseClient.from('profiles').upsert({ id: user.id, display_name: nome }, { onConflict: 'id' }).select('id, display_name, last_seen_at, created_at').single();
+    data = result.data; error = result.error;
+  }
+  if (error || !data) {
+    console.error('Perfil:', error);
+    alert('Login autenticado, mas o perfil não pôde ser carregado.\n\n' + (error?.message || 'Perfil inexistente.'));
+    return null;
+  }
+  await window.supabaseClient.from('study_goals').upsert({ user_id: user.id }, { onConflict: 'user_id' });
+  window.usuarioAtual = user; window.perfilAtual = data;
+  localStorage.setItem('parabellum_user_id', user.id);
+  localStorage.setItem('parabellum_operador', data.display_name || user.user_metadata?.display_name || user.email?.split('@')[0] || 'Recruta');
+  return data;
+}
+
+async function abrirPainelAutenticado(user) {
+  const perfil = await carregarPerfilAtual(user);
+  if (!perfil) return;
+
+  document.getElementById('modal-acesso').style.display = 'none';
+  const nome = perfil.display_name || 'Recruta';
+  document.getElementById('nome-aluno-logado').innerHTML = `<i class="dot" style="background:var(--green)"></i> Operador: ${nome}`;
+  document.getElementById('contaNomeAtual').textContent = nome;
+
+  await atualizarUltimoAcesso(user.id);
+  carregarRankingNuvem();
+  carregarDadosNuvem();
+  render();
+}
+
+async function verificarOperador() {
+  const { data, error } = await window.supabaseClient.auth.getSession();
+
+  if (error) {
+    console.error('Sessão:', error);
+    document.getElementById('modal-acesso').style.display = 'flex';
+    return;
+  }
+
+  if (data.session?.user) {
+    await abrirPainelAutenticado(data.session.user);
   } else {
     document.getElementById('modal-acesso').style.display = 'flex';
   }
@@ -705,192 +603,133 @@ function mostrarCadastro(){
   document.getElementById('tela-login').style.display = 'none';
   document.getElementById('tela-cadastro').style.display = 'block';
 }
+
 function mostrarLogin(){
   document.getElementById('tela-cadastro').style.display = 'none';
   document.getElementById('tela-login').style.display = 'block';
 }
 
 async function criarConta() {
-  const nomeInput = document.getElementById('cadastro-nome').value.trim();
-  const pinInput = document.getElementById('cadastro-pin').value.trim();
-  const pinConfirma = document.getElementById('cadastro-pin-confirma').value.trim();
+  const nome = document.getElementById('cadastro-nome').value.trim();
+  const email = document.getElementById('cadastro-email').value.trim().toLowerCase();
+  const senha = document.getElementById('cadastro-senha').value;
+  const confirma = document.getElementById('cadastro-senha-confirma').value;
 
-  if (!nomeInput) return alert("Escolha um Nome de Guerra para criar sua conta.");
-  if (!/^\d{4}$/.test(pinInput)) return alert("O PIN precisa ter exatamente 4 números.");
-  if (pinInput !== pinConfirma) return alert("Os PINs não conferem. Digite o mesmo PIN nos dois campos.");
+  if (!nome) return alert('Escolha um Nome de Guerra.');
+  if (!email || !email.includes('@')) return alert('Informe um e-mail válido.');
+  if (senha.length < 6) return alert('A senha precisa ter pelo menos 6 caracteres.');
+  if (senha !== confirma) return alert('As senhas não conferem.');
 
-  const pinHash = await sha256Hex(pinInput);
-
-  const { data, error } = await window.supabaseClient.rpc('criar_operador', {
-    p_nome: nomeInput,
-    p_pin_hash: pinHash
+  const { data, error } = await window.supabaseClient.auth.signUp({
+    email,
+    password: senha,
+    options: {
+      data: { display_name: nome }
+    }
   });
 
   if (error) {
-    alert('ERRO TÉCNICO (manda esse texto pro suporte):\n\n' + (error.message || JSON.stringify(error)));
+    alert('Não foi possível criar a conta:\n\n' + error.message);
     return;
   }
 
-  if (!data || !data.ok) {
-    alert(data && data.erro ? data.erro : 'Não foi possível criar a conta. Esse nome já pode estar em uso.');
+  if (!data.user) {
+    alert('A conta não foi criada. Tente novamente.');
     return;
   }
 
-  localStorage.setItem('parabellum_operador', nomeInput);
-  localStorage.setItem('parabellum_pin_hash', pinHash);
-  document.getElementById('modal-acesso').style.display = 'none';
-  document.getElementById('nome-aluno-logado').innerHTML = `<i class="dot" style="background:var(--green)"></i> Operador: ${nomeInput}`;
+  if (!data.session) {
+    alert('Conta criada! Se o Supabase estiver configurado para confirmar e-mail, confirme o e-mail recebido e depois faça login.');
+    mostrarLogin();
+    document.getElementById('login-email').value = email;
+    return;
+  }
 
-  registrarAcessoNuvem();
-  await carregarDadosNuvem();
-  atualizarProgressoNuvem();
-  carregarRankingNuvem();
+  await abrirPainelAutenticado(data.user);
   alert('Conta criada com sucesso! Bem-vindo à Operação.');
 }
 
-async function entrarComPin() {
-  const nomeInput = document.getElementById('login-nome').value.trim();
-  const pinInput = document.getElementById('login-pin').value.trim();
-
-  if (!nomeInput) return alert("Digite o seu Nome de Guerra para entrar.");
-  if (!/^\d{4}$/.test(pinInput)) return alert("O PIN precisa ter exatamente 4 números.");
-
-  const pinHash = await sha256Hex(pinInput);
-
-  const { data, error } = await window.supabaseClient.rpc('login_operador', {
-    p_nome: nomeInput,
-    p_pin_hash: pinHash
-  });
-
+async function entrarComEmail() {
+  const email = document.getElementById('login-email').value.trim().toLowerCase();
+  const senha = document.getElementById('login-senha').value;
+  if (!email || !senha) return alert('Informe e-mail e senha.');
+  const { data, error } = await window.supabaseClient.auth.signInWithPassword({ email, password: senha });
   if (error) {
-    alert('ERRO TÉCNICO (manda esse texto pro suporte):\n\n' + (error.message || JSON.stringify(error)));
-    return;
+    const msg = String(error.message || 'Erro desconhecido');
+    if (/email not confirmed|email.*confirm/i.test(msg)) alert('Seu e-mail ainda não foi confirmado.\n\nConfirme o e-mail enviado pelo Supabase e tente novamente.');
+    else if (/invalid login credentials/i.test(msg)) alert('E-mail ou senha incorretos.\n\nConfira os dados e tente novamente.');
+    else alert('Falha no acesso:\n\n' + msg);
+    console.error('Supabase Auth:', error); return;
   }
-
-  if (!data || !data.ok) {
-    alert(data && data.erro ? data.erro : 'PIN incorreto para este nome. Tente novamente.');
-    return;
-  }
-
-  localStorage.setItem('parabellum_operador', nomeInput);
-  localStorage.setItem('parabellum_pin_hash', pinHash);
-  document.getElementById('modal-acesso').style.display = 'none';
-  document.getElementById('nome-aluno-logado').innerHTML = `<i class="dot" style="background:var(--green)"></i> Operador: ${nomeInput}`;
-
-  registrarAcessoNuvem();
-  await carregarDadosNuvem();
-  atualizarProgressoNuvem();
-  carregarRankingNuvem();
+  if (!data?.user) return alert('O Supabase não retornou o usuário autenticado.');
+  await abrirPainelAutenticado(data.user);
 }
 
-function sairOperador() {
+async function sairOperador() {
+  const { error } = await window.supabaseClient.auth.signOut();
+  if (error) {
+    alert('Erro ao sair: ' + error.message);
+    return;
+  }
+
+  window.usuarioAtual = null;
+  window.perfilAtual = null;
+  localStorage.removeItem('parabellum_user_id');
   localStorage.removeItem('parabellum_operador');
   localStorage.removeItem('parabellum_pin_hash');
   location.reload();
 }
 
 function renderConta() {
-  const nome = localStorage.getItem('parabellum_operador') || '—';
+  const nome = window.perfilAtual?.display_name || localStorage.getItem('parabellum_operador') || '—';
   const el = document.getElementById('contaNomeAtual');
   if (el) el.textContent = nome;
+  const input = document.getElementById('conta-nome-novo');
+  if (input && !input.value) input.value = nome === '—' ? '' : nome;
 }
 
 async function renomearOperador(e) {
   e.preventDefault();
-  const nomeAtual = localStorage.getItem('parabellum_operador');
-  const pinHash = localStorage.getItem('parabellum_pin_hash');
+  const user = window.usuarioAtual;
   const nomeNovo = document.getElementById('conta-nome-novo').value.trim();
 
+  if (!user) return alert('Você precisa estar logado.');
   if (!nomeNovo) return alert('Digite o novo nome de guerra.');
 
-  const { data, error } = await window.supabaseClient.rpc('renomear_operador', {
-    p_nome_atual: nomeAtual,
-    p_pin_hash: pinHash,
-    p_nome_novo: nomeNovo
-  });
+  const { data, error } = await window.supabaseClient
+    .from('profiles')
+    .update({ display_name: nomeNovo })
+    .eq('id', user.id)
+    .select('id, display_name, last_seen_at, created_at')
+    .single();
 
   if (error) {
-    alert('ERRO TÉCNICO (manda esse texto pro suporte):\n\n' + (error.message || JSON.stringify(error)));
-    return;
-  }
-  if (!data || !data.ok) {
-    alert(data && data.erro ? data.erro : 'Não foi possível renomear.');
+    alert('Não foi possível renomear: ' + error.message);
     return;
   }
 
-  localStorage.setItem('parabellum_operador', data.nome);
-  document.getElementById('nome-aluno-logado').innerHTML = `<i class="dot" style="background:var(--green)"></i> Operador: ${data.nome}`;
+  window.perfilAtual = data;
+  localStorage.setItem('parabellum_operador', nomeNovo);
+  document.getElementById('nome-aluno-logado').innerHTML = `<i class="dot" style="background:var(--green)"></i> Operador: ${nomeNovo}`;
   document.getElementById('formRenomear').reset();
-  alert('Nome atualizado com sucesso!');
   renderConta();
   carregarRankingNuvem();
-}
-
-async function trocarPinOperador(e) {
-  e.preventDefault();
-  const nome = localStorage.getItem('parabellum_operador');
-  const pinAtual = document.getElementById('conta-pin-atual').value.trim();
-  const pinNovo = document.getElementById('conta-pin-novo').value.trim();
-  const pinNovoConfirma = document.getElementById('conta-pin-novo-confirma').value.trim();
-
-  if (!/^\d{4}$/.test(pinAtual) || !/^\d{4}$/.test(pinNovo)) {
-    return alert('O PIN precisa ter exatamente 4 números.');
-  }
-  if (pinNovo !== pinNovoConfirma) {
-    return alert('Os PINs novos não conferem.');
-  }
-
-  const hashAtual = await sha256Hex(pinAtual);
-  const hashNovo = await sha256Hex(pinNovo);
-
-  const { data, error } = await window.supabaseClient.rpc('trocar_pin_operador', {
-    p_nome: nome,
-    p_pin_hash_atual: hashAtual,
-    p_pin_hash_novo: hashNovo
-  });
-
-  if (error) {
-    alert('ERRO TÉCNICO (manda esse texto pro suporte):\n\n' + (error.message || JSON.stringify(error)));
-    return;
-  }
-  if (!data || !data.ok) {
-    alert(data && data.erro ? data.erro : 'Não foi possível trocar o PIN.');
-    return;
-  }
-
-  localStorage.setItem('parabellum_pin_hash', hashNovo);
-  document.getElementById('formTrocarPin').reset();
-  alert('PIN atualizado com sucesso!');
+  alert('Nome atualizado com sucesso!');
 }
 
 async function apagarConta() {
-  const nome = localStorage.getItem('parabellum_operador');
-  if (!confirm(`Tem certeza que quer apagar o operador "${nome}" da nuvem? Isso apaga seu ranking e progresso salvo no Supabase. Essa ação não pode ser desfeita.`)) {
-    return;
-  }
-  const pin = prompt('Pra confirmar, digite seu PIN de 4 dígitos:');
-  if (!pin || !/^\d{4}$/.test(pin)) {
-    return alert('PIN inválido. Operação cancelada.');
-  }
-
-  const pinHash = await sha256Hex(pin);
-  const { data, error } = await window.supabaseClient.rpc('apagar_operador', {
-    p_nome: nome,
-    p_pin_hash: pinHash
-  });
-
-  if (error) {
-    alert('ERRO TÉCNICO (manda esse texto pro suporte):\n\n' + (error.message || JSON.stringify(error)));
-    return;
-  }
-  if (!data || !data.ok) {
-    alert(data && data.erro ? data.erro : 'Não foi possível apagar a conta.');
-    return;
-  }
-
-  alert('Conta apagada da nuvem. Você será desconectado.');
-  sairOperador();
+  alert('A exclusão definitiva da conta Auth será liberada na próxima etapa, depois de criarmos a função segura de administração no Supabase. Por enquanto, use "Sair" para encerrar a sessão.');
 }
+
+window.supabaseClient.auth.onAuthStateChange(async (event, session) => {
+  if (session?.user) {
+    if (event === 'SIGNED_IN' || event === 'INITIAL_SESSION' || event === 'TOKEN_REFRESHED') {
+      await abrirPainelAutenticado(session.user);
+    }
+  } else if (event === 'SIGNED_OUT') {
+    document.getElementById('modal-acesso').style.display = 'flex';
+  }
+});
 
 verificarOperador();
 </script>
