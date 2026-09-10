@@ -304,33 +304,27 @@ async function sincronizarCronogramaNuvem() {
       if (!item?.id) continue;
 
       const concluido = !!state.done[i];
-      const { data: existente, error: erroBusca } = await window.supabaseClient
+
+      // A tabela cronograma_progresso do seu banco não possui a coluna "id".
+      // Por isso, a sincronização usa apenas user_id + cronograma_id.
+      // Primeiro remove o estado anterior desse item e depois grava o estado atual.
+      const { error: erroLimpeza } = await window.supabaseClient
         .from('cronograma_progresso')
-        .select('id')
+        .delete()
         .eq('user_id', userId)
-        .eq('cronograma_id', item.id)
-        .order('id', { ascending: false })
-        .limit(1);
-      if (erroBusca) throw erroBusca;
+        .eq('cronograma_id', item.id);
+      if (erroLimpeza) throw erroLimpeza;
 
-      const payload = {
-        user_id: userId,
-        cronograma_id: item.id,
-        concluido,
-        concluido_em: concluido ? new Date().toISOString() : null
-      };
-
-      if (existente && existente.length) {
-        const { error } = await window.supabaseClient
+      if (concluido) {
+        const { error: erroInsert } = await window.supabaseClient
           .from('cronograma_progresso')
-          .update({ concluido: payload.concluido, concluido_em: payload.concluido_em })
-          .eq('id', existente[0].id);
-        if (error) throw error;
-      } else {
-        const { error } = await window.supabaseClient
-          .from('cronograma_progresso')
-          .insert(payload);
-        if (error) throw error;
+          .insert({
+            user_id: userId,
+            cronograma_id: item.id,
+            concluido: true,
+            concluido_em: new Date().toISOString()
+          });
+        if (erroInsert) throw erroInsert;
       }
     }
 
