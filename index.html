@@ -146,14 +146,16 @@ let subjectCatalogPadrao = JSON.parse(JSON.stringify(subjectCatalog));
 const editalSalvo = JSON.parse(localStorage.getItem('operacao-aprovacao-edital')||'null');
 if (editalSalvo) { subjectCatalog = editalSalvo; }
 
-let curriculum = JSON.parse(localStorage.getItem('operacao-aprovacao-cronograma')||'null') || curriculumPadrao;
+let curriculum = curriculumPadrao.slice();
 
-let state=JSON.parse(localStorage.getItem('operacao-aprovacao-local')||'null')||{records:[],done:[],focus:[],goals:{dailyQuestions:200,dailyMinutes:300}};state.goals=state.goals||{dailyQuestions:200,dailyMinutes:300};let focusSeconds=1500,focusTimer=null;
-const $=id=>document.getElementById(id);const save=()=>localStorage.setItem('operacao-aprovacao-local',JSON.stringify(state));const topicOptions=$('topicOptions');const topicCount=$('topicCount');
+let state={records:[],done:[],focus:[],goals:{dailyQuestions:200,dailyMinutes:300}};let focusSeconds=1500,focusTimer=null;
+const $=id=>document.getElementById(id);
+const save=()=>{};const topicOptions=$('topicOptions');const topicCount=$('topicCount');
 $('today').textContent=new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long'});$('studyDate').value=new Date().toISOString().slice(0,10);const subjectSelect=$('subjectSelect');Object.keys(subjectCatalog).forEach(subject=>subjectSelect.insertAdjacentHTML('beforeend',`<option value="${subject}">${subject}</option>`));function updateTopicCount(){const selected=[...document.querySelectorAll('input[name="topic"]:checked')];topicCount.textContent=`${selected.length} assunto${selected.length===1?'':'s'} selecionado${selected.length===1?'':'s'}`}function updateTopicOptions(){const subject=subjectSelect.value;topicOptions.innerHTML=subject?subjectCatalog[subject].map(topic=>`<label class="topic-option"><input type="checkbox" name="topic" value="${topic}"><span>${topic}</span></label>`).join(''):'<div class="topic-empty">Selecione primeiro a disciplina</div>';topicOptions.querySelectorAll('input[name="topic"]').forEach(input=>input.addEventListener('change',updateTopicCount));updateTopicCount()}subjectSelect.addEventListener('change',updateTopicOptions);$('studyForm').addEventListener('reset',()=>setTimeout(updateTopicOptions,0));
 function openPage(page){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));$(page).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===page));const names={dashboard:'Central de comando',registro:'Registrar estudo',questoes:'Questões registradas',desempenho:'Desempenho',conteudos:'Cronograma PMMA',foco:'Modo foco',backup:'Backup pessoal',ranking:'Rankings',conta:'Minha Conta',novocronograma:'Novo Cronograma',edital:'Edital Verticalizado',retafinal:'PMMA 2026 · Reta Final 09/09–10/10'};$('pageTitle').textContent=names[page];render();renderHomePerformance();renderPerformance();if(page==='conta')renderConta();if(page==='novocronograma')renderNovoCronograma();if(page==='edital')renderEdital();if(page==='retafinal')carregarRetaFinal();scrollTo({top:0,behavior:'smooth'})}document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>openPage(b.dataset.page));
-$('studyForm').onsubmit=e=>{e.preventDefault();const f=new FormData(e.target),subject=String(f.get('subject')||''),topics=[...document.querySelectorAll('input[name="topic"]:checked')].map(input=>input.value).filter(Boolean),total=+f.get('total')||0,correct=+f.get('correct')||0;if(!Object.prototype.hasOwnProperty.call(subjectCatalog,subject)){alert('Selecione uma disciplina válida do edital.');return}if(!topics.length||topics.some(topic=>!subjectCatalog[subject].includes(topic))){alert('Selecione um ou mais assuntos válidos para a disciplina escolhida.');return}if(correct>total){alert('As questões certas não podem ser maiores que o total.');return}const novoRegistro={id:Date.now(),date:f.get('date'),type:f.get('type'),subject,topics,topic:topics.join(' · '),total,correct,minutes:+f.get('minutes')||0,board:f.get('board'),reason:f.get('reason'),notes:f.get('notes')};state.records.unshift(novoRegistro);save();e.target.reset();$('studyDate').value=new Date().toISOString().slice(0,10);alert('Registro salvo e sincronizado com a nuvem.');render();renderHomePerformance();renderPerformance();atualizarProgressoNuvem();registrarEstudoNuvem(novoRegistro);};
-function deleteRecord(id){const record=state.records.find(item=>item.id===id);if(!record)return;if(confirm(`Apagar o registro de ${record.date} em ${record.subject}? Esta ação não pode ser desfeita.`)){state.records=state.records.filter(item=>item.id!==id);save();render();renderHomePerformance();renderPerformance();atualizarProgressoNuvem();apagarRegistroNuvem(id);}}function toggleDay(i){state.done[i]=!state.done[i];save();render();renderHomePerformance();renderPerformance();atualizarProgressoNuvem();sincronizarCronogramaNuvem();}
+$('studyForm').onsubmit=async e=>{e.preventDefault();const f=new FormData(e.target),subject=String(f.get('subject')||''),topics=[...document.querySelectorAll('input[name="topic"]:checked')].map(input=>input.value).filter(Boolean),total=+f.get('total')||0,correct=+f.get('correct')||0;if(!Object.prototype.hasOwnProperty.call(subjectCatalog,subject)){alert('Selecione uma disciplina válida do edital.');return}if(!topics.length||topics.some(topic=>!subjectCatalog[subject].includes(topic))){alert('Selecione um ou mais assuntos válidos para a disciplina escolhida.');return}if(correct>total){alert('As questões certas não podem ser maiores que o total.');return}const registro={date:f.get('date'),type:f.get('type'),subject,topics,topic:topics.join(' · '),total,correct,minutes:+f.get('minutes')||0,board:f.get('board')||'',reason:f.get('reason')||'none',notes:f.get('notes')||''};const btn=e.target.querySelector('button[type=submit]');if(btn)btn.disabled=true;try{const saved=await registrarEstudoNuvem(registro);if(!saved)throw new Error('O Supabase não confirmou o salvamento.');e.target.reset();$('studyDate').value=new Date().toISOString().slice(0,10);await carregarDadosNuvem();await carregarRankingNuvem();alert('Registro salvo no Supabase com sucesso.');}catch(err){console.error(err);alert('Não foi possível salvar no Supabase:\n\n'+err.message);}finally{if(btn)btn.disabled=false;}}
+async function deleteRecord(id){if(!id)return;if(!confirm('Apagar este registro do Supabase? Esta ação não pode ser desfeita.'))return;try{const u=await authenticatedUser();const {error}=await window.supabaseClient.from('study_records').delete().eq('id',id).eq('user_id',u.id);if(error)throw error;await carregarDadosNuvem();await carregarRankingNuvem();alert('Registro apagado do Supabase.');}catch(e){console.error(e);alert('Não foi possível apagar no Supabase:\n\n'+e.message)}}
+async function toggleDay(i){const item=curriculum[i];if(!item||item[4]==null)return alert('Este item ainda não está cadastrado no Supabase.');try{const u=await authenticatedUser();const novo=!state.done[i];const payload={user_id:u.id,cronograma_id:item[4],concluido:novo,concluido_em:novo?new Date().toISOString():null,updated_at:new Date().toISOString()};const {error}=await window.supabaseClient.from('cronograma_progresso').upsert(payload,{onConflict:'user_id,cronograma_id'});if(error)throw error;await carregarDadosNuvem();await carregarRankingNuvem();}catch(e){console.error(e);alert('Não foi possível salvar o progresso no Supabase:\n\n'+e.message)}}
 function renderCurriculum(){const ranges=[];const tamanho=7;for(let start=0;start<curriculum.length;start+=tamanho){const end=Math.min(start+tamanho,curriculum.length);const numSemana=Math.floor(start/tamanho)+1;const ultimo=(end===curriculum.length)&&((end-start)<tamanho);const label=ultimo?'FECHAMENTO DO CICLO':('SEMANA '+numSemana);const title=ultimo?'Fechamento do Ciclo':('Semana '+numSemana);ranges.push([start,end,label,title]);}let out='';for(const [start,end,label,title] of ranges){out+=`<div class="panel week"><div class="panelhead"><div><p class="eyebrow">${label}</p><h3>${title}</h3></div><span class="tag">${state.done.slice(start,end).filter(Boolean).length}/${end-start} concluídos</span></div>`;for(let i=start;i<end;i++){let c=curriculum[i],done=!!state.done[i];out+=`<button class="day ${done?'done':''}" onclick="toggleDay(${i})"><span class="daynum">${String(i+1).padStart(2,'0')}</span><span><b>${c[0]}${c[2]?' · '+c[2]:''}</b><small>${['Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado','Domingo','Segunda-feira'][i%7]} · ${c[1]}</small></span><span class="badge ${c[3]==='simulado'?'simulado':''}">${done?'✓ CONCLUÍDO':c[3]==='simulado'?'SIMULADO':c[3]==='final'?'RETA FINAL':'ESTUDAR'}</span></button>`}out+='</div>'}return out}
 	function renderHomePerformance(){const grouped={};state.records.forEach(r=>{const subject=r.subject||'Sem disciplina';if(!grouped[subject])grouped[subject]={total:0,correct:0,minutes:0};grouped[subject].total+=Number(r.total)||0;grouped[subject].correct+=Number(r.correct)||0;grouped[subject].minutes+=Number(r.minutes)||0});const entries=Object.entries(grouped).sort((a,b)=>b[1].total-a[1].total);$('homeDisciplineProgress').innerHTML=entries.length?entries.map(([subject,g])=>{const accuracy=g.total?Math.round(g.correct/g.total*100):0;return `<div class="discipline-row"><div class="discipline-meta"><b>${subject}</b><strong>${accuracy}%</strong></div><div class="progress"><i style="width:${accuracy}%"></i></div><div class="discipline-sub"><span>${g.correct} de ${g.total} questões certas</span><span>${g.minutes} min</span></div></div>`}).join(''):'<div class="performance-empty">Registre questões para liberar o desempenho por disciplina.</div>';const ordered=[...state.records].filter(r=>Number(r.total)>0).sort((a,b)=>(a.date||'').localeCompare(b.date||'')||Number(a.id)-Number(b.id));if(!ordered.length){$('stockChart').innerHTML='<div class="stock-empty">Aguardando registros para desenhar a tendência.</div>';return}let cumulativeTotal=0,cumulativeCorrect=0;const values=ordered.map(r=>{cumulativeTotal+=Number(r.total)||0;cumulativeCorrect+=Number(r.correct)||0;return cumulativeTotal?Math.round(cumulativeCorrect/cumulativeTotal*100):0});const W=1000,H=220,padX=28,padY=32,min=0,max=100;const pts=values.map((value,i)=>({x:values.length===1?W/2:padX+i*(W-padX*2)/(values.length-1),y:H-padY-(value-min)/(max-min)*(H-padY*2)}));const linePath=smoothPath(pts);const areaPath=`${linePath} L ${pts[pts.length-1].x.toFixed(1)},${H-padY} L ${pts[0].x.toFixed(1)},${H-padY} Z`;const first=values[0],last=values[values.length-1],change=last-first;const changeLabel=`${change>=0?'+':''}${change} pts`;const yTicks=[0,25,50,75,100];const yTickLines=yTicks.map(t=>{const y=H-padY-(t-min)/(max-min)*(H-padY*2);return `<line x1="${padX}" y1="${y}" x2="${W-padX}" y2="${y}" stroke="#ffffff0d"/><text x="${padX-6}" y="${y+3}" text-anchor="end" font-size="14" fill="#6b7280">${t}</text>`}).join('');$('stockChart').innerHTML=`<span class="stock-label">PRECISÃO ACUMULADA</span><span class="stock-change" style="color:${change>=0?'var(--green)':'var(--red2)'}">${changeLabel}</span><svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="Gráfico de evolução da precisão acumulada">${yTickLines}<path d="${areaPath}" fill="${change>=0?'#39d98a1c':'#ff52671c'}" stroke="none"/><path d="${linePath}" fill="none" stroke="${change>=0?'#39d98a':'#ff5267'}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>${pts.map((p,i)=>`<circle cx="${p.x}" cy="${p.y}" r="6" fill="${change>=0?'#39d98a':'#ff5267'}" stroke="#17131a" stroke-width="3"><title>${values[i]}% no registro ${i+1}</title></circle>`).join('')}</svg>`}
 function smoothPath(pts){if(!pts.length)return'';if(pts.length===1)return`M ${pts[0].x},${pts[0].y}`;let d=`M ${pts[0].x.toFixed(1)},${pts[0].y.toFixed(1)}`;for(let i=0;i<pts.length-1;i++){const p0=pts[i-1]||pts[i],p1=pts[i],p2=pts[i+1],p3=pts[i+2]||p2;const cp1x=p1.x+(p2.x-p0.x)/6,cp1y=p1.y+(p2.y-p0.y)/6;const cp2x=p2.x-(p3.x-p1.x)/6,cp2y=p2.y-(p3.y-p1.y)/6;d+=` C ${cp1x.toFixed(1)},${cp1y.toFixed(1)} ${cp2x.toFixed(1)},${cp2y.toFixed(1)} ${p2.x.toFixed(1)},${p2.y.toFixed(1)}`}return d}
@@ -161,121 +163,14 @@ function renderPerformance(){const grouped={};state.records.forEach(r=>{const su
 function getTopicStats(){const m={};state.records.forEach(r=>{const ts=Array.isArray(r.topics)&&r.topics.length?r.topics:[r.topic||'Assunto não informado'];const share=1/ts.length;ts.forEach(t=>{if(!m[t])m[t]={subject:r.subject,total:0,correct:0,last:r.date};m[t].total+=(Number(r.total)||0)*share;m[t].correct+=(Number(r.correct)||0)*share;if((r.date||'')>(m[t].last||''))m[t].last=r.date})});return Object.entries(m).map(([topic,v])=>({...v,topic,accuracy:v.total?Math.round(v.correct/v.total*100):0}))}function renderIntelligence(){const topics=getTopicStats().filter(x=>x.total>0);const scored=topics.map(x=>{const days=Math.max(0,(Date.now()-new Date(x.last+'T12:00:00'))/86400000);return {...x,score:(100-x.accuracy)+Math.min(30,days*2)+Math.max(0,20-Math.min(20,x.total/5))}}).sort((a,b)=>b.score-a.score).slice(0,3);$('priorityList').innerHTML=scored.length?scored.map((x,i)=>`<div class="priority-item ${x.accuracy<60?'high':x.accuracy<75?'med':'good'}"><div class="priority-top"><b>${i+1}. ${x.subject} — ${x.topic}</b><strong>${x.accuracy}%</strong></div><small>${Math.round(x.total)} questões · última atividade: ${new Date(x.last+'T12:00:00').toLocaleDateString('pt-BR')} · ${x.accuracy<60?'REVISAR URGENTEMENTE':x.accuracy<75?'PRECISA DE REFORÇO':'MANTER DOMÍNIO'}</small></div>`).join(''):'<div class="performance-empty">Registre questões para o sistema identificar suas prioridades.</div>';const disciplines={};state.records.forEach(r=>{const sub=r.subject||'Sem disciplina';if(!disciplines[sub])disciplines[sub]={total:0,correct:0,last:r.date};disciplines[sub].total+=Number(r.total)||0;disciplines[sub].correct+=Number(r.correct)||0;if((r.date||'')>(disciplines[sub].last||''))disciplines[sub].last=r.date});const weak=Object.entries(disciplines).map(([subject,v])=>({...v,subject,accuracy:v.total?Math.round(v.correct/v.total*100):0})).filter(x=>x.total>0).sort((a,b)=>a.accuracy-b.accuracy).slice(0,5);renderMapaFraquezas(weak);const reasons={};state.records.forEach(r=>{if(r.reason&&r.reason!=='none')reasons[r.reason]=(reasons[r.reason]||0)+Math.max(0,(Number(r.total)||0)-(Number(r.correct)||0))});const re=Object.entries(reasons).sort((a,b)=>b[1]-a[1]);const max=Math.max(1,...re.map(x=>x[1]));$('errorAnalysis').innerHTML=re.length?re.map(([k,v])=>`<div class="error-line"><div><b>${k}</b><div class="progress" style="margin-top:6px"><i style="width:${v/max*100}%"></i></div></div><strong>${v}</strong></div>`).join(''):'<div class="performance-empty">Ainda não há erros classificados.</div>';const ordered=[...state.records].filter(r=>Number(r.total)>0).sort((a,b)=>String(a.date).localeCompare(String(b.date)));const recent=ordered.slice(-Math.min(100,ordered.length));const lastAcc=recent.reduce((a,r)=>a+(Number(r.correct)||0),0)/(recent.reduce((a,r)=>a+(Number(r.total)||0),0)||1)*100;const allT=ordered.reduce((a,r)=>a+(Number(r.total)||0),0),allC=ordered.reduce((a,r)=>a+(Number(r.correct)||0),0);const overall=allT?allC/allT*100:0;const half=Math.ceil(recent.length/2);const a1=recent.slice(0,half),a2=recent.slice(half);const calc=a=>a.reduce((x,r)=>x+(Number(r.correct)||0),0)/(a.reduce((x,r)=>x+(Number(r.total)||0),0)||1)*100;const trend=recent.length>1?Math.round(calc(a2)-calc(a1)):0;$('trendMetrics').innerHTML=`<div class="trend-metric"><span>Média geral</span><b>${Math.round(overall)}%</b></div><div class="trend-metric"><span>Últimas 100</span><b>${Math.round(lastAcc)}%</b></div><div class="trend-metric"><span>Tendência</span><b>${trend>=0?'+':''}${trend} pts</b></div>`;const today=new Date().toISOString().slice(0,10);const todays=state.records.filter(r=>r.date===today);const q=todays.reduce((a,r)=>a+(Number(r.total)||0),0),mins=todays.reduce((a,r)=>a+(Number(r.minutes)||0),0),g=state.goals;$('dailyLabel').textContent=`${q}/${g.dailyQuestions} questões · ${mins}/${g.dailyMinutes} min`;$('dailyMission').innerHTML=`<div><b>Questões</b><small>${q} de ${g.dailyQuestions}</small><div class="progress"><i style="width:${Math.min(100,q/g.dailyQuestions*100)}%"></i></div></div><div><b>Tempo estudado</b><small>${mins} de ${g.dailyMinutes} minutos</small><div class="progress"><i style="width:${Math.min(100,mins/g.dailyMinutes*100)}%"></i></div></div>`}
 
 let rankingGlobal = [];
-async function carregarRankingNuvem() {
-  if (!window.supabaseClient) return;
-  const { data, error } = await window.supabaseClient
-    .from('ranking_publico')
-    .select('user_id, nome, questoes_resolvidas, questoes_corretas, taxa_acerto, progresso_cronograma, ultima_atualizacao')
-    .order('questoes_resolvidas', { ascending: false });
-
-  if (error) {
-    console.warn('Ranking público:', error.message);
-    return;
-  }
-
-  rankingGlobal = (data || []).map(x => ({
-    ...x,
-    acertos: Number(x.questoes_corretas) || 0,
-    cronograma_concluido: Math.round((Number(x.progresso_cronograma) || 0) * 30 / 100),
-    cronograma_total: 30,
-    ultimo_login: x.ultima_atualizacao
-  }));
-
-  renderRanking();
-}
-
-async function atualizarProgressoNuvem() {
-  if (!window.supabaseClient) return;
-  const nomeAtual = localStorage.getItem('parabellum_operador');
-  const pinHash = localStorage.getItem('parabellum_pin_hash');
-  if (!nomeAtual || !pinHash) return;
-  const meQ = state.records.reduce((a,r)=>a+(Number(r.total)||0),0);
-  const meC = state.records.reduce((a,r)=>a+(Number(r.correct)||0),0);
-  const meDone = state.done.filter(Boolean).length;
-
-  await window.supabaseClient.rpc('sincronizar_progresso', {
-    p_nome: nomeAtual,
-    p_pin_hash: pinHash,
-    p_questoes: meQ,
-    p_acertos: meC,
-    p_cronograma: meDone,
-    p_cronograma_total: curriculum.length
-  });
-
-  carregarRankingNuvem();
-}
-
-async function registrarEstudoNuvem(registro) {
-  if (!window.supabaseClient) return;
-  const nome = localStorage.getItem('parabellum_operador');
-  const pinHash = localStorage.getItem('parabellum_pin_hash');
-  if (!nome || !pinHash) return;
-  try {
-    await window.supabaseClient.rpc('registrar_estudo', { p_nome: nome, p_pin_hash: pinHash, p_registro: registro });
-  } catch(e) { console.warn('Falha ao sincronizar registro com a nuvem', e); }
-}
-
-async function apagarRegistroNuvem(registroId) {
-  if (!window.supabaseClient) return;
-  const nome = localStorage.getItem('parabellum_operador');
-  const pinHash = localStorage.getItem('parabellum_pin_hash');
-  if (!nome || !pinHash) return;
-  try {
-    await window.supabaseClient.rpc('apagar_registro_nuvem', { p_nome: nome, p_pin_hash: pinHash, p_registro_id: String(registroId) });
-  } catch(e) { console.warn('Falha ao apagar registro na nuvem', e); }
-}
-
-async function sincronizarCronogramaNuvem() {
-  if (!window.supabaseClient) return;
-  const nome = localStorage.getItem('parabellum_operador');
-  const pinHash = localStorage.getItem('parabellum_pin_hash');
-  if (!nome || !pinHash) return;
-  try {
-    await window.supabaseClient.rpc('sincronizar_cronograma', { p_nome: nome, p_pin_hash: pinHash, p_done: state.done });
-  } catch(e) { console.warn('Falha ao sincronizar cronograma com a nuvem', e); }
-}
-
-async function registrarAcessoNuvem() {
-  if (!window.supabaseClient) return;
-  const nome = localStorage.getItem('parabellum_operador');
-  const pinHash = localStorage.getItem('parabellum_pin_hash');
-  if (!nome || !pinHash) return;
-  try {
-    await window.supabaseClient.rpc('atualizar_login', { p_nome: nome, p_pin_hash: pinHash });
-  } catch(e) { console.warn('Falha ao registrar acesso', e); }
-}
-
-async function carregarDadosNuvem() {
-  if (!window.supabaseClient) return;
-  const nome = localStorage.getItem('parabellum_operador');
-  const pinHash = localStorage.getItem('parabellum_pin_hash');
-  if (!nome || !pinHash) return;
-  const { data, error } = await window.supabaseClient.rpc('obter_dados_nuvem', { p_nome: nome, p_pin_hash: pinHash });
-  if (error || !data || !data.ok) return;
-
-  const registrosNuvem = Array.isArray(data.registros) ? data.registros : [];
-  const doneNuvem = Array.isArray(data.done) ? data.done : null;
-
-  const idsLocais = new Set(state.records.map(r => String(r.id)));
-  const novos = registrosNuvem.filter(r => r && r.id != null && !idsLocais.has(String(r.id)));
-  let mudou = false;
-  if (novos.length) {
-    state.records = [...novos, ...state.records].sort((a,b)=> String(b.date||'').localeCompare(String(a.date||'')) || Number(b.id)-Number(a.id));
-    mudou = true;
-  }
-
-  if (doneNuvem && doneNuvem.length === state.done.length) {
-    const mesclado = state.done.map((v,i)=> v || !!doneNuvem[i]);
-    if (JSON.stringify(mesclado) !== JSON.stringify(state.done)) { state.done = mesclado; mudou = true; }
-  }
-
-  if (mudou) {
-    save();
-    render(); renderHomePerformance(); renderPerformance();
-    atualizarProgressoNuvem();
-  }
-}
-
+async function authenticatedUser(){const client=window.supabaseClient;if(!client)throw new Error('Supabase não inicializado.');const {data,error}=await client.auth.getUser();if(error)throw error;if(!data?.user)throw new Error('Usuário não autenticado.');window.usuarioAtual=data.user;return data.user;}
+async function carregarRankingNuvem(){if(!window.supabaseClient)return;const {data,error}=await window.supabaseClient.from('ranking_publico').select('user_id,nome,questoes_resolvidas,questoes_corretas,taxa_acerto,progresso_cronograma,ultima_atualizacao').order('questoes_resolvidas',{ascending:false});if(error){console.error('Ranking público:',error);return;}rankingGlobal=(data||[]).map(x=>({...x,acertos:Number(x.questoes_corretas)||0,cronograma_concluido:Math.round((Number(x.progresso_cronograma)||0)*30/100),cronograma_total:30,ultimo_login:x.ultima_atualizacao}));renderRanking();}
+async function carregarDadosNuvem(){const u=await authenticatedUser();const c=window.supabaseClient;const [rec,prog,goals,focus]=await Promise.all([c.from('study_records').select('*').eq('user_id',u.id).order('study_date',{ascending:false}).order('created_at',{ascending:false}),c.from('cronograma_progresso').select('cronograma_id,concluido').eq('user_id',u.id),c.from('study_goals').select('*').eq('user_id',u.id).maybeSingle(),c.from('focus_sessions').select('*').eq('user_id',u.id).order('started_at',{ascending:false})]);if(rec.error)throw rec.error;if(prog.error)throw prog.error;if(goals.error)throw goals.error;if(focus.error)throw focus.error;state.records=(rec.data||[]).map(r=>({id:r.id,date:r.study_date,type:r.type,subject:r.subject,topics:Array.isArray(r.topics)?r.topics:[],topic:(Array.isArray(r.topics)?r.topics:[]).join(' · '),total:Number(r.total)||0,correct:Number(r.correct)||0,minutes:Number(r.minutes)||0,board:r.board||'',reason:r.reason||'none',notes:r.notes||''}));state.done=Array.from({length:curriculum.length},()=>false);(prog.data||[]).forEach(x=>{const idx=curriculum.findIndex(item=>String(item[4])===String(x.cronograma_id));if(idx>=0)state.done[idx]=!!x.concluido});if(goals.data)state.goals={dailyQuestions:Number(goals.data.daily_questions)||200,dailyMinutes:Number(goals.data.daily_minutes)||300,targetAccuracy:Number(goals.data.target_accuracy)||80};state.focus=(focus.data||[]).map(x=>({date:x.started_at,minutes:Number(x.minutes)||0}));render();renderHomePerformance();renderPerformance();}
+async function registrarEstudoNuvem(registro){const u=await authenticatedUser();const payload={user_id:u.id,study_date:registro.date||new Date().toISOString().slice(0,10),type:registro.type||'questoes',subject:registro.subject,topics:Array.isArray(registro.topics)?registro.topics:[],total:Number(registro.total)||0,correct:Number(registro.correct)||0,minutes:Number(registro.minutes)||0,board:registro.board||'',reason:registro.reason||'none',notes:registro.notes||''};const {data,error}=await window.supabaseClient.from('study_records').insert(payload).select('*').single();if(error)throw error;return data;}
+async function salvarFocoNuvem(){const u=await authenticatedUser();const {error}=await window.supabaseClient.from('focus_sessions').insert({user_id:u.id,started_at:new Date(Date.now()-25*60000).toISOString(),ended_at:new Date().toISOString(),minutes:25});if(error)throw error;await carregarDadosNuvem();await carregarRankingNuvem();}
+async function atualizarProgressoNuvem(){await carregarDadosNuvem();await carregarRankingNuvem();}
+async function sincronizarCronogramaNuvem(){await carregarDadosNuvem();await carregarRankingNuvem();}
+async function registrarAcessoNuvem(){const u=await authenticatedUser();await window.supabaseClient.from('profiles').update({last_seen_at:new Date().toISOString()}).eq('id',u.id);}
 function formatarUltimoAcesso(iso){
   if(!iso) return 'sem registro';
   const d = new Date(iso);
@@ -385,7 +280,7 @@ function renderMapaFraquezas(weak){
     return `<div class="hbar-row"><div class="hbar-top"><b>${i+1}. ${x.subject}</b><span style="color:${color};font-weight:800">${x.accuracy}% · ${status}</span></div><div class="hbar-track"><div class="hbar-fill" style="width:${Math.max(6,x.accuracy)}%;background:linear-gradient(90deg,${color}99,${color})"></div></div><small style="color:var(--muted)">${Math.round(x.correct)} de ${Math.round(x.total)} certas</small></div>`;
   }).join('');
 }
-function updateTimer(){let m=String(Math.floor(focusSeconds/60)).padStart(2,'0'),s=String(focusSeconds%60).padStart(2,'0');$('timer').textContent=m+':'+s;if(focusSeconds===0){clearInterval(focusTimer);focusTimer=null;alert('Ciclo concluído. Registre sua vitória!')}}function toggleFocus(){if(focusTimer){clearInterval(focusTimer);focusTimer=null;$('focusToggle').textContent='Retomar ciclo'}else{focusTimer=setInterval(()=>{if(focusSeconds>0){focusSeconds--;updateTimer()}},1000);$('focusToggle').textContent='Pausar ciclo'}}function resetFocus(){clearInterval(focusTimer);focusTimer=null;focusSeconds=1500;updateTimer();$('focusToggle').textContent='Iniciar ciclo'}function saveFocus(){state.focus.push({date:new Date().toISOString(),minutes:25});save();alert('Ciclo de foco salvo neste dispositivo.')}function exportData(){const blob=new Blob([JSON.stringify({version:1,exportedAt:new Date().toISOString(),...state},null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='operacao-aprovacao-backup.json';a.click();URL.revokeObjectURL(a.href)}function importData(e){const file=e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const incoming=JSON.parse(reader.result);if(!Array.isArray(incoming.records)||!Array.isArray(incoming.done))throw Error();state={records:incoming.records,done:incoming.done,focus:Array.isArray(incoming.focus)?incoming.focus:[],goals:incoming.goals||state.goals};save();render();renderHomePerformance();renderPerformance();alert('Backup importado com sucesso.')}catch{alert('Arquivo de backup inválido.')}};reader.readAsText(file)}function clearData(){if(confirm('Tem certeza? Esta ação apagará os dados deste navegador. Faça um backup antes.')){state={records:[],done:[],focus:[],goals:state.goals||{dailyQuestions:200,dailyMinutes:300}};save();render();renderHomePerformance();renderPerformance()}}
+function updateTimer(){let m=String(Math.floor(focusSeconds/60)).padStart(2,'0'),s=String(focusSeconds%60).padStart(2,'0');$('timer').textContent=m+':'+s;if(focusSeconds===0){clearInterval(focusTimer);focusTimer=null;alert('Ciclo concluído. Registre sua vitória!')}}function toggleFocus(){if(focusTimer){clearInterval(focusTimer);focusTimer=null;$('focusToggle').textContent='Retomar ciclo'}else{focusTimer=setInterval(()=>{if(focusSeconds>0){focusSeconds--;updateTimer()}},1000);$('focusToggle').textContent='Pausar ciclo'}}function resetFocus(){clearInterval(focusTimer);focusTimer=null;focusSeconds=1500;updateTimer();$('focusToggle').textContent='Iniciar ciclo'}async function saveFocus(){try{await salvarFocoNuvem();alert('✓ Ciclo de foco salvo no Supabase.')}catch(e){alert('Erro ao salvar foco no Supabase:\n\n'+e.message)}}function exportData(){const blob=new Blob([JSON.stringify({version:1,exportedAt:new Date().toISOString(),...state},null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='operacao-aprovacao-backup.json';a.click();URL.revokeObjectURL(a.href)}function importData(e){const file=e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const incoming=JSON.parse(reader.result);if(!Array.isArray(incoming.records)||!Array.isArray(incoming.done))throw Error();state={records:incoming.records,done:incoming.done,focus:Array.isArray(incoming.focus)?incoming.focus:[],goals:incoming.goals||state.goals};render();renderHomePerformance();renderPerformance();alert('Backup importado com sucesso.')}catch{alert('Arquivo de backup inválido.')}};reader.readAsText(file)}function clearData(){if(confirm('Tem certeza? Esta ação apagará os dados deste navegador. Faça um backup antes.')){state={records:[],done:[],focus:[],goals:state.goals||{dailyQuestions:200,dailyMinutes:300}};save();render();renderHomePerformance();renderPerformance()}}
 
 /* ===== PMMA 2026 · RETA FINAL 09/09–10/10 ===== */
 const RETA_CODIGO='PMMA-2026-RETA-FINAL-0909-1010';
@@ -427,37 +322,8 @@ function retaFallback(){return [
 ['10/10','SÁBADO','MANHÃ','GEOGRAFIA DO MARANHÃO','13. Malha viária. | 14. Portos e aeroportos. | 15. A cultura maranhense.','final'],['10/10','SÁBADO','TARDE','REVISÃO GERAL','Caderno de erros. | Leis. | Pontos com menor percentual de acerto. | Questões CEBRASPE leves. | Nada de conteúdo novo.','final']
 ];}
 
-async function carregarRetaFinal(){
-  const localKey=retaStorageKey();
-  try{ retaDone=JSON.parse(localStorage.getItem(localKey)||'{}')||{}; }catch{ retaDone={}; }
-  if(window.supabaseClient){
-    try{
-      const {data:c,error:ce}=await window.supabaseClient.from('cronogramas').select('id,nome').eq('codigo',RETA_CODIGO).maybeSingle();
-      if(!ce && c){
-        const {data:items,error:ie}=await window.supabaseClient.from('cronograma_itens').select('id,dia,data,dia_semana,periodo,disciplina,conteudo,tipo').eq('cronograma_id',c.id).order('dia').order('periodo');
-        if(!ie && items?.length) retaItens=items;
-        const u=window.usuarioAtual;
-        if(u && retaItens.length){
-          const ids=retaItens.map(x=>x.id);
-          const {data:prog}=await window.supabaseClient.from('pmma_reta_final_progresso').select('item_id,concluido').eq('user_id',u.id).in('item_id',ids);
-          (prog||[]).forEach(p=>{retaDone[String(p.item_id)]=!!p.concluido;});
-        }
-      }
-    }catch(e){console.warn('Reta final:',e.message)}
-  }
-  if(!retaItens.length) retaItens=retaFallback().map((x,i)=>({id:'f'+i,dia:Math.floor(i/2)+1,data:'2026-'+(i<44?'09':'10')+'-'+String((i<44?9+Math.floor(i/2):1+Math.floor((i-44)/2))).padStart(2,'0'),dia_semana:x[1],periodo:x[2],disciplina:x[3],conteudo:x[4],tipo:x[5]}));
-  localStorage.setItem(localKey,JSON.stringify(retaDone));
-  renderRetaFinal();
-}
-
-async function toggleRetaFinal(itemId){
-  const key=String(itemId), novo=!retaDone[key]; retaDone[key]=novo; localStorage.setItem(retaStorageKey(),JSON.stringify(retaDone)); renderRetaFinal();
-  const u=window.usuarioAtual;
-  if(window.supabaseClient && u && !String(itemId).startsWith('f')){
-    const {error}=await window.supabaseClient.from('pmma_reta_final_progresso').upsert({user_id:u.id,item_id:Number(itemId),concluido:novo,concluido_em:novo?new Date().toISOString():null,updated_at:new Date().toISOString()},{onConflict:'user_id,item_id'});
-    if(error) console.warn('Progresso da reta final:',error.message);
-  }
-}
+async function carregarRetaFinal(){retaDone={};try{const c=window.supabaseClient;const {data:cron,error:ce}=await c.from('cronogramas').select('id,nome').eq('codigo',RETA_CODIGO).maybeSingle();if(ce)throw ce;if(cron){const {data:items,error:ie}=await c.from('cronograma_itens').select('id,dia,data,dia_semana,periodo,disciplina,conteudo,tipo').eq('cronograma_id',cron.id).order('dia').order('periodo');if(ie)throw ie;if(items?.length)retaItens=items;const u=await authenticatedUser();const {data:prog,error:pe}=await c.from('pmma_reta_final_progresso').select('item_id,concluido').eq('user_id',u.id).in('item_id',(items||[]).map(x=>x.id));if(pe)throw pe;(prog||[]).forEach(x=>retaDone[String(x.item_id)]=!!x.concluido);}}catch(e){console.warn('Reta final Supabase:',e.message)}if(!retaItens.length)retaItens=retaFallback().map((x,i)=>({id:'f'+i,dia:Math.floor(i/2)+1,data:'2026-'+(i<44?'09':'10')+'-'+String((i<44?9+Math.floor(i/2):1+Math.floor((i-44)/2))).padStart(2,'0'),dia_semana:x[1],periodo:x[2],disciplina:x[3],conteudo:x[4],tipo:x[5]}));renderRetaFinal();}
+async function toggleRetaFinal(itemId){try{const u=await authenticatedUser();const novo=!retaDone[String(itemId)];if(String(itemId).startsWith('f'))throw new Error('A Reta Final não está cadastrada no Supabase. Execute o SQL da Reta Final antes de marcar missões.');const {error}=await window.supabaseClient.from('pmma_reta_final_progresso').upsert({user_id:u.id,item_id:Number(itemId),concluido:novo,concluido_em:novo?new Date().toISOString():null,updated_at:new Date().toISOString()},{onConflict:'user_id,item_id'});if(error)throw error;retaDone[String(itemId)]=novo;renderRetaFinal();await carregarRankingNuvem();}catch(e){alert('Não foi possível salvar a Reta Final no Supabase:\n\n'+e.message)}}
 
 function renderRetaFinal(){
   const el=document.getElementById('retaCronograma'); if(!el)return;
