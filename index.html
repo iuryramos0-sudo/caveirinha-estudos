@@ -70,22 +70,13 @@
 </div>
 
 <div class="app">
-<aside class="side"><div class="brand"><div class="brandmark" aria-label="Logo Caveirinha">💀</div><div><b>CAVEIRINHA</b><span>CONTROLE DE ESTUDOS</span></div></div><div class="online" id="status-conexao"><i class="dot"></i> CONECTADO AO RANKING</div><nav class="nav"><button class="active" data-page="dashboard">▦ Central de comando</button><button data-page="registro">＋ Registrar estudo</button><button data-page="questoes">◉ Questões</button><button data-page="desempenho">◒ Desempenho</button><button data-page="conteudos">▤ Cronograma PMMA</button><button data-page="novocronograma">🗓️ Novo Cronograma</button><button data-page="edital">📋 Edital Verticalizado</button><button data-page="ranking">🏆 Rankings</button><button data-page="foco">◷ Modo foco</button><button data-page="backup">↥ Backup pessoal</button><button data-page="conta">👤 Minha Conta</button></nav><div class="sidefoot">Sincronização em nuvem.<br>Projeto Parabellum.</div></aside>
+<aside class="side"><div class="brand"><div class="brandmark" aria-label="Logo Caveirinha">💀</div><div><b>CAVEIRINHA</b><span>CONTROLE DE ESTUDOS</span></div></div><div class="online" id="status-conexao"><i class="dot"></i> CONECTADO AO RANKING</div><nav class="nav"><button class="active" data-page="dashboard">▦ Central de comando</button><button data-page="registro">＋ Registrar estudo</button><button data-page="questoes">◉ Questões</button><button data-page="desempenho">◒ Desempenho</button><button data-page="conteudos">▤ Cronograma PMMA</button><button data-page="retafinal">☠️ Reta Final 09/09–10/10</button><button data-page="novocronograma">🗓️ Novo Cronograma</button><button data-page="edital">📋 Edital Verticalizado</button><button data-page="ranking">🏆 Rankings</button><button data-page="foco">◷ Modo foco</button><button data-page="backup">↥ Backup pessoal</button><button data-page="conta">👤 Minha Conta</button></nav><div class="sidefoot">Sincronização em nuvem.<br>Projeto Parabellum.</div></aside>
 <main class="main">
 <header class="top"><div><p class="eyebrow" id="today"></p><h1 id="pageTitle">Central de comando</h1></div><div class="top-actions"><span class="sync" id="nome-aluno-logado"><i class="dot" style="background:var(--green)"></i> não identificado</span><button class="btn primary" onclick="openPage('registro')">＋ Registrar agora</button></div></header>
 <section class="page active" id="dashboard"><div class="hero"><div class="emblem">◎</div><div><p class="eyebrow">OPERAÇÃO DO DIA <span class="status">EM ANDAMENTO</span></p><h2 id="todayStudyTitle">Carregando missão...</h2><p id="todayStudyText">Identificando o conteúdo programado para hoje.</p><small id="examCountdown" style="display:block;margin-top:8px;color:#ff8794;font-weight:800;letter-spacing:.04em"></small></div><button class="btn" onclick="openPage('conteudos')">Abrir cronograma →</button></div><div class="stats"><div class="card"><label>Cronograma PMMA</label><strong id="sProgress">0%</strong><small id="sNext">Próximo alvo: Dia 1</small></div><div class="card"><label>Questões</label><strong id="sQuestions">0</strong><small id="sCorrect">0 certas</small></div><div class="card"><label>Precisão média</label><strong id="sAccuracy">0%</strong><small>registros locais</small></div><div class="card"><label>Tempo estudado</label><strong id="sMinutes">0m</strong><small>sessões registradas</small></div><div class="card"><label>Sequência</label><strong id="sStreak">0 dias</strong><small>dias com registro</small></div></div><div class="intel-grid"><div class="panel"><div class="panelhead"><div><p class="eyebrow">CENTRAL DE INTELIGÊNCIA</p><h3>Assuntos que precisam melhorar</h3></div><span class="tag">prioridade automática</span></div><div id="priorityList" class="priority-list"></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">DIAGNÓSTICO DOS ERROS</p><h3>Onde você está perdendo pontos</h3></div><span class="tag">por motivo</span></div><div id="errorAnalysis" class="error-grid"></div><div class="trend-box" id="trendMetrics"></div></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">MAPA DE FRAQUEZAS</p><h3>Disciplinas que precisam melhorar</h3></div><span class="tag">por desempenho</span></div><div id="disciplineWeakness" class="priority-list"></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">MISSÃO DE HOJE</p><h3>Execução diária</h3></div><span class="tag" id="dailyLabel">sem meta definida</span></div><div id="dailyMission" class="mission-progress"></div></div><div class="home-performance-grid"><div class="panel"><div class="panelhead"><div><p class="eyebrow">DESEMPENHO OPERACIONAL</p><h3>Por disciplina</h3></div><button class="btn" onclick="openPage('desempenho')">Detalhar</button></div><div id="homeDisciplineProgress"><div class="performance-empty">Registre questões para liberar o desempenho por disciplina.</div></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">ÍNDICE DE EVOLUÇÃO</p><h3>Curva de desempenho</h3></div><span class="tag">estilo mercado</span></div><div class="stock-chart" id="stockChart"><div class="stock-empty">Aguardando registros para desenhar a tendência.</div></div><div class="stock-grid-labels"><span>início</span><span>último registro</span></div></div></div><div class="grid"><div class="panel"><div class="panelhead"><div><p class="eyebrow">RITMO DE EVOLUÇÃO</p><h3>Questões por dia</h3></div><span class="tag">últimos 7 dias</span></div><div class="bars" id="chart"></div><div class="heatmap" id="heatmap" style="margin-top:16px"></div><div class="heatmap-caption"><span>28 dias atrás</span><span>hoje</span></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">RADAR TÁTICO</p><h3>Forças e alertas</h3></div><span style="color:var(--red2);font-size:20px">◉</span></div><div class="radar-wrap"><div id="radarChart" style="width:100%;height:100%"></div></div></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">PRÓXIMAS MISSÕES</p><h3>Seu cronograma em campo</h3></div><button class="btn" onclick="openPage('conteudos')">Ver todos</button></div><div id="nextMissions"></div></div></section>
 <section class="page" id="registro"><div class="sectiontitle"><div><p class="eyebrow">REGISTRO SEGURO NA NUVEM</p><h2>Adicionar estudo</h2><p class="muted">O registro é salvo na conta do usuário e sincronizado com o Supabase.</p></div></div><div class="panel"><form class="formgrid" id="studyForm"><div class="field"><span>Data</span><input required type="date" name="date" id="studyDate"></div><div class="field"><span>Tipo</span><select name="type"><option value="questoes">Questões</option><option value="sessao">Sessão de estudo</option></select></div><div class="field"><span>Disciplina</span><select required name="subject" id="subjectSelect"><option value="">Selecione a disciplina</option></select></div><div class="field"><span>Assuntos <small style="color:var(--red2)">(marque um ou vários)</small></span><div id="topicOptions" class="topic-options" aria-live="polite"><div class="topic-empty">Selecione primeiro a disciplina</div></div><div id="topicCount" class="topic-count">0 assuntos selecionados</div></div><div class="field"><span>Questões respondidas</span><input type="number" min="0" value="0" name="total"></div><div class="field"><span>Questões certas</span><input type="number" min="0" value="0" name="correct"></div><div class="field"><span>Tempo estudado (minutos)</span><input required type="number" min="0" value="30" name="minutes"></div><div class="field"><span>Banca</span><input name="board" placeholder="Ex.: Cebraspe"></div><div class="field"><span>Motivo do erro</span><select name="reason"><option value="none">Sem erro / não se aplica</option><option>Falta de conhecimento</option><option>Distração</option><option>Interpretação</option><option>Cálculo</option><option>Dúvida</option></select></div><div class="field full"><span>Observações</span><textarea name="notes" placeholder="O que precisa ser revisto?"></textarea></div><div class="actions"><button class="btn" type="reset">Limpar</button><button class="btn primary" type="submit">Salvar registro</button></div></form></div><div class="panel"><p class="eyebrow">HISTÓRICO RECENTE</p><div id="historyPreview"></div></div></section>
 <section class="page" id="questoes"><div class="sectiontitle"><div><p class="eyebrow">HISTÓRICO CONSULTÁVEL</p><h2>Questões registradas</h2><p class="muted">Os registros são carregados da sua conta no Supabase.</p></div><button class="btn primary" onclick="openPage('registro')">＋ Novo registro</button></div><div class="panel"><table class="history"><thead><tr><th>Data</th><th>Disciplina</th><th>Assunto</th><th>Total</th><th>Certas</th><th>Precisão</th><th></th></tr></thead><tbody id="historyTable"></tbody></table></div></section>
-<section class="page" id="desempenho"><div class="sectiontitle"><div><p class="eyebrow">ANÁLISE TÁTICA DOS REGISTROS</p><h2>Desempenho por disciplina</h2><p class="muted">Abra cada disciplina para ver a precisão, volume e tempo por assunto.</p><div class="notice" style="margin-top:12px;margin-bottom:0">Quando um registro tiver vários assuntos, o total de questões, acertos e minutos será dividido igualmente entre eles. Para uma precisão individual exata, registre cada assunto separadamente.</div></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">PROGRESSO DO PLANO</p><h3>30 dias de operação</h3></div><span class="tag" id="performancePlanLabel">0/30 concluídos · 30 pendentes</span></div><div class="progress"><i id="performancePlanBar" style="width:0%"></i></div><div class="daygrid" id="dayProgress"></div></div><div id="performanceBySubject"></div></section><section class="page" id="conteudos">
-<div class="sectiontitle"><div><p class="eyebrow">PLANO DE ESTUDOS</p><h2>Cronograma de conteúdos</h2><p class="muted">Escolha o cronograma que você está seguindo. O progresso fica separado por cronograma e salvo na sua conta.</p></div></div>
-<div class="panel cronograma-selector-panel">
-  <div class="panelhead">
-    <div><p class="eyebrow">CRONOGRAMA ATIVO</p><h3 id="cronogramaAtivoNome">Carregando...</h3><p class="muted" id="cronogramaAtivoDescricao" style="margin:5px 0 0"></p></div>
-    <select id="cronogramaSelect" style="min-width:280px;background:#0f1115;color:#fff;border:1px solid #713142;border-radius:9px;padding:11px 14px"></select>
-  </div>
-  <div id="cronogramaSelectorStatus" class="muted" style="font-size:11px"></div>
-</div>
-<div id="curriculum"></div></section>
+<section class="page" id="desempenho"><div class="sectiontitle"><div><p class="eyebrow">ANÁLISE TÁTICA DOS REGISTROS</p><h2>Desempenho por disciplina</h2><p class="muted">Abra cada disciplina para ver a precisão, volume e tempo por assunto.</p><div class="notice" style="margin-top:12px;margin-bottom:0">Quando um registro tiver vários assuntos, o total de questões, acertos e minutos será dividido igualmente entre eles. Para uma precisão individual exata, registre cada assunto separadamente.</div></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">PROGRESSO DO PLANO</p><h3>30 dias de operação</h3></div><span class="tag" id="performancePlanLabel">0/30 concluídos · 30 pendentes</span></div><div class="progress"><i id="performancePlanBar" style="width:0%"></i></div><div class="daygrid" id="dayProgress"></div></div><div id="performanceBySubject"></div></section><section class="page" id="conteudos"><div class="sectiontitle"><div><p class="eyebrow">PLANO PMMA · 30 DIAS</p><h2>Cronograma de conteúdos</h2><p class="muted">Clique em uma missão para marcar como concluída. O status fica salvo na sua conta no Supabase.</p></div></div><div id="curriculum"></div></section>
 
 <section class="page" id="novocronograma"><div class="sectiontitle"><div><p class="eyebrow">MONTAGEM DE CICLO</p><h2>Novo Cronograma</h2><p class="muted">Gere um cronograma com a quantidade de dias que quiser, distribuindo automaticamente os tópicos do edital atual. <span id="cronAtualInfo"></span></p></div></div>
 
@@ -112,8 +103,8 @@
 <div id="editalBox"></div>
 
 </section>
-<section class="page" id="ranking"><div class="sectiontitle"><div><p class="eyebrow">COMPETIÇÃO DA COMUNIDADE</p><h2>🏆 Rankings</h2><p class="muted">Duas formas de subir: resolver questões e cumprir o cronograma.</p></div></div><div class="grid"><div class="panel"><div class="panelhead"><div><p class="eyebrow">VOLUME DE EXECUÇÃO</p><h3>Ranking por questões</h3></div><span class="tag">total registrado</span></div><div id="rankingQuestions"></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">CONSISTÊNCIA</p><h3>Ranking por cronograma</h3></div><span class="tag">% concluído</span></div><div id="rankingProgress"></div></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">SUA POSIÇÃO</p><h3>Resumo competitivo</h3></div></div><div id="rankingSummary"></div></div></section><section class="page" id="foco"><div class="sectiontitle"><div><p class="eyebrow">PROTOCOLO DE CONCENTRAÇÃO</p><h2>Modo foco</h2><p class="muted">Um ciclo de 25 minutos para executar uma única missão.</p></div></div><div class="panel focusbox"><div class="timer" id="timer">25:00</div><p class="muted">Afaste o ruído. Execute. Registre a vitória.</p><div class="focusbuttons"><button class="btn primary" id="focusToggle" onclick="toggleFocus()">Iniciar ciclo</button><button class="btn" onclick="resetFocus()">Reiniciar</button><button class="btn" onclick="saveFocus()">Salvar ciclo</button></div></div></section>
-<section class="page" id="backup"><div class="sectiontitle"><div><p class="eyebrow">PROTEÇÃO DO HISTÓRICO</p><h2>Backup pessoal</h2><p class="muted">Exporte seus dados antes de trocar de computador ou limpar o navegador.</p></div></div><div class="panel"><div class="notice">Seus dados principais ficam no Supabase. O backup JSON é uma cópia pessoal adicional para segurança.</div><div class="backup"><button class="btn primary" onclick="exportData()">↓ Baixar backup JSON</button><label class="btn">↑ Importar backup JSON<input hidden type="file" accept="application/json" onchange="importData(event)"></label><button class="btn" onclick="clearData()">Apagar meus dados</button><button class="btn" onclick="openPage('conta')">👤 Gerenciar minha conta →</button></div><p class="muted" style="margin-top:17px">O backup inclui registros, conclusão do cronograma e ciclos de foco deste navegador.</p></div></section>
+<section class="page" id="retafinal"><div class="sectiontitle"><div><p class="eyebrow">OPERAÇÃO RETA FINAL · PMMA 2026</p><h2>☠️ Reta Final 09/09–10/10</h2><p class="muted">32 dias · 2 missões por dia. O progresso é salvo diretamente no Supabase e separado do cronograma PMMA principal.</p></div></div><div class="panel"><div class="stats" style="margin-bottom:0"><div class="card"><label>Missões</label><strong id="retaTotal">64</strong><small>2 por dia</small></div><div class="card"><label>Concluídas</label><strong id="retaConcluidas">0</strong><small>salvas na nuvem</small></div><div class="card"><label>Progresso</label><strong id="retaPercent">0%</strong><small>Reta Final</small></div><div class="card"><label>Prova</label><strong>11/10</strong><small>PMMA 2026</small></div><div class="card"><label>Status</label><strong id="retaStatus">ONLINE</strong><small>Supabase</small></div></div><div class="progress" style="margin-top:16px"><i id="retaBar" style="width:0%"></i></div></div><div id="retaCurriculum"></div></section><section class="page" id="ranking"><div class="sectiontitle"><div><p class="eyebrow">COMPETIÇÃO DA COMUNIDADE</p><h2>🏆 Rankings</h2><p class="muted">Duas formas de subir: resolver questões e cumprir o cronograma.</p></div></div><div class="grid"><div class="panel"><div class="panelhead"><div><p class="eyebrow">VOLUME DE EXECUÇÃO</p><h3>Ranking por questões</h3></div><span class="tag">total registrado</span></div><div id="rankingQuestions"></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">CONSISTÊNCIA</p><h3>Ranking por cronograma</h3></div><span class="tag">% concluído</span></div><div id="rankingProgress"></div></div></div><div class="panel"><div class="panelhead"><div><p class="eyebrow">SUA POSIÇÃO</p><h3>Resumo competitivo</h3></div></div><div id="rankingSummary"></div></div></section><section class="page" id="foco"><div class="sectiontitle"><div><p class="eyebrow">PROTOCOLO DE CONCENTRAÇÃO</p><h2>Modo foco</h2><p class="muted">Um ciclo de 25 minutos para executar uma única missão.</p></div></div><div class="panel focusbox"><div class="timer" id="timer">25:00</div><p class="muted">Afaste o ruído. Execute. Registre a vitória.</p><div class="focusbuttons"><button class="btn primary" id="focusToggle" onclick="toggleFocus()">Iniciar ciclo</button><button class="btn" onclick="resetFocus()">Reiniciar</button><button class="btn" onclick="saveFocus()">Salvar ciclo</button></div></div></section>
+<section class="page" id="backup"><div class="sectiontitle"><div><p class="eyebrow">PROTEÇÃO DO HISTÓRICO</p><h2>Backup pessoal</h2><p class="muted">Exporte seus dados antes de trocar de computador ou limpar o navegador.</p></div></div><div class="panel"><div class="notice">Seus dados principais ficam no Supabase. O backup JSON é uma cópia pessoal adicional para segurança.</div><div class="backup"><button class="btn primary" onclick="exportData()">↓ Baixar backup JSON</button><label class="btn">↑ Importar backup JSON<input hidden type="file" accept="application/json" onchange="importData(event)"></label><button class="btn" onclick="clearData()">Apagar meus dados</button><button class="btn" onclick="openPage('conta')">👤 Gerenciar minha conta →</button></div><p class="muted" style="margin-top:17px">O backup é uma cópia dos dados que estão no Supabase. O banco continua sendo a fonte oficial.</p></div></section>
 
 <section class="page" id="conta"><div class="sectiontitle"><div><p class="eyebrow">IDENTIFICAÇÃO DO RECRUTA</p><h2>Minha Conta</h2><p class="muted">Operador logado: <b id="contaNomeAtual">—</b></p></div></div>
 
@@ -138,17 +129,14 @@
 let subjectCatalog={"LÍNGUA PORTUGUESA":["1 Compreensão e interpretação de textos de gêneros variados. · 2 Reconhecimento de tipos e géneros textuais. · 3 Domínio da ortografia oficial.","4 Domínio dos mecanismos de coesão textual. · 4.1 Emprego de elementos de referenciação, substituição e repetição, de conectores e de outros elementos de sequenciação textual. · 4.2 Emprego de tempos e modos verbais.","5 Domínio da estrutura morfossintática do período. · 5.1 Emprego das classes de palavras.","5.2 Relações de coordenação entre orações e entre termos da oração. · 5.3 Relações de subordinação entre orações e entre termos da oração. · 5.4 Emprego dos sinais de pontuação.","5.5 Concordância verbal e nominal. · 5.6 Regência verbal e nominal. · 5.7 Emprego do sinal indicativo de crase. · 5.8 Colocação dos pronomes átonos.","> 1 Compreensão e interpretação de textos de gêneros variados.","> 2 Reconhecimento de tipos e géneros textuais.","> 3 Domínio da ortografia oficial.","> 4 Domínio dos mecanismos de coesão textual (- 4.1 e - 4.2).","> 5 Domínio da estrutura morfossintática do período.","1 Compreensão e interpretação de textos de gêneros variados.","2 Reconhecimento de tipos e géneros textuais.","3 Domínio da ortografia oficial.","4 Domínio dos mecanismos de coesão textual.","4.1 Emprego de elementos de referenciação, substituição e repetição, de conectores e de outros elementos de sequenciação textual.","4.2 Emprego de tempos e modos verbais.","5 Domínio da estrutura morfossintática do período.","5.1 Emprego das classes de palavras.","5.2 Relações de coordenação entre orações e entre termos da oração.","5.3 Relações de subordinação entre orações e entre termos da oração.","5.4 Emprego dos sinais de pontuação.","5.5 Concordância verbal e nominal.","5.6 Regência verbal e nominal.","5.7 Emprego do sinal indicativo de crase.","5.8 Colocação dos pronomes átonos.","6 Reescrita de frases e parágrafos do texto.","6.1 Significação das palavras.","6.2 Substituição de palavras ou de trechos de texto.","6.3 Reorganização da estrutura de orações e de períodos do texto.","6.4 Reescrita de textos de diferentes gêneros e níveis de formalidade."],"RACIOCÍNIO LÓGICO":["1 Compreensão de estruturas lógicas. · 2 Lógica de argumentação: analogias, inferências, deduções e conclusões. · 3 Lógica sentencial (ou proposicional). · 3.1 Proposições simples e compostas.","3.2 Tabelas verdade. · 3.3 Equivalências. · 3.4 Leis de Morgan. · 3.5 Diagramas lógicos.","> 1 Compreensão de estruturas lógicas.","> 2 Lógica de argumentação: analogias, inferências, deduções e conclusões.","> 3 Lógica sentencial (ou proposicional) e tabelas-verdade.","1 Compreensão de estruturas lógicas.","2 Lógica de argumentação: analogias, inferências, deduções e conclusões.","3 Lógica sentencial (ou proposicional).","3.1 Proposições simples e compostas.","3.2 Tabelas verdade.","3.3 Equivalências.","3.4 Leis de Morgan.","3.5 Diagramas lógicos."],"HISTÓRIA DO BRASIL":["1 A contribuição dos índios e negros para a formação do Brasil; A formação do Brasil Contemporâneo; A República Velha e as estruturas oligárquicas; Economia e Sociedade: o café e estratificação social.","A Revolução de 1930; A Era Vargas: política, economia e sociedade; O período democrático (1945 a 1964). · 2 A redemocratização do Estado e a constituição de 1946. · 3 A política de industrialização do governo JK. · 5 A crise do regime democrático.","6 O golpe de 1964. · 7 A crise do regime militar e a redemocratização. · 8 O Brasil politico: nação e território. · 9 Organização do Estado Brasileiro.","> 1 A contribuição dos índios e negros para a formação do Brasil....","> 2 A redemocratização do Estado e a constituição de 1946.","1 A contribuição dos índios e negros para a formação do Brasil; A formação do Brasil Contemporâneo; A República Velha e as estruturas oligárquicas; Economia e Sociedade: o café e estratificação social; A Revolução de 1930; A Era Vargas: política, economia e sociedade; O período democrático (1945 a 1964).","2 A redemocratização do Estado e a constituição de 1946.","3 A política de industrialização do governo JK.","5 A crise do regime democrático.","6 O golpe de 1964.","7 A crise do regime militar e a redemocratização.","8 O Brasil politico: nação e território.","9 Organização do Estado Brasileiro.","10 As Constituições."],"HISTÓRIA DO MARANHÃO":["1 França equinocial: expedição de Daniel de La Touche. · 2 Fundação de São Luís. · 3 Batalha de Guaxenduba. · 4 Capitães mores do Maranhão.","5 Invasão holandesa. · 6 Expulsão dos holandeses. · 7 Estado do Maranhão e Grão Pará: Revolta de Bequimão (causas e objetivos da revolta); Companhia de Comércio do Maranhão e Grão Pará. · 8 Período do Império: adesão do Maranhão.","9 Independência do Brasil. · 10 Causas da não adesão: Batalha do Jenipapo. · 11 Balaiada: caracterização e causas do movimento. · 12 Período Republicano: adesão do Maranhão à República.","> 1 França equinocial: expedição de Daniel de La Touche.","> 2 Fundação de São Luís e > 3 Batalha de Guaxenduba.","1 França equinocial: expedição de Daniel de La Touche.","2 Fundação de São Luís.","3 Batalha de Guaxenduba.","4 Capitães mores do Maranhão.","5 Invasão holandesa.","6 Expulsão dos holandeses.","7 Estado do Maranhão e Grão Pará: Revolta de Bequimão (causas e objetivos da revolta); Companhia de Comércio do Maranhão e Grão Pará.","8 Período do Império: adesão do Maranhão.","9 Independência do Brasil.","10 Causas da não adesão: Batalha do Jenipapo.","11 Balaiada: caracterização e causas do movimento.","12 Período Republicano: adesão do Maranhão à República.","13 Revolução de 1930 no Maranhão.","14 Principais fatos políticos, econômicos e sociais ocorridos no Maranhão, na segunda metade do século XX."],"GEOGRAFIA DO BRASIL":["1 A integração ao processo de internacionalização da economia. · 2 O processo de industrialização e suas repercussões na organização do espaço. · 3 A rede brasileira de transportes e sua evolução. · 4 A estrutura urbana brasileira e das grandes metrópoles.","5 A dinâmica das fronteiras agrícolas e sua expansão para o Centro Oeste e a Amazônia. · 6 A evolução da estrutura fundiária e problemas demográficos. · 7 Os movimentos migratórios internos. · 8 A população brasileira: distribuição dos efetivos demográficos no território nacional; evolução do crescimento ao longo do século XX; estrutura etária.","8 Integração entre indústria, estrutura urbana, rede de transportes e setor agrícola no Brasil. · 9 Recursos naturais: aproveitamento, desperdício e política de conservação de recursos naturais.","> 1 A integração ao processo de internacionalização da economia.","> 2 O processo de industrialização e suas repercussões na organização do espaço.","1 A integração ao processo de internacionalização da economia.","2 O processo de industrialização e suas repercussões na organização do espaço.","3 A rede brasileira de transportes e sua evolução.","4 A estrutura urbana brasileira e as grandes metrópoles.","5 A dinâmica das fronteiras agrícolas e sua expansão para o Centro Oeste e a Amazônia.","6 A evolução da estrutura fundiária e problemas demográficos.","7 Os movimentos migratórios internos.","8 A população brasileira: distribuição dos efetivos demográficos no território nacional; evolução do crescimento ao longo do século XX; estrutura etária.","8 Integração entre indústria, estrutura urbana, rede de transportes e setor agrícola no Brasil.","9 Recursos naturais: aproveitamento, desperdício e política de conservação de recursos naturais."],"SIMULADO E REVISÃO":["Realização de simulado com os conteúdos da semana e revisão ativa dos pontos com maior dificuldade.","Realização de simulado prático e revisão acumulada da semana.","Realização de simulado com os conteúdos da semana e revisão ativa.","Realização de simulado geral e revisão estratégica.","Simulado semanal e revisão dos conteúdos da semana.","Simulado geral e revisão dos blocos anteriores.","Simulado focado nas matérias estudadas na semana.","Simulado geral simulando o padrão de cobrança do edital."],"GEOGRAFIA DO MARANHÃO":["1 Localização do Estado do Maranhão: superfície; limites; linhas de fronteira; pontos extremos; áreas de proteção ambiental (APA). · 2 Parques nacionais. · 3 Climas do Maranhão: pluviosidade e temperatura. · 4 Geomorfologia (- 4.1 Classificação do relevo maranhense: planaltos, planícies e baixadas).","5 Características dos rios maranhenses: bacias dos rios limítrofes (Parnaiba, Gurupi e Tocantins Araguaia). · 6 Bacias dos ríos genuinamente maranhenses. · 7 Principais formações vegetais: floresta, cerrado e cocais. · 8 Geografia da população: população absoluta; densidade demográfica; povoamento; movimentos populacionais.","> 1 Localização do Estado do Maranhão: superfície; limites; linhas de fronteira.","> 4 Geomorfologia e classificação do relevo maranhense.","1 Localização do Estado do Maranhão: superfície; limites; linhas de fronteira; pontos extremos; áreas de proteção ambiental (APA).","2 Parques nacionais.","3 Climas do Maranhão: pluviosidade e temperatura.","4 Geomorfologia.","4.1 Classificação do relevo maranhense: planaltos, planícies e baixadas.","5 Características dos rios maranhenses: bacias dos rios limítrofes (Parnaiba, Gurupi e Tocantins Araguaia).","6 Bacias dos ríos genuinamente maranhenses.","7 Principais formações vegetais: floresta, cerrado e cocais.","8 Geografia da população: população absoluta; densidade demográfica; povoamento; movimentos populacionais.","9 Agricultura maranhense: caracterização e principais produtos agrícolas; caracterização da pecuária.","10 Extrativismo: vegetal, animal e mineral.","11 Parque industrial: indústrias de base e indústrias de transformação.","12 Setor terciário: comércio, telecomunicações, transportes.","13 Malha viária.","14 Portos e aeroportos.","15 Cultura maranhense."],"LEGISLAÇÃO INSTITUCIONAL":["1 Lei estadual nº 6.513/1995 e suas alterações (Estatuto dos Policiais Militares do Estado do Maranhão).","2 Lei Federal nº 14.751/2023 e suas alterações (Lei Orgânica Nacional/PM/CBM).","3 Lei nº 12.896/2026 (Lei de Organização Básica da PMMA).","> 1 Lei estadual nº 6.513/1995 e suas alterações (Estatuto dos Policiais Militares do Estado do Maranhão).","> 2 Lei Federal nº 14.751/2023 e suas alterações (Lei Orgânica Nacional/PM/CBM).","> 3 Lei nº 12.896/2026 (Lei de Organização Básica da PMMA).","Revisão geral das leis estaduais e federais da corporação."],"NOÇÕES DE INFORMÁTICA":["1 Noções de sistema operacional (ambientes Linux e Windows). · 2 Edição de textos, planilhas e apresentações (ambientes Microsoft Office e BrOffice). · 3.1 Conceitos básicos, ferramentas, aplicativos e procedimentos de Internet e intranet. · 3.2 Programas de navegação (Microsoft Internet Explorer, Mozilla Firefox e Google Chrome).","3.3 Programas de correio eletrônico (Outlook Express e Mozilla Thunderbird). · 3.4 Sítios de busca e pesquisa na Internet. · 3.5 Grupos de discussão. · 3.6 Redes sociais.","3.7 Computação na nuven (cloud computing). · 4 Conceitos de organização e de gerenciamento de informações, arquivos, pastas e programas. · 5.1 Procedimentos de segurança. · 5.2 Noções de vírus, worms e pragas virtuais. · 5.3 Aplicativos para segurança (antivirus).","> 1 Noções de sistema operacional (ambientes Linux e Windows).","> 2 Edição de textos, planilhas e apresentações (ambientes Microsoft Office e BrOffice).","> 3 Redes de computadores (- 3.1 a - 3.7).","> 5 Segurança da informação (- 5.1 a - 5.5).","> 4 Conceitos de organização e gerenciamento de arquivos, pastas e programas.","1 Noções de sistema operacional (ambientes Linux e Windows).","2 Edição de textos, planilhas e apresentações (ambientes Microsoft Office e BrOffice).","3 Redes de computadores. (3.1 a 3.7)","4 Conceitos de organização e de gerenciamento de informações, arquivos, pastas e programas.","5 Segurança da informação.","5.1 a 5.5: Procedimentos de segurança, vírus, worms, pragas, aplicativos de segurança, backup e cloud storage."],"HISTÓRIA DO MARANHÃO & INFORMÁTICA FINAL":["5.4 Procedimentos de backup. · 5.5 Armazenamento de dados na nuvem (cloud storage). · 13 Revolução de 1930 no Maranhão. · 14 Principais fatos políticos, econômicos e sociais ocorridos no Maranhão, na segunda metade do século XX."],"LÍNGUA PORTUGUESA (FECHAMENTO) & HISTÓRIA DO BRASIL":["6 Reescrita de frases e parágrafos do texto (6.1 Significação das palavras; 6.2 Substituição de palavras ou de trechos de texto; 6.3 Reorganização da estrutura de orações e de períodos do texto; 6.4 Reescrita de textos de diferentes gêneros e níveis de formalidade). · 10 As Constituições."],"REVISÃO FINAL GERAL":["Fechamento de tópicos pendentes do edital verticalizado e flashcards."],"SIMULADO E REVISÃO SEMANAL":["Realização de simulado com os tópicos estudados na semana e revisão ativa dos erros.","Realização de simulado abordando Português e Raciocínio Lógico + revisão geral.","Simulado focado em História do Brasil e História do Maranhão com revisão ativa.","Simulado contemplando Geografia do Brasil e Geografia do Maranhão."]};const curriculumPadrao=[["LÍNGUA PORTUGUESA","1 Compreensão e interpretação de textos de gêneros variados. · 2 Reconhecimento de tipos e géneros textuais. · 3 Domínio da ortografia oficial.","01/09","study"],["RACIOCÍNIO LÓGICO","1 Compreensão de estruturas lógicas. · 2 Lógica de argumentação: analogias, inferências, deduções e conclusões. · 3 Lógica sentencial (ou proposicional). · 3.1 Proposições simples e compostas.","02/09","study"],["HISTÓRIA DO BRASIL","1 A contribuição dos índios e negros para a formação do Brasil; A formação do Brasil Contemporâneo; A República Velha e as estruturas oligárquicas; Economia e Sociedade: o café e estratificação social.","03/09","study"],["HISTÓRIA DO MARANHÃO","1 França equinocial: expedição de Daniel de La Touche. · 2 Fundação de São Luís. · 3 Batalha de Guaxenduba. · 4 Capitães mores do Maranhão.","04/09","study"],["GEOGRAFIA DO BRASIL","1 A integração ao processo de internacionalização da economia. · 2 O processo de industrialização e suas repercussões na organização do espaço. · 3 A rede brasileira de transportes e sua evolução. · 4 A estrutura urbana brasileira e das grandes metrópoles.","05/09","study"],["SIMULADO E REVISÃO","Realização de simulado com os conteúdos da semana e revisão ativa dos pontos com maior dificuldade.","06/09","simulado"],["GEOGRAFIA DO MARANHÃO","1 Localização do Estado do Maranhão: superfície; limites; linhas de fronteira; pontos extremos; áreas de proteção ambiental (APA). · 2 Parques nacionais. · 3 Climas do Maranhão: pluviosidade e temperatura. · 4 Geomorfologia (- 4.1 Classificação do relevo maranhense: planaltos, planícies e baixadas).","07/09","study"],["LEGISLAÇÃO INSTITUCIONAL","1 Lei estadual nº 6.513/1995 e suas alterações (Estatuto dos Policiais Militares do Estado do Maranhão).","08/09","study"],["NOÇÕES DE INFORMÁTICA","1 Noções de sistema operacional (ambientes Linux e Windows). · 2 Edição de textos, planilhas e apresentações (ambientes Microsoft Office e BrOffice). · 3.1 Conceitos básicos, ferramentas, aplicativos e procedimentos de Internet e intranet. · 3.2 Programas de navegação (Microsoft Internet Explorer, Mozilla Firefox e Google Chrome).","09/09","study"],["LÍNGUA PORTUGUESA","4 Domínio dos mecanismos de coesão textual. · 4.1 Emprego de elementos de referenciação, substituição e repetição, de conectores e de outros elementos de sequenciação textual. · 4.2 Emprego de tempos e modos verbais.","10/09","study"],["RACIOCÍNIO LÓGICO","3.2 Tabelas verdade. · 3.3 Equivalências. · 3.4 Leis de Morgan. · 3.5 Diagramas lógicos.","11/09","study"],["HISTÓRIA DO BRASIL","A Revolução de 1930; A Era Vargas: política, economia e sociedade; O período democrático (1945 a 1964). · 2 A redemocratização do Estado e a constituição de 1946. · 3 A política de industrialização do governo JK. · 5 A crise do regime democrático.","12/09","study"],["SIMULADO E REVISÃO","Realização de simulado prático e revisão acumulada da semana.","13/09","simulado"],["HISTÓRIA DO MARANHÃO","5 Invasão holandesa. · 6 Expulsão dos holandeses. · 7 Estado do Maranhão e Grão Pará: Revolta de Bequimão (causas e objetivos da revolta); Companhia de Comércio do Maranhão e Grão Pará. · 8 Período do Império: adesão do Maranhão.","14/09","study"],["LÍNGUA PORTUGUESA","5 Domínio da estrutura morfossintática do período. · 5.1 Emprego das classes de palavras.","15/09","study"],["GEOGRAFIA DO BRASIL","5 A dinâmica das fronteiras agrícolas e sua expansão para o Centro Oeste e a Amazônia. · 6 A evolução da estrutura fundiária e problemas demográficos. · 7 Os movimentos migratórios internos. · 8 A população brasileira: distribuição dos efetivos demográficos no território nacional; evolução do crescimento ao longo do século XX; estrutura etária.","16/09","study"],["GEOGRAFIA DO MARANHÃO","5 Características dos rios maranhenses: bacias dos rios limítrofes (Parnaiba, Gurupi e Tocantins Araguaia). · 6 Bacias dos ríos genuinamente maranhenses. · 7 Principais formações vegetais: floresta, cerrado e cocais. · 8 Geografia da população: população absoluta; densidade demográfica; povoamento; movimentos populacionais.","17/09","study"],["LEGISLAÇÃO INSTITUCIONAL","2 Lei Federal nº 14.751/2023 e suas alterações (Lei Orgânica Nacional/PM/CBM).","18/09","study"],["NOÇÕES DE INFORMÁTICA","3.3 Programas de correio eletrônico (Outlook Express e Mozilla Thunderbird). · 3.4 Sítios de busca e pesquisa na Internet. · 3.5 Grupos de discussão. · 3.6 Redes sociais.","19/09","study"],["SIMULADO E REVISÃO","Realização de simulado com os conteúdos da semana e revisão ativa.","20/09","simulado"],["HISTÓRIA DO MARANHÃO","9 Independência do Brasil. · 10 Causas da não adesão: Batalha do Jenipapo. · 11 Balaiada: caracterização e causas do movimento. · 12 Período Republicano: adesão do Maranhão à República.","21/09","study"],["LÍNGUA PORTUGUESA","5.2 Relações de coordenação entre orações e entre termos da oração. · 5.3 Relações de subordinação entre orações e entre termos da oração. · 5.4 Emprego dos sinais de pontuação.","22/09","study"],["LEGISLAÇÃO INSTITUCIONAL","3 Lei nº 12.896/2026 (Lei de Organização Básica da PMMA).","23/09","study"],["HISTÓRIA DO BRASIL","6 O golpe de 1964. · 7 A crise do regime militar e a redemocratização. · 8 O Brasil politico: nação e território. · 9 Organização do Estado Brasileiro.","24/09","study"],["GEOGRAFIA DO BRASIL","8 Integração entre indústria, estrutura urbana, rede de transportes e setor agrícola no Brasil. · 9 Recursos naturais: aproveitamento, desperdício e política de conservação de recursos naturais.","25/09","study"],["NOÇÕES DE INFORMÁTICA","3.7 Computação na nuven (cloud computing). · 4 Conceitos de organização e de gerenciamento de informações, arquivos, pastas e programas. · 5.1 Procedimentos de segurança. · 5.2 Noções de vírus, worms e pragas virtuais. · 5.3 Aplicativos para segurança (antivirus).","26/09","study"],["SIMULADO E REVISÃO","Realização de simulado geral e revisão estratégica.","27/09","simulado"],["HISTÓRIA DO MARANHÃO & INFORMÁTICA FINAL","5.4 Procedimentos de backup. · 5.5 Armazenamento de dados na nuvem (cloud storage). · 13 Revolução de 1930 no Maranhão. · 14 Principais fatos políticos, econômicos e sociais ocorridos no Maranhão, na segunda metade do século XX.","28/09","study"],["LÍNGUA PORTUGUESA","5.5 Concordância verbal e nominal. · 5.6 Regência verbal e nominal. · 5.7 Emprego do sinal indicativo de crase. · 5.8 Colocação dos pronomes átonos.","29/09","study"],["LÍNGUA PORTUGUESA (FECHAMENTO) & HISTÓRIA DO BRASIL","6 Reescrita de frases e parágrafos do texto (6.1 Significação das palavras; 6.2 Substituição de palavras ou de trechos de texto; 6.3 Reorganização da estrutura de orações e de períodos do texto; 6.4 Reescrita de textos de diferentes gêneros e níveis de formalidade). · 10 As Constituições.","30/09","final"]];
 
 let subjectCatalogPadrao = JSON.parse(JSON.stringify(subjectCatalog));
-const editalSalvo = JSON.parse(localStorage.getItem('operacao-aprovacao-edital')||'null');
-if (editalSalvo) { subjectCatalog = editalSalvo; }
+let curriculum = curriculumPadrao;
 
-let curriculum = JSON.parse(localStorage.getItem('operacao-aprovacao-cronograma')||'null') || curriculumPadrao;
-
-let state=JSON.parse(localStorage.getItem('operacao-aprovacao-local')||'null')||{records:[],done:[],focus:[],goals:{dailyQuestions:200,dailyMinutes:300}};state.goals=state.goals||{dailyQuestions:200,dailyMinutes:300};let focusSeconds=1500,focusTimer=null;
-const $=id=>document.getElementById(id);const save=()=>localStorage.setItem('operacao-aprovacao-local',JSON.stringify(state));const topicOptions=$('topicOptions');const topicCount=$('topicCount');
+let state={records:[],done:[],focus:[],goals:{dailyQuestions:200,dailyMinutes:300,targetAccuracy:80}};let focusSeconds=1500,focusTimer=null;
+const $=id=>document.getElementById(id);const save=()=>{};const topicOptions=$('topicOptions');const topicCount=$('topicCount');
 $('today').textContent=new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long'});$('studyDate').value=new Date().toISOString().slice(0,10);const subjectSelect=$('subjectSelect');Object.keys(subjectCatalog).forEach(subject=>subjectSelect.insertAdjacentHTML('beforeend',`<option value="${subject}">${subject}</option>`));function updateTopicCount(){const selected=[...document.querySelectorAll('input[name="topic"]:checked')];topicCount.textContent=`${selected.length} assunto${selected.length===1?'':'s'} selecionado${selected.length===1?'':'s'}`}function updateTopicOptions(){const subject=subjectSelect.value;topicOptions.innerHTML=subject?subjectCatalog[subject].map(topic=>`<label class="topic-option"><input type="checkbox" name="topic" value="${topic}"><span>${topic}</span></label>`).join(''):'<div class="topic-empty">Selecione primeiro a disciplina</div>';topicOptions.querySelectorAll('input[name="topic"]').forEach(input=>input.addEventListener('change',updateTopicCount));updateTopicCount()}subjectSelect.addEventListener('change',updateTopicOptions);$('studyForm').addEventListener('reset',()=>setTimeout(updateTopicOptions,0));
-function openPage(page){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));$(page).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===page));const names={dashboard:'Central de comando',registro:'Registrar estudo',questoes:'Questões registradas',desempenho:'Desempenho',conteudos:'Cronograma PMMA',foco:'Modo foco',backup:'Backup pessoal',ranking:'Rankings',conta:'Minha Conta',novocronograma:'Novo Cronograma',edital:'Edital Verticalizado'};$('pageTitle').textContent=names[page];render();renderHomePerformance();renderPerformance();if(page==='conta')renderConta();if(page==='novocronograma')renderNovoCronograma();if(page==='edital')renderEdital();scrollTo({top:0,behavior:'smooth'})}document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>openPage(b.dataset.page));
-$('studyForm').onsubmit=async e=>{e.preventDefault();const f=new FormData(e.target),subject=String(f.get('subject')||''),topics=[...document.querySelectorAll('input[name=\"topic\"]:checked')].map(input=>input.value).filter(Boolean),total=+f.get('total')||0,correct=+f.get('correct')||0;if(!Object.prototype.hasOwnProperty.call(subjectCatalog,subject)){alert('Selecione uma disciplina válida do edital.');return}if(!topics.length||topics.some(topic=>!subjectCatalog[subject].includes(topic))){alert('Selecione um ou mais assuntos válidos para a disciplina escolhida.');return}if(correct>total){alert('As questões certas não podem ser maiores que o total.');return}const novoRegistro={id:crypto.randomUUID(),date:f.get('date'),type:f.get('type'),subject,topics,topic:topics.join(' · '),total,correct,minutes:+f.get('minutes')||0,board:f.get('board'),reason:f.get('reason'),notes:f.get('notes')};try{await registrarEstudoNuvem(novoRegistro);state.records.unshift(novoRegistro);save();e.target.reset();$('studyDate').value=new Date().toISOString().slice(0,10);alert('Registro salvo na nuvem com sucesso.');render();renderHomePerformance();renderPerformance();await carregarRankingNuvem();}catch(err){console.error('Falha ao salvar registro:',err);alert('Não foi possível salvar o registro no Supabase.\n\n'+(err?.message||err));}};
-function deleteRecord(id){const record=state.records.find(item=>item.id===id);if(!record)return;if(confirm(`Apagar o registro de ${record.date} em ${record.subject}? Esta ação não pode ser desfeita.`)){apagarRegistroNuvem(id).then(()=>{state.records=state.records.filter(item=>item.id!==id);save();render();renderHomePerformance();renderPerformance();carregarRankingNuvem();}).catch(e=>alert('Não foi possível apagar o registro: '+e.message));}}function toggleDay(i){if(typeof window.toggleDay==='function' && window.toggleDay!==toggleDay)return window.toggleDay(i);}
+function openPage(page){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));$(page).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===page));const names={dashboard:'Central de comando',registro:'Registrar estudo',questoes:'Questões registradas',desempenho:'Desempenho',conteudos:'Cronograma PMMA',foco:'Modo foco',backup:'Backup pessoal',ranking:'Rankings',conta:'Minha Conta',novocronograma:'Novo Cronograma',edital:'Edital Verticalizado',retafinal:'Reta Final 09/09–10/10'};$('pageTitle').textContent=names[page];render();renderHomePerformance();renderPerformance();if(page==='conta')renderConta();if(page==='novocronograma')renderNovoCronograma();if(page==='edital')renderEdital();scrollTo({top:0,behavior:'smooth'})}document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>openPage(b.dataset.page));
+$('studyForm').onsubmit=e=>{e.preventDefault();const f=new FormData(e.target),subject=String(f.get('subject')||''),topics=[...document.querySelectorAll('input[name="topic"]:checked')].map(input=>input.value).filter(Boolean),total=+f.get('total')||0,correct=+f.get('correct')||0;if(!Object.prototype.hasOwnProperty.call(subjectCatalog,subject)){alert('Selecione uma disciplina válida do edital.');return}if(!topics.length||topics.some(topic=>!subjectCatalog[subject].includes(topic))){alert('Selecione um ou mais assuntos válidos para a disciplina escolhida.');return}if(correct>total){alert('As questões certas não podem ser maiores que o total.');return}const novoRegistro={id:Date.now(),date:f.get('date'),type:f.get('type'),subject,topics,topic:topics.join(' · '),total,correct,minutes:+f.get('minutes')||0,board:f.get('board'),reason:f.get('reason'),notes:f.get('notes')};state.records.unshift(novoRegistro);save();e.target.reset();$('studyDate').value=new Date().toISOString().slice(0,10);alert('Registro salvo e sincronizado com a nuvem.');render();renderHomePerformance();renderPerformance();atualizarProgressoNuvem();registrarEstudoNuvem(novoRegistro);};
+function deleteRecord(id){const record=state.records.find(item=>item.id===id);if(!record)return;if(confirm(`Apagar o registro de ${record.date} em ${record.subject}? Esta ação não pode ser desfeita.`)){state.records=state.records.filter(item=>item.id!==id);save();render();renderHomePerformance();renderPerformance();atualizarProgressoNuvem();apagarRegistroNuvem(id);}}function toggleDay(i){state.done[i]=!state.done[i];save();render();renderHomePerformance();renderPerformance();atualizarProgressoNuvem();sincronizarCronogramaNuvem();}
 function renderCurriculum(){const ranges=[];const tamanho=7;for(let start=0;start<curriculum.length;start+=tamanho){const end=Math.min(start+tamanho,curriculum.length);const numSemana=Math.floor(start/tamanho)+1;const ultimo=(end===curriculum.length)&&((end-start)<tamanho);const label=ultimo?'FECHAMENTO DO CICLO':('SEMANA '+numSemana);const title=ultimo?'Fechamento do Ciclo':('Semana '+numSemana);ranges.push([start,end,label,title]);}let out='';for(const [start,end,label,title] of ranges){out+=`<div class="panel week"><div class="panelhead"><div><p class="eyebrow">${label}</p><h3>${title}</h3></div><span class="tag">${state.done.slice(start,end).filter(Boolean).length}/${end-start} concluídos</span></div>`;for(let i=start;i<end;i++){let c=curriculum[i],done=!!state.done[i];out+=`<button class="day ${done?'done':''}" onclick="toggleDay(${i})"><span class="daynum">${String(i+1).padStart(2,'0')}</span><span><b>${c[0]}${c[2]?' · '+c[2]:''}</b><small>${['Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado','Domingo','Segunda-feira'][i%7]} · ${c[1]}</small></span><span class="badge ${c[3]==='simulado'?'simulado':''}">${done?'✓ CONCLUÍDO':c[3]==='simulado'?'SIMULADO':c[3]==='final'?'RETA FINAL':'ESTUDAR'}</span></button>`}out+='</div>'}return out}
 	function renderHomePerformance(){const grouped={};state.records.forEach(r=>{const subject=r.subject||'Sem disciplina';if(!grouped[subject])grouped[subject]={total:0,correct:0,minutes:0};grouped[subject].total+=Number(r.total)||0;grouped[subject].correct+=Number(r.correct)||0;grouped[subject].minutes+=Number(r.minutes)||0});const entries=Object.entries(grouped).sort((a,b)=>b[1].total-a[1].total);$('homeDisciplineProgress').innerHTML=entries.length?entries.map(([subject,g])=>{const accuracy=g.total?Math.round(g.correct/g.total*100):0;return `<div class="discipline-row"><div class="discipline-meta"><b>${subject}</b><strong>${accuracy}%</strong></div><div class="progress"><i style="width:${accuracy}%"></i></div><div class="discipline-sub"><span>${g.correct} de ${g.total} questões certas</span><span>${g.minutes} min</span></div></div>`}).join(''):'<div class="performance-empty">Registre questões para liberar o desempenho por disciplina.</div>';const ordered=[...state.records].filter(r=>Number(r.total)>0).sort((a,b)=>(a.date||'').localeCompare(b.date||'')||Number(a.id)-Number(b.id));if(!ordered.length){$('stockChart').innerHTML='<div class="stock-empty">Aguardando registros para desenhar a tendência.</div>';return}let cumulativeTotal=0,cumulativeCorrect=0;const values=ordered.map(r=>{cumulativeTotal+=Number(r.total)||0;cumulativeCorrect+=Number(r.correct)||0;return cumulativeTotal?Math.round(cumulativeCorrect/cumulativeTotal*100):0});const W=1000,H=220,padX=28,padY=32,min=0,max=100;const pts=values.map((value,i)=>({x:values.length===1?W/2:padX+i*(W-padX*2)/(values.length-1),y:H-padY-(value-min)/(max-min)*(H-padY*2)}));const linePath=smoothPath(pts);const areaPath=`${linePath} L ${pts[pts.length-1].x.toFixed(1)},${H-padY} L ${pts[0].x.toFixed(1)},${H-padY} Z`;const first=values[0],last=values[values.length-1],change=last-first;const changeLabel=`${change>=0?'+':''}${change} pts`;const yTicks=[0,25,50,75,100];const yTickLines=yTicks.map(t=>{const y=H-padY-(t-min)/(max-min)*(H-padY*2);return `<line x1="${padX}" y1="${y}" x2="${W-padX}" y2="${y}" stroke="#ffffff0d"/><text x="${padX-6}" y="${y+3}" text-anchor="end" font-size="14" fill="#6b7280">${t}</text>`}).join('');$('stockChart').innerHTML=`<span class="stock-label">PRECISÃO ACUMULADA</span><span class="stock-change" style="color:${change>=0?'var(--green)':'var(--red2)'}">${changeLabel}</span><svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="Gráfico de evolução da precisão acumulada">${yTickLines}<path d="${areaPath}" fill="${change>=0?'#39d98a1c':'#ff52671c'}" stroke="none"/><path d="${linePath}" fill="none" stroke="${change>=0?'#39d98a':'#ff5267'}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>${pts.map((p,i)=>`<circle cx="${p.x}" cy="${p.y}" r="6" fill="${change>=0?'#39d98a':'#ff5267'}" stroke="#17131a" stroke-width="3"><title>${values[i]}% no registro ${i+1}</title></circle>`).join('')}</svg>`}
 function smoothPath(pts){if(!pts.length)return'';if(pts.length===1)return`M ${pts[0].x},${pts[0].y}`;let d=`M ${pts[0].x.toFixed(1)},${pts[0].y.toFixed(1)}`;for(let i=0;i<pts.length-1;i++){const p0=pts[i-1]||pts[i],p1=pts[i],p2=pts[i+1],p3=pts[i+2]||p2;const cp1x=p1.x+(p2.x-p0.x)/6,cp1y=p1.y+(p2.y-p0.y)/6;const cp2x=p2.x-(p3.x-p1.x)/6,cp2y=p2.y-(p3.y-p1.y)/6;d+=` C ${cp1x.toFixed(1)},${cp1y.toFixed(1)} ${cp2x.toFixed(1)},${cp2y.toFixed(1)} ${p2.x.toFixed(1)},${p2.y.toFixed(1)}`}return d}
@@ -160,7 +148,7 @@ async function carregarRankingNuvem() {
   if (!window.supabaseClient) return;
   const { data, error } = await window.supabaseClient
     .from('ranking_publico')
-    .select('user_id, nome, questoes_resolvidas, questoes_corretas, taxa_acerto, progresso_cronograma, cronograma_concluido, cronograma_total, cronograma_nome, ultima_atualizacao')
+    .select('user_id, nome, questoes_resolvidas, questoes_corretas, taxa_acerto, progresso_cronograma, ultima_atualizacao')
     .order('questoes_resolvidas', { ascending: false });
 
   if (error) {
@@ -170,11 +158,9 @@ async function carregarRankingNuvem() {
 
   rankingGlobal = (data || []).map(x => ({
     ...x,
-    questoes_resolvidas: Number(x.questoes_resolvidas) || 0,
     acertos: Number(x.questoes_corretas) || 0,
-    progresso_cronograma: Number(x.progresso_cronograma) || 0,
-    cronograma_concluido: Number(x.cronograma_concluido) || 0,
-    cronograma_total: Number(x.cronograma_total) || 0,
+    cronograma_concluido: Math.round((Number(x.progresso_cronograma) || 0) * 30 / 100),
+    cronograma_total: 30,
     ultimo_login: x.ultima_atualizacao
   }));
 
@@ -182,9 +168,24 @@ async function carregarRankingNuvem() {
 }
 
 async function atualizarProgressoNuvem() {
-  /* Ranking e progresso são derivados diretamente do Supabase.
-     Não usa mais a RPC antiga de sincronização. */
-  await carregarRankingNuvem();
+  if (!window.supabaseClient) return;
+  const nomeAtual = localStorage.getItem('parabellum_operador');
+  const pinHash = localStorage.getItem('parabellum_pin_hash');
+  if (!nomeAtual || !pinHash) return;
+  const meQ = state.records.reduce((a,r)=>a+(Number(r.total)||0),0);
+  const meC = state.records.reduce((a,r)=>a+(Number(r.correct)||0),0);
+  const meDone = state.done.filter(Boolean).length;
+
+  await window.supabaseClient.rpc('sincronizar_progresso', {
+    p_nome: nomeAtual,
+    p_pin_hash: pinHash,
+    p_questoes: meQ,
+    p_acertos: meC,
+    p_cronograma: meDone,
+    p_cronograma_total: curriculum.length
+  });
+
+  carregarRankingNuvem();
 }
 
 async function registrarEstudoNuvem(registro) {
@@ -399,8 +400,7 @@ function gerarCronograma(dias, dataInicioStr){
     return [item[0], item[1], dataFmt, item[2]];
   });
   curriculum = novoCurriculum;
-  localStorage.setItem('operacao-aprovacao-cronograma', JSON.stringify(curriculum));
-  state.done = new Array(curriculum.length).fill(false);
+    state.done = new Array(curriculum.length).fill(false);
   save();
   render();renderHomePerformance();renderPerformance();
   atualizarProgressoNuvem();sincronizarCronogramaNuvem();
@@ -418,8 +418,7 @@ function criarCronogramaForm(e){
 function restaurarCronogramaPadrao(){
   if(!confirm('Restaurar o cronograma padrão de 30 dias da PMMA? Isso zera o progresso do cronograma atual.')) return;
   curriculum = curriculumPadrao;
-  localStorage.removeItem('operacao-aprovacao-cronograma');
-  state.done = new Array(curriculum.length).fill(false);
+    state.done = new Array(curriculum.length).fill(false);
   save();
   render();renderHomePerformance();renderPerformance();
   atualizarProgressoNuvem();sincronizarCronogramaNuvem();
@@ -442,8 +441,7 @@ function importarCronograma(e){
       lista.forEach(item=>{ if(!Array.isArray(item)||item.length<4) throw Error(); });
       if(!confirm('Importar este cronograma de '+lista.length+' dias? Isso substitui o cronograma atual e zera o progresso das missões.')) return;
       curriculum = lista;
-      localStorage.setItem('operacao-aprovacao-cronograma', JSON.stringify(curriculum));
-      state.done = new Array(curriculum.length).fill(false);
+            state.done = new Array(curriculum.length).fill(false);
       save();
       render();renderHomePerformance();renderPerformance();
       atualizarProgressoNuvem();sincronizarCronogramaNuvem();
@@ -773,70 +771,9 @@ verificarOperador();
     return data.user;
   }
 
-  async function migrarRegistrosLocais(userId){
-    if(!SB() || !userId) return {migrados:0,ignorados:0,erros:0};
-    const raw=localStorage.getItem('operacao-aprovacao-local');
-    if(!raw) return {migrados:0,ignorados:0,erros:0};
-    let localState;
-    try{ localState=JSON.parse(raw); }catch(e){ console.warn('Dados locais antigos inválidos:',e); return {migrados:0,ignorados:0,erros:1}; }
-    const locais=Array.isArray(localState?.records)?localState.records:[];
-    if(!locais.length) return {migrados:0,ignorados:0,erros:0};
-
-    let migradosMap={};
-    try{ migradosMap=JSON.parse(localStorage.getItem('operacao-aprovacao-migrados')||'{}')||{}; }catch(e){ migradosMap={}; }
-
-    const {data:existentes,error:loadError}=await SB().from('study_records').select('study_date,type,subject,topics,total,correct,minutes,board,reason,notes').eq('user_id',userId);
-    if(loadError) throw loadError;
-
-    const normal=(v)=>v==null?'':String(v);
-    const arr=(v)=>Array.isArray(v)?v.map(normal):[];
-    const fp=(r)=>JSON.stringify([
-      normal(r.date),normal(r.study_date),normal(r.type),normal(r.subject),arr(r.topics).sort(),Number(r.total)||0,Number(r.correct)||0,Number(r.minutes)||0,normal(r.board),normal(r.reason),normal(r.notes)
-    ]);
-    const existentesSet=new Set((existentes||[]).map(fp));
-    let migrados=0,ignorados=0,erros=0;
-
-    for(const r of locais){
-      if(!r || r.id==null) continue;
-      const oldId=String(r.id);
-      if(migradosMap[oldId]){ ignorados++; continue; }
-      const payload={
-        id:crypto.randomUUID(),
-        user_id:userId,
-        study_date:r.date || new Date().toISOString().slice(0,10),
-        type:r.type||'questoes',
-        subject:r.subject||'Não informado',
-        topics:Array.isArray(r.topics)?r.topics:((r.topic||'').split(' · ').filter(Boolean)),
-        total:Number(r.total)||0,
-        correct:Number(r.correct)||0,
-        minutes:Number(r.minutes)||0,
-        board:r.board||null,
-        reason:r.reason||'none',
-        notes:r.notes||null
-      };
-      const key=fp(payload);
-      if(existentesSet.has(key)){
-        migradosMap[oldId]=true; ignorados++; continue;
-      }
-      const {error}=await SB().from('study_records').insert(payload);
-      if(error){ console.error('Falha ao migrar registro local',oldId,error); erros++; continue; }
-      existentesSet.add(key); migradosMap[oldId]=true; migrados++;
-    }
-
-    localStorage.setItem('operacao-aprovacao-migrados',JSON.stringify(migradosMap));
-    if(migrados>0){
-      console.log(`Migração concluída: ${migrados} registro(s) antigo(s) enviado(s) ao Supabase.`);
-    }
-    if(erros>0){
-      console.warn(`Migração: ${erros} registro(s) não puderam ser enviados.`);
-    }
-    return {migrados,ignorados,erros};
-  }
-
   async function cloudLoad(){
     const u=user(); if(!u || !SB()) return;
     try{
-      await migrarRegistrosLocais(u.id);
       const [rec,prog,goals,focus] = await Promise.all([
         SB().from('study_records').select('*').eq('user_id',u.id).order('study_date',{ascending:false}).order('created_at',{ascending:false}),
         SB().from('cronograma_progresso').select('cronograma_id,concluido').eq('user_id',u.id),
@@ -872,101 +809,16 @@ verificarOperador();
   }
 
   async function loadCurriculum(){
-    const client=SB(); if(!client) return;
-    const u=await authenticatedUser();
-    let activeId=null;
-    const stored=Number(localStorage.getItem('parabellum_cronograma_ativo')||0);
-
-    const {data:perfil,error:pe}=await client.from('profiles').select('cronograma_ativo_id').eq('id',u.id).maybeSingle();
-    if(pe) console.warn('Cronograma ativo:',pe.message);
-    activeId=perfil?.cronograma_ativo_id || stored || null;
-
-    if(!activeId){
-      const {data:padrao,error:ce}=await client.from('cronogramas').select('id,nome,descricao,tipo,codigo').eq('codigo','PMMA-2026').maybeSingle();
-      if(ce) throw ce;
-      if(padrao){
-        activeId=padrao.id;
-        await client.from('profiles').update({cronograma_ativo_id:activeId}).eq('id',u.id);
-      }
-    }
-
-    const {data:meta,error:me}=await client.from('cronogramas').select('id,nome,descricao,tipo,codigo').eq('id',activeId).maybeSingle();
-    if(me) console.warn('Metadados do cronograma:',me.message);
-
-    let data=[], error=null;
-    if(meta?.codigo==='PMMA-2026'){
-      const r=await client.from('pmma_cronograma').select('id,dia,data,disciplina,conteudo,tipo').order('dia',{ascending:true}).order('id',{ascending:true});
-      data=r.data||[]; error=r.error;
-      if(data.length) curriculum=data.map(x=>[x.disciplina,x.conteudo,new Date(x.data+'T12:00:00').toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'}),x.tipo,x.id]);
-    }else if(meta){
-      const r=await client.from('cronograma_itens').select('id,dia,data,dia_semana,periodo,disciplina,conteudo,tipo').eq('cronograma_id',meta.id).order('dia',{ascending:true}).order('periodo',{ascending:true}).order('id',{ascending:true});
-      data=r.data||[]; error=r.error;
-      if(data.length) curriculum=data.map(x=>[x.disciplina,x.conteudo,new Date(x.data+'T12:00:00').toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'}),x.tipo||'study',x.id]);
-    }
-    if(error){ console.error('Cronograma:',error); return; }
-
-    window.cronogramaAtivo={id:activeId,meta};
-    state.done=Array.from({length:curriculum.length},()=>false);
-
-    const title=$('cronogramaAtivoNome'), desc=$('cronogramaAtivoDescricao'), status=$('cronogramaSelectorStatus');
-    if(title) title.textContent=meta?.nome||'Cronograma';
-    if(desc) desc.textContent=meta?.descricao||'';
-    if(status) status.textContent=`${curriculum.length} dias/missões carregados · progresso individual salvo na nuvem.`;
-
-    await carregarOpcoesCronograma();
-  }
-
-  async function carregarOpcoesCronograma(){
-    const client=SB(); if(!client) return;
-    const {data,error}=await client.from('cronogramas').select('id,nome,descricao,codigo,tipo').eq('ativo',true).order('id',{ascending:true});
-    const sel=$('cronogramaSelect'); if(!sel) return;
-    if(error){console.warn('Cronogramas:',error.message); return;}
-    sel.innerHTML=(data||[]).map(x=>`<option value="${x.id}">${x.nome}</option>`).join('');
-    if(window.cronogramaAtivo?.id!=null) sel.value=String(window.cronogramaAtivo.id);
-    sel.onchange=async function(){
-      try{
-        const id=Number(this.value);
-        const u=await authenticatedUser();
-        const {error:e}=await client.from('profiles').update({cronograma_ativo_id:id}).eq('id',u.id);
-        if(e) throw e;
-        localStorage.setItem('parabellum_cronograma_ativo',String(id));
-        await loadCurriculum();
-        await cloudLoad();
-        await carregarRankingNuvem();
-        render();renderHomePerformance();renderPerformance();
-      }catch(e){
-        alert('Não foi possível trocar o cronograma: '+e.message);
-        if(window.cronogramaAtivo?.id!=null) this.value=String(window.cronogramaAtivo.id);
-      }
-    };
-  }
-
-  async function migrarProgressoLocal(userId){
-    if(!SB() || !userId || !Array.isArray(state.done)) return;
-    const raw=localStorage.getItem('operacao-aprovacao-local');
-    if(!raw) return;
-    let antigo; try{ antigo=JSON.parse(raw); }catch(e){ return; }
-    if(!Array.isArray(antigo?.done) || !antigo.done.some(Boolean)) return;
-    const {data:cron,error}=await SB().from('pmma_cronograma').select('id,dia').order('dia',{ascending:true});
-    if(error || !Array.isArray(cron)) return;
-    const rows=[];
-    antigo.done.forEach((done,i)=>{
-      if(!done) return;
-      const c=cron.find(x=>Number(x.dia)===i+1) || cron[i];
-      if(c?.id!=null) rows.push({user_id:userId,cronograma_id:Number(c.id),concluido:true,concluido_em:new Date().toISOString()});
-    });
-    if(rows.length){
-      const {error:e}=await SB().from('cronograma_progresso').upsert(rows,{onConflict:'user_id,cronograma_id'});
-      if(e) console.warn('Falha ao migrar progresso antigo:',e.message);
+    if(!SB()) return;
+    const {data,error}=await SB().from('pmma_cronograma').select('id,dia,data,disciplina,conteudo,tipo').order('dia',{ascending:true});
+    if(error){console.error('Cronograma PMMA:',error);return;}
+    if(data && data.length){
+      curriculum=data.map(x=>[x.disciplina,x.conteudo,new Date(x.data+'T12:00:00').toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'}),x.tipo,x.id]);
+      state.done=Array.from({length:curriculum.length},()=>false);
     }
   }
 
-  window.carregarDadosNuvem = async function(){
-    await loadCurriculum();
-    const u=await authenticatedUser();
-    await migrarProgressoLocal(u.id);
-    await cloudLoad();
-  };
+  window.carregarDadosNuvem = async function(){ await loadCurriculum(); await cloudLoad(); };
 
   window.registrarEstudoNuvem = async function(registro){
     const client=SB();
@@ -995,9 +847,25 @@ verificarOperador();
 
   window.apagarRegistroNuvem = async function(id){
     const client=SB();
+    if(!client) throw new Error('Supabase não está disponível.');
     const u=await authenticatedUser();
-    const {error}=await client.from('study_records').delete().eq('id',id).eq('user_id',u.id);
-    if(error) throw new Error(`Supabase rejeitou a exclusão (${error.code||'sem código'}): ${error.message}`);
+    if(!u) throw new Error('Usuário não autenticado.');
+
+    const {data,error}=await client
+      .from('study_records')
+      .delete()
+      .eq('id',id)
+      .eq('user_id',u.id)
+      .select('id');
+
+    if(error){
+      throw new Error(`Supabase rejeitou a exclusão (${error.code||'sem código'}): ${error.message}`);
+    }
+
+    if(!data || data.length===0){
+      throw new Error('O registro não foi encontrado ou não pertence a esta conta. Nada foi apagado.');
+    }
+
     return true;
   };
 
@@ -1015,14 +883,30 @@ verificarOperador();
   };
 
   window.deleteRecord = async function(id){
-    const r=state.records.find(x=>String(x.id)===String(id)); if(!r) return;
-    if(!confirm(`Apagar o registro de ${r.date} em ${r.subject}?\n\nEssa ação não pode ser desfeita.`)) return;
+    const r=state.records.find(x=>String(x.id)===String(id));
+    if(!r) return;
+
+    if(!confirm(`Apagar o registro de ${r.date} em ${r.subject}?\n\nQuestões: ${Number(r.total)||0}\nAcertos: ${Number(r.correct)||0}\n\nEssa ação não pode ser desfeita.`)) return;
+
     try{
-      await apagarRegistroNuvem(id);
-      state.records=state.records.filter(x=>String(x.id)!==String(id));
-      render();renderHomePerformance();renderPerformance();carregarRankingNuvem();
-      alert('Registro apagado da nuvem com sucesso.');
-    }catch(e){alert('Não foi possível apagar o registro: '+e.message);}
+      // Primeiro apaga na nuvem. Só alteramos a tela depois da confirmação do Supabase.
+      await apagarRegistroNuvem(r.id);
+
+      // Remove também do estado local, inclusive IDs vindos de registros antigos.
+      state.records=state.records.filter(x=>String(x.id)!==String(r.id));
+      save();
+
+      render();
+      renderHomePerformance();
+      renderPerformance();
+      if(typeof renderIntelligence==='function') renderIntelligence();
+      await carregarRankingNuvem();
+
+      alert('✓ Registro apagado com sucesso. O ranking foi atualizado.');
+    }catch(e){
+      // Se a nuvem recusou, o registro permanece na tela e no navegador.
+      alert('Não foi possível apagar o registro.\n\n'+e.message);
+    }
   };
 
   const oldOpen=window.abrirPainelAutenticado;
@@ -1101,5 +985,104 @@ verificarOperador();
 })();
 </script>
 
+<script>
+/* ==========================================================
+   PARABELLUM CLOUD-ONLY FINAL
+   Dados do usuário: somente Supabase.
+   localStorage não é fonte de dados nem cache de desempenho.
+   ========================================================== */
+(function(){
+  const SB=()=>window.supabaseClient;
+  let retaItems=[];
+  let retaDone={};
+  const esc=v=>String(v??'').replace(/[&<>'"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[m]));
+  async function authUser(){
+    const {data,error}=await SB().auth.getUser();
+    if(error||!data?.user) throw new Error('Sessão não encontrada. Faça login novamente.');
+    window.usuarioAtual=data.user; return data.user;
+  }
+  async function loadReta(){
+    if(!SB()) return;
+    const c=SB();
+    const {data:cron,error:ce}=await c.from('cronogramas').select('id,nome,codigo').eq('codigo','PMMA-2026-RETA-FINAL-0909-1010').maybeSingle();
+    if(ce) throw ce;
+    if(!cron){retaItems=[];retaDone={};renderReta();return;}
+    const {data:items,error:ie}=await c.from('cronograma_itens').select('id,cronograma_id,dia,data,dia_semana,periodo,disciplina,conteudo,tipo').eq('cronograma_id',cron.id).order('dia',{ascending:true}).order('periodo',{ascending:true});
+    if(ie) throw ie;
+    retaItems=items||[];
+    const u=await authUser();
+    const {data:prog,error:pe}=await c.from('pmma_reta_final_progresso').select('item_id,concluido,concluido_em').eq('user_id',u.id).in('item_id',retaItems.map(x=>x.id).length?retaItems.map(x=>x.id):[-1]);
+    if(pe) throw pe;
+    retaDone={};(prog||[]).forEach(x=>retaDone[String(x.item_id)]=!!x.concluido);
+    renderReta();
+  }
+  function renderReta(){
+    const box=$('retaCurriculum'); if(!box)return;
+    const total=retaItems.length,done=retaItems.filter(x=>retaDone[String(x.id)]).length,pct=total?Math.round(done/total*100):0;
+    if($('retaTotal'))$('retaTotal').textContent=total||64;
+    if($('retaConcluidas'))$('retaConcluidas').textContent=done;
+    if($('retaPercent'))$('retaPercent').textContent=pct+'%';
+    if($('retaBar'))$('retaBar').style.width=pct+'%';
+    if(!total){box.innerHTML='<div class="panel performance-empty">Reta Final ainda não carregada no Supabase. Execute o SQL definitivo.</div>';return;}
+    const groups={};retaItems.forEach(x=>(groups[x.dia]??=[]).push(x));
+    box.innerHTML=Object.entries(groups).map(([dia,items])=>{
+      const d=items[0],dc=items.filter(x=>retaDone[String(x.id)]).length;
+      return `<div class="panel week"><div class="panelhead"><div><p class="eyebrow">DIA ${String(dia).padStart(2,'0')} · ${esc(d.dia_semana)}</p><h3>${new Date(d.data+'T12:00:00').toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'})}</h3></div><span class="tag">${dc}/${items.length} concluídas</span></div>${items.map(x=>{const done=!!retaDone[String(x.id)];return `<button class="day ${done?'done':''}" onclick="window.toggleRetaFinal(${x.id})"><span class="daynum">${x.periodo==='MANHÃ'?'☀':'☾'}</span><span><b>${esc(x.disciplina)}</b><small>${esc(x.conteudo)}</small></span><span class="badge ${x.tipo==='final'?'simulado':''}">${done?'✓ CONCLUÍDA':x.tipo==='final'?'VÉSPERA':'ESTUDAR'}</span></button>`}).join('')}</div>`;
+    }).join('');
+  }
+  window.toggleRetaFinal=async function(itemId){
+    try{
+      const u=await authUser(),client=SB(),key=String(itemId),novo=!retaDone[key];
+      retaDone[key]=novo;renderReta();
+      const payload={user_id:u.id,item_id:itemId,concluido:novo,concluido_em:novo?new Date().toISOString():null,updated_at:new Date().toISOString()};
+      const {error}=await client.from('pmma_reta_final_progresso').upsert(payload,{onConflict:'user_id,item_id'});
+      if(error){retaDone[key]=!novo;renderReta();throw error;}
+      await window.carregarRankingNuvem();
+    }catch(e){alert('Não foi possível salvar a Reta Final no Supabase:\n\n'+e.message);}
+  };
+  const oldLoad=window.carregarDadosNuvem;
+  window.carregarDadosNuvem=async function(){
+    await (oldLoad?oldLoad():Promise.resolve());
+    try{await loadReta();}catch(e){console.error('Reta Final:',e);}
+  };
+  const oldOpen=window.abrirPainelAutenticado;
+  window.abrirPainelAutenticado=async function(u){
+    await oldOpen(u);
+    try{await loadReta();}catch(e){console.error('Reta Final:',e);}
+  };
+  const oldOpenPage=window.openPage;
+  window.openPage=function(page){oldOpenPage(page);if(page==='retafinal')loadReta().catch(e=>alert('Erro ao carregar Reta Final: '+e.message));};
+  window.carregarRankingNuvem=async function(){
+    if(!SB())return;
+    const {data,error}=await SB().from('ranking_publico').select('user_id,nome,questoes_resolvidas,questoes_corretas,taxa_acerto,minutos_estudo,dias_concluidos,total_dias,progresso_cronograma,reta_final_concluidos,reta_final_total_missoes,progresso_reta_final,ultima_atualizacao').order('questoes_resolvidas',{ascending:false});
+    if(error){console.warn('Ranking:',error.message);return;}
+    rankingGlobal=(data||[]).map(x=>({...x,acertos:Number(x.questoes_corretas)||0,cronograma_concluido:Number(x.dias_concluidos)||0,cronograma_total:Number(x.total_dias)||30,ultimo_login:x.ultima_atualizacao}));
+    renderRanking();
+  };
+  window.renderRanking=function(){
+    const nome=window.perfilAtual?.display_name||'Você';
+    const lista=[...(rankingGlobal||[])];
+    const q=[...lista].sort((a,b)=>Number(b.questoes_resolvidas||0)-Number(a.questoes_resolvidas||0));
+    const pr=[...lista].sort((a,b)=>Number(b.progresso_cronograma||0)-Number(a.progresso_cronograma||0));
+    const medals=['🥇','🥈','🥉'];
+    const maxQ=Math.max(1,...q.map(x=>Number(x.questoes_resolvidas)||0));
+    $('rankingQuestions').innerHTML=q.map((x,i)=>`<div class="missionrow"><span class="daynum">${medals[i]||((i+1)+'º')}</span><div class="rowfill"><strong>${esc(x.nome)}${x.nome===nome?' · VOCÊ':''}</strong><small>${Number(x.taxa_acerto||0).toFixed(2)}% de acerto · ${Number(x.reta_final_concluidos||0)}/${Number(x.reta_final_total_missoes||64)} Reta Final</small><div class="progress" style="margin-top:7px"><i style="width:${Math.min(100,(Number(x.questoes_resolvidas)||0)/maxQ*100)}%"></i></div></div><b>${Number(x.questoes_resolvidas)||0} questões</b></div>`).join('')||'<div class="performance-empty">Nenhum operador no ranking.</div>';
+    $('rankingProgress').innerHTML=pr.map((x,i)=>`<div class="missionrow"><span class="daynum">${medals[i]||((i+1)+'º')}</span><div class="rowfill"><strong>${esc(x.nome)}${x.nome===nome?' · VOCÊ':''}</strong><small>PMMA ${Number(x.dias_concluidos)||0}/${Number(x.total_dias)||30} · Reta Final ${Number(x.reta_final_concluidos)||0}/${Number(x.reta_final_total_missoes)||64}</small><div class="progress" style="margin-top:7px"><i style="width:${Number(x.progresso_cronograma)||0}%"></i></div></div><b>${Number(x.progresso_cronograma||0)}%</b></div>`).join('')||'<div class="performance-empty">Nenhum progresso registrado.</div>';
+    const me=lista.find(x=>x.user_id===window.usuarioAtual?.id),meQ=Number(me?.questoes_resolvidas)||0,meC=Number(me?.questoes_corretas)||0,meP=Number(me?.progresso_cronograma)||0,meR=Number(me?.progresso_reta_final)||0;
+    const meuQ=q.findIndex(x=>x.user_id===window.usuarioAtual?.id)+1,meuP=pr.findIndex(x=>x.user_id===window.usuarioAtual?.id)+1;
+    $('rankingSummary').innerHTML=`<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px"><div class="sim-box"><span>Questões</span><b>${meQ}</b><small>${meuQ||'-'}º lugar</small></div><div class="sim-box"><span>Precisão</span><b>${meQ?Math.round(meC/meQ*100):0}%</b><small>${meC} acertos</small></div><div class="sim-box"><span>PMMA</span><b>${meP}%</b><small>${Number(me?.dias_concluidos)||0}/${Number(me?.total_dias)||30}</small></div><div class="sim-box"><span>Reta Final</span><b>${meR}%</b><small>${Number(me?.reta_final_concluidos)||0}/${Number(me?.reta_final_total_missoes)||64}</small></div></div><p class="notice" style="margin-top:14px">Ranking calculado exclusivamente pelo Supabase. Questões, progresso do PMMA principal e Reta Final vêm do banco.</p>`;
+  };
+  /* Não persistir dados de usuário no navegador. */
+  window.exportData=async function(){
+    try{const u=await authUser();const [r,p,f,g]=await Promise.all([SB().from('study_records').select('*').eq('user_id',u.id),SB().from('cronograma_progresso').select('*').eq('user_id',u.id),SB().from('pmma_reta_final_progresso').select('*').eq('user_id',u.id),SB().from('study_goals').select('*').eq('user_id',u.id).maybeSingle()]);const blob=new Blob([JSON.stringify({version:2,exportedAt:new Date().toISOString(),records:r.data||[],cronogramaProgresso:p.data||[],retaFinalProgresso:f.data||[],goals:g.data||null},null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='caveirinha-supabase-backup.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);}catch(e){alert('Não foi possível gerar o backup: '+e.message);}
+  };
+  window.clearData=async function(){
+    if(!confirm('ATENÇÃO: isso apagará seus registros de questões e progressos do SUPABASE. Esta ação não pode ser desfeita. Continuar?'))return;
+    try{const u=await authUser();for(const table of ['study_records','cronograma_progresso','pmma_reta_final_progresso','focus_sessions']){const {error}=await SB().from(table).delete().eq('user_id',u.id);if(error)throw error;}state.records=[];state.done=[];retaDone={};await loadCurriculum();await cloudLoad();await loadReta();render();renderHomePerformance();renderPerformance();alert('Seus dados de estudo foram apagados do Supabase.');}catch(e){alert('Erro ao apagar dados no Supabase: '+e.message);}
+  };
+  /* Ao autenticar, carregar tudo da nuvem. */
+  setTimeout(()=>{if(window.usuarioAtual)loadReta().catch(console.error);},300);
+})();
+</script>
 </body>
 </html>
