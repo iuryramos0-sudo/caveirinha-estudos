@@ -165,7 +165,7 @@ async function carregarRankingNuvem() {
   if (!window.supabaseClient) return;
   const { data, error } = await window.supabaseClient
     .from('ranking_publico')
-    .select('user_id, nome, questoes_resolvidas, questoes_corretas, taxa_acerto, progresso_cronograma, ultima_atualizacao')
+    .select('user_id, nome, questoes_resolvidas, questoes_corretas, taxa_acerto, progresso_cronograma, dias_concluidos, total_dias, ultima_atualizacao')
     .order('questoes_resolvidas', { ascending: false });
 
   if (error) {
@@ -176,8 +176,8 @@ async function carregarRankingNuvem() {
   rankingGlobal = (data || []).map(x => ({
     ...x,
     acertos: Number(x.questoes_corretas) || 0,
-    cronograma_concluido: Math.round((Number(x.progresso_cronograma) || 0) * 30 / 100),
-    cronograma_total: 30,
+    cronograma_concluido: Number(x.dias_concluidos) || 0,
+    cronograma_total: Number(x.total_dias) || 0,
     ultimo_login: x.ultima_atualizacao
   }));
 
@@ -186,33 +186,28 @@ async function carregarRankingNuvem() {
 
 async function atualizarProgressoNuvem() {
   if (!window.supabaseClient) return;
-  const nomeAtual = localStorage.getItem('parabellum_operador');
-  const pinHash = localStorage.getItem('parabellum_pin_hash');
-  if (!nomeAtual || !pinHash) return;
-  const meQ = state.records.reduce((a,r)=>a+(Number(r.total)||0),0);
-  const meC = state.records.reduce((a,r)=>a+(Number(r.correct)||0),0);
-  const meDone = state.done.filter(Boolean).length;
-
-  await window.supabaseClient.rpc('sincronizar_progresso', {
-    p_nome: nomeAtual,
-    p_pin_hash: pinHash,
-    p_questoes: meQ,
-    p_acertos: meC,
-    p_cronograma: meDone,
-    p_cronograma_total: curriculum.length
-  });
-
-  carregarRankingNuvem();
+  try {
+    await carregarRankingNuvem();
+  } catch(e) {
+    console.warn('Falha ao atualizar o ranking com a nuvem', e);
+  }
 }
 
 async function registrarEstudoNuvem(registro) {
   if (!window.supabaseClient) return;
-  const nome = localStorage.getItem('parabellum_operador');
-  const pinHash = localStorage.getItem('parabellum_pin_hash');
-  if (!nome || !pinHash) return;
   try {
-    await window.supabaseClient.rpc('registrar_estudo', { p_nome: nome, p_pin_hash: pinHash, p_registro: registro });
-  } catch(e) { console.warn('Falha ao sincronizar registro com a nuvem', e); }
+    const { data, error } = await window.supabaseClient.rpc('registrar_estudo', {
+      p_nome: localStorage.getItem('parabellum_operador') || '',
+      p_pin_hash: localStorage.getItem('parabellum_pin_hash') || '',
+      p_registro: registro
+    });
+    if (error) throw error;
+    if (data && data.ok === false) throw new Error(data.message || 'Registro não salvo.');
+    await carregarRankingNuvem();
+  } catch(e) {
+    console.warn('Falha ao sincronizar registro com a nuvem', e);
+    alert('O registro foi salvo localmente, mas não foi possível confirmar a gravação no banco: ' + e.message);
+  }
 }
 
 async function apagarRegistroNuvem(registroId) {
@@ -227,12 +222,57 @@ async function apagarRegistroNuvem(registroId) {
 
 async function sincronizarCronogramaNuvem() {
   if (!window.supabaseClient) return;
-  const nome = localStorage.getItem('parabellum_operador');
-  const pinHash = localStorage.getItem('parabellum_pin_hash');
-  if (!nome || !pinHash) return;
   try {
-    await window.supabaseClient.rpc('sincronizar_cronograma', { p_nome: nome, p_pin_hash: pinHash, p_done: state.done });
-  } catch(e) { console.warn('Falha ao sincronizar cronograma com a nuvem', e); }
+    const { data: usuario, error: erroUsuario } = await window.supabaseClient.auth.getUser();
+    if (erroUsuario) throw erroUsuario;
+    const userId = usuario?.user?.id;
+    if (!userId) throw new Error('Usuário não autenticado no Supabase.');
+
+    const { data: itens, error: erroItens } = await window.supabaseClient
+      .from('pmma_cronograma')
+      .select('id, dia')
+      .order('dia', { ascending: true });
+    if (erroItens) throw erroItens;
+
+    for (let i = 0; i < state.done.length; i++) {
+      const item = (itens || []).find(x => Number(x.dia) === i + 1) || (itens || [])[i];
+      if (!item?.id) continue;
+
+      const concluido = !!state.done[i];
+      const { data: existente, error: erroBusca } = await window.supabaseClient
+        .from('cronograma_progresso')
+        .select('id')
+        .eq('user_id', userId)
+        .eq('cronograma_id', item.id)
+        .order('id', { ascending: false })
+        .limit(1);
+      if (erroBusca) throw erroBusca;
+
+      const payload = {
+        user_id: userId,
+        cronograma_id: item.id,
+        concluido,
+        concluido_em: concluido ? new Date().toISOString() : null
+      };
+
+      if (existente && existente.length) {
+        const { error } = await window.supabaseClient
+          .from('cronograma_progresso')
+          .update({ concluido: payload.concluido, concluido_em: payload.concluido_em })
+          .eq('id', existente[0].id);
+        if (error) throw error;
+      } else {
+        const { error } = await window.supabaseClient
+          .from('cronograma_progresso')
+          .insert(payload);
+        if (error) throw error;
+      }
+    }
+
+    await carregarRankingNuvem();
+  } catch(e) {
+    console.warn('Falha ao sincronizar cronograma com a nuvem', e);
+  }
 }
 
 async function registrarAcessoNuvem() {
