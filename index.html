@@ -230,12 +230,12 @@ async function sincronizarCronogramaNuvem() {
 
     const { data: itens, error: erroItens } = await window.supabaseClient
       .from('pmma_cronograma')
-      .select('id, dia')
-      .order('dia', { ascending: true });
+      .select('id')
+      .order('id', { ascending: true });
     if (erroItens) throw erroItens;
 
     for (let i = 0; i < state.done.length; i++) {
-      const item = (itens || []).find(x => Number(x.dia) === i + 1) || (itens || [])[i];
+      const item = (itens || [])[i];
       if (!item?.id) continue;
 
       const concluido = !!state.done[i];
