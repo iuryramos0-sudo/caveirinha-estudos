@@ -163,25 +163,45 @@ function getTopicStats(){const m={};state.records.forEach(r=>{const ts=Array.isA
 let rankingGlobal = [];
 async function carregarRankingNuvem() {
   if (!window.supabaseClient) return;
-  const { data, error } = await window.supabaseClient
-    .from('ranking_publico')
-    .select('user_id, nome, questoes_resolvidas, questoes_corretas, taxa_acerto, progresso_cronograma, dias_concluidos, total_dias, ultima_atualizacao')
-    .order('questoes_resolvidas', { ascending: false });
+  try {
+    const { data, error } = await window.supabaseClient
+      .from('ranking_publico')
+      .select('user_id, nome, questoes_resolvidas, questoes_corretas, taxa_acerto, progresso_cronograma, ultima_atualizacao')
+      .order('questoes_resolvidas', { ascending: false });
+    if (error) throw error;
 
-  if (error) {
-    console.warn('Ranking público:', error.message);
-    return;
+    const { data: totalItens, error: erroTotal } = await window.supabaseClient
+      .from('pmma_cronograma')
+      .select('id', { count: 'exact', head: true });
+    if (erroTotal) throw erroTotal;
+
+    const { data: progresso, error: erroProgresso } = await window.supabaseClient
+      .from('cronograma_progresso')
+      .select('user_id, concluido');
+    if (erroProgresso) throw erroProgresso;
+
+    const concluidosPorUsuario = {};
+    (progresso || []).forEach(row => {
+      if (row.concluido) concluidosPorUsuario[row.user_id] = (concluidosPorUsuario[row.user_id] || 0) + 1;
+    });
+    const totalDias = Number(totalItens) || 0;
+
+    rankingGlobal = (data || []).map(x => {
+      const diasConcluidos = Number(concluidosPorUsuario[x.user_id]) || 0;
+      return {
+        ...x,
+        acertos: Number(x.questoes_corretas) || 0,
+        cronograma_concluido: diasConcluidos,
+        cronograma_total: totalDias,
+        ultimo_login: x.ultima_atualizacao
+      };
+    });
+
+    renderRanking();
+  } catch(e) {
+    console.warn('Ranking público:', e.message);
+    renderRanking();
   }
-
-  rankingGlobal = (data || []).map(x => ({
-    ...x,
-    acertos: Number(x.questoes_corretas) || 0,
-    cronograma_concluido: Number(x.dias_concluidos) || 0,
-    cronograma_total: Number(x.total_dias) || 0,
-    ultimo_login: x.ultima_atualizacao
-  }));
-
-  renderRanking();
 }
 
 async function atualizarProgressoNuvem() {
@@ -203,6 +223,14 @@ async function registrarEstudoNuvem(registro) {
     });
     if (error) throw error;
     if (data && data.ok === false) throw new Error(data.message || 'Registro não salvo.');
+    if (data && data.id) {
+      const item = state.records.find(r => r.id === registro.id);
+      if (item) {
+        item.id = data.id;
+        save();
+        render();
+      }
+    }
     await carregarRankingNuvem();
   } catch(e) {
     console.warn('Falha ao sincronizar registro com a nuvem', e);
@@ -212,12 +240,49 @@ async function registrarEstudoNuvem(registro) {
 
 async function apagarRegistroNuvem(registroId) {
   if (!window.supabaseClient) return;
-  const nome = localStorage.getItem('parabellum_operador');
-  const pinHash = localStorage.getItem('parabellum_pin_hash');
-  if (!nome || !pinHash) return;
   try {
-    await window.supabaseClient.rpc('apagar_registro_nuvem', { p_nome: nome, p_pin_hash: pinHash, p_registro_id: String(registroId) });
-  } catch(e) { console.warn('Falha ao apagar registro na nuvem', e); }
+    const { data: usuario, error: erroUsuario } = await window.supabaseClient.auth.getUser();
+    if (erroUsuario) throw erroUsuario;
+    const userId = usuario?.user?.id;
+    if (!userId) throw new Error('Usuário não autenticado no Supabase.');
+
+    let query = window.supabaseClient
+      .from('study_records')
+      .select('id, study_date, type, subject, total, correct, minutes, created_at')
+      .eq('user_id', userId);
+
+    if (typeof registroId === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(registroId)) {
+      query = query.eq('id', registroId);
+    } else {
+      const localRecord = state.records.find(r => r.id === registroId);
+      if (!localRecord) throw new Error('Registro local não encontrado.');
+      query = query
+        .eq('study_date', localRecord.date)
+        .eq('subject', localRecord.subject)
+        .eq('total', Number(localRecord.total) || 0)
+        .eq('correct', Number(localRecord.correct) || 0)
+        .eq('minutes', Number(localRecord.minutes) || 0);
+      if (localRecord.type) query = query.eq('type', localRecord.type);
+      query = query.order('created_at', { ascending: false }).limit(1);
+    }
+
+    const { data: candidatos, error: erroBusca } = await query;
+    if (erroBusca) throw erroBusca;
+    if (!candidatos || !candidatos.length) throw new Error('Registro não encontrado no banco.');
+
+    const idBanco = candidatos[0].id;
+    const { error: erroDelete } = await window.supabaseClient
+      .from('study_records')
+      .delete()
+      .eq('id', idBanco)
+      .eq('user_id', userId);
+    if (erroDelete) throw erroDelete;
+
+    await carregarRankingNuvem();
+  } catch(e) {
+    console.warn('Falha ao apagar registro na nuvem', e);
+    alert('O registro foi apagado deste dispositivo, mas não foi possível apagá-lo do banco: ' + e.message);
+  }
 }
 
 async function sincronizarCronogramaNuvem() {
@@ -272,6 +337,7 @@ async function sincronizarCronogramaNuvem() {
     await carregarRankingNuvem();
   } catch(e) {
     console.warn('Falha ao sincronizar cronograma com a nuvem', e);
+    alert('O dia foi marcado neste dispositivo, mas não foi possível confirmar o envio do cronograma para o ranking: ' + e.message);
   }
 }
 
