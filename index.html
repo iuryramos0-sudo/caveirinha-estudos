@@ -776,6 +776,61 @@ body{
 }
 </style>
 
+
+<style id="neon-performance-visuals">
+#performanceBySubject{display:grid;gap:14px}
+.performance-card{position:relative;overflow:hidden}
+.performance-viz{margin:14px 0 16px;min-height:156px;border:1px solid #172a3a;border-radius:13px;background:linear-gradient(145deg,rgba(7,13,20,.98),rgba(10,17,25,.88));position:relative;overflow:hidden}
+.performance-viz:after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 80% 20%,rgba(25,223,255,.04),transparent 35%)}
+.performance-viz-label{position:absolute;left:13px;top:10px;z-index:2;font-size:8px;letter-spacing:.13em;text-transform:uppercase;color:#718295;font-weight:900}
+.performance-viz-value{position:absolute;right:13px;top:8px;z-index:2;font-size:22px;font-weight:900;color:#fff;text-shadow:0 0 14px rgba(255,25,79,.18)}
+.viz-scale svg,.viz-line svg,.viz-waterfall svg,.viz-market svg{width:100%;height:156px;display:block}
+.viz-scale .scale-needle{transform-origin:100px 118px;transform:rotate(var(--needle,0deg));transition:transform .5s ease}
+.viz-scale .scale-value{position:absolute;left:50%;bottom:25px;transform:translateX(-50%);font-size:27px;font-weight:900;color:#ff5e83;text-shadow:0 0 18px rgba(255,25,79,.30)}
+.viz-scale .scale-caption{position:absolute;left:50%;bottom:10px;transform:translateX(-50%);font-size:8px;letter-spacing:.1em;color:#6f7f90;text-transform:uppercase}
+.viz-waterfall{padding:31px 12px 9px}
+.viz-waterfall-bars{height:116px;display:flex;align-items:flex-end;gap:8px;padding:0 8px}
+.viz-water-col{flex:1;height:100%;position:relative;min-width:16px}
+.viz-water-bar{position:absolute;left:15%;right:15%;border-radius:4px 4px 2px 2px;min-height:3px;background:linear-gradient(180deg,#19dfff,#188bad);box-shadow:0 0 12px rgba(25,223,255,.18)}
+.viz-water-bar.down{background:linear-gradient(180deg,#ff647f,#b5153e);box-shadow:0 0 12px rgba(255,25,79,.18)}
+.viz-water-base{position:absolute;left:0;right:0;height:1px;background:#263747}
+.viz-water-name{position:absolute;left:50%;transform:translateX(-50%);bottom:-1px;font-size:7px;color:#708092;white-space:nowrap}
+.viz-water-value{position:absolute;left:50%;transform:translateX(-50%);font-size:7px;color:#cbd4dd;white-space:nowrap}
+.viz-market{background:linear-gradient(180deg,rgba(25,223,255,.035),transparent 30%),repeating-linear-gradient(0deg,transparent 0,transparent calc(25% - 1px),rgba(255,255,255,.035) 25%),repeating-linear-gradient(90deg,transparent 0,transparent calc(10% - 1px),rgba(25,223,255,.035) 10%),#080e15}
+.viz-market .market-up{fill:#18e89a;stroke:#18e89a}
+.viz-market .market-down{fill:#ff3f68;stroke:#ff3f68}
+.viz-market .market-wick{stroke:#98a6b4;stroke-width:1.5}
+.viz-market .market-axis{fill:#627183;font-size:8px}
+.viz-line{background:linear-gradient(180deg,rgba(158,123,255,.045),transparent 42%),repeating-linear-gradient(0deg,transparent 0,transparent calc(25% - 1px),rgba(255,255,255,.035) 25%),#080e15}
+.viz-line .line-glow{fill:none;stroke:#9e7bff;stroke-width:7;opacity:.12;filter:blur(4px)}
+.viz-line .line-main{fill:none;stroke:#9e7bff;stroke-width:3;filter:drop-shadow(0 0 5px rgba(158,123,255,.46))}
+.viz-line .line-dot{fill:#d1c6ff;stroke:#0a1118;stroke-width:3}
+.viz-line .line-axis{fill:#657589;font-size:8px}
+.viz-ring{display:grid;place-items:center}
+.viz-ring .ring{width:118px;height:118px;border-radius:50%;background:conic-gradient(#18e89a calc(var(--ring)*1%),#1b2936 0);box-shadow:0 0 28px rgba(24,232,154,.08);display:grid;place-items:center;position:relative}
+.viz-ring .ring:after{content:"";width:84px;height:84px;border-radius:50%;background:#091019;border:1px solid #203445}
+.viz-ring .ring-center{position:absolute;z-index:2;text-align:center}
+.viz-ring .ring-center b{display:block;font-size:25px;color:#fff}
+.viz-ring .ring-center small{display:block;font-size:7px;color:#718295;text-transform:uppercase;letter-spacing:.09em;margin-top:3px}
+.viz-columns{padding:30px 12px 10px;display:flex;align-items:flex-end;gap:9px}
+.viz-col{flex:1;height:116px;display:flex;align-items:flex-end;justify-content:center}
+.viz-col i{display:block;width:65%;min-width:10px;max-width:24px;border-radius:7px 7px 2px 2px;background:linear-gradient(180deg,#ff6b89,#d20b3d);box-shadow:0 0 14px rgba(255,25,79,.16)}
+.viz-col small{position:absolute;bottom:5px;font-size:7px;color:#657589}
+#performanceBySubject .performance-card:nth-child(1){border-left:3px solid #ff194f}
+#performanceBySubject .performance-card:nth-child(2){border-left:3px solid #19dfff}
+#performanceBySubject .performance-card:nth-child(3){border-left:3px solid #9e7bff}
+#performanceBySubject .performance-card:nth-child(4){border-left:3px solid #18e89a}
+#performanceBySubject .performance-card:nth-child(5){border-left:3px solid #ffc247}
+#performanceBySubject .performance-card:nth-child(n+6){border-left:3px solid #4d6c86}
+#dailyMission{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+#dailyMission>div{padding:13px 14px;border:1px solid #1b3040;border-radius:11px;background:linear-gradient(145deg,#0b141d,#080e15)}
+#dailyMission small{display:block;color:#7f8c9c;margin:5px 0 9px}
+#dailyMission .progress{height:9px}
+#dailyMission>div:first-child .progress i{background:linear-gradient(90deg,#ff194f,#ff6d8c)}
+#dailyMission>div:last-child .progress i{background:linear-gradient(90deg,#19dfff,#18e89a)}
+@media(max-width:720px){#dailyMission{grid-template-columns:1fr}}
+</style>
+
 </head>
 <body>
 
@@ -895,9 +950,124 @@ function deleteRecord(id){const record=state.records.find(item=>item.id===id);if
 function renderCurriculum(){const ranges=[];const tamanho=7;for(let start=0;start<curriculum.length;start+=tamanho){const end=Math.min(start+tamanho,curriculum.length);const numSemana=Math.floor(start/tamanho)+1;const ultimo=(end===curriculum.length)&&((end-start)<tamanho);const label=ultimo?'FECHAMENTO DO CICLO':('SEMANA '+numSemana);const title=ultimo?'Fechamento do Ciclo':('Semana '+numSemana);ranges.push([start,end,label,title]);}let out='';for(const [start,end,label,title] of ranges){out+=`<div class="panel week"><div class="panelhead"><div><p class="eyebrow">${label}</p><h3>${title}</h3></div><span class="tag">${state.done.slice(start,end).filter(Boolean).length}/${end-start} concluídos</span></div>`;for(let i=start;i<end;i++){let c=curriculum[i],done=!!state.done[i];out+=`<button class="day ${done?'done':''}" onclick="toggleDay(${i})"><span class="daynum">${String(i+1).padStart(2,'0')}</span><span><b>${c[0]}${c[2]?' · '+c[2]:''}</b><small>${['Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado','Domingo','Segunda-feira'][i%7]} · ${c[1]}</small></span><span class="badge ${c[3]==='simulado'?'simulado':''}">${done?'✓ CONCLUÍDO':c[3]==='simulado'?'SIMULADO':c[3]==='final'?'RETA FINAL':'ESTUDAR'}</span></button>`}out+='</div>'}return out}
 	function renderHomePerformance(){const grouped={};state.records.forEach(r=>{const subject=r.subject||'Sem disciplina';if(!grouped[subject])grouped[subject]={total:0,correct:0,minutes:0};grouped[subject].total+=Number(r.total)||0;grouped[subject].correct+=Number(r.correct)||0;grouped[subject].minutes+=Number(r.minutes)||0});const entries=Object.entries(grouped).sort((a,b)=>b[1].total-a[1].total);$('homeDisciplineProgress').innerHTML=entries.length?entries.map(([subject,g])=>{const accuracy=g.total?Math.round(g.correct/g.total*100):0;return `<div class="discipline-row"><div class="discipline-meta"><b>${subject}</b><strong>${accuracy}%</strong></div><div class="progress"><i style="width:${accuracy}%"></i></div><div class="discipline-sub"><span>${g.correct} de ${g.total} questões certas</span><span>${g.minutes} min</span></div></div>`}).join(''):'<div class="performance-empty">Registre questões para liberar o desempenho por disciplina.</div>';const ordered=[...state.records].filter(r=>Number(r.total)>0).sort((a,b)=>(a.date||'').localeCompare(b.date||'')||Number(a.id)-Number(b.id));if(!ordered.length){$('stockChart').innerHTML='<div class="stock-empty">Aguardando registros para desenhar a tendência.</div>';return}let cumulativeTotal=0,cumulativeCorrect=0;const values=ordered.map(r=>{cumulativeTotal+=Number(r.total)||0;cumulativeCorrect+=Number(r.correct)||0;return cumulativeTotal?Math.round(cumulativeCorrect/cumulativeTotal*100):0});const W=1000,H=220,padX=28,padY=32,min=0,max=100;const pts=values.map((value,i)=>({x:values.length===1?W/2:padX+i*(W-padX*2)/(values.length-1),y:H-padY-(value-min)/(max-min)*(H-padY*2)}));const linePath=smoothPath(pts);const areaPath=`${linePath} L ${pts[pts.length-1].x.toFixed(1)},${H-padY} L ${pts[0].x.toFixed(1)},${H-padY} Z`;const first=values[0],last=values[values.length-1],change=last-first;const changeLabel=`${change>=0?'+':''}${change} pts`;const yTicks=[0,25,50,75,100];const yTickLines=yTicks.map(t=>{const y=H-padY-(t-min)/(max-min)*(H-padY*2);return `<line x1="${padX}" y1="${y}" x2="${W-padX}" y2="${y}" stroke="#ffffff0d"/><text x="${padX-6}" y="${y+3}" text-anchor="end" font-size="14" fill="#6b7280">${t}</text>`}).join('');$('stockChart').innerHTML=`<span class="stock-label">PRECISÃO ACUMULADA</span><span class="stock-change" style="color:${change>=0?'var(--green)':'var(--red2)'}">${changeLabel}</span><svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="Gráfico de evolução da precisão acumulada">${yTickLines}<path d="${areaPath}" fill="${change>=0?'#39d98a1c':'#ff52671c'}" stroke="none"/><path d="${linePath}" fill="none" stroke="${change>=0?'#39d98a':'#ff5267'}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>${pts.map((p,i)=>`<circle cx="${p.x}" cy="${p.y}" r="6" fill="${change>=0?'#39d98a':'#ff5267'}" stroke="#17131a" stroke-width="3"><title>${values[i]}% no registro ${i+1}</title></circle>`).join('')}</svg>`}
 function smoothPath(pts){if(!pts.length)return'';if(pts.length===1)return`M ${pts[0].x},${pts[0].y}`;let d=`M ${pts[0].x.toFixed(1)},${pts[0].y.toFixed(1)}`;for(let i=0;i<pts.length-1;i++){const p0=pts[i-1]||pts[i],p1=pts[i],p2=pts[i+1],p3=pts[i+2]||p2;const cp1x=p1.x+(p2.x-p0.x)/6,cp1y=p1.y+(p2.y-p0.y)/6;const cp2x=p2.x-(p3.x-p1.x)/6,cp2y=p2.y-(p3.y-p1.y)/6;d+=` C ${cp1x.toFixed(1)},${cp1y.toFixed(1)} ${cp2x.toFixed(1)},${cp2y.toFixed(1)} ${p2.x.toFixed(1)},${p2.y.toFixed(1)}`}return d}
-function renderPerformance(){const grouped={};state.records.forEach(r=>{const subject=r.subject||'Sem disciplina';if(!grouped[subject])grouped[subject]={total:0,correct:0,minutes:0,topics:{}};const g=grouped[subject];g.total+=Number(r.total)||0;g.correct+=Number(r.correct)||0;g.minutes+=Number(r.minutes)||0;const topics=Array.isArray(r.topics)&&r.topics.length?r.topics:[r.topic||'Assunto não informado'];const share=1/topics.length;topics.forEach(topic=>{if(!g.topics[topic])g.topics[topic]={total:0,correct:0,minutes:0};g.topics[topic].total+=(Number(r.total)||0)*share;g.topics[topic].correct+=(Number(r.correct)||0)*share;g.topics[topic].minutes+=(Number(r.minutes)||0)*share})});const done=state.done.filter(Boolean).length;$('performancePlanLabel').textContent=`${done}/${curriculum.length} concluídos · ${curriculum.length-done} pendentes`;$('performancePlanBar').style.width=Math.round(done/curriculum.length*100)+'%';const next=curriculum.findIndex((_,i)=>!state.done[i]);$('dayProgress').innerHTML=curriculum.map((_,i)=>`<div class="daytile ${state.done[i]?'done':''} ${i===next?'next':''}" title="Dia ${i+1}">${String(i+1).padStart(2,'0')}</div>`).join('');const entries=Object.entries(grouped);$('performanceBySubject').innerHTML=entries.length?entries.map(([subject,g])=>{const accuracy=g.total?Math.round(g.correct/g.total*100):0;const topicRows=Object.entries(g.topics).map(([topic,t])=>`<div class="subject-detail"><span>${topic}</span><span>${Math.round(t.total)} questões</span><span>${Math.round(t.correct)} certas</span><span>${t.total?Math.round(t.correct/t.total*100):0}%</span></div>`).join('');const topicHeader='<div class="subject-detail" style="color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.08em"><span>Assunto</span><span>Questões</span><span>Certas</span><span>Precisão</span></div>';return `<details class="panel performance-card" open><summary><div><b>${subject}</b><small>${g.total} questões · ${g.minutes} minutos · ${Object.keys(g.topics).length} assunto(s)</small></div><strong>${accuracy}%</strong></summary><div class="meterline"><div class="progress"><i style="width:${accuracy}%"></i></div><small>${g.correct} de ${g.total} certas</small></div>${topicHeader}${topicRows}</details>`}).join(''):'<div class="panel performance-empty">Registre suas primeiras questões para liberar o desempenho por disciplina e assunto.</div>'}
-function getTopicStats(){const m={};state.records.forEach(r=>{const ts=Array.isArray(r.topics)&&r.topics.length?r.topics:[r.topic||'Assunto não informado'];const share=1/ts.length;ts.forEach(t=>{if(!m[t])m[t]={subject:r.subject,total:0,correct:0,last:r.date};m[t].total+=(Number(r.total)||0)*share;m[t].correct+=(Number(r.correct)||0)*share;if((r.date||'')>(m[t].last||''))m[t].last=r.date})});return Object.entries(m).map(([topic,v])=>({...v,topic,accuracy:v.total?Math.round(v.correct/v.total*100):0}))}function renderIntelligence(){const topics=getTopicStats().filter(x=>x.total>0);const scored=topics.map(x=>{const days=Math.max(0,(Date.now()-new Date(x.last+'T12:00:00'))/86400000);return {...x,score:(100-x.accuracy)+Math.min(30,days*2)+Math.max(0,20-Math.min(20,x.total/5))}}).sort((a,b)=>b.score-a.score).slice(0,3);$('priorityList').innerHTML=scored.length?scored.map((x,i)=>`<div class="priority-item ${x.accuracy<60?'high':x.accuracy<75?'med':'good'}"><div class="priority-top"><b>${i+1}. ${x.subject} — ${x.topic}</b><strong>${x.accuracy}%</strong></div><small>${Math.round(x.total)} questões · última atividade: ${new Date(x.last+'T12:00:00').toLocaleDateString('pt-BR')} · ${x.accuracy<60?'REVISAR URGENTEMENTE':x.accuracy<75?'PRECISA DE REFORÇO':'MANTER DOMÍNIO'}</small></div>`).join(''):'<div class="performance-empty">Registre questões para o sistema identificar suas prioridades.</div>';const disciplines={};state.records.forEach(r=>{const sub=r.subject||'Sem disciplina';if(!disciplines[sub])disciplines[sub]={total:0,correct:0,last:r.date};disciplines[sub].total+=Number(r.total)||0;disciplines[sub].correct+=Number(r.correct)||0;if((r.date||'')>(disciplines[sub].last||''))disciplines[sub].last=r.date});const weak=Object.entries(disciplines).map(([subject,v])=>({...v,subject,accuracy:v.total?Math.round(v.correct/v.total*100):0})).filter(x=>x.total>0).sort((a,b)=>a.accuracy-b.accuracy).slice(0,5);renderMapaFraquezas(weak);const reasons={};state.records.forEach(r=>{if(r.reason&&r.reason!=='none')reasons[r.reason]=(reasons[r.reason]||0)+Math.max(0,(Number(r.total)||0)-(Number(r.correct)||0))});const re=Object.entries(reasons).sort((a,b)=>b[1]-a[1]);const max=Math.max(1,...re.map(x=>x[1]));$('errorAnalysis').innerHTML=re.length?re.map(([k,v])=>`<div class="error-line"><div><b>${k}</b><div class="progress" style="margin-top:6px"><i style="width:${v/max*100}%"></i></div></div><strong>${v}</strong></div>`).join(''):'<div class="performance-empty">Ainda não há erros classificados.</div>';const ordered=[...state.records].filter(r=>Number(r.total)>0).sort((a,b)=>String(a.date).localeCompare(String(b.date)));const recent=ordered.slice(-Math.min(100,ordered.length));const lastAcc=recent.reduce((a,r)=>a+(Number(r.correct)||0),0)/(recent.reduce((a,r)=>a+(Number(r.total)||0),0)||1)*100;const allT=ordered.reduce((a,r)=>a+(Number(r.total)||0),0),allC=ordered.reduce((a,r)=>a+(Number(r.correct)||0),0);const overall=allT?allC/allT*100:0;const half=Math.ceil(recent.length/2);const a1=recent.slice(0,half),a2=recent.slice(half);const calc=a=>a.reduce((x,r)=>x+(Number(r.correct)||0),0)/(a.reduce((x,r)=>x+(Number(r.total)||0),0)||1)*100;const trend=recent.length>1?Math.round(calc(a2)-calc(a1)):0;$('trendMetrics').innerHTML=`<div class="trend-metric"><span>Média geral</span><b>${Math.round(overall)}%</b></div><div class="trend-metric"><span>Últimas 100</span><b>${Math.round(lastAcc)}%</b></div><div class="trend-metric"><span>Tendência</span><b>${trend>=0?'+':''}${trend} pts</b></div>`;const today=new Date().toISOString().slice(0,10);const todays=state.records.filter(r=>r.date===today);const q=todays.reduce((a,r)=>a+(Number(r.total)||0),0),mins=todays.reduce((a,r)=>a+(Number(r.minutes)||0),0),g=state.goals;$('dailyLabel').textContent=`${q}/${g.dailyQuestions} questões · ${mins}/${g.dailyMinutes} min`;$('dailyMission').innerHTML=`<div><b>Questões</b><small>${q} de ${g.dailyQuestions}</small><div class="progress"><i style="width:${Math.min(100,q/g.dailyQuestions*100)}%"></i></div></div><div><b>Tempo estudado</b><small>${mins} de ${g.dailyMinutes} minutos</small><div class="progress"><i style="width:${Math.min(100,mins/g.dailyMinutes*100)}%"></i></div></div>`}
+function performanceViz(subject,g,index){
+  const accuracy=g.total?Math.round(g.correct/g.total*100):0;
+  const topics=Object.entries(g.topics).slice(0,8);
+  const vals=topics.length?topics.map(([,t])=>t.total?Math.round(t.correct/t.total*100):0):[accuracy];
+  const short=(s)=>String(s).replace(/[^A-Za-zÀ-ÿ0-9]/g,' ').trim().slice(0,10)||'—';
 
+  if(index%5===0){
+    const angle=-90+(accuracy/100)*180;
+    return `<div class="performance-viz viz-scale" style="--needle:${angle}deg">
+      <span class="performance-viz-label">ESCALA DE DOMÍNIO</span>
+      <svg viewBox="0 0 200 156" aria-label="Escala de domínio ${accuracy}%">
+        <path d="M25 118 A75 75 0 0 1 175 118" fill="none" stroke="#182a38" stroke-width="15" stroke-linecap="round"/>
+        <path d="M25 118 A75 75 0 0 1 175 118" fill="none" stroke="#ff194f" stroke-width="15" stroke-linecap="round" pathLength="100" stroke-dasharray="${accuracy} 100"/>
+        <g class="scale-needle"><line x1="100" y1="118" x2="100" y2="48" stroke="#fff" stroke-width="3" stroke-linecap="round"/><circle cx="100" cy="118" r="7" fill="#ff547c" stroke="#0a1017" stroke-width="3"/></g>
+        <text x="22" y="138" fill="#66778a" font-size="8">0</text><text x="96" y="35" fill="#66778a" font-size="8">50</text><text x="169" y="138" fill="#66778a" font-size="8">100</text>
+      </svg>
+      <span class="scale-caption">baixo · atenção · domínio</span>
+      <span class="performance-viz-value">${accuracy}%</span>
+    </div>`;
+  }
+
+  if(index%5===1){
+    const maxH=92;
+    let prev=accuracy;
+    const bars=vals.map((v,i)=>{
+      const low=Math.min(prev,v), high=Math.max(prev,v), h=Math.max(5,(high-low)*maxH/100);
+      const bottom=14+(low*maxH/100);
+      const cls=v>=prev?'':'down';
+      const label=short(topics[i]?.[0]||('T'+(i+1)));
+      prev=v;
+      return `<div class="viz-water-col"><div class="viz-water-base" style="bottom:${bottom}px"></div><div class="viz-water-bar ${cls}" style="height:${h}px;bottom:${bottom}px"></div><span class="viz-water-value" style="bottom:${bottom+h+3}px">${v}%</span><span class="viz-water-name">${label}</span></div>`;
+    }).join('');
+    return `<div class="performance-viz viz-waterfall"><span class="performance-viz-label">CASCATA · VARIAÇÃO</span><span class="performance-viz-value">${accuracy}%</span><div class="viz-waterfall-bars">${bars}</div></div>`;
+  }
+
+  if(index%5===2){
+    const candles=vals.map((v,i)=>{
+      const open=Math.max(0,Math.min(100,v+(i%2?-5:5)));
+      const close=v;
+      const high=Math.min(100,Math.max(open,close)+7);
+      const low=Math.max(0,Math.min(open,close)-7);
+      const x=65+i*(870/Math.max(vals.length-1,1));
+      const y=(p)=>138-(p*1.02);
+      const up=close>=open;
+      return `<line class="market-wick" x1="${x}" y1="${y(high)}" x2="${x}" y2="${y(low)}"/><rect class="${up?'market-up':'market-down'}" x="${x-9}" y="${Math.min(y(open),y(close))}" width="18" height="${Math.max(4,Math.abs(y(open)-y(close)))}" rx="3"/>`;
+    }).join('');
+    return `<div class="performance-viz viz-market"><span class="performance-viz-label">MERCADO · CANDLE PERFORMANCE</span><span class="performance-viz-value">${accuracy}%</span><svg viewBox="0 0 1000 156" preserveAspectRatio="none" aria-label="Mercado de desempenho por assunto"><line x1="35" y1="138" x2="970" y2="138" stroke="#263746"/><text x="24" y="33" class="market-axis">100</text><text x="24" y="86" class="market-axis">50</text><text x="28" y="139" class="market-axis">0</text>${candles}</svg></div>`;
+  }
+
+  if(index%5===3){
+    const W=1000,H=156,pad=42,maxX=Math.max(1,vals.length-1);
+    const pts=vals.map((v,i)=>({x:pad+i*(W-pad*2)/maxX,y:H-22-(v/100)*(H-55)}));
+    const pathD=pts.length===1?`M ${pts[0].x} ${pts[0].y}`:pts.map((p,i)=>(i?'L':'M')+` ${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(' ');
+    return `<div class="performance-viz viz-line"><span class="performance-viz-label">LINHA · EVOLUÇÃO</span><span class="performance-viz-value">${accuracy}%</span><svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-label="Linha de evolução do desempenho"><line x1="42" y1="134" x2="958" y2="134" stroke="#263746"/><line x1="42" y1="82" x2="958" y2="82" stroke="#ffffff0a"/><line x1="42" y1="30" x2="958" y2="30" stroke="#ffffff0a"/><text x="17" y="32" class="line-axis">100</text><text x="25" y="84" class="line-axis">50</text><text x="28" y="136" class="line-axis">0</text><path class="line-glow" d="${pathD}"/><path class="line-main" d="${pathD}"/>${pts.map(p=>`<circle class="line-dot" cx="${p.x}" cy="${p.y}" r="4"/>`).join('')}</svg></div>`;
+  }
+
+  return `<div class="performance-viz viz-ring" style="--ring:${accuracy}"><span class="performance-viz-label">ANEL · PRECISÃO TOTAL</span><div class="ring"><div class="ring-center"><b>${accuracy}%</b><small>precisão</small></div></div></div>`;
+}
+
+function renderPerformance(){
+  const grouped={};
+  state.records.forEach(r=>{
+    const subject=r.subject||'Sem disciplina';
+    if(!grouped[subject])grouped[subject]={total:0,correct:0,minutes:0,topics:{}};
+    const g=grouped[subject];
+    g.total+=Number(r.total)||0;
+    g.correct+=Number(r.correct)||0;
+    g.minutes+=Number(r.minutes)||0;
+    const topics=Array.isArray(r.topics)&&r.topics.length?r.topics:[r.topic||'Assunto não informado'];
+    const share=1/topics.length;
+    topics.forEach(topic=>{
+      if(!g.topics[topic])g.topics[topic]={total:0,correct:0,minutes:0};
+      g.topics[topic].total+=(Number(r.total)||0)*share;
+      g.topics[topic].correct+=(Number(r.correct)||0)*share;
+      g.topics[topic].minutes+=(Number(r.minutes)||0)*share;
+    });
+  });
+  const done=state.done.filter(Boolean).length;
+  $('performancePlanLabel').textContent=`${done}/${curriculum.length} concluídos · ${curriculum.length-done} pendentes`;
+  $('performancePlanBar').style.width=(curriculum.length?Math.round(done/curriculum.length*100):0)+'%';
+  const next=curriculum.findIndex((_,i)=>!state.done[i]);
+  $('dayProgress').innerHTML=curriculum.map((_,i)=>`<div class="daytile ${state.done[i]?'done':''} ${i===next?'next':''}" title="Dia ${i+1}">${String(i+1).padStart(2,'0')}</div>`).join('');
+  const entries=Object.entries(grouped);
+  $('performanceBySubject').innerHTML=entries.length?entries.map(([subject,g],index)=>{
+    const accuracy=g.total?Math.round(g.correct/g.total*100):0;
+    const topicRows=Object.entries(g.topics).map(([topic,t])=>`<div class="subject-detail"><span>${topic}</span><span>${Math.round(t.total)} questões</span><span>${Math.round(t.correct)} certas</span><span>${t.total?Math.round(t.correct/t.total*100):0}%</span></div>`).join('');
+    const topicHeader='<div class="subject-detail" style="color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.08em"><span>Assunto</span><span>Questões</span><span>Certas</span><span>Precisão</span></div>';
+    return `<details class="panel performance-card" open><summary><div><b>${subject}</b><small>${g.total} questões · ${g.minutes} minutos · ${Object.keys(g.topics).length} assunto(s)</small></div><strong>${accuracy}%</strong></summary>${performanceViz(subject,g,index)}<div class="meterline"><div class="progress"><i style="width:${accuracy}%"></i></div><small>${g.correct} de ${g.total} certas</small></div>${topicHeader}${topicRows}</details>`;
+  }).join(''):'<div class="panel performance-empty">Registre suas primeiras questões para liberar o desempenho por disciplina e assunto.</div>';
+}
+
+function getTopicStats(){const m={};state.records.forEach(r=>{const ts=Array.isArray(r.topics)&&r.topics.length?r.topics:[r.topic||'Assunto não informado'];const share=1/ts.length;ts.forEach(t=>{if(!m[t])m[t]={subject:r.subject,total:0,correct:0,last:r.date};m[t].total+=(Number(r.total)||0)*share;m[t].correct+=(Number(r.correct)||0)*share;if((r.date||'')>(m[t].last||''))m[t].last=r.date})});return Object.entries(m).map(([topic,v])=>({...v,topic,accuracy:v.total?Math.round(v.correct/v.total*100):0}))}function renderIntelligence(){
+  const topics=getTopicStats().filter(x=>x.total>0);
+  const scored=topics.map(x=>{const days=Math.max(0,(Date.now()-new Date(x.last+'T12:00:00'))/86400000);return {...x,score:(100-x.accuracy)+Math.min(30,days*2)+Math.max(0,20-Math.min(20,x.total/5))}}).sort((a,b)=>b.score-a.score).slice(0,3);
+  $('priorityList').innerHTML=scored.length?scored.map((x,i)=>`<div class="priority-item ${x.accuracy<60?'high':x.accuracy<75?'med':'good'}"><div class="priority-top"><b>${i+1}. ${x.subject} — ${x.topic}</b><strong>${x.accuracy}%</strong></div><small>${Math.round(x.total)} questões · última atividade: ${new Date(x.last+'T12:00:00').toLocaleDateString('pt-BR')} · ${x.accuracy<60?'REVISAR URGENTEMENTE':x.accuracy<75?'PRECISA DE REFORÇO':'MANTER DOMÍNIO'}</small></div>`).join(''):'<div class="performance-empty">Registre questões para o sistema identificar suas prioridades.</div>';
+  const disciplines={};
+  state.records.forEach(r=>{const sub=r.subject||'Sem disciplina';if(!disciplines[sub])disciplines[sub]={total:0,correct:0,last:r.date};disciplines[sub].total+=Number(r.total)||0;disciplines[sub].correct+=Number(r.correct)||0;if((r.date||'')>(disciplines[sub].last||''))disciplines[sub].last=r.date});
+  const weak=Object.entries(disciplines).map(([subject,v])=>({...v,subject,accuracy:v.total?Math.round(v.correct/v.total*100):0})).filter(x=>x.total>0).sort((a,b)=>a.accuracy-b.accuracy).slice(0,5);renderMapaFraquezas(weak);
+  const reasons={};state.records.forEach(r=>{if(r.reason&&r.reason!=='none')reasons[r.reason]=(reasons[r.reason]||0)+Math.max(0,(Number(r.total)||0)-(Number(r.correct)||0))});
+  const re=Object.entries(reasons).sort((a,b)=>b[1]-a[1]);const max=Math.max(1,...re.map(x=>x[1]));
+  $('errorAnalysis').innerHTML=re.length?re.map(([k,v])=>`<div class="error-line"><div><b>${k}</b><div class="progress" style="margin-top:6px"><i style="width:${v/max*100}%"></i></div></div><strong>${v}</strong></div>`).join(''):'<div class="performance-empty">Ainda não há erros classificados.</div>';
+  const ordered=[...state.records].filter(r=>Number(r.total)>0).sort((a,b)=>String(a.date).localeCompare(String(b.date)));const recent=ordered.slice(-Math.min(100,ordered.length));
+  const lastAcc=recent.reduce((a,r)=>a+(Number(r.correct)||0),0)/(recent.reduce((a,r)=>a+(Number(r.total)||0),0)||1)*100;
+  const allT=ordered.reduce((a,r)=>a+(Number(r.total)||0),0),allC=ordered.reduce((a,r)=>a+(Number(r.correct)||0),0);const overall=allT?allC/allT*100:0;
+  const half=Math.ceil(recent.length/2),a1=recent.slice(0,half),a2=recent.slice(half);const calc=a=>a.reduce((x,r)=>x+(Number(r.correct)||0),0)/(a.reduce((x,r)=>x+(Number(r.total)||0),0)||1)*100;const trend=recent.length>1?Math.round(calc(a2)-calc(a1)):0;
+  $('trendMetrics').innerHTML=`<div class="trend-metric"><span>Média geral</span><b>${Math.round(overall)}%</b></div><div class="trend-metric"><span>Últimas 100</span><b>${Math.round(lastAcc)}%</b></div><div class="trend-metric"><span>Tendência</span><b>${trend>=0?'+':''}${trend} pts</b></div>`;
+
+  /* Execução diária: usa a data LOCAL do navegador, evitando deslocamento UTC no Brasil. */
+  const now=new Date();
+  const today=String(now.getFullYear())+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0');
+  const todays=state.records.filter(r=>String(r.date||'')===today);
+  const q=todays.reduce((a,r)=>a+(Number(r.total)||0),0);
+  const mins=todays.reduce((a,r)=>a+(Number(r.minutes)||0),0);
+  const dailyQuestions=Math.max(1,Number(state.goals&&state.goals.dailyQuestions)||200);
+  const dailyMinutes=Math.max(1,Number(state.goals&&state.goals.dailyMinutes)||300);
+  $('dailyLabel').textContent=`${q}/${dailyQuestions} questões · ${mins}/${dailyMinutes} min`;
+  $('dailyMission').innerHTML=`<div><b>Questões</b><small>${q} de ${dailyQuestions}</small><div class="progress"><i style="width:${Math.min(100,q/dailyQuestions*100)}%"></i></div></div><div><b>Tempo estudado</b><small>${mins} de ${dailyMinutes} minutos</small><div class="progress"><i style="width:${Math.min(100,mins/dailyMinutes*100)}%"></i></div></div>`;
+}
 let rankingGlobal = [];
 async function carregarRankingNuvem() {
   if (!window.supabaseClient) return;
