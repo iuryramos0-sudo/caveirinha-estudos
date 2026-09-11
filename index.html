@@ -831,6 +831,108 @@ body{
 @media(max-width:720px){#dailyMission{grid-template-columns:1fr}}
 </style>
 
+<style>
+/* MODELO 1 · CENTRAL DE COMANDO · VISUAL ONLY */
+#dashboard{
+ display:grid!important;
+ grid-template-columns:repeat(12,minmax(0,1fr));
+ gap:16px!important;
+ align-items:stretch;
+}
+#dashboard > .hero{grid-column:1/-1; margin:0!important;}
+#dashboard > .stats{grid-column:1/-1; margin:0!important;}
+#dashboard > .intel-grid{grid-column:1/-1; margin:0!important;}
+#dashboard > .panel:nth-of-type(3){grid-column:1/7; margin:0!important;}
+#dashboard > .panel:nth-of-type(4){grid-column:7/-1; margin:0!important;}
+#dashboard > .home-performance-grid{grid-column:1/-1; margin:0!important;}
+#dashboard > .grid{grid-column:1/-1; margin:0!important;}
+#dashboard > .panel:last-child{grid-column:1/-1; margin:0!important;}
+
+/* KPI cards become a clean command strip */
+#dashboard .stats .card{min-height:112px; display:flex; flex-direction:column; justify-content:center;}
+#dashboard .stats .card label{font-size:8px; letter-spacing:.15em;}
+#dashboard .stats .card strong{margin:7px 0 2px; font-size:29px;}
+
+/* Intelligence pair */
+#dashboard .intel-grid > .panel{min-height:255px;}
+#dashboard .priority-list{max-height:195px; overflow:auto; padding-right:3px;}
+#dashboard .error-grid{max-height:140px; overflow:auto; padding-right:3px;}
+
+/* Two-column performance zone */
+#dashboard .home-performance-grid{grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr); gap:16px;}
+#dashboard .home-performance-grid > .panel{min-height:330px;}
+
+/* Distinct chart frames */
+#dashboard #homeDisciplineProgress{
+ display:grid; grid-template-columns:1fr; gap:8px;
+}
+#dashboard #homeDisciplineProgress .discipline-row{
+ background:linear-gradient(90deg,rgba(255,25,79,.045),transparent 70%);
+ border:1px solid #172736; border-radius:10px; padding:10px 12px;
+}
+#dashboard #stockChart{height:270px; border-radius:15px;}
+#dashboard #chart{min-height:235px; border-radius:15px;}
+#dashboard #heatmap{margin-top:13px!important;}
+#dashboard .radar-wrap{height:270px;}
+
+/* Daily execution: strong visual gauge without touching calculations */
+#dashboard #dailyMission{
+ min-height:175px; display:flex; flex-direction:column; justify-content:center;
+ padding:8px 4px;
+}
+#dashboard #dailyMission .progress{height:13px; border-radius:999px; margin-top:10px;}
+#dashboard #dailyMission .progress i{box-shadow:0 0 18px rgba(24,232,154,.30);}
+
+/* Upcoming missions as command cards */
+#dashboard #nextMissions{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:9px;}
+#dashboard #nextMissions > *{min-width:0;}
+
+/* Performance page: each card gets a distinct chart personality */
+#performanceBySubject{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px;}
+#performanceBySubject .performance-card{margin:0!important; min-height:180px; position:relative; overflow:hidden;}
+#performanceBySubject .performance-card summary strong{position:relative;}
+#performanceBySubject .performance-card:nth-child(5n+1){
+ background:linear-gradient(145deg,#160a11,#090e15);
+}
+#performanceBySubject .performance-card:nth-child(5n+1) .progress{height:18px; border-radius:2px; clip-path:polygon(0 50%,4% 0,96% 0,100% 50%,96% 100%,4% 100%);}
+#performanceBySubject .performance-card:nth-child(5n+2){
+ background:linear-gradient(145deg,#08151c,#090e15);
+}
+#performanceBySubject .performance-card:nth-child(5n+2) .meterline{position:relative;}
+#performanceBySubject .performance-card:nth-child(5n+2) .progress{height:6px;}
+#performanceBySubject .performance-card:nth-child(5n+2) .progress:after{content:"";}
+#performanceBySubject .performance-card:nth-child(5n+3){
+ background:linear-gradient(145deg,#110b1c,#090e15);
+}
+#performanceBySubject .performance-card:nth-child(5n+3) .progress{height:26px; border-radius:3px; background:repeating-linear-gradient(90deg,#182331 0 12%,#101820 12% 14%);}
+#performanceBySubject .performance-card:nth-child(5n+3) .progress i{border-radius:3px;}
+#performanceBySubject .performance-card:nth-child(5n+4){
+ background:linear-gradient(145deg,#081913,#090e15);
+}
+#performanceBySubject .performance-card:nth-child(5n+4) .progress{height:11px; transform:skewX(-12deg);}
+#performanceBySubject .performance-card:nth-child(5n+5){
+ background:linear-gradient(145deg,#181307,#090e15);
+}
+#performanceBySubject .performance-card:nth-child(5n+5) .progress{height:30px; border-radius:50%; background:conic-gradient(#202d39 0 25%,transparent 25% 100%); overflow:visible; border:0; position:relative;}
+#performanceBySubject .performance-card:nth-child(5n+5) .progress i{height:10px; position:absolute; left:0; top:10px; border-radius:999px;}
+
+/* Cleaner subject details */
+#performanceBySubject .subject-detail{grid-template-columns:minmax(0,1.4fr) .55fr .55fr .7fr; align-items:center;}
+
+@media(max-width:1050px){
+ #dashboard > .panel:nth-of-type(3),#dashboard > .panel:nth-of-type(4){grid-column:1/-1;}
+ #dashboard #nextMissions{grid-template-columns:repeat(2,minmax(0,1fr));}
+ #performanceBySubject{grid-template-columns:1fr;}
+}
+@media(max-width:720px){
+ #dashboard{display:flex!important; flex-direction:column; gap:13px!important;}
+ #dashboard > *{width:100%;}
+ #dashboard .home-performance-grid{grid-template-columns:1fr;}
+ #dashboard #nextMissions{grid-template-columns:1fr;}
+ #performanceBySubject{grid-template-columns:1fr;}
+}
+</style>
+
 </head>
 <body>
 
