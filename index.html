@@ -153,7 +153,9 @@ const $=id=>document.getElementById(id);const save=()=>localStorage.setItem('ope
 $('today').textContent=new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long'});$('studyDate').value=new Date().toISOString().slice(0,10);const subjectSelect=$('subjectSelect');Object.keys(subjectCatalog).forEach(subject=>subjectSelect.insertAdjacentHTML('beforeend',`<option value="${subject}">${subject}</option>`));function updateTopicCount(){const selected=[...document.querySelectorAll('input[name="topic"]:checked')];topicCount.textContent=`${selected.length} assunto${selected.length===1?'':'s'} selecionado${selected.length===1?'':'s'}`}function updateTopicOptions(){const subject=subjectSelect.value;topicOptions.innerHTML=subject?subjectCatalog[subject].map(topic=>`<label class="topic-option"><input type="checkbox" name="topic" value="${topic}"><span>${topic}</span></label>`).join(''):'<div class="topic-empty">Selecione primeiro a disciplina</div>';topicOptions.querySelectorAll('input[name="topic"]').forEach(input=>input.addEventListener('change',updateTopicCount));updateTopicCount()}subjectSelect.addEventListener('change',updateTopicOptions);$('studyForm').addEventListener('reset',()=>setTimeout(updateTopicOptions,0));
 function openPage(page){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));$(page).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===page));const names={dashboard:'Central de comando',registro:'Registrar estudo',questoes:'Questões registradas',desempenho:'Desempenho',conteudos:'Cronograma PMMA',foco:'Modo foco',backup:'Backup pessoal',ranking:'Rankings',conta:'Minha Conta',novocronograma:'Novo Cronograma',edital:'Edital Verticalizado',retafinal:'PMMA 2026 · Reta Final 09/09–10/10'};$('pageTitle').textContent=names[page];render();renderHomePerformance();renderPerformance();if(page==='conta')renderConta();if(page==='novocronograma')renderNovoCronograma();if(page==='edital')renderEdital();if(page==='retafinal')carregarRetaFinal();scrollTo({top:0,behavior:'smooth'})}document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>openPage(b.dataset.page));
 $('studyForm').onsubmit=e=>{e.preventDefault();const f=new FormData(e.target),subject=String(f.get('subject')||''),topics=[...document.querySelectorAll('input[name="topic"]:checked')].map(input=>input.value).filter(Boolean),total=+f.get('total')||0,correct=+f.get('correct')||0;if(!Object.prototype.hasOwnProperty.call(subjectCatalog,subject)){alert('Selecione uma disciplina válida do edital.');return}if(!topics.length||topics.some(topic=>!subjectCatalog[subject].includes(topic))){alert('Selecione um ou mais assuntos válidos para a disciplina escolhida.');return}if(correct>total){alert('As questões certas não podem ser maiores que o total.');return}const novoRegistro={id:Date.now(),date:f.get('date'),type:f.get('type'),subject,topics,topic:topics.join(' · '),total,correct,minutes:+f.get('minutes')||0,board:f.get('board'),reason:f.get('reason'),notes:f.get('notes')};state.records.unshift(novoRegistro);save();e.target.reset();$('studyDate').value=new Date().toISOString().slice(0,10);alert('Registro salvo e sincronizado com a nuvem.');render();renderHomePerformance();renderPerformance();atualizarProgressoNuvem();registrarEstudoNuvem(novoRegistro);};
-function deleteRecord(id){const record=state.records.find(item=>item.id===id);if(!record)return;if(confirm(`Apagar o registro de ${record.date} em ${record.subject}? Esta ação não pode ser desfeita.`)){state.records=state.records.filter(item=>item.id!==id);save();render();renderHomePerformance();renderPerformance();atualizarProgressoNuvem();apagarRegistroNuvem(id);}}function toggleDay(i){state.done[i]=!state.done[i];save();render();renderHomePerformance();renderPerformance();atualizarProgressoNuvem();sincronizarCronogramaNuvem();}
+async function deleteRecord(id){const record=state.records.find(item=>item.id===id);if(!record)return;if(!confirm(`Apagar o registro de ${record.date} em ${record.subject}? Esta ação não pode ser desfeita.`))return;try{await apagarRegistroNuvem(id);state.records=state.records.filter(item=>item.id!==id);save();render();renderHomePerformance();renderPerformance();await atualizarProgressoNuvem();}catch(e){console.error('Erro ao apagar registro:',e);alert('Não foi possível apagar o registro do banco de dados. Ele foi mantido no site.
+
+Erro: '+(e?.message||e));}}function toggleDay(i){state.done[i]=!state.done[i];save();render();renderHomePerformance();renderPerformance();atualizarProgressoNuvem();sincronizarCronogramaNuvem();}
 function renderCurriculum(){const ranges=[];const tamanho=7;for(let start=0;start<curriculum.length;start+=tamanho){const end=Math.min(start+tamanho,curriculum.length);const numSemana=Math.floor(start/tamanho)+1;const ultimo=(end===curriculum.length)&&((end-start)<tamanho);const label=ultimo?'FECHAMENTO DO CICLO':('SEMANA '+numSemana);const title=ultimo?'Fechamento do Ciclo':('Semana '+numSemana);ranges.push([start,end,label,title]);}let out='';for(const [start,end,label,title] of ranges){out+=`<div class="panel week"><div class="panelhead"><div><p class="eyebrow">${label}</p><h3>${title}</h3></div><span class="tag">${state.done.slice(start,end).filter(Boolean).length}/${end-start} concluídos</span></div>`;for(let i=start;i<end;i++){let c=curriculum[i],done=!!state.done[i];out+=`<button class="day ${done?'done':''}" onclick="toggleDay(${i})"><span class="daynum">${String(i+1).padStart(2,'0')}</span><span><b>${c[0]}${c[2]?' · '+c[2]:''}</b><small>${['Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado','Domingo','Segunda-feira'][i%7]} · ${c[1]}</small></span><span class="badge ${c[3]==='simulado'?'simulado':''}">${done?'✓ CONCLUÍDO':c[3]==='simulado'?'SIMULADO':c[3]==='final'?'RETA FINAL':'ESTUDAR'}</span></button>`}out+='</div>'}return out}
 	function renderHomePerformance(){const grouped={};state.records.forEach(r=>{const subject=r.subject||'Sem disciplina';if(!grouped[subject])grouped[subject]={total:0,correct:0,minutes:0};grouped[subject].total+=Number(r.total)||0;grouped[subject].correct+=Number(r.correct)||0;grouped[subject].minutes+=Number(r.minutes)||0});const entries=Object.entries(grouped).sort((a,b)=>b[1].total-a[1].total);$('homeDisciplineProgress').innerHTML=entries.length?entries.map(([subject,g])=>{const accuracy=g.total?Math.round(g.correct/g.total*100):0;return `<div class="discipline-row"><div class="discipline-meta"><b>${subject}</b><strong>${accuracy}%</strong></div><div class="progress"><i style="width:${accuracy}%"></i></div><div class="discipline-sub"><span>${g.correct} de ${g.total} questões certas</span><span>${g.minutes} min</span></div></div>`}).join(''):'<div class="performance-empty">Registre questões para liberar o desempenho por disciplina.</div>';const ordered=[...state.records].filter(r=>Number(r.total)>0).sort((a,b)=>(a.date||'').localeCompare(b.date||'')||Number(a.id)-Number(b.id));if(!ordered.length){$('stockChart').innerHTML='<div class="stock-empty">Aguardando registros para desenhar a tendência.</div>';return}let cumulativeTotal=0,cumulativeCorrect=0;const values=ordered.map(r=>{cumulativeTotal+=Number(r.total)||0;cumulativeCorrect+=Number(r.correct)||0;return cumulativeTotal?Math.round(cumulativeCorrect/cumulativeTotal*100):0});const W=1000,H=220,padX=28,padY=32,min=0,max=100;const pts=values.map((value,i)=>({x:values.length===1?W/2:padX+i*(W-padX*2)/(values.length-1),y:H-padY-(value-min)/(max-min)*(H-padY*2)}));const linePath=smoothPath(pts);const areaPath=`${linePath} L ${pts[pts.length-1].x.toFixed(1)},${H-padY} L ${pts[0].x.toFixed(1)},${H-padY} Z`;const first=values[0],last=values[values.length-1],change=last-first;const changeLabel=`${change>=0?'+':''}${change} pts`;const yTicks=[0,25,50,75,100];const yTickLines=yTicks.map(t=>{const y=H-padY-(t-min)/(max-min)*(H-padY*2);return `<line x1="${padX}" y1="${y}" x2="${W-padX}" y2="${y}" stroke="#ffffff0d"/><text x="${padX-6}" y="${y+3}" text-anchor="end" font-size="14" fill="#6b7280">${t}</text>`}).join('');$('stockChart').innerHTML=`<span class="stock-label">PRECISÃO ACUMULADA</span><span class="stock-change" style="color:${change>=0?'var(--green)':'var(--red2)'}">${changeLabel}</span><svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="Gráfico de evolução da precisão acumulada">${yTickLines}<path d="${areaPath}" fill="${change>=0?'#39d98a1c':'#ff52671c'}" stroke="none"/><path d="${linePath}" fill="none" stroke="${change>=0?'#39d98a':'#ff5267'}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>${pts.map((p,i)=>`<circle cx="${p.x}" cy="${p.y}" r="6" fill="${change>=0?'#39d98a':'#ff5267'}" stroke="#17131a" stroke-width="3"><title>${values[i]}% no registro ${i+1}</title></circle>`).join('')}</svg>`}
 function smoothPath(pts){if(!pts.length)return'';if(pts.length===1)return`M ${pts[0].x},${pts[0].y}`;let d=`M ${pts[0].x.toFixed(1)},${pts[0].y.toFixed(1)}`;for(let i=0;i<pts.length-1;i++){const p0=pts[i-1]||pts[i],p1=pts[i],p2=pts[i+1],p3=pts[i+2]||p2;const cp1x=p1.x+(p2.x-p0.x)/6,cp1y=p1.y+(p2.y-p0.y)/6;const cp2x=p2.x-(p3.x-p1.x)/6,cp2y=p2.y-(p3.y-p1.y)/6;d+=` C ${cp1x.toFixed(1)},${cp1y.toFixed(1)} ${cp2x.toFixed(1)},${cp2y.toFixed(1)} ${p2.x.toFixed(1)},${p2.y.toFixed(1)}`}return d}
@@ -239,50 +241,50 @@ async function registrarEstudoNuvem(registro) {
 }
 
 async function apagarRegistroNuvem(registroId) {
-  if (!window.supabaseClient) return;
-  try {
-    const { data: usuario, error: erroUsuario } = await window.supabaseClient.auth.getUser();
-    if (erroUsuario) throw erroUsuario;
-    const userId = usuario?.user?.id;
-    if (!userId) throw new Error('Usuário não autenticado no Supabase.');
+  if (!window.supabaseClient) throw new Error('Supabase não está disponível.');
+  const { data: usuario, error: erroUsuario } = await window.supabaseClient.auth.getUser();
+  if (erroUsuario) throw erroUsuario;
+  const userId = usuario?.user?.id;
+  if (!userId) throw new Error('Usuário não autenticado no Supabase.');
 
-    let query = window.supabaseClient
+  const localRecord = state.records.find(r => r.id === registroId);
+  if (!localRecord) throw new Error('Registro local não encontrado.');
+
+  const isUuid = typeof registroId === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(registroId);
+
+  let idBanco = isUuid ? registroId : null;
+
+  if (!idBanco) {
+    let busca = window.supabaseClient
       .from('study_records')
-      .select('id, study_date, type, subject, total, correct, minutes, created_at')
-      .eq('user_id', userId);
+      .select('id, created_at')
+      .eq('user_id', userId)
+      .eq('study_date', localRecord.date)
+      .eq('subject', localRecord.subject)
+      .eq('total', Number(localRecord.total) || 0)
+      .eq('correct', Number(localRecord.correct) || 0)
+      .eq('minutes', Number(localRecord.minutes) || 0)
+      .order('created_at', { ascending: false })
+      .limit(1);
+    if (localRecord.type) busca = busca.eq('type', localRecord.type);
 
-    if (typeof registroId === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(registroId)) {
-      query = query.eq('id', registroId);
-    } else {
-      const localRecord = state.records.find(r => r.id === registroId);
-      if (!localRecord) throw new Error('Registro local não encontrado.');
-      query = query
-        .eq('study_date', localRecord.date)
-        .eq('subject', localRecord.subject)
-        .eq('total', Number(localRecord.total) || 0)
-        .eq('correct', Number(localRecord.correct) || 0)
-        .eq('minutes', Number(localRecord.minutes) || 0);
-      if (localRecord.type) query = query.eq('type', localRecord.type);
-      query = query.order('created_at', { ascending: false }).limit(1);
-    }
-
-    const { data: candidatos, error: erroBusca } = await query;
+    const { data: candidatos, error: erroBusca } = await busca;
     if (erroBusca) throw erroBusca;
-    if (!candidatos || !candidatos.length) throw new Error('Registro não encontrado no banco.');
-
-    const idBanco = candidatos[0].id;
-    const { error: erroDelete } = await window.supabaseClient
-      .from('study_records')
-      .delete()
-      .eq('id', idBanco)
-      .eq('user_id', userId);
-    if (erroDelete) throw erroDelete;
-
-    await carregarRankingNuvem();
-  } catch(e) {
-    console.warn('Falha ao apagar registro na nuvem', e);
-    alert('O registro foi apagado deste dispositivo, mas não foi possível apagá-lo do banco: ' + e.message);
+    if (!candidatos?.length) throw new Error('Registro não encontrado no Supabase.');
+    idBanco = candidatos[0].id;
   }
+
+  const { data: apagados, error: erroDelete } = await window.supabaseClient
+    .from('study_records')
+    .delete()
+    .eq('id', idBanco)
+    .eq('user_id', userId)
+    .select('id');
+
+  if (erroDelete) throw erroDelete;
+  if (!apagados?.length) throw new Error('O Supabase não confirmou a exclusão do registro.');
+
+  await carregarRankingNuvem();
 }
 
 async function sincronizarCronogramaNuvem() {
