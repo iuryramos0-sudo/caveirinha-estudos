@@ -238,68 +238,7 @@ async function registrarEstudoNuvem(registro) {
   }
 }
 
-async function editarRegistroNuvem(registroId) {
-  if (!window.supabaseClient) return false;
-  try {
-    const totalInput = prompt('Quantidade total de questões:', '');
-    if (totalInput === null) return false;
-    const correctInput = prompt('Quantidade de questões certas:', '');
-    if (correctInput === null) return false;
-
-    const total = Number(totalInput);
-    const correct = Number(correctInput);
-    if (!Number.isFinite(total) || !Number.isFinite(correct) || total < 0 || correct < 0 || correct > total) {
-      alert('Valores inválidos. As certas devem estar entre 0 e o total.');
-      return false;
-    }
-
-    const { data: usuario, error: erroUsuario } = await window.supabaseClient.auth.getUser();
-    if (erroUsuario) throw erroUsuario;
-    const userId = usuario?.user?.id;
-    if (!userId) throw new Error('Usuário não autenticado no Supabase.');
-
-    let query = window.supabaseClient.from('study_records').select('id').eq('user_id', userId);
-    const isUuid = typeof registroId === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(registroId);
-    if (isUuid) {
-      query = query.eq('id', registroId);
-    } else {
-      const localRecord = state.records.find(r => String(r.id) === String(registroId));
-      if (!localRecord) throw new Error('Registro local não encontrado.');
-      query = query.eq('study_date', localRecord.date).eq('subject', localRecord.subject)
-        .eq('total', Number(localRecord.total) || 0).eq('correct', Number(localRecord.correct) || 0)
-        .eq('minutes', Number(localRecord.minutes) || 0);
-      if (localRecord.type) query = query.eq('type', localRecord.type);
-      query = query.order('created_at', { ascending: false }).limit(1);
-    }
-
-    const { data: candidatos, error: erroBusca } = await query;
-    if (erroBusca) throw erroBusca;
-    if (!candidatos?.length) throw new Error('Registro não encontrado no banco.');
-
-    const idBanco = candidatos[0].id;
-    const { error: erroUpdate } = await window.supabaseClient.from('study_records')
-      .update({ total, correct })
-      .eq('id', idBanco).eq('user_id', userId);
-    if (erroUpdate) throw erroUpdate;
-
-    const local = state.records.find(r => String(r.id) === String(registroId)) || state.records.find(r => String(r.id) === String(idBanco));
-    if (local) { local.total = total; local.correct = correct; }
-    save();
-    render(); renderHomePerformance(); renderPerformance();
-    await carregarRankingNuvem();
-    return true;
-  } catch(e) {
-    console.warn('Falha ao editar registro na nuvem', e);
-    alert('Não foi possível editar o registro: ' + e.message);
-    return false;
-  }
-}
-
-function editarRegistro(registroId) {
-  editarRegistroNuvem(registroId);
-}
-
-function apagarRegistroNuvem(registroId) {
+async function apagarRegistroNuvem(registroId) {
   if (!window.supabaseClient) return;
   try {
     const { data: usuario, error: erroUsuario } = await window.supabaseClient.auth.getUser();
@@ -487,7 +426,7 @@ function renderRanking(){
 }
 
 function renderTodayMission(){const today=new Date();const day=String(today.getDate()).padStart(2,'0');const month=String(today.getMonth()+1).padStart(2,'0');const key=day+'/'+month;const index=curriculum.findIndex(c=>c[2]===key);const title=$('todayStudyTitle'),text=$('todayStudyText');if(index>=0){const c=curriculum[index];title.textContent=`DIA ${String(index+1).padStart(2,'0')} · ${c[0]}`;text.textContent=c[1]}else{title.textContent='Missão do dia fora do ciclo atual';text.textContent='Consulte o cronograma para continuar pela próxima missão pendente.'}const exam=new Date('2026-10-11T00:00:00');const start=new Date(today.getFullYear(),today.getMonth(),today.getDate());const diff=Math.ceil((exam-start)/86400000);$('examCountdown').textContent=diff>0?`⚔ FALTAM ${diff} DIAS PARA A PROVA DA PMMA · 11/10/2026`:diff===0?'⚔ HOJE É DIA DE PROVA · PMMA':'⚔ DATA DA PROVA JÁ PASSOU'}
-function render(){renderTodayMission();renderRanking();const total=state.records.reduce((a,r)=>a+r.total,0),correct=state.records.reduce((a,r)=>a+r.correct,0),minutes=state.records.reduce((a,r)=>a+r.minutes,0),pct=total?Math.round(correct/total*100):0,done=state.done.filter(Boolean).length;let next=curriculum.findIndex((_,i)=>!state.done[i]);$('sProgress').textContent=Math.round(done/curriculum.length*100)+'%';$('sNext').textContent=next<0?curriculum.length+' dias concluídos':'Próximo alvo: Dia '+(next+1);$('sQuestions').textContent=total;$('sCorrect').textContent=correct+' certas';$('sAccuracy').textContent=pct+'%';$('sMinutes').textContent=minutes<60?minutes+'m':Math.floor(minutes/60)+'h '+minutes%60+'m';const dates=new Set(state.records.map(r=>r.date));let streak=0,best=0,run=0;const sorted=[...dates].sort();for(const d of sorted){const cur=new Date(d+'T12:00:00');const prev=sorted[sorted.indexOf(d)-1]?new Date(sorted[sorted.indexOf(d)-1]+'T12:00:00'):null;run=prev&&Math.round((cur-prev)/86400000)===1?run+1:1;best=Math.max(best,run)}let check=new Date();while(dates.has(check.toISOString().slice(0,10))){streak++;check.setDate(check.getDate()-1)}$('sStreak').textContent=streak+' dias';$('sStreak').title='Melhor sequência: '+best+' dias';let days=[];for(let i=6;i>=0;i--){let d=new Date();d.setDate(d.getDate()-i);let key=d.toISOString().slice(0,10),q=state.records.filter(r=>r.date===key).reduce((a,r)=>a+r.total,0);days.push({key,q,label:d.toLocaleDateString('pt-BR',{weekday:'short'}).replace('.','')})}let max=Math.max(1,...days.map(x=>x.q));$('chart').innerHTML=days.map(x=>`<div class="barcol"><span class="barvalue">${x.q||0}</span><div class="bar" style="height:${Math.max(4,x.q/max*150)}px"></div><small>${x.label}</small></div>`).join('');renderRadarTatico();renderHeatmap();renderHomePerformance();renderIntelligence();$('nextMissions').innerHTML=[...Array(3)].map((_,j)=>{let ultimo=curriculum.length-1,i=next<0?ultimo:Math.min(next+j,ultimo),c=curriculum[i];return `<div class="missionrow"><span class="daynum">DIA ${i+1}</span><div class="rowfill"><strong>${c[0]}</strong><small>${c[1]}</small></div><span class="badge ${c[3]==='simulado'?'SIMULADO':'PENDENTE'}</span></div>`}).join('');$('curriculum').innerHTML=renderCurriculum();let rows=state.records.slice(0,8).map(r=>`<tr><td>${new Date(r.date+'T12:00:00').toLocaleDateString('pt-BR')}</td><td><div class="history-subject"><b>${r.subject}</b><small>${r.type==='questoes'?'Questões':'Sessão de estudo'}</small></div></td><td>${r.topic||'—'}</td><td>${r.total}</td><td>${r.correct}</td><td>${r.total?Math.round(r.correct/r.total*100):0}%</td><td class="history-actions"><button class="delete-btn" onclick="editarRegistro('${String(r.id).replace(/'/g, "\\'")}')" title="Editar este registro" style="margin-right:6px">Editar</button><button class="delete-btn" onclick="deleteRecord(${r.id})" title="Apagar este registro">Apagar</button></td></tr>`).join('')||'<tr><td colspan="7" class="muted">Nenhum registro ainda.</td></tr>';$('historyTable').innerHTML=rows;$('historyPreview').innerHTML=state.records.slice(0,3).map(r=>`<div class="errorrow"><span class="errordot"></span><div class="rowfill"><strong>${r.subject}</strong><small>${r.topic||'Assunto não informado'}<br>${r.date} · ${r.total} questões · ${r.minutes} min</small></div><b>${r.total?Math.round(r.correct/r.total*100):0}%</b><button class="delete-btn" onclick="editarRegistro('${String(r.id).replace(/'/g, "\\'")}')" title="Editar este registro" style="margin-right:6px">Editar</button><button class="delete-btn" onclick="deleteRecord(${r.id})">Apagar</button></div>`).join('')||'<p class="muted">Seu histórico aparecerá aqui depois do primeiro registro.</p>'}
+function render(){renderTodayMission();renderRanking();const total=state.records.reduce((a,r)=>a+r.total,0),correct=state.records.reduce((a,r)=>a+r.correct,0),minutes=state.records.reduce((a,r)=>a+r.minutes,0),pct=total?Math.round(correct/total*100):0,done=state.done.filter(Boolean).length;let next=curriculum.findIndex((_,i)=>!state.done[i]);$('sProgress').textContent=Math.round(done/curriculum.length*100)+'%';$('sNext').textContent=next<0?curriculum.length+' dias concluídos':'Próximo alvo: Dia '+(next+1);$('sQuestions').textContent=total;$('sCorrect').textContent=correct+' certas';$('sAccuracy').textContent=pct+'%';$('sMinutes').textContent=minutes<60?minutes+'m':Math.floor(minutes/60)+'h '+minutes%60+'m';const dates=new Set(state.records.map(r=>r.date));let streak=0,best=0,run=0;const sorted=[...dates].sort();for(const d of sorted){const cur=new Date(d+'T12:00:00');const prev=sorted[sorted.indexOf(d)-1]?new Date(sorted[sorted.indexOf(d)-1]+'T12:00:00'):null;run=prev&&Math.round((cur-prev)/86400000)===1?run+1:1;best=Math.max(best,run)}let check=new Date();while(dates.has(check.toISOString().slice(0,10))){streak++;check.setDate(check.getDate()-1)}$('sStreak').textContent=streak+' dias';$('sStreak').title='Melhor sequência: '+best+' dias';let days=[];for(let i=6;i>=0;i--){let d=new Date();d.setDate(d.getDate()-i);let key=d.toISOString().slice(0,10),q=state.records.filter(r=>r.date===key).reduce((a,r)=>a+r.total,0);days.push({key,q,label:d.toLocaleDateString('pt-BR',{weekday:'short'}).replace('.','')})}let max=Math.max(1,...days.map(x=>x.q));$('chart').innerHTML=days.map(x=>`<div class="barcol"><span class="barvalue">${x.q||0}</span><div class="bar" style="height:${Math.max(4,x.q/max*150)}px"></div><small>${x.label}</small></div>`).join('');renderRadarTatico();renderHeatmap();renderHomePerformance();renderIntelligence();$('nextMissions').innerHTML=[...Array(3)].map((_,j)=>{let ultimo=curriculum.length-1,i=next<0?ultimo:Math.min(next+j,ultimo),c=curriculum[i];return `<div class="missionrow"><span class="daynum">DIA ${i+1}</span><div class="rowfill"><strong>${c[0]}</strong><small>${c[1]}</small></div><span class="badge ${c[3]==='simulado'?'SIMULADO':'PENDENTE'}</span></div>`}).join('');$('curriculum').innerHTML=renderCurriculum();let rows=state.records.slice(0,8).map(r=>`<tr><td>${new Date(r.date+'T12:00:00').toLocaleDateString('pt-BR')}</td><td><div class="history-subject"><b>${r.subject}</b><small>${r.type==='questoes'?'Questões':'Sessão de estudo'}</small></div></td><td>${r.topic||'—'}</td><td>${r.total}</td><td>${r.correct}</td><td>${r.total?Math.round(r.correct/r.total*100):0}%</td><td class="history-actions"><button class="delete-btn" onclick="deleteRecord(${r.id})" title="Apagar este registro">Apagar</button></td></tr>`).join('')||'<tr><td colspan="7" class="muted">Nenhum registro ainda.</td></tr>';$('historyTable').innerHTML=rows;$('historyPreview').innerHTML=state.records.slice(0,3).map(r=>`<div class="errorrow"><span class="errordot"></span><div class="rowfill"><strong>${r.subject}</strong><small>${r.topic||'Assunto não informado'}<br>${r.date} · ${r.total} questões · ${r.minutes} min</small></div><b>${r.total?Math.round(r.correct/r.total*100):0}%</b><button class="delete-btn" onclick="deleteRecord(${r.id})">Apagar</button></div>`).join('')||'<p class="muted">Seu histórico aparecerá aqui depois do primeiro registro.</p>'}
 function computeRadarMetrics(){
   const total=state.records.reduce((a,r)=>a+(Number(r.total)||0),0);
   const correct=state.records.reduce((a,r)=>a+(Number(r.correct)||0),0);
