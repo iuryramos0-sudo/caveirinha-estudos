@@ -238,7 +238,7 @@ async function registrarEstudoNuvem(registro) {
   }
 }
 
-async async function editarRegistroNuvem(registroId) {
+async function editarRegistroNuvem(registroId) {
   if (!window.supabaseClient) return false;
   try {
     const totalInput = prompt('Quantidade total de questões:', '');
